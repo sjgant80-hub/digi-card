@@ -1,0 +1,50 @@
+{
+ "kind": "digi-card.organ-3.verdict",
+ "v": 1,
+ "prereg": "ba9664cf0a2bd705",
+ "record": "d52faa6840b66f64",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every level earned re-runs exactly (both minds re-expressed on the same bytes give the receipt’s numbers) and deeply (the search it names, run again, finds the very mind it carries).",
+   "pass": true,
+   "saw": "69 of 69 levels re-ran exactly, 69 deeply"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Five forgeries of every level — a raised score, a lowered start, another ground, another mind, another search — are each refused by the re-run.",
+   "pass": true,
+   "saw": "345 of 345 forgeries refused"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every leveled card is recorded by a registry only with the re-runner; without it, the registry refuses the level.",
+   "pass": true,
+   "saw": "69 recorded with the re-runner; 69 refused without it, of 69"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Levels earned on GATE hold on TEST: in at least 60% of levels, the new mind’s TEST AUC is above the old mind’s.",
+   "pass": true,
+   "saw": "42 of 69 levels rose on TEST"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Across all levels, the mean TEST gain is above zero, with its bootstrap 95% lower bound above zero.",
+   "pass": false,
+   "saw": "mean TEST gain 0.0010, bootstrap 95% lower bound -0.0018"
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "At least 25% of the sampled cards earn a level within their three searches.",
+   "pass": true,
+   "saw": "69 of 100 cards earned a level in three searches"
+  }
+ ]
+}

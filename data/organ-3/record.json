@@ -1,0 +1,1326 @@
+{
+ "kind": "digi-card.organ-3.record",
+ "v": 1,
+ "sampled": 100,
+ "leveled": 69,
+ "registry": {
+  "withRerun": 69,
+  "refusedWithout": 69
+ },
+ "testUp": 42,
+ "meanTestGain": 1005,
+ "meanTestGainLow95": -1788,
+ "levels": [
+  {
+   "serial": 2,
+   "domain": "telco-customer",
+   "seed": 342904497,
+   "before": 635362,
+   "after": 654296,
+   "testBefore": 634365,
+   "testAfter": 635356,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 654296
+  },
+  {
+   "serial": 12,
+   "domain": "adult-work",
+   "seed": 854459608,
+   "before": 752582,
+   "after": 756232,
+   "testBefore": 751536,
+   "testAfter": 754957,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 756232
+  },
+  {
+   "serial": 22,
+   "domain": "shop-context",
+   "seed": 906321758,
+   "before": 609005,
+   "after": 638771,
+   "testBefore": 570262,
+   "testAfter": 571454,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 638771
+  },
+  {
+   "serial": 32,
+   "domain": "telco-customer",
+   "seed": 689947188,
+   "before": 661938,
+   "after": 666736,
+   "testBefore": 628105,
+   "testAfter": 630528,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 666736
+  },
+  {
+   "serial": 42,
+   "domain": "adult-work",
+   "seed": 164207199,
+   "before": 752015,
+   "after": 755431,
+   "testBefore": 746904,
+   "testAfter": 754167,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 755431
+  },
+  {
+   "serial": 52,
+   "domain": "shop-context",
+   "seed": 993188924,
+   "before": 615244,
+   "after": 619730,
+   "testBefore": 568362,
+   "testAfter": 565623,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 619730
+  },
+  {
+   "serial": 82,
+   "domain": "shop-context",
+   "seed": 314026277,
+   "before": 606087,
+   "after": 641968,
+   "testBefore": 568400,
+   "testAfter": 578670,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 641968
+  },
+  {
+   "serial": 92,
+   "domain": "telco-customer",
+   "seed": 270723289,
+   "before": 653491,
+   "after": 670622,
+   "testBefore": 621592,
+   "testAfter": 616033,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 670622
+  },
+  {
+   "serial": 102,
+   "domain": "adult-work",
+   "seed": 66952828,
+   "before": 748373,
+   "after": 754660,
+   "testBefore": 746750,
+   "testAfter": 754189,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 754660
+  },
+  {
+   "serial": 122,
+   "domain": "telco-customer",
+   "seed": 260850610,
+   "before": 664198,
+   "after": 673901,
+   "testBefore": 624211,
+   "testAfter": 623095,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 673901
+  },
+  {
+   "serial": 132,
+   "domain": "adult-work",
+   "seed": 309138476,
+   "before": 751775,
+   "after": 764199,
+   "testBefore": 747677,
+   "testAfter": 761891,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 764199
+  },
+  {
+   "serial": 142,
+   "domain": "shop-context",
+   "seed": 798004265,
+   "before": 621386,
+   "after": 627393,
+   "testBefore": 580333,
+   "testAfter": 556506,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 627393
+  },
+  {
+   "serial": 152,
+   "domain": "telco-customer",
+   "seed": 649718457,
+   "before": 666890,
+   "after": 672039,
+   "testBefore": 630682,
+   "testAfter": 622187,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 672039
+  },
+  {
+   "serial": 162,
+   "domain": "adult-work",
+   "seed": 728464945,
+   "before": 740689,
+   "after": 749073,
+   "testBefore": 738756,
+   "testAfter": 750178,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 749073
+  },
+  {
+   "serial": 182,
+   "domain": "telco-customer",
+   "seed": 807511829,
+   "before": 661394,
+   "after": 675909,
+   "testBefore": 628035,
+   "testAfter": 624229,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 675909
+  },
+  {
+   "serial": 192,
+   "domain": "adult-work",
+   "seed": 969294363,
+   "before": 754363,
+   "after": 760342,
+   "testBefore": 753099,
+   "testAfter": 758851,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 760342
+  },
+  {
+   "serial": 212,
+   "domain": "telco-customer",
+   "seed": 776817376,
+   "before": 656545,
+   "after": 676819,
+   "testBefore": 636712,
+   "testAfter": 624207,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 676819
+  },
+  {
+   "serial": 222,
+   "domain": "adult-work",
+   "seed": 152323681,
+   "before": 758301,
+   "after": 761546,
+   "testBefore": 754845,
+   "testAfter": 761811,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 761546
+  },
+  {
+   "serial": 242,
+   "domain": "telco-customer",
+   "seed": 191163675,
+   "before": 661394,
+   "after": 671850,
+   "testBefore": 628035,
+   "testAfter": 621893,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 671850
+  },
+  {
+   "serial": 252,
+   "domain": "adult-work",
+   "seed": 682318330,
+   "before": 749846,
+   "after": 752963,
+   "testBefore": 753334,
+   "testAfter": 751369,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 752963
+  },
+  {
+   "serial": 262,
+   "domain": "shop-context",
+   "seed": 557292743,
+   "before": 607472,
+   "after": 611473,
+   "testBefore": 571261,
+   "testAfter": 576967,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 611473
+  },
+  {
+   "serial": 272,
+   "domain": "telco-customer",
+   "seed": 610536434,
+   "before": 657746,
+   "after": 661394,
+   "testBefore": 622923,
+   "testAfter": 628035,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 661394
+  },
+  {
+   "serial": 282,
+   "domain": "adult-work",
+   "seed": 938932218,
+   "before": 735899,
+   "after": 752405,
+   "testBefore": 733977,
+   "testAfter": 751969,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 752405
+  },
+  {
+   "serial": 312,
+   "domain": "adult-work",
+   "seed": 691258695,
+   "before": 749019,
+   "after": 760443,
+   "testBefore": 750312,
+   "testAfter": 754893,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 760443
+  },
+  {
+   "serial": 342,
+   "domain": "adult-work",
+   "seed": 10717108,
+   "before": 740784,
+   "after": 749409,
+   "testBefore": 742786,
+   "testAfter": 750165,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 749409
+  },
+  {
+   "serial": 352,
+   "domain": "shop-context",
+   "seed": 412248813,
+   "before": 617640,
+   "after": 620501,
+   "testBefore": 546299,
+   "testAfter": 544091,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 620501
+  },
+  {
+   "serial": 372,
+   "domain": "adult-work",
+   "seed": 198941043,
+   "before": 752592,
+   "after": 755580,
+   "testBefore": 751365,
+   "testAfter": 754402,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 755580
+  },
+  {
+   "serial": 382,
+   "domain": "shop-context",
+   "seed": 75265115,
+   "before": 611080,
+   "after": 623267,
+   "testBefore": 541232,
+   "testAfter": 553836,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 623267
+  },
+  {
+   "serial": 392,
+   "domain": "telco-customer",
+   "seed": 938649399,
+   "before": 646367,
+   "after": 661938,
+   "testBefore": 628603,
+   "testAfter": 628105,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 661938
+  },
+  {
+   "serial": 402,
+   "domain": "adult-work",
+   "seed": 562523236,
+   "before": 751248,
+   "after": 753358,
+   "testBefore": 749497,
+   "testAfter": 751264,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 753358
+  },
+  {
+   "serial": 412,
+   "domain": "shop-context",
+   "seed": 527837218,
+   "before": 629758,
+   "after": 645844,
+   "testBefore": 550092,
+   "testAfter": 553389,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 645844
+  },
+  {
+   "serial": 422,
+   "domain": "telco-customer",
+   "seed": 350798763,
+   "before": 666736,
+   "after": 670205,
+   "testBefore": 630528,
+   "testAfter": 624246,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 670205
+  },
+  {
+   "serial": 442,
+   "domain": "shop-context",
+   "seed": 903327931,
+   "before": 603576,
+   "after": 618904,
+   "testBefore": 577601,
+   "testAfter": 565623,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 618904
+  },
+  {
+   "serial": 462,
+   "domain": "adult-work",
+   "seed": 460305586,
+   "before": 749346,
+   "after": 753724,
+   "testBefore": 745552,
+   "testAfter": 751787,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 753724
+  },
+  {
+   "serial": 472,
+   "domain": "shop-context",
+   "seed": 276108809,
+   "before": 618552,
+   "after": 638701,
+   "testBefore": 561262,
+   "testAfter": 557271,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 638701
+  },
+  {
+   "serial": 482,
+   "domain": "telco-customer",
+   "seed": 544752013,
+   "before": 661394,
+   "after": 672039,
+   "testBefore": 628035,
+   "testAfter": 622187,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 672039
+  },
+  {
+   "serial": 502,
+   "domain": "shop-context",
+   "seed": 870851099,
+   "before": 613917,
+   "after": 633590,
+   "testBefore": 568616,
+   "testAfter": 580348,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 633590
+  },
+  {
+   "serial": 512,
+   "domain": "telco-customer",
+   "seed": 4756024,
+   "before": 666685,
+   "after": 672039,
+   "testBefore": 630750,
+   "testAfter": 622187,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 672039
+  },
+  {
+   "serial": 522,
+   "domain": "adult-work",
+   "seed": 514769330,
+   "before": 745923,
+   "after": 750499,
+   "testBefore": 744037,
+   "testAfter": 745699,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 750499
+  },
+  {
+   "serial": 532,
+   "domain": "shop-context",
+   "seed": 73300171,
+   "before": 604912,
+   "after": 618471,
+   "testBefore": 573474,
+   "testAfter": 576369,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 618471
+  },
+  {
+   "serial": 542,
+   "domain": "telco-customer",
+   "seed": 79231838,
+   "before": 667280,
+   "after": 677340,
+   "testBefore": 630598,
+   "testAfter": 624748,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 677340
+  },
+  {
+   "serial": 552,
+   "domain": "adult-work",
+   "seed": 399183955,
+   "before": 742971,
+   "after": 762930,
+   "testBefore": 742030,
+   "testAfter": 762041,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 762930
+  },
+  {
+   "serial": 572,
+   "domain": "telco-customer",
+   "seed": 776441185,
+   "before": 661938,
+   "after": 673901,
+   "testBefore": 628105,
+   "testAfter": 623095,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 673901
+  },
+  {
+   "serial": 582,
+   "domain": "adult-work",
+   "seed": 241197287,
+   "before": 755006,
+   "after": 762967,
+   "testBefore": 754769,
+   "testAfter": 764065,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 762967
+  },
+  {
+   "serial": 602,
+   "domain": "telco-customer",
+   "seed": 981293541,
+   "before": 646367,
+   "after": 666685,
+   "testBefore": 628603,
+   "testAfter": 630750,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 666685
+  },
+  {
+   "serial": 652,
+   "domain": "shop-context",
+   "seed": 840274313,
+   "before": 610820,
+   "after": 646583,
+   "testBefore": 583426,
+   "testAfter": 551591,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 646583
+  },
+  {
+   "serial": 662,
+   "domain": "telco-customer",
+   "seed": 49248091,
+   "before": 672077,
+   "after": 676819,
+   "testBefore": 622489,
+   "testAfter": 624207,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 676819
+  },
+  {
+   "serial": 692,
+   "domain": "telco-customer",
+   "seed": 111182928,
+   "before": 661394,
+   "after": 667280,
+   "testBefore": 628035,
+   "testAfter": 630598,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 667280
+  },
+  {
+   "serial": 702,
+   "domain": "adult-work",
+   "seed": 180847238,
+   "before": 744612,
+   "after": 749393,
+   "testBefore": 743268,
+   "testAfter": 751759,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 749393
+  },
+  {
+   "serial": 722,
+   "domain": "telco-customer",
+   "seed": 746049480,
+   "before": 661938,
+   "after": 669326,
+   "testBefore": 628105,
+   "testAfter": 617979,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 669326
+  },
+  {
+   "serial": 732,
+   "domain": "adult-work",
+   "seed": 859932066,
+   "before": 752949,
+   "after": 757468,
+   "testBefore": 753531,
+   "testAfter": 756108,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 757468
+  },
+  {
+   "serial": 752,
+   "domain": "telco-customer",
+   "seed": 862151988,
+   "before": 661938,
+   "after": 664198,
+   "testBefore": 628105,
+   "testAfter": 624211,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 664198
+  },
+  {
+   "serial": 782,
+   "domain": "telco-customer",
+   "seed": 237026667,
+   "before": 661394,
+   "after": 664197,
+   "testBefore": 628035,
+   "testAfter": 601159,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 664197
+  },
+  {
+   "serial": 792,
+   "domain": "adult-work",
+   "seed": 344991087,
+   "before": 753883,
+   "after": 760510,
+   "testBefore": 755088,
+   "testAfter": 762283,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 760510
+  },
+  {
+   "serial": 802,
+   "domain": "shop-context",
+   "seed": 117174090,
+   "before": 621438,
+   "after": 631201,
+   "testBefore": 553896,
+   "testAfter": 569940,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 631201
+  },
+  {
+   "serial": 812,
+   "domain": "telco-customer",
+   "seed": 318359375,
+   "before": 645464,
+   "after": 666641,
+   "testBefore": 628448,
+   "testAfter": 615327,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 666641
+  },
+  {
+   "serial": 822,
+   "domain": "adult-work",
+   "seed": 651226290,
+   "before": 753883,
+   "after": 755898,
+   "testBefore": 755088,
+   "testAfter": 755817,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 755898
+  },
+  {
+   "serial": 832,
+   "domain": "shop-context",
+   "seed": 45556243,
+   "before": 612927,
+   "after": 645250,
+   "testBefore": 542890,
+   "testAfter": 562040,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 645250
+  },
+  {
+   "serial": 852,
+   "domain": "adult-work",
+   "seed": 664492822,
+   "before": 748488,
+   "after": 752598,
+   "testBefore": 745714,
+   "testAfter": 751004,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 752598
+  },
+  {
+   "serial": 862,
+   "domain": "shop-context",
+   "seed": 590108091,
+   "before": 614308,
+   "after": 627547,
+   "testBefore": 569663,
+   "testAfter": 535693,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 627547
+  },
+  {
+   "serial": 882,
+   "domain": "adult-work",
+   "seed": 26557396,
+   "before": 749945,
+   "after": 752288,
+   "testBefore": 751180,
+   "testAfter": 754234,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 752288
+  },
+  {
+   "serial": 892,
+   "domain": "shop-context",
+   "seed": 214009512,
+   "before": 601520,
+   "after": 621454,
+   "testBefore": 510213,
+   "testAfter": 557684,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 621454
+  },
+  {
+   "serial": 902,
+   "domain": "telco-customer",
+   "seed": 639383001,
+   "before": 659167,
+   "after": 674979,
+   "testBefore": 623088,
+   "testAfter": 623847,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 674979
+  },
+  {
+   "serial": 912,
+   "domain": "adult-work",
+   "seed": 176362522,
+   "before": 747520,
+   "after": 761731,
+   "testBefore": 745320,
+   "testAfter": 757433,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 761731
+  },
+  {
+   "serial": 922,
+   "domain": "shop-context",
+   "seed": 830512967,
+   "before": 605227,
+   "after": 622749,
+   "testBefore": 573118,
+   "testAfter": 562111,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 622749
+  },
+  {
+   "serial": 932,
+   "domain": "telco-customer",
+   "seed": 165191603,
+   "before": 654772,
+   "after": 661394,
+   "testBefore": 635538,
+   "testAfter": 628035,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 661394
+  },
+  {
+   "serial": 952,
+   "domain": "shop-context",
+   "seed": 429732832,
+   "before": 601471,
+   "after": 603501,
+   "testBefore": 544996,
+   "testAfter": 562138,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 603501
+  },
+  {
+   "serial": 972,
+   "domain": "adult-work",
+   "seed": 192067160,
+   "before": 754869,
+   "after": 759967,
+   "testBefore": 753488,
+   "testAfter": 757368,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 759967
+  },
+  {
+   "serial": 992,
+   "domain": "telco-customer",
+   "seed": 521393727,
+   "before": 654754,
+   "after": 664198,
+   "testBefore": 635134,
+   "testAfter": 624211,
+   "shallow": true,
+   "deep": true,
+   "refused": {
+    "a raised score": true,
+    "a lowered start": true,
+    "another ground": true,
+    "another mind": true,
+    "another search": true
+   },
+   "afterGate": 664198
+  }
+ ]
+}
