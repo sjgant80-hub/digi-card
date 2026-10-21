@@ -123,9 +123,9 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 <body>
 <a class="g-only g-skip" href="#g-main">Skip to the screen</a>
 <div id="g-top" class="g-only g-top">
-  <a class="g-logo" href="#base" aria-label="DIGI — base">DIGI</a>
+  <a class="g-logo" href="#base" aria-label="DIGI World — base"><canvas class="g-logo-big" id="g-logo-3" width="1" height="1" aria-hidden="true"></canvas><canvas class="g-logo-small" id="g-logo-2" width="1" height="1" aria-hidden="true"></canvas><span class="g-logo-text">DIGI World</span></a>
   <span class="g-sp"></span>
-  <a class="g-chip g-key" href="#cards" id="g-key"><canvas id="g-idn" width="10" height="10" aria-hidden="true"></canvas><span>Key <b data-k="me-short">…</b></span><span class="g-tag bad" id="g-key-tag">Not saved</span></a>
+  <a class="g-chip g-key" href="#cards" id="g-key"><canvas id="g-idn" width="40" height="40" aria-hidden="true"></canvas><span>Key <b data-k="me-short">…</b></span><span class="g-tag bad" id="g-key-tag">Not saved</span></a>
   <span class="g-chip g-wide">Blocks <b data-k="g-blocks">0</b></span>
   <span class="g-chip g-wide" data-info="credits">Credits <b data-k="g-credits">0</b> <small>accounting · not money</small></span>
   <span class="g-chip g-wide">Uptime <b data-k="g-uptime">1d</b></span>
@@ -178,12 +178,14 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   </ul></nav>
 </header>
 
+<nav class="g-only g-rail" id="g-rail" aria-label="Your first visit" hidden></nav>
 <div id="g-main" class="g-only" tabindex="-1"></div>
 <section id="first-s" class="g-only g-screen" data-screen="first" aria-labelledby="first-h">
   <div class="g-first">
     <h2 id="first-h" class="g-hero">A card that is a mind you own</h2>
     <p class="g-lead">It runs on this device · nothing you do here is sent anywhere</p>
-    <button class="g-btn hot huge" id="g-first-cardme" type="button" aria-label="Card me: get your first DIGI card, free" disabled>Card me</button>
+    <button class="g-btn hot huge g-next" id="g-first-cardme" type="button" aria-label="Card me: get your first DIGI card, free" disabled>Card me</button>
+    <p class="g-teach">A card is an agent whose mind you own: grown on real records, proven on cases it never saw.</p>
     <p class="g-dim g-small" id="g-first-status" aria-live="polite">Checking the 1,000 genesis cards here, from nothing…</p>
     <p class="g-okt">Free · no account · no chain · no seed phrase</p>
     <p class="g-dim">A telco card from the genesis 1,000 · it boots here in seconds</p>
@@ -215,7 +217,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <div class="g-panel"><h3 data-info="rules">Rules <small>printed as it grew</small></h3><ol class="g-lines g-rules" id="g-boot-rules"></ol><p class="g-dim g-small" id="g-boot-say"></p><div id="g-boot-protected"></div></div>
       <div class="g-panel g-gold" id="g-keep"><h3 data-info="key">Keep this card</h3><p class="g-badt g-small" id="g-keep-why">Your key lives only in this tab until you save it</p>
         <button class="g-btn gold big" id="g-save-key" type="button">Save my key file</button>
-        <a class="g-btn hot big g-next" id="g-boot-next" href="#kit">Next · kit it out</a><a class="g-btn" href="#evals">Eval one test case</a></div>
+        <a class="g-btn hot big g-next" id="g-boot-next" href="#kit">Next · kit it out →</a><p class="g-teach">Kit: choosing an agent’s tools and parts, each measured for what it adds.</p><a class="g-btn" href="#evals">Eval one test case</a></div>
     </div>
   </div>
 </section>
@@ -260,7 +262,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 <section id="estate-s" class="g-only g-screen" data-screen="estate" aria-labelledby="estate-h">
   <div class="g-grid g-estate">
     <div class="g-col">
-      <div class="g-panel"><h2 id="estate-h" class="g-h" data-info="estate">My estate</h2><p class="g-hot">Grow your estate</p><a class="g-btn hot big g-next" id="g-estate-next" href="#mint">Next · grow your own</a></div>
+      <div class="g-panel"><h2 id="estate-h" class="g-h" data-info="estate">My estate</h2><p class="g-hot">Grow your estate</p><a class="g-btn hot big g-next" id="g-estate-next" href="#mint">Next · grow your own →</a><p class="g-teach">Mint: building an agent from your own data, kept only if it clears its bar.</p></div>
       <div class="g-panel"><h3 data-info="estatestats">Stats <small>from your key and this device’s registry</small></h3><dl class="g-stats" id="g-estate-stats"></dl></div>
       <div class="g-panel"><h3 data-info="overnight">Overnight</h3><ul class="g-lines" id="g-overnight"></ul><button class="g-btn" id="g-work" type="button" aria-pressed="false">Work overnight</button><p class="g-dim g-small">Keeps only a level that re-runs · inert until checked</p></div>
       <button class="g-btn gold" id="g-snapshot" type="button">Share snapshot</button>
@@ -276,7 +278,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="kit-s" class="g-only g-screen" data-screen="kit" aria-labelledby="kit-h">
-  <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit" aria-current="page">Kit</a></nav>
+  <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit" aria-current="page">Kit</a><a href="#fusion">Fusion lab</a></nav>
   <div class="g-grid g-3">
     <div class="g-col">
       <h2 id="kit-h" class="g-h" data-info="kit">Kit</h2>
@@ -287,7 +289,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <div class="g-panel" style="width:100%"><h3 data-info="nodes">Node slots <small id="g-kit-nslots"></small></h3><div class="g-slots" id="g-kit-nodes"></div></div>
       <div class="g-panel" style="width:100%"><h3 data-info="tools">Tool slots <small>2</small></h3><div class="g-slots" id="g-kit-tools"></div><p class="g-small g-dim">A tool is an app your DIGI carries for you: press Open to use it. It never changes a score — duels and raids are won by the card’s mind (its rules), not by its tools.</p></div>
       <div class="g-panel" style="width:100%"><h3 data-info="kitted">Measured here</h3><div id="g-kit-measure" aria-live="polite"><p class="g-dim g-small">Put a node in a slot and press Measure: your DIGI and its nodes are scored here together, on real cases they were tested on (each quarter of them scored by weights learned on the other three, so no case grades itself), and each slot shows what it adds.</p></div>
-        <div class="g-row g-centre-row"><button class="g-btn cy" id="g-kit-measure-go" type="button">Measure</button><button class="g-btn hot big" id="g-kit-equip" type="button">Equip this kit</button></div><div id="g-kit-out" aria-live="polite"></div></div>
+        <div class="g-row g-centre-row"><button class="g-btn cy" id="g-kit-measure-go" type="button">Measure</button><button class="g-btn hot big g-next" id="g-kit-equip" type="button">Equip this kit</button></div><p class="g-teach">Kit: choosing an agent’s tools and parts, each measured for what it adds.</p><div id="g-kit-out" aria-live="polite"></div></div>
     </div>
     <div class="g-col">
       <div class="g-panel"><h3 data-info="mintnode">Mint a node</h3><p class="g-small g-dim">One search on a department your DIGI does not cover, from a seed your key fixes. If it clears 0.6 on GATE it is sealed as your card, with you as its maker; if not, nothing is minted and the next search tries another seed.</p><ul class="g-lines" id="g-kit-depts"></ul><div id="g-kit-mint-out" aria-live="polite"></div></div>
@@ -300,6 +302,30 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         <div class="g-row"><input id="g-kit-give-to" placeholder="their key: 64 hex characters" aria-label="The key you are handing the tool to" /><button class="g-btn" id="g-kit-give" type="button">Hand it on</button></div>
         <textarea id="g-kit-take-code" rows="2" aria-label="An item someone handed you, pasted" placeholder="an item someone handed you, pasted here"></textarea>
         <div class="g-row"><button class="g-btn cy" id="g-kit-take" type="button">Take it</button></div><div id="g-kit-give-out" aria-live="polite"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="fusion-s" class="g-only g-screen" data-screen="fusion" aria-labelledby="fusion-h">
+  <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit">Kit</a><a href="#fusion" aria-current="page">Fusion lab</a></nav>
+  <div class="g-grid g-3">
+    <div class="g-col">
+      <h2 id="fusion-h" class="g-h" data-info="fusion">Fusion lab</h2>
+      <div class="g-panel"><h3>First parent</h3><label class="g-small">Card <select id="g-fu-a" aria-label="The first card to fuse"></select></label>
+        <div class="g-cardcol"><div class="g-ring" id="g-fu-a-ring"><canvas class="g-card2" id="g-fu-a-face" width="384" height="576" role="img" aria-label="The first parent"></canvas></div></div><p class="g-small" id="g-fu-a-line"></p></div>
+    </div>
+    <div class="g-col g-centre">
+      <div class="g-panel" style="width:100%"><h3 data-info="fuse">Fuse two cards</h3>
+        <p class="g-hot">Kept only if it beats both parents on GATE, and re-runs</p>
+        <p class="g-small g-dim">Two of your cards of one business. Of one department, their rule shapes are crossed rule by rule; of two departments, the fused card carries both minds and a coupling learned on GATE. Up to 12 tries: nothing is kept unless one beats both.</p>
+        <div class="g-row g-centre-row"><button class="g-btn hot big g-next" id="g-fu-go" type="button">Fuse</button></div><p class="g-teach">Fusion: model merging and selection, kept only if it beats both parents.</p>
+        <div id="g-fu-out" aria-live="polite"></div></div>
+      <div class="g-panel" style="width:100%"><h3 data-info="lineage">Lineage <small>from the cards this device holds</small></h3><ul class="g-lines" id="g-fu-lineage"></ul></div>
+    </div>
+    <div class="g-col">
+      <div class="g-panel"><h3>Second parent</h3><label class="g-small">Card <select id="g-fu-b" aria-label="The second card to fuse"></select></label>
+        <div class="g-cardcol"><div class="g-ring" id="g-fu-b-ring"><canvas class="g-card2" id="g-fu-b-face" width="384" height="576" role="img" aria-label="The second parent"></canvas></div></div><p class="g-small" id="g-fu-b-line"></p></div>
+      <div class="g-panel"><h3 data-info="organ4">Measured, sealed first</h3><p class="g-small g-dim">Organ 4 sealed these rules before it fused a single card; every verdict below is read from its committed record, the failed one included.</p><ul class="g-lines" id="g-fu-proof"></ul><a class="g-btn" href="#proof">See organ 4 in Proof</a></div>
     </div>
   </div>
 </section>
@@ -317,7 +343,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         <canvas id="g-ar-duelart" width="480" height="320" role="img" aria-label="The duel, drawn" hidden></canvas>
         <div class="g-batch" id="g-ar-batch" aria-label="The batch, case by case"></div>
         <div id="g-ar-result" aria-live="polite"></div>
-        <div class="g-row g-centre-row"><button class="g-btn hot big" id="g-ar-fight" type="button">Fight</button><button class="g-btn" id="g-ar-rerun" type="button" disabled aria-describedby="g-ar-buttons-help">Rerun it</button><button class="g-btn" id="g-ar-receipt" type="button" disabled aria-describedby="g-ar-buttons-help">Save the receipt</button></div>
+        <div class="g-row g-centre-row"><button class="g-btn hot big g-next" id="g-ar-fight" type="button">Fight</button><button class="g-btn" id="g-ar-rerun" type="button" disabled aria-describedby="g-ar-buttons-help">Rerun it</button><button class="g-btn" id="g-ar-receipt" type="button" disabled aria-describedby="g-ar-buttons-help">Save the receipt</button></div><p class="g-teach">Arena: a head-to-head eval on cases both sides’ signatures chose.</p>
         <p class="g-small g-dim" id="g-ar-buttons-help">Rerun it fights the very same duel again from its receipt, to show the same numbers come back · Save the receipt keeps the duel’s record as a file anyone can re-run</p></div>
       <div class="g-panel" style="width:100%"><h3 data-info="ladder">Ladder <small>from the duels on this device</small></h3><ol class="g-lines" id="g-ar-ladder"></ol></div>
     </div>
@@ -407,6 +433,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div><dt>Receipt</dt> <dd>— what a level carries so anyone can re-run it: both minds, the data’s hash, both scores.</dd></div>
     <div><dt>Registry</dt> <dd>— the ordered record of cards’ lives that settles a double sale: the first recorded give wins.</dd></div>
     <div><dt>Mesh</dt> <dd>— owned cards of one business answering as one; each card’s share of the credit is measured.</dd></div>
+    <div><dt>Fuse · fused card</dt> <dd>— two of your cards of one business made one: kept only if the fused card beats both parents on GATE and re-runs. It is model merging and selection; organ 4 measured it, its failed prediction kept.</dd></div>
     <div><dt>Kit · node · tool</dt> <dd>— a card’s inventory. A node is your own card of another department, coupled with it; a tool is an app item that rides with it and moves no score.</dd></div>
     <div><dt>Loadout</dt> <dd>— the kit its owner signed for the card and each node as they stand; give one away or level it, and the loadout lapses until its owner equips again.</dd></div>
     <div><dt>Duel</dt> <dd>— two cards on 64 GATE cases chosen by both owners’ signatures; the better ranking wins; its receipt re-runs.</dd></div>
@@ -421,7 +448,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <h2 id="start-h"><span class="n">01</span>Start here</h2>
   <p><b>The page opens as a game.</b> Its eight screens sit in the dock at the bottom (keys 1 to 8):
   <b>Estate</b> (every card you hold is a block on your plot), <b>Base</b> (your featured card and what ran while you were away),
-  <b>Collection</b> (your cards, one card inspected, and its <b>Kit</b>), <b>Play</b> (the <b>Arena</b>, the <b>Raids</b>, and <b>Eval runs</b> — a real test case a day, and missions), <b>Mint</b>
+  <b>Collection</b> (your cards, one card inspected, its <b>Kit</b> and the <b>Fusion lab</b>), <b>Play</b> (the <b>Arena</b>, the <b>Raids</b>, and <b>Eval runs</b> — a real test case a day, and missions), <b>Mint</b>
   (a card from your own table), <b>Mesh</b>, <b>Send</b> (and the <b>Inbox</b>, for a card someone sent you) and <b>Proof</b> (the drop, a card's
   life, the organs). Every screen runs the same code as this document, which is the game's classic view (Menu → Classic view).</p>
   <ol class="steps">
@@ -429,7 +456,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <li><b>Press “Grow it”.</b> The page fetches that card’s real dataset from this site (its size is shown), checks it is the published bytes, and grows the card’s mind on it — on your device, offline. You see its GATE score — how well it ranks the cases it never grew on, as an AUC where 0.5 is a coin and 1 is perfect — beside the one the drop declared: they match to the millionth.</li>
     <li><b>Press “Ask it”.</b> It is handed a real case from TEST — cases nothing in the build ever fitted or selected on — and answers yes or no with the rules that fired — or abstains. You also see what really happened.</li>
     <li><b>Press “Level up”.</b> It runs up to three searches for a better mind, in the background (a search is real work: seconds on the telecom set, a minute or more on the larger ones). If one beats it by 0.002 on GATE, the receipt is signed into the card, re-run here before it is recorded, and its face shows the new stage.</li>
-    <li><b>Fuse.</b> Press “Card me” until you hold two cards of one business, then fuse them. A fused card is sealed only if it beats both parents; most pairs take many tries, and some produce nothing — that is the gate working.</li>
+    <li><b>Fuse.</b> Press “Card me” until you hold two cards of one business (or mint a node in the Kit), then fuse them in Collection → Fusion lab. A fused card is sealed only if it beats both parents; most pairs take many tries, and some produce nothing — that is the gate working.</li>
     <li><b>Hand it on.</b> Paste a friend’s key into “Send” and you get a new PNG that is theirs. They open it in their <a href="#open">Inbox</a>, and everything is checked again on their device.</li>
     <li><b>Kit it out.</b> In Collection → Kit, put another card of yours from the same business in a node slot (or press “Mint a node”: one search from your key, sealed only if it clears 0.6), mint an app tool from the estate’s proven apps, press Measure to see the kitted score and what each slot adds, then Equip.</li>
     <li><b>Fight, then raid.</b> In Play → Arena, fight a drop card or a friend’s (a friend code carries your kit); re-fight it to see the very same receipt. In Play → Raids, strike a department nobody has solved, or gather a party — your own cards and friends’ — against a whole business.</li>
@@ -438,6 +465,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="wallet" data-screen="cards" aria-labelledby="wallet-h">
+  <nav class="g-subnav g-only" aria-label="Collection"><a href="#cards" aria-current="page">Collection</a><a href="#kit">Kit</a><a href="#fusion">Fusion lab</a></nav>
   <h2 id="wallet-h"><span class="n">02</span>Your key and collection</h2>
   <p class="sub">The cards whose last signed give names your key, as this device’s registry records them.</p>
   <div class="panel">
@@ -472,7 +500,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
           <button class="g-btn cy" id="g-a-boot" type="button">Boot</button><button class="g-btn" id="g-a-eval" type="button">Eval</button><button class="g-btn" id="g-a-train" type="button">Train</button><button class="g-btn" id="g-a-breed" type="button">Fuse</button>
           <button class="g-btn" id="g-a-skin" type="button">Skin</button><button class="g-btn" id="g-a-share" type="button">Share</button><a class="g-btn" href="#send">Send to key</a><button class="g-btn cy" id="g-a-verify" type="button">Verify on this device</button><button class="g-btn" id="g-a-png" type="button">Download PNG</button>
         </div>
-        <div class="g-only g-panel g-breedlab" id="g-breedlab" hidden><h3>Fusion lab</h3><p class="g-hot">The fused card must beat both parents on GATE</p><p class="g-dim g-small">Pick a partner of yours on the same business. Up to 12 fusions are tried; nothing is sealed unless one wins.</p></div>
+        
         <div id="detail-facts" class="tw"></div>
         <div class="acts" role="group" aria-label="What to do with this card">
           <button class="go" id="act-grow">Grow it</button><button id="act-ask">Ask it</button><button id="act-level">Level up</button><button id="act-breed">Fuse with</button>
@@ -510,6 +538,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <h2 id="open-h"><span class="n">03</span>Inbox · a card someone sent you</h2>
   <p class="sub">Drop any DIGI card PNG here. It is checked on this device in this order, and refused at the first thing that fails: every PNG chunk’s CRC; the band’s dossier, opened under its seals; every signature of its life; the face redrawn from it and compared pixel for pixel; then its standing in this device’s registry.</p>
   <label class="zone" id="open-zone">Drop a card here, or <span class="btn">choose a PNG</span><input type="file" id="open-file" accept="image/png" class="sr" /></label>
+  <div class="g-only g-cardcol" id="g-inbox-box" hidden><div class="g-ring" id="g-inbox-ring"><canvas class="g-card2" id="g-inbox-card" width="384" height="576" role="img" aria-label="The card you opened"></canvas></div></div>
   <div id="open-report" aria-live="polite"></div>
 </section>
 
@@ -529,7 +558,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 <section id="own" data-screen="mint" aria-labelledby="own-h">
   <h2 id="own-h"><span class="n">05</span>Grow a card from your own table</h2>
   <p>Choose a CSV. Pick the yes/no column to predict and which value counts as yes. Every other column that is a number on every row becomes a measurement (at most sixteen). The table is split the bundled sets’ seeded way into FIT, GATE and TEST, a search runs on your FIT rows in a background worker, and if the mind it finds clears 0.6 on GATE, a card is sealed with <b>you</b> as its maker and owner. <b>Your table never leaves this device.</b> Levels earned on it name its hash, so they re-run wherever the same table is held — and nowhere else.</p>
-  <label class="btn">Choose a CSV <input type="file" id="own-file" accept=".csv,text/csv" class="sr" /></label>
+  <label class="btn g-next">Choose a CSV <input type="file" id="own-file" accept=".csv,text/csv" class="sr" /></label>
   <div id="own-step2" hidden>
     <div class="row"><label>Predict <select id="own-target"></select></label><label>Yes means <select id="own-positive"></select></label><label>Name <input id="own-name" value="my-first-digi" pattern="[a-z][a-z0-9-]{0,23}" /></label><button class="go" id="own-grow">Grow my DIGI</button></div>
     <div class="row"><label><input type="checkbox" id="own-keep" /> Keep my table in this browser, so its card grows here tomorrow (any page on this site’s address could read it; leave this off and choose the file again next time)</label></div>
@@ -827,7 +856,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </footer>
 </div>
 <nav id="g-dock" class="g-only g-dock" aria-label="Screens" data-icons="1">
-  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit"><span class="n">3</span>Collection</a><a href="#arena" data-go="arena" data-group="arena raids evals"><span class="n">4</span>Play</a>
+  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit fusion"><span class="n">3</span>Collection</a><a href="#arena" data-go="arena" data-group="arena raids evals"><span class="n">4</span>Play</a>
   <a href="#mint" data-go="mint"><span class="n">5</span>Mint</a><a href="#mesh" data-go="mesh"><span class="n">6</span>Mesh</a><a href="#send" data-go="send"><span class="n">7</span>Send</a><a href="#proof" data-go="proof"><span class="n">8</span>Proof</a>
 </nav>
 <script type="module" src="app.js"></script>

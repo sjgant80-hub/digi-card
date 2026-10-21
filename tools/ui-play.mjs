@@ -6,8 +6,8 @@
 // device, switches to the classic view and back, and lays every screen out at phone width without a sideways scroll.
 // Any console error, uncaught exception or screen left blank fails it, and so does any word DIGI's copy never uses
 // (src/copy.mjs) in the text a screen shows, read on every screen and after every result. It follows the first visit's
-// one NEXT path — BOOT → KIT → ARENA → ESTATE → GROW YOUR OWN — and searches the Kit for the money side and the ledger's
-// own apps, which it never offers. Downloads are denied, so nothing is saved.
+// one NEXT path — BOOT → KIT → ARENA → ESTATE → GROW YOUR OWN — searches the Kit for the money side and the ledger's
+// own apps, which it never offers, and fuses its two cards in the Fusion lab: kept only if the fused card beats both. Downloads are denied, so nothing is saved.
 //   node tools/ui-play.mjs           → UI PLAY OK | UI PLAY BROKEN (exit 1)
 //   CHROME=/path/to/chrome node tools/ui-play.mjs
 //   SHOTS=dir node tools/ui-play.mjs → also saves the first screen, #boot, #kit, #arena, #estate, #proof, #what and #faq
@@ -58,7 +58,13 @@ try {
   // the words a screen shows, quoted seals and sources read past; any word the copy never uses fails the play
   const SHOWN = `(() => { const root = document.documentElement.classList.contains('game') ? (document.querySelector('section[data-screen].on') || document.body) : document.body; const q = [...root.querySelectorAll('[data-quote]')].filter((n) => !n.hidden); q.forEach((n) => { n.hidden = true; }); const text = root.innerText; q.forEach((n) => { n.hidden = false; }); return text; })()`;
   const said = new Set();
-  const scan = async (where) => { for (const h of copyHits(await js(SHOWN))) { const k = where + h.word + h.context; if (!said.has(k)) { said.add(k); problems.push(where + ' says “' + h.word + '”: ' + h.context.slice(0, 110)); } } };
+  let partyShares = null;   // how many fielded members of this run's world-boss strike measured a share of 1 or more
+  const scan = async (where) => {
+    for (const h of copyHits(await js(SHOWN))) { const k = where + h.word + h.context; if (!said.has(k)) { said.add(k); problems.push(where + ' says “' + h.word + '”: ' + h.context.slice(0, 110)); } }
+    // exactly one filled NEXT on a screen: never two buttons asking to be pressed first
+    const filled = await js(`document.documentElement.classList.contains('game') ? [...document.querySelectorAll('section[data-screen].on .g-next')].filter((n) => n.offsetParent !== null).map((n) => n.textContent.trim().slice(0, 30)) : []`);
+    if (filled.length > 1 && !said.has(where + '|next')) { said.add(where + '|next'); problems.push(where + ' fills ' + filled.length + ' NEXT buttons: ' + filled.join(' / ')); }
+  };
   const SHOTS = process.env.SHOTS || null;
   if (SHOTS) mkdirSync(SHOTS, { recursive: true });
   const shot = async (name) => {
@@ -85,6 +91,10 @@ try {
     if (!b.steps.length || b.steps.some((c) => c !== 'k')) problems.push('a boot step did not pass: ' + b.steps.join(','));
     if (!/matches/i.test(b.match) || !b.match.includes(b.gate)) problems.push('the boot score ' + b.gate + ' is not shown as matching the declared one (' + b.match + ')');
     if (!b.rules) problems.push('the boot printed no rules');
+    if (await js(`document.querySelector('#g-boot-card').classList.contains('g-facedown')`)) problems.push('the booted card is still face down');
+    const rail = await js(`({ n: document.querySelectorAll('#g-rail a').length, done: document.querySelectorAll('#g-rail a.done').length, now: (document.querySelector('#g-rail a.now') || {}).textContent || '', shown: !document.querySelector('#g-rail').hidden, logo: document.querySelector('.g-logo').classList.contains('painted') })`);
+    (rail.shown && rail.n === 5 && rail.done === 2 && /kit/i.test(rail.now)) ? seen.push('the rail: card me ✓ boot ✓, now kit') : problems.push('the rail after boot: ' + JSON.stringify(rail));
+    if (!rail.logo) problems.push('DIGI WORLD is not lettered in the bar');
     seen.push('boot ' + b.gate + ' matches');
     await scan('the boot screen'); await shot('boot');
     (await js(`(() => { const n = document.querySelector('#g-boot-next'); return !!n && n.getAttribute('href') === '#kit' && n.offsetParent !== null; })()`)) ? seen.push('BOOT → NEXT · kit it out') : problems.push('the boot screen shows no NEXT to the kit');
@@ -203,6 +213,20 @@ try {
     await scan('the estate'); await shot('estate');
     (await js(`(() => { const n = document.querySelector('#g-estate-next'); return !!n && n.getAttribute('href') === '#mint' && n.offsetParent !== null; })()`)) ? seen.push('ESTATE → NEXT · grow your own') : problems.push('the estate shows no NEXT to grow your own');
   }
+  // the fusion lab: the DIGI and its minted node, two cards of one business, fused — kept only if the fused card beats
+  // both parents and re-runs, or refused with its numbers; either way one NEXT, the lineage and organ 4's sealed verdicts
+  await js(`location.hash = '#fusion'`);
+  if (await until(`document.querySelector('#g-fu-b') && document.querySelector('#g-fu-b').value && !document.querySelector('#g-fu-go').disabled && document.querySelectorAll('#g-fu-proof li').length > 0`, 30000, 'the fusion lab with two parents and organ 4’s verdicts')) {
+    await scan('the fusion lab');
+    await js(`document.querySelector('#g-fu-go').click()`);
+    if (await until(`/Kept · a fused card|Refused: no fused card beat both/.test(document.querySelector('#g-fu-out').textContent) || !!document.querySelector('#g-fu-out .g-badt')`, 300000, 'a fusion')) {
+      const f = await js(`({ out: document.querySelector('#g-fu-out').innerText, kept: /Kept · a fused card/.test(document.querySelector('#g-fu-out').textContent), next: (document.querySelector('#g-fu-out #g-fu-next') || {}).getAttribute?.('href') || null, tree: document.querySelectorAll('#g-fu-lineage li').length })`);
+      if (f.kept) (/Re-run here: it holds/.test(f.out) && f.next === '#kit' && f.tree >= 3) ? seen.push('a fusion kept, beating both parents, re-run here, its lineage ' + f.tree + ' deep, NEXT · kit the fused card') : problems.push('the kept fusion: ' + f.out.replace(/\s+/g, ' ').slice(0, 160) + ' (next ' + f.next + ', lineage ' + f.tree + ')');
+      else if (/Refused: no fused card beat both/i.test(f.out)) (f.next === '#fusion' && /tries? ran here/.test(f.out)) ? seen.push('a fusion refused with its numbers, NEXT · pick another pair') : problems.push('the refused fusion: ' + f.out.replace(/\s+/g, ' ').slice(0, 160));
+      else problems.push('the fusion: ' + f.out.replace(/\s+/g, ' ').slice(0, 160));
+      await scan('a fusion'); await shot('fusion');
+    }
+  }
   // a world boss: the player's own telco cards strike it as a party, and strike again to the very same receipt
   await js(`location.hash = '#raids'`);
   if (await until(`[...document.querySelectorAll('#g-pt-bosses .g-boss h3')].some((h) => /Telecom/.test(h.textContent))`, 30000, 'the world bosses')) {
@@ -210,6 +234,7 @@ try {
     if (await until(`/party scored|could not strike/.test(document.querySelector('#g-pt-out').textContent)`, 120000, 'a party strike')) {
       const out = await js(`document.querySelector('#g-pt-out').innerText`);
       await scan('a party strike');
+      partyShares = [...out.matchAll(/share ([\d,]+)/g)].filter((m) => Number(m[1].replace(/,/g, '')) >= 1).length;
       if (!/party scored \d\.\d{6} on GATE against the bar \d\.\d{6}/.test(out) || !/share [\d,]+/.test(out)) problems.push('the party strike: ' + out.slice(0, 160));
       else {
         await js(`[...document.querySelectorAll('#g-pt-bosses .g-boss')].find((b) => /Telecom/.test(b.querySelector('h3').textContent)).querySelector('button.cy').click()`);
@@ -226,11 +251,11 @@ try {
       const st = await js(`document.querySelector('#g-rec-stats').innerText`), out = await js(`document.querySelector('#g-rec-out').innerText`);
       const rel = Number((/Releases\s+(\d+)/.exec(st) || [])[1] || 0), val = Number((/Values measured\s+(\d+)/.exec(st) || [])[1] || 0);
       await scan('the record');
-      if (!/✓/.test(out) || rel < 3 || val < 1 || !/switch\s+off/i.test(st)) problems.push('the record: ' + (out + ' | ' + st).replace(/\s+/g, ' ').slice(0, 200));
+      if (!/✓/.test(out) || rel < 3 || (partyShares === null || val !== partyShares) || !/switch\s+off/i.test(st)) problems.push('the record: ' + (out + ' | ' + st).replace(/\s+/g, ' ').slice(0, 200));
       else {
         await js(`document.querySelector('#g-rec-replay').click()`);
         if (await until(`/Replayed here|✗/.test(document.querySelector('#g-rec-out').textContent)`, 120000, 'the record replayed'))
-          (await js(`/Replayed here from nothing/.test(document.querySelector('#g-rec-out').textContent)`)) ? seen.push('the record: ' + rel + ' releases and ' + val + ' values, each through its gate, replayed from nothing, the switch off') : problems.push('the record did not replay: ' + (await js(`document.querySelector('#g-rec-out').textContent`)).slice(0, 120));
+          (await js(`/Replayed here from nothing/.test(document.querySelector('#g-rec-out').textContent)`)) ? seen.push('the record: ' + rel + ' releases and ' + val + ' value' + (val === 1 ? '' : 's') + ' (one a fielded member with a measured share)' + ', each through its gate, replayed from nothing, the switch off') : problems.push('the record did not replay: ' + (await js(`document.querySelector('#g-rec-out').textContent`)).slice(0, 120));
       }
     }
   }
@@ -253,6 +278,16 @@ try {
     else seen.push('verified on the device');
     await scan('the proof explorer, verified'); await shot('proof');
   }
+  // the inbox: a drop card dropped in, checked on this device, shown face down with its maker's mark, then turned face up
+  await js(`location.hash = '#send'`); await sleep(600);
+  const doc = await send('DOM.getDocument', { depth: -1 }), input = await send('DOM.querySelector', { nodeId: doc.result.root.nodeId, selector: '#open-file' });
+  if (!input.result || !input.result.nodeId) problems.push('the Inbox has no file input');
+  else {
+    await send('DOM.setFileInputFiles', { nodeId: input.result.nodeId, files: [join(root, 'cards', '0002.png')] });
+    if (await until(`!document.querySelector('#g-inbox-box').hidden && /It checks|It is yours/.test(document.querySelector('#open-report').textContent) && !document.querySelector('#g-inbox-card').classList.contains('g-facedown') && !document.querySelector('#g-inbox-card').classList.contains('g-flipping')`, 60000, 'a card opened in the Inbox, turned face up'))
+      (await js(`/^The card you opened: /.test(document.querySelector('#g-inbox-card').getAttribute('aria-label'))`)) ? seen.push('a card opened in the Inbox, checked here, face down then face up') : problems.push('the Inbox card did not turn face up');
+    await scan('the inbox');
+  }
   // the classic view and back
   await js(`document.querySelector('#g-classic').click()`); await sleep(400);
   if (await js(`document.documentElement.classList.contains('game')`)) problems.push('Classic view did not leave the game view');
@@ -264,7 +299,7 @@ try {
   // phone width: every screen holds without a sideways scroll
   await size(390, 844, true); await sleep(400);
   const wide = [];
-  for (const s of ['estate', 'base', 'cards', 'kit', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot']) {
+  for (const s of ['estate', 'base', 'cards', 'kit', 'fusion', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot']) {
     await js(`location.hash = '#${s}'`); await sleep(500);
     const w = await js(`document.documentElement.scrollWidth`);
     if (w > 392) wide.push(s + ' ' + w + 'px');

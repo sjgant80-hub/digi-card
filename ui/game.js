@@ -25,10 +25,11 @@ import { bossesOf, strikeSeed, strike as raidStrike, check as checkStrike, stand
 import { seal as sealGenome } from '../vendor/dex-frontier/vendor/living-seed/src/genome.mjs';
 import { issue as issueCard } from '../src/dossier.mjs';
 import { verify as verifyLife } from '../src/dossier.mjs';
-import { UI_ICONS, DATASET_ICONS, identicon as keyFace } from '../vendor/pixelwhisperer/kards/ui.mjs';
+import { UI_ICONS, DATASET_ICONS, identicon as keyFace, paintText } from '../vendor/pixelwhisperer/kards/ui.mjs';
 import { paintEstate, tilesFor } from '../vendor/pixelwhisperer/kards/estate.mjs';
 import { paintSlot } from '../vendor/pixelwhisperer/kards/gear.mjs';
 import { paintDuel } from '../vendor/pixelwhisperer/kards/arena.mjs';
+import { paintBack } from '../vendor/pixelwhisperer/kards/back.mjs';
 import { offered, shownDesc, sayOutcome, SHOWN_AS } from '../src/copy.mjs';
 import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
@@ -58,20 +59,24 @@ const SET_NAMES = { telco: 'Telco', shop: 'Shop', bank: 'Bank', adult: 'Adult', 
 
 // ── the "i" taps: one plain sentence behind every term a screen uses ──────────────────────────────────────────────
 const INFO = {
-  opslog: 'What your cards did since your last visit, and the one thing worth doing next.',
+  opslog: 'What your cards did since your last visit, and the one thing to do next.',
   evals: 'An eval is one real case the card has never seen: its answer, then what really happened. Optional; skipping a day loses nothing.',
-  missions: 'Things worth trying. They earn titles — nothing else, never money.',
+  missions: 'Things to try. They win titles — nothing else, never money.',
+  fusion: 'The Fusion lab: two of your cards of one business become one only if the fused card beats both parents on GATE, cases neither grew on, and anyone holding the ground re-runs it. This is model merging and selection: most merges do not beat both parents, and those are refused, never kept.',
+  fuse: 'Of one department, the parents’ rule shapes are crossed rule by rule and, half the time, changed once; of two departments, the fused card carries both minds and answers through a coupling learned on GATE. Up to 12 tries run on this device, and the first that beats both is sealed with you as its maker, naming both parents.',
+  lineage: 'Who a card was fused from, read from the seals of the cards this device holds. A parent this device does not hold is named by its id, never drawn or guessed.',
+  organ4: 'Organ 4 wrote its rules down and sealed them in git before it fused a single card, then measured them; each verdict here is read from its committed record. A prediction that failed stays on show.',
   registry: 'This device’s ordered record of every card’s life. It is what stops a card being given away twice.',
   forms: 'The forms a DIGI fights in. Alone: its own mind. Kitted: with your own node cards in its slots. Mesh: with other owners’ cards, each by its owner’s consent. Party: a raid, with friends’ DIGIs. Every one is live.',
   mint: 'Make a card from your own table: a CSV export with a yes/no column. Your rows never leave this device. If its mind does not reach 0.6, nothing is minted.',
   skins: 'A skin changes the picture, never the mind. It is signed into the card’s life, so any reader redraws it.',
-  estate: 'One block for every card you hold. More cards open more tiles. It is never sold and never ranked.',
+  estate: 'One block for every card you hold. More cards open more tiles. Nothing on it is for sale, and it is never ranked.',
   overnight: 'While this page stays open, your cards search for levels. A level is kept only after it re-runs; until then nothing changes.',
   districts: 'What your estate holds, by kind: your cards, the DIGIs you have kitted out, the app tools you hold, your mesh links, and the raid bosses you have felled.',
   bar: 'A department got cards only if its mind ranked unseen cases at least this well (GATE 0.6). These did not, so they have none — kept on the record, not hidden.',
   training: 'Training is a search for a better mind. It must beat the old one by +0.002 on GATE, and re-run, before the level goes up.',
   drop: '1,000 genesis cards whose rules were fixed before the first search. Rerun it to check every seal here, from nothing.',
-  life: 'Every event in the card’s life, signed by the right key and linked to the one before. There is no price column: nothing here is for sale.',
+  life: 'Every event in the card’s life, signed by the right key and linked to the one before. No column holds money: nothing here is for sale.',
   verify: 'Re-checks the card here, in order: the PNG, its data band, its seals, its signatures, this device’s registry, and every pixel of its face.',
   organs: 'The build’s claims, each written down and locked before it was measured, then judged by those rules alone. The ones that failed are shown, not hidden.',
   rules: 'Its whole mind: at most six rules over one department’s columns. Each adds or takes away points; above the line means yes.',
@@ -94,7 +99,7 @@ const INFO = {
   kit: 'Your DIGI’s inventory. Node slots hold your own cards of the same business, which answer with it; tool slots hold app items, which ride with it. Every card has its slots from its issue, and levels open more node slots.',
   nodes: 'A node is another card of yours from the same business, for a department your DIGI does not cover. It joins only if it measurably adds: it must answer here, cover something new and beat a coin on GATE.',
   tools: 'A tool is one of the estate’s apps whose own CI passed on GitHub’s machines at the commit it names. It opens from here, and it moves no score.',
-  kitted: 'The kitted mind is your DIGI and its nodes coupled into one answer, scored out of fold on GATE. A slot’s worth is the score with it, less the score without it.',
+  kitted: 'The kitted mind is your DIGI and its nodes coupled into one answer, scored out of fold on GATE. What a slot adds is the score with it, less the score without it.',
   mintnode: 'Minting a node is one search on a department, from a seed your key fixes, like a raid strike. Only a mind that clears 0.6 on GATE is sealed, with you as its maker.',
   mintapp: 'Minting an app tool signs an item naming that app, its commit and the run that proved it. It is free, and it checks only while the estate’s records list the app exactly so.',
   record: 'Your record in the credits ledger: the release of every card and app tool you made, and the measured share of every card in every party you struck — each recorded only once its proof re-runs here, nothing counted twice. Credits are accounting, not money; the switch that would make any allocation live is off.',
@@ -158,6 +163,54 @@ function bleep(name) {
 }
 
 // ── cards on screen: drawn from their lives, framed by their rarity outside the PNG ──────────────────────────────────
+/** a card that checked in the Inbox: its back first, with its maker's mark, then turned face up */
+async function inboxFlip(id) {
+  const d = api.lifeOf(id), v = d ? await verify(d) : null, cv = $('#g-inbox-card');
+  if (!v || !v.ok) { $('#g-inbox-box').hidden = true; return; }
+  $('#g-inbox-box').hidden = false; $('#g-inbox-ring').className = 'g-ring'; cv.classList.add('g-facedown');
+  paintOn(cv, paintBack({ maker: v.maker, serial: v.serial }, v.theme, cv.width, cv.height));
+  cv.setAttribute('aria-label', 'The card you opened, face down: its maker’s mark');
+  await sleep(400);
+  await flipUp(cv, $('#g-inbox-ring'), d);
+  cv.setAttribute('aria-label', 'The card you opened: ' + facts(v).title + ' #' + pad4(v.serial));
+}
+/** exactly one filled NEXT on a screen: this one, and every other action on its screen outline-only */
+function soleNext(node) {
+  const screen = node && node.closest('section[data-screen]');
+  if (screen) for (const n of screen.querySelectorAll('.g-next')) if (n !== node) n.classList.remove('g-next');
+}
+/** DIGI WORLD, lettered by the UI font: 3x for the bar, 2x for a phone */
+function paintLogo() {
+  let painted = 0;
+  for (const [id, k] of [['#g-logo-3', 3], ['#g-logo-2', 2]]) {
+    const t = paintText('DIGI WORLD', k, '#ffd23c', '#4a1480'), cv = $(id);
+    if (!t.ok || !cv) continue;
+    cv.width = t.w; cv.height = t.h;
+    const x = cv.getContext('2d'), img = x.createImageData(t.w, t.h); img.data.set(t.px); x.putImageData(img, 0, 0); painted++;
+  }
+  if (painted === 2) $('.g-logo').classList.add('painted');
+}
+/** the first visit's five steps — card me, boot, kit, arena, estate — each read from what this device has done */
+const RAIL = [['cards', 'Card me', 'first', () => api.mine().length > 0], ['boot', 'Boot', 'boot', () => !!G.st.done.boot], ['equip', 'Kit', 'kit', () => Object.keys(G.st.loadouts || {}).length > 0],
+  ['eval', 'Arena', 'arena', () => (G.st.duels || []).length > 0], ['estate', 'Estate', 'estate', () => !!G.st.done.estate]];
+function renderRail() {
+  const rail = $('#g-rail');
+  if (!rail) return;
+  const done = RAIL.map((s) => s[3]()), now = done.indexOf(false);
+  rail.hidden = now < 0;
+  fill(rail, RAIL.map(([icon, name, screen], k) => {
+    const state = done[k] ? 'done' : k === now ? 'now' : 'next';
+    return el('a', { href: '#' + (screen === 'first' && done[k] ? 'cards' : screen), class: state, 'aria-current': k === now ? 'step' : null },
+      iconCanvas(UI_ICONS[icon], 2, state === 'done' ? '#86ff92' : state === 'now' ? '#ff2bd6' : '#8f7fbf'), el('span', { class: 'l' }, name), done[k] ? '✓' : null);
+  }));
+}
+/** turn a face-down card face up: a pixel flip (still for reduced motion), the face drawn at its edge */
+async function flipUp(canvas, ring, d) {
+  if (!calm()) { canvas.classList.add('g-flipping'); await sleep(180); }
+  await show(canvas, ring, d);
+  canvas.classList.remove('g-facedown'); canvas.setAttribute('aria-label', 'The card booting');
+  if (!calm()) { await sleep(180); canvas.classList.remove('g-flipping'); }
+}
 async function show(canvas, ring, d) {
   const v = await api.drawCard(canvas, d);
   if (ring) { ring.className = 'g-ring' + (v ? ' r-' + facts(v).rarity : ''); }
@@ -172,7 +225,7 @@ const whose = (v) => (v.owner === S.me.pub ? 'yours' : v.owner === S.maker.pub ?
 // ── screens ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 const ALIAS = { wallet: 'cards', own: 'mint', open: 'send', drop: 'proof', explorer: 'proof', 'send-s': 'send', 'base-s': 'base', 'estate-s': 'estate', 'evals-s': 'evals', 'boot-s': 'boot', 'first-s': 'first' };
 const CLASSIC = ['top', 'what', 'worth', 'words', 'start', 'how', 'blueprint', 'business', 'cost', 'paper', 'faq'];
-const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'kit', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
+const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'kit', 'fusion', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
 const DOCK = ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof'];
 const TITLES = { first: 'DIGI', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', kit: 'Kit', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer' };
 
@@ -197,8 +250,8 @@ function go(screen, opts = {}) {
   render(screen);
 }
 function render(screen) {
-  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, arena: renderArena, raids: () => { renderRaids(); renderWorld(); }, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
-  renderTop();
+  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, fusion: renderFusion, arena: renderArena, raids: () => { renderRaids(); renderWorld(); }, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
+  renderTop(); renderRail();
 }
 
 // ── the top bar ──────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -214,8 +267,8 @@ function renderTop() {
 /** a key's face, PixelWhisperer's identicon: two keys look different at a glance (it proves nothing; the key does) */
 function identicon(canvas, pub) {
   if (!canvas || !pub) return;
-  const f = keyFace(pub, 2);
-  if (f.ok) putRGB(canvas, f.px, 20, 20);
+  const f = keyFace(pub, 4);
+  if (f.ok) putRGB(canvas, f.px, 40, 40);
 }
 /** RGB rows onto a canvas of that size */
 /** a painting from the art engine on a canvas, if it painted; a picture that cannot be drawn leaves the canvas as it was */
@@ -270,7 +323,10 @@ async function bootCard(id) {
     if (!v.ok) { fill($('#g-boot-steps'), line('r', '✗ ' + v.why)); return; }
     const f = facts(v);
     fill($('#g-boot-name'), f.title + ' ' + serialLine(v));
-    await show($('#g-boot-card'), $('#g-boot-ring'), d);
+    // face down first: the back carries its maker's mark; the face is shown only once it re-draws and matches
+    const cardCv = $('#g-boot-card');
+    paintOn(cardCv, paintBack({ maker: v.maker, serial: v.serial }, v.theme, cardCv.width, cardCv.height));
+    cardCv.classList.add('g-facedown'); cardCv.setAttribute('aria-label', 'The card, face down: its maker’s mark, until its picture re-draws'); $('#g-boot-ring').className = 'g-ring';
     const bytes = utf8(encode(d)).length;
     fill($('#g-boot-band'), 'Band · ' + bytes.toLocaleString() + ' bytes · the top 16 rows');
     fill($('#g-boot-gate'), '0.000000'); fill($('#g-boot-match')); fill($('#g-boot-rows')); fill($('#g-boot-rules')); fill($('#g-boot-protected')); fill($('#g-boot-say'));
@@ -285,6 +341,7 @@ async function bootCard(id) {
       await sleep(160);
       if (k === fail) { lis[k].className = 'r'; lis[k].textContent = '✗ ' + steps[k] + ' — ' + r.why; bleep('refused'); return; }
       lis[k].className = 'k'; lis[k].textContent = '✓ ' + steps[k];
+      if (k === 3) { await flipUp(cardCv, $('#g-boot-ring'), d); }
     }
     lis[4].className = 'm'; lis[4].textContent = '→ Data · fetching';
     await api.select(id);
@@ -310,8 +367,9 @@ async function bootCard(id) {
       await sleep(90);
       $('#g-boot-rules').append(line(rule.w > 0 ? 'k' : 'r', rule.feat + ' ' + (rule.op === '<=' ? '≤' : '>') + ' ' + rule.v, el('b', { class: rule.w > 0 ? 'up' : 'down' }, (rule.w > 0 ? '+' : '') + rule.w)));
     }
-    const thr = grown.mind.threshold, outcome = SETS[api.setOf(v)] ? SETS[api.setOf(v)].outcome : 'yes';
+    const thr = grown.mind.threshold, outcome = SETS[api.setOf(v)] ? sayOutcome(api.setOf(v), SETS[api.setOf(v)].outcome) : 'yes';
     fill($('#g-boot-say'), 'Score above ' + thr + ' → yes: it ' + outcome);
+    if (!G.st.done.boot) { G.st.done.boot = true; saveState(); } renderRail();
     const hit = [...new Set(rules.map((x) => api.protectedOf(x.feat)).filter(Boolean))];
     if (hit.length) fill($('#g-boot-protected'), el('p', { class: 'g-warn' }, '⚠ Reads ' + hit.join(', ') + ' — protected characteristics (Equality Act 2010). A research mind on a public dataset: check you may lawfully use these columns before it informs a decision about a person.'));
     note('boot', { id, gate: target, matches: dec == null ? null : dec === target });
@@ -399,6 +457,7 @@ async function holdings() {
   return out;
 }
 async function renderEstate() {
+  if (!G.st.done.estate) { G.st.done.estate = true; saveState(); renderRail(); }
   const held = await holdings();
   const levels = held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0);
   const born = held.filter((h) => h.v.generation > 0).length;
@@ -561,18 +620,87 @@ async function runTest(id) {
   if (G.screen === 'evals') renderEvals();
 }
 
-/** the breed lab: the selected card and a partner of yours on the same business; the card panel's breed does the work */
-function renderLab() {
-  const lab = $('#g-breedlab'), opts = [...$('#breed-partner').options].filter((o) => o.value);
-  lab.querySelectorAll('.g-lab').forEach((n) => n.remove());
-  const pick = el('select', { 'aria-label': 'The partner card' }, opts.map((o) => el('option', { value: o.value }, o.textContent)));
-  const go_ = el('button', { type: 'button', class: 'g-btn hot', disabled: !opts.length, onclick: async () => { $('#breed-partner').value = pick.value; go_.disabled = true; await api.actBreed(); go_.disabled = false; renderInspect(); } }, 'Fuse');
-  lab.append(el('div', { class: 'g-lab g-row' }, opts.length ? [el('span', {}, 'Partner'), pick, go_] : el('span', { class: 'g-dim' }, 'You hold no other card of this business: card me, or mint one.')),
-    el('p', { class: 'g-lab g-small g-dim' }, 'Across departments, 40 of 40 fused cards beat both parents on TEST · within one department only 12 of 26 did (organ 4: a failed prediction, kept)'));
+// ── the fusion lab: two of your cards of one business, fused only into a card that beats both on GATE and re-runs ─────
+// The work is app.js fuse() (src/breed.mjs, organ 4), the same code the classic view's Fuse runs; this screen picks the
+// pair, shows the parents, the kept card or the refusal with its numbers, the lineage the device can read, and organ 4's
+// sealed verdicts from its committed record.
+const FUS = { a: null, b: null, busy: false, last: null };
+let organ4 = null;
+async function renderFusion() {
+  const mine = await myCards(null), pa = $('#g-fu-a'), pb = $('#g-fu-b');
+  const opt = (m) => el('option', { value: m.id }, m.f.title + ' #' + pad4(m.v.serial));
+  fill(pa, mine.length ? mine.map(opt) : el('option', { value: '' }, 'card me first'));
+  if (mine.some((m) => m.id === (FUS.a || S.sel))) pa.value = FUS.a || S.sel;
+  FUS.a = pa.value || null;
+  const a = mine.find((m) => m.id === FUS.a), partners = a ? mine.filter((m) => m.id !== a.id && m.f.dataset === a.f.dataset) : [];
+  fill(pb, partners.length ? partners.map(opt) : el('option', { value: '' }, a ? 'no other card of yours on this business' : 'card me first'));
+  if (partners.some((m) => m.id === FUS.b)) pb.value = FUS.b;
+  FUS.b = pb.value || null;
+  const b = partners.find((m) => m.id === FUS.b);
+  for (const [side, m] of [['a', a], ['b', b]]) {
+    const face = $('#g-fu-' + side + '-face');
+    if (m) await show(face, $('#g-fu-' + side + '-ring'), api.lifeOf(m.id));
+    else { face.getContext('2d').clearRect(0, 0, face.width, face.height); $('#g-fu-' + side + '-ring').className = 'g-ring'; }
+    fill($('#g-fu-' + side + '-line'), m ? m.f.title + ' #' + pad4(m.v.serial) + ' · ' + m.f.department + ' · ' + m.f.rarity + ' · ' + (m.f.generation ? 'generation ' + m.f.generation : 'genesis')
+      : side === 'a' ? 'Card me first: then you have a card to fuse.' : a ? 'You hold no other card of this business: press Card me, or mint a node in the Kit.' : '');
+  }
+  $('#g-fu-go').disabled = !(a && b) || FUS.busy;
+  await renderLineage(FUS.last && FUS.last.kept ? FUS.last.child.id : FUS.a);
+  await renderFusionProof();
+}
+async function fusionGo() {
+  if (!FUS.a || !FUS.b || FUS.busy) return;
+  FUS.busy = true; $('#g-fu-go').disabled = true; $('#g-fu-go').classList.add('g-next');
+  const out = $('#g-fu-out'), tries = (n) => n + (n === 1 ? ' try' : ' tries');
+  try {
+    const x = await api.fuse(FUS.a, FUS.b, (s) => fill(out, el('p', { class: 'g-small' }, s)));
+    FUS.last = x;
+    if (!x.ok) { bleep('refused'); fill(out, el('p', { class: 'g-badt' }, x.why)); }
+    else if (!x.kept) {
+      bleep('refused');
+      fill(out, el('p', { class: 'g-win bad' }, 'Refused: no fused card beat both'), el('p', { class: 'g-small' }, x.why + '.'),
+        el('p', { class: 'g-small g-dim' }, 'Most fusions do not beat both parents, and those are never kept: that is the gate working. ' + tries(x.r.tries) + ' ran here, and nothing was sealed.'),
+        el('a', { class: 'g-btn hot big g-next', id: 'g-fu-next', href: '#fusion', onclick: (e) => { e.preventDefault(); $('#g-fu-go').classList.add('g-next'); e.currentTarget.classList.remove('g-next'); $('#g-fu-b').focus(); } }, 'Next · pick another pair →'), el('p', { class: 'g-teach' }, 'Most merges do not beat both parents: refusing them is the selection.'));
+      soleNext(out.querySelector('.g-next'));
+    } else {
+      bleep('kept');
+      const c = el('canvas', { class: 'g-card2', width: 384, height: 576, role: 'img', 'aria-label': 'The fused card' }), ring = el('div', { class: 'g-ring' }, c);
+      fill(out, el('p', { class: 'g-win ok' }, 'Kept · a fused card'), el('div', { class: 'g-cardcol' }, ring),
+        el('p', {}, 'GATE ' + six(x.r.gate) + ', beating both parents (' + six(x.r.parents[0]) + ' and ' + six(x.r.parents[1]) + ') after ' + tries(x.r.tries)),
+        el('p', { class: x.check.ok ? 'g-okt' : 'g-badt' }, x.check.ok ? '✓ Re-run here: it holds, naming both parents' : '✗ ' + x.check.why),
+        el('a', { class: 'g-btn hot big g-next', id: 'g-fu-next', href: '#kit', onclick: () => { KIT.card = null; S.sel = x.child.id; } }, 'Next · kit the fused card →'), el('p', { class: 'g-teach' }, 'Kit: choosing an agent’s tools and parts, each measured for what it adds.'));
+      soleNext(out.querySelector('.g-next'));
+      await show(c, ring, api.lifeOf(x.child.id));
+    }
+  } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
+  finally { FUS.busy = false; await renderFusion(); }
+}
+/** a card's lineage, walked back through the seals this device holds; a parent it does not hold is named, never drawn */
+async function renderLineage(id) {
+  const rows = [], seen = new Set();
+  const walk = async (cid, depth) => {
+    if (!cid || seen.has(cid) || depth > 4 || rows.length >= 15) return;
+    seen.add(cid);
+    const pad = depth ? '└ '.padStart(depth * 2 + 2, ' ') : '', d = api.lifeOf(cid);
+    if (!d) { rows.push(line('x', pad + 'a parent this device does not hold', el('small', {}, String(cid).slice(0, 8)))); return; }
+    const v = await verify(d);
+    if (!v.ok) { rows.push(line('r', pad + 'a card that does not check here', el('small', {}, String(cid).slice(0, 8)))); return; }
+    const f = facts(v);
+    rows.push(line(f.generation ? 'k' : '', pad + f.title + ' #' + pad4(v.serial), el('small', {}, f.generation ? 'generation ' + f.generation + ' · fused from two' : 'genesis')));
+    for (const p of f.parents) await walk(p, depth + 1);
+  };
+  await walk(id, 0);
+  fill($('#g-fu-lineage'), rows.length ? rows : line('x', 'Card me first: a lineage starts at a card you hold'));
+}
+/** organ 4's sealed rules, each with its verdict read from the committed record */
+async function renderFusionProof() {
+  organ4 ||= await fetch('data/organ-4/verdict.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const v = organ4 && Array.isArray(organ4.verdicts) ? organ4.verdicts : [];
+  fill($('#g-fu-proof'), v.length ? v.map((x) => line((x.pass ? 'k' : 'y') + ' g-two', '4 · ' + x.id + ' · ' + (x.pass ? 'held' : x.kind === 'prediction' ? 'failed — kept' : 'FAILED'), el('small', { 'data-quote': 'sealed' }, String(x.saw)))) : line('x', 'Organ 4’s record could not be read here'));
 }
 
 // ── eval runs ────────────────────────────────────────────────────────────────────────────────────────────────────────
-const MISSIONS = [{ key: 'drop', name: 'Re-check all 1,000 genesis cards on this device', href: '#proof' }, { key: 'own', name: 'Make a card from your own spreadsheet', href: '#mint' }, { key: 'breed', name: 'Fuse two cards into one that beats both its parents', href: '#cards' }];
+const MISSIONS = [{ key: 'drop', name: 'Re-check all 1,000 genesis cards on this device', href: '#proof' }, { key: 'own', name: 'Make a card from your own spreadsheet', href: '#mint' }, { key: 'breed', name: 'Fuse two cards into one that beats both its parents', href: '#fusion' }];
 const TITLES_EARNED = { evals3: 'Band reader', drop: 'Decoder', own: 'Maker', breed: 'Fuser' };
 function renderEvals() {
   const n = G.st.evals.day === today() ? G.st.evals.n : 0, id = featured(), v = id && S.reg.cards[id];
@@ -660,6 +788,7 @@ async function fightWith(vA, vB, keysA, keysB, nonce) {
   return { ...(await kitDuel(sA, sB, g, signed)), signed, g, sides: { a: sA, b: sB } };
 }
 async function arenaFight() {
+  $('#g-ar-fight').classList.add('g-next');
   const aId = $('#g-ar-mine').value, bId = A.tab === 'drop' ? $('#g-ar-foe').value : $('#g-ar-own').value;
   if (!aId || !bId) return fill($('#g-ar-result'), el('p', { class: 'g-badt' }, A.tab === 'mine' ? 'You hold no other card of this business: card me, fuse or mint one.' : 'Pick a fighter and an opponent.'));
   const btn = $('#g-ar-fight'); btn.disabled = true; btn.textContent = 'Fighting…';
@@ -688,7 +817,8 @@ function showDuel(r, vA, vB) {
     el('p', { class: 'g-small' }, 'Yours fought ' + kitLine(r.sides.a) + ' · theirs ' + kitLine(r.sides.b)),
     el('p', { class: 'g-small g-dim' }, x.self ? 'Practice: one owner on both sides, so no rating moves' : 'Rating ' + (move >= 0 ? '+' : '') + move + ' → ' + (after[vA.id] ?? 1000)),
     el('p', { class: 'g-small g-dim' }, 'Each side calls yes for its top ' + pos + ' cases (as many yeses as the batch holds) · cyan: only yours called it right · pink: only theirs · grey: both · dark: neither'),
-    el('a', { class: 'g-btn hot big g-next', id: 'g-ar-next', href: '#estate' }, 'Next · see your estate'));
+    el('a', { class: 'g-btn hot big g-next', id: 'g-ar-next', href: '#estate' }, 'Next · see your estate →'), el('p', { class: 'g-teach' }, 'Estate: your portfolio of verified agents.'));
+  soleNext($('#g-ar-result').querySelector('.g-next'));
   const sideArt = (v, sd, k, rating) => ({ id: v.id, rarity: facts(v).rarity, rating: Math.max(0, Math.min(9999, rating)), title: artText(facts(v).title, 16), kit: sd && sd.loadout && k ? { slots: slotsOf(v).nodes, fielded: Math.min(slotsOf(v).nodes, k.fielded.length - 1) } : null });
   const drawn = paintOn($('#g-ar-duelart'), paintDuel({ left: sideArt(vA, r.sides && r.sides.a, r.kits && r.kits.a, after[vA.id] ?? 1000), right: sideArt(vB, r.sides && r.sides.b, r.kits && r.kits.b, after[vB.id] ?? 1000),
     cases: r.batch.map((row, k) => [(r.scores.a[k] >= lineA) === (r.y[k] === 1) ? 1 : 0, (r.scores.b[k] >= lineB) === (r.y[k] === 1) ? 1 : 0]), result: x.winner === 'a' ? 'left' : x.winner === 'b' ? 'right' : 'draw' }, plotTheme(), 480, 320));
@@ -1045,7 +1175,8 @@ async function kitEquip() {
   note('equip', { id: v.id, nodes: nodes.length, tools: tools.length });
   saveState(); bleep('kept');
   fill(out, el('p', { class: 'g-okt' }, '✓ Equipped · signed by your key for this card and each node as they stand. It fights kitted in the arena now. Give a card away, level it, or move a node, and you equip again.'),
-    el('a', { class: 'g-btn hot big g-next', id: 'g-kit-next', href: '#arena' }, 'Next · fight in the arena'));
+    el('a', { class: 'g-btn hot big g-next', id: 'g-kit-next', href: '#arena' }, 'Next · fight in the arena →'), el('p', { class: 'g-teach' }, 'Arena: a head-to-head eval on cases both sides’ signatures chose.'));
+  soleNext(out.querySelector('.g-next'));
   renderKit();
 }
 async function renderKitApps() {
@@ -1333,7 +1464,7 @@ function onEvent({ detail: e }) {
     }
     case 'level': note('level', { id: e.id }); bleep('level'); break;
     case 'birth': if (e.kept) { G.st.births.kept++; G.st.done.breed = true; note('birth', { id: e.id, kept: true }); bleep('kept'); } else { G.st.births.refused++; note('birth', { kept: false }); bleep('refused'); } break;
-    case 'opened': if (!e.ok) { G.st.refused++; note('refused', { what: 'card' }); bleep('refused'); } break;
+    case 'opened': if (!e.ok) { G.st.refused++; note('refused', { what: 'card' }); bleep('refused'); $('#g-inbox-box').hidden = true; } else inboxFlip(e.id); break;
     case 'refused': G.st.refused++; note('refused', { what: e.what }); break;
     case 'minted': if (e.ok) { G.st.done.own = true; note('minted', { id: e.id }); bleep('kept'); } else note('minted', { ok: false }); break;
     case 'drop': if (e.ok) { G.st.done.drop = true; saveState(); fill($('#g-rerun-out'), 'it re-runs · ' + e.ms + ' ms'); } else fill($('#g-rerun-out'), 'it did not re-run'); break;
@@ -1374,7 +1505,10 @@ function wire() {
   on('#g-a-boot', 'click', () => bootCard(S.sel));
   on('#g-a-eval', 'click', () => { go('evals'); runEval(); });
   on('#g-a-train', 'click', async () => { tab = 'reruns'; renderTabs(); await api.actLevel(); renderInspect(); });
-  on('#g-a-breed', 'click', () => { const lab = $('#g-breedlab'); lab.hidden = !lab.hidden; if (!lab.hidden) renderLab(); });
+  on('#g-a-breed', 'click', () => { FUS.a = S.sel; FUS.b = null; FUS.last = null; location.hash = '#fusion'; });
+  on('#g-fu-a', 'change', () => { FUS.a = $('#g-fu-a').value || null; FUS.b = null; FUS.last = null; fill($('#g-fu-out')); renderFusion(); });
+  on('#g-fu-b', 'change', () => { FUS.b = $('#g-fu-b').value || null; FUS.last = null; fill($('#g-fu-out')); renderFusion(); });
+  on('#g-fu-go', 'click', fusionGo);
   on('#g-a-skin', 'click', async () => { await api.actSkin(); renderInspect(); });
   on('#g-a-verify', 'click', () => api.actVerify());
   on('#g-a-png', 'click', () => api.actDownload());
@@ -1431,7 +1565,7 @@ function wire() {
 const DOCK_ICON = { arena: 'evals' };   // Play holds the arena, the raids and the evals: it wears the evals icon
 function dockIcons() { for (const a of $$('#g-dock a')) { const icon = UI_ICONS[a.dataset.go] || UI_ICONS[DOCK_ICON[a.dataset.go]]; if (icon && !a.querySelector('canvas')) a.prepend(iconCanvas(icon, 2, '#2be8ff')); } }
 async function start() {
-  dockIcons();
+  dockIcons(); paintLogo();
   wireInfo();
   if (store.get('digi-plain') === '1') { document.documentElement.classList.add('plain'); setK('g-plain', 'on'); }
   if (store.get('digi-sound') === '1') { G.sound = true; setK('g-sound', 'on'); }

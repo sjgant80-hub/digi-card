@@ -57,7 +57,7 @@ their sealed rules alone — **57 of 61 sealed rules held; 4 failed predictions 
 | 9 · the arena | 1,000/1,000 duels re-run to the same receipt; every batch 64 distinct GATE rows, no TEST row read; 240/240 forgeries refused; ratings replay and their total is conserved; the duel winner had the higher TEST AUC in 78.4% of decided pairs; 26.3% of duels were upsets — **failed:** the median duel took 278 ms, over the 250 predicted (measured while a local language model ran on the same laptop) |
 | 10 · the kit and the party (not fully blind: dry-run before the seal; see Proof) | 100/100 kits measure the same twice, what every slot adds exact; 300/300 kit duels re-run; 240/240 forgeries refused; 55/55 party strikes re-run with shares a million; a tool never moved a score; 337/337 app items verify, 1,685/1,685 forged bodies refused · on TEST: 88 of 88 kits that lifted GATE also lifted TEST, the median TEST lift 89% of GATE's; kitted DIGIs won 81.9% of decided duels against their own department's cards alone (48.9% alone); 3 of 5 world bosses fell to a best-card party (telco, adult, credit); 25 of 26 clearing parties held within 0.03 on TEST |
 
-Every kernel is witness CLEAN (716/716 mutants killed on GitHub's runner) and CI re-proves all of it on every push.
+Every kernel is witness CLEAN (728/728 mutants killed on GitHub's runner, run 39683361546) and CI re-proves all of it on every push.
 
 ## Run it
 

@@ -21,7 +21,7 @@ const ldStrings = jsonStrings((html.match(/<script type="application\/ld\+json">
 const prose = (md) => md.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`\n]*`/g, ' ');
 const metas = [...html.matchAll(/<meta (?:name|property)="[^"]+" content="([^"]*)"/g)].map((m) => m[1]).join('\n');
 const manifest = (() => { try { const m = JSON.parse(at('manifest.webmanifest')); return [m.name, m.short_name, m.description].join('\n'); } catch { return ''; } })();
-const said = [['the page', pageText(html)], ['its JSON-LD', ldStrings], ['its meta tags', metas], ['the web manifest', manifest], ['llms.txt', at('llms.txt')], ['README.md', prose(at('README.md'))], ['docs/posts.md', prose(at('docs/posts.md'))], ['docs/posts.json', jsonStrings(at('docs/posts.json'))]];
+const said = [['the page', pageText(html)], ['its JSON-LD', ldStrings], ['its meta tags', metas], ['the web manifest', manifest], ['llms.txt', at('llms.txt')], ['README.md', prose(at('README.md'))], ['docs/posts.md', prose(at('docs/posts.md'))], ['docs/posts.json', jsonStrings(at('docs/posts.json'))], ['the game’s “i” sentences', (at('ui/game.js').match(/const INFO = \{([\s\S]*?)\n\};/) || ['', ''])[1]]];
 for (const [name, text] of said) {
   for (const h of copyHits(text)) problems.push(name + ' says “' + h.word + '”: ' + h.context.slice(0, 90));
   for (const c of organ10Bare(text)) problems.push(name + ' quotes organ 10 without “(not fully blind: …)”: ' + c.slice(0, 90));

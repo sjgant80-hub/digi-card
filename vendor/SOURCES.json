@@ -145,6 +145,10 @@
     "vendor/pixelwhisperer/kards/fonts/pixelwhisperer.css": {
      "from": "kards/fonts/pixelwhisperer.css",
      "sha256": "dd34ee89de47c9d5c4c9310e07df518dc0892359a3d304fc94f06432ae0b85fd"
+    },
+    "vendor/pixelwhisperer/kards/back.mjs": {
+     "from": "kards/back.mjs",
+     "sha256": "ce927807f697c25824cd5fd63e206c9f597387a4c616ab6819f33f3114111e92"
     }
    }
   },

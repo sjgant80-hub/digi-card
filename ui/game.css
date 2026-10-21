@@ -66,7 +66,21 @@ html.game p { max-width: none; }
 /* the top bar and the dock */
 .g-top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; padding: 8px 16px; min-width: 0; background: var(--g-panel); border-bottom: 4px solid var(--g-rule); }
 html.game .g-top { display: flex; }
-.g-logo { font-size: 36px; color: var(--g-hot) !important; text-decoration: none; text-shadow: 4px 4px 0 #4a1480; letter-spacing: .08em; }
+.g-logo { font-size: 36px; color: var(--g-hot) !important; text-decoration: none; text-shadow: 4px 4px 0 #4a1480; letter-spacing: .08em; display: inline-flex; align-items: center; }
+/* DIGI WORLD, lettered in the UI font at 3x (2x on a phone); the text is kept for readers */
+.g-logo canvas { image-rendering: pixelated; display: none; } .g-logo.painted .g-logo-big { display: block; } .g-logo.painted .g-logo-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+/* your key's face, at 4x, on the right of the bar */
+#g-idn { width: 40px; height: 40px; image-rendering: pixelated; } .g-key { order: 9; } .g-menu { order: 10; }
+/* the first visit's rail: done lit with a tick, now magenta and underlined, next dim */
+.g-rail { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; padding: 8px 16px; background: var(--g-panel); border-bottom: 2px solid var(--g-rule); }
+.g-rail a { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; font-family: var(--g-font); font-size: 15px; text-transform: uppercase; text-decoration: none; color: var(--g-dim); border: 2px solid transparent; }
+.g-rail a.done { color: var(--g-ok); } .g-rail a.now { color: #ff2bd6; border-bottom-color: #ff2bd6; } .g-rail a.next { opacity: .6; } .g-rail canvas { image-rendering: pixelated; width: 24px; height: 24px; }
+/* exactly one filled NEXT a screen: magenta fill, dark ink, a hard 4px shadow, no blur; every other action is outline-only */
+html.game .g-btn:not(.g-next) { background: transparent; border: 2px solid #3d1c72; color: #f4edff; box-shadow: none; }
+html.game .g-next { display: inline-flex; align-items: center; justify-content: center; font-family: var(--g-font); font-size: 18px; text-transform: uppercase; background: #ff2bd6 !important; color: #1a0030 !important; border: 2px solid #1a0030 !important; border-radius: 2px; box-shadow: 4px 4px 0 #1a0030; min-height: 44px; padding: 10px 18px; text-decoration: none; cursor: pointer; }
+html.game .g-next:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #1a0030; } html.game .g-next:focus-visible { outline: 3px solid #ffd23c; outline-offset: 2px; } html.game .g-next:disabled { opacity: .55; cursor: default; }
+@media (prefers-reduced-motion: reduce) { html.game .g-next:active { transform: none; } }
+html.game .g-teach { color: #bba9e8; font-size: 14px; margin: 6px 0 10px; }
 .g-sp { flex: 1; }
 .g-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 10px; background: var(--g-plate); border: 2px solid var(--g-rule); color: var(--g-ink); text-decoration: none; font: inherit; font-size: 16px; }
 .g-chip b { color: var(--g-gold); font-weight: 400; } .g-chip small { color: var(--g-dim); font-size: 12px; white-space: nowrap; }
@@ -109,6 +123,8 @@ html.game button.go, .g-btn.cy { background: var(--g-cy); border-color: var(--g-
 .g-lines > li.k, .g-line.k { border-left-color: var(--g-ok); } .g-lines > li.r, .g-line.r { border-left-color: var(--g-bad); }
 .g-lines > li.m, .g-line.m { border-left-color: var(--g-hot); } .g-lines > li.y, .g-line.y { border-left-color: var(--g-gold); }
 .g-lines > li.x, .g-line.x { border-left-color: var(--g-mute); color: var(--g-mute); }
+/* a two-line row: a verdict, then the record's own words beneath it, wrapping */
+.g-lines > li.g-two { flex-direction: column; align-items: flex-start; gap: 2px; } .g-lines > li.g-two small { margin-left: 0; white-space: normal; flex: 1 1 auto; }
 .g-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
 .g-centre-row { justify-content: center; }
 .g-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
@@ -153,6 +169,9 @@ html.game .g-search { display: inline-flex; align-items: center; gap: 8px; }
 /* cards: whole or half scale, pixelated, framed outside the PNG by the rarity's nested solid rings */
 html.game canvas.card, .g-card1, .g-card2, .g-thumb { display: block; image-rendering: pixelated; border-radius: 0; box-shadow: none; background: #080212; }
 .g-card1, html.game #detail-card { width: 384px; height: 576px; aspect-ratio: auto; }
+/* the passport flip: a card boots face down and turns over once its face re-draws (stepped, like the pixels; still for reduced motion) */
+.g-flipping { animation: g-flip .36s steps(6) both; } @keyframes g-flip { 0% { transform: scaleX(1); } 50% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .g-flipping { animation: none; } }
 .g-card2 { width: 192px; height: 288px; }
 .g-thumb { width: 96px; height: 144px; }
 .g-ring { display: inline-block; padding: 0; margin: 8px; --lo: #4a4e5c; --mid: #8a8f9e; --hi: #c8ccd6; box-shadow: 0 0 0 2px var(--lo), 0 0 0 4px var(--mid), 0 0 0 6px var(--hi), 0 0 0 8px var(--lo); }
@@ -275,6 +294,7 @@ html.game footer.g-foot { border-top: 4px solid var(--g-rule); color: var(--g-di
   html.game .wrap { padding: 8px 16px 96px; }
   .g-top { padding: 6px 8px; gap: 6px; } .g-logo { font-size: 27px; } html.game .g-wide, html.game .g-pack { display: none; } .g-chip { font-size: 13px; padding: 0 6px; min-height: 36px; }
   .g-key > span:not(.g-tag) b { display: none; }
+  .g-logo.painted .g-logo-big { display: none; } .g-logo.painted .g-logo-small { display: block; } html.game .g-next { width: 100%; } .g-rail { padding: 6px 8px; } .g-rail a { font-size: 12px; padding: 2px 4px; } .g-rail a span.l { display: none; }
   .g-grid.g-3, .g-grid.g-estate, .g-grid.g-send, .g-grid.g-boot, .g-collection, html.game #detail .grid.side { grid-template-columns: minmax(0, 1fr); }
   .g-grid.g-boot > :nth-child(3) { grid-column: auto; }
   .g-span2 { grid-column: auto; }

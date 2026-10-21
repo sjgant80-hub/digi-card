@@ -325,22 +325,34 @@ async function workOvernight() {
   emit('working', { on: false, searches, levels });
 }
 
+/** fuse two of your cards on one ground: up to 12 tries for a mind that beats both on GATE, kept (issued to you, recorded,
+ *  re-checked here) only then. → { ok: true, kept: true, child, r, check } | { ok: true, kept: false, why, r } | { ok: false, why } */
+async function fuse(aId, bId, tell = () => {}) {
+  if (!aId || !bId || aId === bId) return { ok: false, why: 'Fusing needs two of your cards that live on the same ground.' };
+  const v = await verify(lifeOf(aId)), vp = await verify(lifeOf(bId));
+  if (!v.ok || !vp.ok) return { ok: false, why: 'Only cards that check can be fused.' };
+  if (v.owner !== S.me.pub || vp.owner !== S.me.pub) return { ok: false, why: 'Fusing needs two cards that are yours.' };
+  const g = await groundFor(v, tell);
+  tell('Fusing their minds, up to 12 times, looking for a fused card that beats both on GATE…'); await wait();
+  const r = await breed(v, vp, g, S.me, { seed: 1 + v.receipts.length + vp.receipts.length });
+  if (!r.born) { emit('birth', { kept: false, a: v.id, b: vp.id, tries: r.tries, why: r.why }); return { ok: true, kept: false, r, why: r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) }; }
+  const serial = nextSerial(), child = await issue(r.genome, S.me, { serial, to: S.me.pub, theme: themeOf(serial), generation: Math.max(v.generation, vp.generation) + 1 });
+  const kept = await keep(child.dossier);
+  if (!kept.ok) return { ok: false, why: kept.why };
+  const vc = await verify(child.dossier), bc = birthCheck(vc, v, vp, g);
+  emit('birth', { kept: true, id: vc.id, a: v.id, b: vp.id, gate: r.gate, parents: r.parents, tries: r.tries });
+  await renderWallet();
+  return { ok: true, kept: true, child: vc, r, check: bc };
+}
+
 async function actBreed() {
   const out = $('#out-breed'), { v } = await current(), pid = $('#breed-partner').value;
-  if (!pid) return say(out, 'Fusing needs two of your cards that live on the same ground.', 'bad');
   try {
-    const vp = await verify(lifeOf(pid)), g = await groundFor(v, (t) => say(out, t));
-    say(out, 'Fusing their minds, up to 12 times, looking for a fused card that beats both on GATE…'); await wait();
-    const r = await breed(v, vp, g, S.me, { seed: 1 + v.receipts.length + vp.receipts.length });
-    if (!r.born) { emit('birth', { kept: false, a: v.id, b: vp.id, tries: r.tries, why: r.why }); return clear(out, el('div', { class: 'status' }, 'No fused card: ' + r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) + '. A fused card is never a promise — it is what grew: it must beat both parents on GATE.')); }
-    const serial = nextSerial(), child = await issue(r.genome, S.me, { serial, to: S.me.pub, theme: themeOf(serial), generation: Math.max(v.generation, vp.generation) + 1 });
-    const kept = await keep(child.dossier);
-    if (!kept.ok) return say(out, kept.why, 'bad');
-    const vc = await verify(child.dossier), bc = birthCheck(vc, v, vp, g);
-    emit('birth', { kept: true, id: vc.id, a: v.id, b: vp.id, gate: r.gate, parents: r.parents, tries: r.tries });
-    await renderWallet();
-    clear(out, el('div', { class: 'status ok' }, 'FUSED: GATE ' + auc(r.gate) + ', beating both parents (' + auc(r.parents[0]) + ', ' + auc(r.parents[1]) + ') after ' + r.tries + (r.tries > 1 ? ' tries' : ' try') + '. Re-run here: ' + (bc.ok ? 'it holds.' : bc.why)),
-      el('button', { onclick: () => select(vc.id) }, 'Open the fused card'));
+    const x = await fuse(v && v.id, pid, (t) => say(out, t));
+    if (!x.ok) return say(out, x.why, 'bad');
+    if (!x.kept) return clear(out, el('div', { class: 'status' }, 'No fused card: ' + x.why + '. A fused card is never a promise — it is what grew: it must beat both parents on GATE.'));
+    clear(out, el('div', { class: 'status ok' }, 'FUSED: GATE ' + auc(x.r.gate) + ', beating both parents (' + auc(x.r.parents[0]) + ', ' + auc(x.r.parents[1]) + ') after ' + x.r.tries + (x.r.tries > 1 ? ' tries' : ' try') + '. Re-run here: ' + (x.check.ok ? 'it holds.' : x.check.why)),
+      el('button', { onclick: () => select(x.child.id) }, 'Open the fused card'));
   } catch (e) { say(out, String(e.message || e), 'bad'); }
 }
 const nextSerial = () => 1 + Object.values(S.reg.cards).filter((c) => c.maker === S.me.pub).reduce((m, c) => Math.max(m, c.serial), 0);
@@ -413,7 +425,7 @@ async function openFile(file) {
   const s = standing(S.reg, r.dossier, r.id), f = r.facts;
   const lines = [['A PNG whose every chunk is whole', true], ['Its dossier opens under its seals: issued by its genome’s maker, every later event signed by the owner of that moment', true], ['Its face is exactly the one its life draws (redrawn here and compared, pixel for pixel)', true]];
   let rec = null;
-  if (s.standing === 'forked') lines.push(['Its life parts from the one recorded here at event ' + s.at + ': the first recorded wins, so this is not the card’s life (a double sale)', false]);
+  if (s.standing === 'forked') lines.push(['Its life parts from the one recorded here at event ' + s.at + ': the first recorded wins, so this is not the card’s life (a double give)', false]);
   else if (s.standing === 'behind') lines.push(['This device holds a later life of this card: the copy you opened is out of date', false]);
   else { rec = await keep(r.dossier); lines.push([rec.ok ? (rec.outcome === 'already recorded' ? 'This device already holds exactly this life' : 'Recorded here: ' + (rec.outcome === 'recorded' ? 'a card this device had not seen' : 'the events it has grown since')) : 'It could not be recorded: ' + rec.why, rec.ok]); }
   clear(out, el('div', { class: 'status ' + (r.owner === S.me.pub ? 'ok' : '') }, r.owner === S.me.pub ? 'It is yours: ' + f.title + ', serial #' + String(r.v.serial).padStart(4, '0') + ', stage ' + f.stage + '. It is in your collection.' : 'It checks. Its owner is ' + short(r.owner) + (r.owner === S.manifest?.maker ? ' (the drop’s maker)' : '') + ', not you.'),
@@ -752,6 +764,6 @@ async function boot() {
 boot();
 
 /** what the game screens drive: the same actions the page's buttons run, nothing more */
-const api = { cardMe, select, actGrow, actAsk, actLevel, actBreed, actSend, actSkin, actDownload, actVerify, openFile, rerunDrop, regrow, buildMesh, meshAsk, meshJob, workOvernight,
+const api = { cardMe, select, actGrow, actAsk, actLevel, actBreed, fuse, actSend, actSkin, actDownload, actVerify, openFile, rerunDrop, regrow, buildMesh, meshAsk, meshJob, workOvernight,
   renderWallet, lifeOf, mine, drawCard, pixels, groundFor, groundOf, setOf, ownSetOf, protectedOf, download, saveKeyFile, forgetStoredKey, short, auc, emit, keep, load, save, paint, work: work_ };
 export { S, ready, api };
