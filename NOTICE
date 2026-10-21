@@ -7,13 +7,29 @@ Claude together, for Simon.
 Powered by the Konomi architecture, created by THOMAS FRUMKIN. The konomi-family tag and the idea of a compressed genome
 grown on a device's own data are his; used with his permission.
 
+Draws on the Guided Entropy Principle (GEP) of Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC
+(New Caney, Texas), published as Open Defensive Prior Art (Creative Commons). The DIGI Card is the estate's own build; these
+are the ideas of his it draws on:
+  - Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC — "From GEP Stabilization to Dual-Map Ethical
+    Reasoning: A derivation of positive ethical evidence, negative ethical evidence, and non-legal moral reasoning," Derivation
+    v0.2. A stable system can stabilize a wrong reference: so every mind is proved on cases it never grew on, every level is
+    checked again on cases it never saw, every claim is a receipt that can say no, and one claim that does not hold blocks a post.
+  - Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC — "The Laws of Entropy-Time: Rewriting
+    Thermodynamics with the Guided Entropy Principle," February 2026. Every claim marked derived or predictive, each with the
+    test that could fail it: the organs' sealed properties and predictions.
+  - Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC — "Dream State Architecture: GEP-Guided Memory
+    Consolidation and Entropy Regulation in Artificial Consciousness Systems," 2025. Work done while you are away stays inert
+    until a wake review validates it: "Work overnight" keeps a level only once it has re-run.
+  - Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC — "NEXUS — Distributed Synthetic Intelligence:
+    Architecture, Ethics, and the GEP-Native Mind," 2026. Intelligence distributed across specialist organs: the mesh of owned
+    DIGIs, each department's records kept with their owner.
+
 Vendored, byte-identical to their sources at pinned commits (vendor/SOURCES.json; tools/vendor-check.mjs checks every byte):
   - vendor/dex-frontier — sjgant80-hub/dex-frontier: departments (silos, fresh, fresh2), coupling (compose), statistics,
-    selection; and within it, as dex-frontier vendors them, living-seed's genome, germination, gate, immune system and
-    PNG primitives (sjgant80-hub/living-seed), seed-library's ribosome (sjgant80-hub), and Ed25519 keys over WebCrypto.
+    selection; and within it, as dex-frontier vendors them, living-seed's genome, germination, gate and PNG primitives
+    (sjgant80-hub/living-seed), seed-library's ribosome (sjgant80-hub), and Ed25519 keys over WebCrypto.
   - vendor/pixelwhisperer — PixelWhisperer Kards (sjgant80-hub/pixelwhisperer): the integer-only pixel-art engine that
     draws every card's face, built by Kar.
-  - vendor/spore-card — sjgant80-hub/spore-card: the screenshot-surviving module-grid codec.
   - .witness/witness.mjs and witness-all.mjs — the witness mutation gate and its harness, as dex-frontier vendors them.
 
 Data (full citations, licences and SHA-256s in data/SOURCES.json):

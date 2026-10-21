@@ -21,4 +21,8 @@ Source: https://github.com/sjgant80-hub/digi-card (MIT — no licence fee)
 - What it is · Start here · Wallet · Open a card · The mesh · Your data · The drop · How it works · Blueprint · Proof ·
   For business (cost case computed from sourced prices) · White paper · Questions
 
+Draws on the Guided Entropy Principle of Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC: "From GEP
+Stabilization to Dual-Map Ethical Reasoning" (Derivation v0.2), "The Laws of Entropy-Time" (February 2026), "Dream State
+Architecture" (2025) and "NEXUS — Distributed Synthetic Intelligence" (2026) — Open Defensive Prior Art (Creative Commons).
+
 Powered by the Konomi architecture, created by Thomas Frumkin. Supplier: AI Native Solutions (https://www.ai-nativesolutions.com).

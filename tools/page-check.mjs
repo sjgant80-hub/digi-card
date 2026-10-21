@@ -16,6 +16,14 @@ for (const [, h] of html.matchAll(/href="#([a-z0-9-]+)"/g)) if (!ids.has(h)) pro
 if (/[£$€]\s?\d|\/mo\b|per seat|priceCurrency|"@type":\s*"Offer"|pricing/i.test(html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, ''))) problems.push('the page carries a price');
 if (!html.includes('Powered by the Konomi architecture, created by Thomas Frumkin')) problems.push('the Konomi credit is missing');
 if (!html.includes('https://www.ai-nativesolutions.com')) problems.push('the supplier is missing');
+// Gary W. Floyd's credit, in full, wherever the build draws on his papers (the estate's hard rule): full name, company, paper
+const GARY = 'Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC';
+for (const [name, text] of [['the page', html], ['NOTICE', at('NOTICE')], ['README.md', at('README.md')], ['llms.txt', at('llms.txt')]]) {
+  if (!text.includes(GARY)) problems.push(name + ' does not credit ' + GARY);
+  if (/ThunderStruck Services/.test(text)) problems.push(name + ' misnames the company (it is ThunderStruck Service, singular)');
+  if (/Gary Floyd/.test(text)) problems.push(name + ' names him without his middle initial (Gary W. Floyd)');
+}
+for (const paper of ['Dual-Map Ethical Reasoning', 'The Laws of Entropy-Time', 'Dream State Architecture', 'NEXUS']) if (!html.includes(paper)) problems.push('the page does not name Gary W. Floyd’s paper “' + paper + '”');
 if (!/default-src 'self'; script-src 'self';/.test(html)) problems.push('the CSP is not this-site-only');
 try { JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]); } catch { problems.push('the JSON-LD does not parse'); }
 if (/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(app)) problems.push('app.js writes markup');

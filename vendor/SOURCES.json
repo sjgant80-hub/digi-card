@@ -106,32 +106,6 @@
    }
   },
   {
-   "repo": "sjgant80-hub/living-seed",
-   "commit": "f641429393cc2f26eac3c8b54d364735bbaacabe",
-   "local": "C:/Users/sjgan/living-seed",
-   "files": {
-    "vendor/dex-frontier/vendor/living-seed/src/immune.mjs": {
-     "from": "src/immune.mjs",
-     "sha256": "b2dd1ed0bf28bf683abbb3faea443c015ae483290fed8947a60aa0d05ae0032a"
-    }
-   }
-  },
-  {
-   "repo": "sjgant80-hub/spore-card",
-   "commit": "f6df5d82eca86c6783671c3bf0a9fa417532704b",
-   "local": "C:/Users/sjgan/spore-card",
-   "files": {
-    "vendor/spore-card/spore-card.mjs": {
-     "from": "spore-card.mjs",
-     "sha256": "ac301adc825a9bb8b2b9f75b9fe01885d8e47a35c9b240e3f4cead8d7f3b08b4"
-    },
-    "vendor/spore-card/spore-card-image.mjs": {
-     "from": "spore-card-image.mjs",
-     "sha256": "525f3e5fdd726a583018ef8153811f537ad3375251a92a5883f0e8a3318853bb"
-    }
-   }
-  },
-  {
    "repo": "sjgant80-hub/pixelwhisperer",
    "commit": "3047ccc63d2f9a125cb269ffe7a764fa6ce57146",
    "local": "C:/Users/sjgan/pixelwhisperer",

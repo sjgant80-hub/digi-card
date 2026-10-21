@@ -75,5 +75,12 @@ or sent by the tools: a person does that.
 | `drop/` | the manifest, the genesis log, every search |
 | `decoder/v1/` | the exact files that read a card, frozen at the drop |
 
+Draws on the Guided Entropy Principle of **Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC**:
+"From GEP Stabilization to Dual-Map Ethical Reasoning," Derivation v0.2 (a stable system can stabilize a wrong reference — so
+every mind is proved on cases it never grew on, every claim is a receipt that can say no); "The Laws of Entropy-Time,"
+February 2026 (claims marked derived or predictive, each with its test); "Dream State Architecture," 2025 (overnight work
+stays inert until validated); "NEXUS — Distributed Synthetic Intelligence," 2026 (intelligence distributed across
+specialist organs). Open Defensive Prior Art (Creative Commons); details in [NOTICE](NOTICE).
+
 Powered by the Konomi architecture, created by Thomas Frumkin. Supplier: [AI Native Solutions](https://www.ai-nativesolutions.com)
 — support is agreed per deployment. MIT — no licence fee. Credits and data provenance: [NOTICE](NOTICE), `data/SOURCES.json`.
