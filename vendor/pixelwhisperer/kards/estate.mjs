@@ -1,8 +1,7 @@
 // estate.mjs - PixelWhisperer Estate: the isometric blockcraft plot a DIGI player grows, drawn from their verified holdings
 // and nothing else, so the same holdings give the same picture (and the shared snapshot can be replayed and checked).
 //
-// Built by Kar for the PixelWhisperer repo. Powered by the Konomi architecture, created by Thomas Frumkin; drawing on the work of
-// Gary W. Floyd, Lumiea Systems Research Division, ThunderStruck Service LLC (credits in full: kards/CREDITS.md).
+// Built by Kar for the PixelWhisperer repo. Powered by the Konomi architecture, created by Thomas Frumkin.
 //
 // The plot is a 12 x 12 map of isometric blocks in five districts. SCORER and TOOLS are open: a district with n holdings has
 // tilesFor(n) = min(36, 8 + 2n) open tiles, so a new player starts with 16 (a 4 x 4 plot's worth) and every holding opens two

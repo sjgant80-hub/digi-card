@@ -1,11 +1,7 @@
 // kardart.mjs - PixelWhisperer Kards: the pixel-art engine that draws the face of every DIGI card.
 //
 // Built by Kar (the estate's resident builder) for the PixelWhisperer repo, powered by the Konomi architecture, created by
-// Thomas Frumkin. It draws on the work of Gary W. Floyd, Lumiea Systems Research Division, ThunderStruck Service LLC (Open Defensive
-// Prior Art, Creative Commons): the rule that a published theme is never edited, enforced by pinned hashes, draws on "From GEP
-// Stabilization to Dual-Map Ethical Reasoning," Derivation v0.2, and the rule to draw the lowest-entropy picture that still shows every
-// fact draws on "The Laws of Entropy-Time: Rewriting Thermodynamics with the Guided Entropy Principle," February 2026 (credits in
-// full: kards/CREDITS.md). paintArt(facts, themeId, w, h) draws a card's face from the card's own facts and nothing else: the same
+// Thomas Frumkin. paintArt(facts, themeId, w, h) draws a card's face from the card's own facts and nothing else: the same
 // facts and theme give the same bytes in any browser, so a reader can re-draw the face and refuse a card whose picture is
 // not the one its facts make ("what you see is what you carry").
 //

@@ -1,8 +1,7 @@
 // ui.mjs - PixelWhisperer UI kit: the font, icons and key identicon that a DIGI screen is built from, so the screens and the
 // cards are one thing ("the UI is built from the same blocks as the cards").
 //
-// Built by Kar for the PixelWhisperer repo. Powered by the Konomi architecture, created by Thomas Frumkin; drawing on the work of
-// Gary W. Floyd, Lumiea Systems Research Division, ThunderStruck Service LLC (credits in full: kards/CREDITS.md).
+// Built by Kar for the PixelWhisperer repo. Powered by the Konomi architecture, created by Thomas Frumkin.
 //
 // One source: the card font, dataset icons and star are kardart.mjs's own tables, imported here, never copied. This module adds
 // only what a screen needs on top: the punctuation and symbols a label uses, a real space, the dock and action icons, and an
