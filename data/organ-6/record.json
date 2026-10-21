@@ -1,0 +1,284 @@
+{
+ "kind": "digi-card.organ-6.record",
+ "v": 1,
+ "meshes": [
+  {
+   "set": "telco",
+   "candidates": 9,
+   "fielded": 3,
+   "gate": 840751,
+   "bestGate": 820305,
+   "test": 828332,
+   "bestTest": 806558,
+   "vsBest": {
+    "a": 0.828332,
+    "b": 0.806558,
+    "lead": 0.021774,
+    "low95": 0.012525
+   },
+   "shareSum": 1000000,
+   "ledger": {
+    "jobs": 100,
+    "ok": true
+   },
+   "left": [
+    {
+     "joined": false,
+     "why": "not a consent"
+    },
+    {
+     "joined": false,
+     "why": "the consent was given for an earlier life of the card: its owner must consent again"
+    },
+    {
+     "joined": false,
+     "why": "the consent is not its owner’s"
+    }
+   ],
+   "scoresOnly": true,
+   "members": [
+    {
+     "card": "34c29df36962eb73",
+     "share": 652176,
+     "testLoo": 37959,
+     "test": 806558
+    },
+    {
+     "card": "464a439df1a8c60f",
+     "share": 276284,
+     "testLoo": 26751,
+     "test": 785851
+    },
+    {
+     "card": "28dd2bf8837a01c0",
+     "share": 71540,
+     "testLoo": -1971,
+     "test": 624681
+    }
+   ]
+  },
+  {
+   "set": "shop",
+   "candidates": 9,
+   "fielded": 3,
+   "gate": 924174,
+   "bestGate": 921988,
+   "test": 826537,
+   "bestTest": 815040,
+   "vsBest": {
+    "a": 0.826537,
+    "b": 0.81504,
+    "lead": 0.011497,
+    "low95": 0.008185
+   },
+   "shareSum": 1000000,
+   "ledger": {
+    "jobs": 100,
+    "ok": true
+   },
+   "left": [
+    {
+     "joined": false,
+     "why": "not a consent"
+    },
+    {
+     "joined": false,
+     "why": "the consent was given for an earlier life of the card: its owner must consent again"
+    },
+    {
+     "joined": false,
+     "why": "the consent is not its owner’s"
+    }
+   ],
+   "scoresOnly": true,
+   "members": [
+    {
+     "card": "32c8852f9c3f6c08",
+     "share": 967664,
+     "testLoo": 129900,
+     "test": 815040
+    },
+    {
+     "card": "a981b84754aa4fa9",
+     "share": 0,
+     "testLoo": 1470,
+     "test": 672003
+    },
+    {
+     "card": "fd36d74a04f0bf85",
+     "share": 32336,
+     "testLoo": 6060,
+     "test": 583802
+    }
+   ]
+  },
+  {
+   "set": "bank",
+   "candidates": 9,
+   "fielded": 3,
+   "gate": 778161,
+   "bestGate": 771923,
+   "test": 778373,
+   "bestTest": 767295,
+   "vsBest": {
+    "a": 0.778373,
+    "b": 0.767295,
+    "lead": 0.011078,
+    "low95": 0.007033
+   },
+   "shareSum": 1000000,
+   "ledger": {
+    "jobs": 100,
+    "ok": true
+   },
+   "left": [
+    {
+     "joined": false,
+     "why": "not a consent"
+    },
+    {
+     "joined": false,
+     "why": "the consent was given for an earlier life of the card: its owner must consent again"
+    },
+    {
+     "joined": false,
+     "why": "the consent is not its owner’s"
+    }
+   ],
+   "scoresOnly": true,
+   "members": [
+    {
+     "card": "162e8d3f46d0d8a1",
+     "share": 896838,
+     "testLoo": 56873,
+     "test": 767295
+    },
+    {
+     "card": "9d8cc1d653f17bbc",
+     "share": 61867,
+     "testLoo": 5188,
+     "test": 715809
+    },
+    {
+     "card": "05582fa08a517dca",
+     "share": 41295,
+     "testLoo": 3393,
+     "test": 627443
+    }
+   ]
+  },
+  {
+   "set": "adult",
+   "candidates": 9,
+   "fielded": 3,
+   "gate": 890519,
+   "bestGate": 813871,
+   "test": 890275,
+   "bestTest": 813681,
+   "vsBest": {
+    "a": 0.890275,
+    "b": 0.813681,
+    "lead": 0.076594,
+    "low95": 0.071274
+   },
+   "shareSum": 1000000,
+   "ledger": {
+    "jobs": 100,
+    "ok": true
+   },
+   "left": [
+    {
+     "joined": false,
+     "why": "not a consent"
+    },
+    {
+     "joined": false,
+     "why": "the consent was given for an earlier life of the card: its owner must consent again"
+    },
+    {
+     "joined": false,
+     "why": "the consent is not its owner’s"
+    }
+   ],
+   "scoresOnly": true,
+   "members": [
+    {
+     "card": "920099f0a2f664a4",
+     "share": 589506,
+     "testLoo": 89146,
+     "test": 813681
+    },
+    {
+     "card": "cb2f70ba01636d20",
+     "share": 290107,
+     "testLoo": 41390,
+     "test": 767464
+    },
+    {
+     "card": "035e72c13e9b0a94",
+     "share": 120387,
+     "testLoo": 16084,
+     "test": 626439
+    }
+   ]
+  },
+  {
+   "set": "credit",
+   "candidates": 9,
+   "fielded": 3,
+   "gate": 774217,
+   "bestGate": 741515,
+   "test": 760158,
+   "bestTest": 738436,
+   "vsBest": {
+    "a": 0.760158,
+    "b": 0.738436,
+    "lead": 0.021722,
+    "low95": 0.013622
+   },
+   "shareSum": 1000000,
+   "ledger": {
+    "jobs": 100,
+    "ok": true
+   },
+   "left": [
+    {
+     "joined": false,
+     "why": "not a consent"
+    },
+    {
+     "joined": false,
+     "why": "the consent was given for an earlier life of the card: its owner must consent again"
+    },
+    {
+     "joined": false,
+     "why": "the consent is not its owner’s"
+    }
+   ],
+   "scoresOnly": true,
+   "members": [
+    {
+     "card": "f1520f6f768bb018",
+     "share": 748902,
+     "testLoo": 104751,
+     "test": 738436
+    },
+    {
+     "card": "079611a1a9a5c180",
+     "share": 87032,
+     "testLoo": 12076,
+     "test": 641668
+    },
+    {
+     "card": "63084c93ac03e304",
+     "share": 164066,
+     "testLoo": 8244,
+     "test": 612429
+    }
+   ]
+  }
+ ],
+ "beatBest": 5,
+ "positiveShare": 14,
+ "positiveShareAddsOnTest": 13
+}

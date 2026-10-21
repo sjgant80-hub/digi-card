@@ -1,0 +1,43 @@
+{
+ "kind": "digi-card.organ-6.verdict",
+ "v": 1,
+ "prereg": "babdaa9aea42b072",
+ "record": "253f4230bc613580",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "No card joins without its owner’s consent for its current life: on every mesh, a card with no consent, one whose consent was for an earlier life (it has been sold since), and one whose consent is signed by someone else are all left out, each with its reason.",
+   "pass": true,
+   "saw": "telco: out/out/out; shop: out/out/out; bank: out/out/out; adult: out/out/out; credit: out/out/out"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "On every mesh the fielded members’ shares sum to exactly 1,000,000, and a ledger of 100 jobs replays with every credit exactly cases × share.",
+   "pass": true,
+   "saw": "telco shares 1000000, ledger replays; shop shares 1000000, ledger replays; bank shares 1000000, ledger replays; adult shares 1000000, ledger replays; credit shares 1000000, ledger replays"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "On every mesh, only scores cross between members: the coupling is learned from the members’ scores on GATE and nothing else.",
+   "pass": true,
+   "saw": "5 of 5 couplings re-learned from GATE scores alone, weight for weight"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "The mesh beats its best single fielded member on TEST with a paired-bootstrap 95% lower bound above zero, on at least 3 of the sets (on all of them, if fewer than 3 have two departments).",
+   "pass": true,
+   "saw": "telco 0.828 vs 0.807 (bound 0.012525); shop 0.827 vs 0.815 (bound 0.008185); bank 0.778 vs 0.767 (bound 0.007033); adult 0.890 vs 0.814 (bound 0.071274); credit 0.760 vs 0.738 (bound 0.013622)"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Of the members with a positive share, at least 70% also add to the mesh on TEST (its TEST AUC with them, minus without them, coupling re-learned on GATE, is above zero).",
+   "pass": true,
+   "saw": "13 of 14 members with a positive share add to the mesh on TEST"
+  }
+ ]
+}
