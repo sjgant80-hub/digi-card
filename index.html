@@ -129,7 +129,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere.</p>
       <div class="pills">
         <span class="pill hot"><span data-k="drop-total">…</span> genesis cards · decoder #0001</span>
-        <span class="pill ok">every claim re-runs</span>
+        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">8 organs, sealed before measured</a></span>
         <span class="pill ok">records never leave your device</span>
         <span class="pill">MIT — no licence fee</span>
       </div>
@@ -363,6 +363,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 
 <section id="proof" aria-labelledby="proof-h">
   <h2 id="proof-h"><span class="n">09</span>Proof: the organs, sealed before they were measured</h2>
+  <p class="lede" style="font-size:17px"><b data-k="proof-tally">…</b></p>
   <p>Each organ of the build is a claim written down, with the code and data it runs on pinned by hash, and committed <b>before</b> it was measured; git proves the order (<code>tools/order.mjs</code>). The judge then reads the record by the sealed rules alone. A failed prediction is kept, not tuned away.</p>
   <div class="tw"><table><thead><tr><th>Rule</th><th>The claim, as sealed</th><th>Verdict</th><th>What the record shows</th></tr></thead><tbody id="proof-rows"><tr><td colspan="4" class="dim">Reading the verdicts…</td></tr></tbody></table></div>
 </section>

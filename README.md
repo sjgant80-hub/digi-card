@@ -11,6 +11,24 @@ only if it beats both parents), put it to work with other cards in a mesh — an
 Everything on the live page is this repository's mutation-gated code running in your browser on six real public
 datasets. Nothing is mocked; nothing is sent anywhere.
 
+## What was proven
+
+Eight organs, each sealed before it was measured (git proves the order: `node tools/order.mjs --organ k`), judged by
+their sealed rules alone — **41 of 44 sealed rules held; 3 failed predictions are kept; no property failed.**
+
+| Organ | Result |
+|---|---|
+| 1 · the card | 1,000/1,000 cards read back exactly; 1,200/1,200 forgeries in 12 classes refused; self-signed fake levels read but are never recorded; median full check 84 ms |
+| 2 · germination | 1,000/1,000 minds re-grow offline to exactly their declared GATE; 50/50 searches re-run to the same mind; every card beats a coin on TEST, median GATE→TEST drop 0.002 — **failed:** shop-context's median TEST AUC 0.567 < 0.600 |
+| 3 · levels | 69/100 cards levelled in three searches; every level re-runs exactly and deeply; 345/345 forgeries refused; 42/69 rose on TEST — **failed:** the mean TEST gain's lower bound is below zero |
+| 4 · breeding | 66/66 children beat both parents on GATE; across departments 40/40 children beat both parents on TEST — **failed:** within a department, 12/26 |
+| 5 · trade | 3,037/3,037 honest gives recorded; 300/300 double sales and 100/100 forged gives refused; 4,037 entries replay identically |
+| 6 · the mesh | beats its best single card on TEST in 5/5 businesses; shares sum to a million; ledgers replay (not blind: dry-run before its seal, disclosed) |
+| 7 · the drop | decoder #0001 re-runs the genesis; 5/5 posts pass the claim gate, 12/12 overreaching drafts refused; 100/100 card-me claims work |
+| 8 · scale | the mesh climbs as each department joins, in 5/5 businesses; a 10,000-entry registry replays identically in 36.8 s |
+
+Every kernel is witness CLEAN (359/359 mutants killed) and CI re-proves all of it on every push.
+
 ## Run it
 
 ```

@@ -591,6 +591,9 @@ async function renderProof() {
     if (v) for (const x of v.verdicts) rows.push(el('tr', {}, el('td', { class: 'num' }, k + ' · ' + x.id), el('td', {}, x.claim), el('td', {}, el('span', { class: 'chip ' + (x.pass ? 'pass' : x.kind === 'prediction' ? 'pred' : 'fail') }, x.pass ? 'held' : x.kind === 'prediction' ? 'failed — kept' : 'FAILED')), el('td', { class: 'dim' }, x.saw)));
   }
   if (rows.length) clear($('#proof-rows'), rows);
+  const all = rows.length ? [...document.querySelectorAll('#proof-rows .chip')].map((c) => c.textContent) : [];
+  const held = all.filter((t) => t === 'held').length, kept = all.filter((t) => t === 'failed — kept').length, red = all.filter((t) => t === 'FAILED').length;
+  if (all.length) setK('proof-tally', held + ' of ' + all.length + ' sealed rules held · ' + kept + ' failed prediction' + (kept === 1 ? '' : 's') + ' kept' + (red ? ' · ' + red + ' property failed' : ''));
 }
 
 // ── wiring ───────────────────────────────────────────────────────────────────────────────────────────────────────────
