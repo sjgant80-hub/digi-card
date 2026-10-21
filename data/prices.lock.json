@@ -1,0 +1,112 @@
+{
+ "kind": "digi-card.prices",
+ "v": 1,
+ "registry": "sjgant80-hub/fallstack (registry/prices.json)",
+ "pulled": "2026-09-29",
+ "why": "every price the cost case reads, copied verbatim from the estate registry with its source and the date it was checked; src/cost.mjs reads nothing else",
+ "entries": [
+  {
+   "id": "gpt-5-nano",
+   "kind": "api",
+   "provider": "OpenAI",
+   "model": "gpt-5-nano",
+   "inPerM": 0.05,
+   "outPerM": 0.4,
+   "currency": "USD",
+   "source": "https://developers.openai.com/api/docs/pricing",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "gpt-5-mini",
+   "kind": "api",
+   "provider": "OpenAI",
+   "model": "gpt-5-mini",
+   "inPerM": 0.25,
+   "outPerM": 2,
+   "currency": "USD",
+   "source": "https://developers.openai.com/api/docs/pricing",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "gemini-3.1-flash-lite",
+   "kind": "api",
+   "provider": "Google",
+   "model": "Gemini 3.1 Flash-Lite",
+   "inPerM": 0.25,
+   "outPerM": 1.5,
+   "currency": "USD",
+   "source": "https://ai.google.dev/gemini-api/docs/pricing",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "claude-haiku-4.5",
+   "kind": "api",
+   "provider": "Anthropic",
+   "model": "Claude Haiku 4.5",
+   "inPerM": 1,
+   "outPerM": 5,
+   "currency": "USD",
+   "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "claude-sonnet-5",
+   "kind": "api",
+   "provider": "Anthropic",
+   "model": "Claude Sonnet 5",
+   "inPerM": 2,
+   "outPerM": 10,
+   "currency": "USD",
+   "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "uk-national-living-wage",
+   "kind": "rate",
+   "value": 12.71,
+   "what": "National Living Wage (21 and over), per hour, from 1 April 2026 — the legal floor, used as the cost of an hour of the staff time the AI takes over",
+   "quote": "National Living Wage (21 and over) £12.71",
+   "source": "https://www.gov.uk/government/news/national-living-wage-increases-to-1271-per-hour",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "desnz-electricity-nondomestic",
+   "kind": "energy",
+   "pencePerKwh": 24.51,
+   "what": "UK non-domestic electricity, average price including Climate Change Levy, quarter 2 2026",
+   "quote": "In quarter 2 2026, the average electricity price including CCL was 24.51 pence per kWh",
+   "source": "https://assets.publishing.service.gov.uk/media/6aba2810fe72ed1e2b02f0e7/Quarterly_Energy_Prices_September_2026.pdf",
+   "publisher": "DESNZ, Quarterly Energy Prices, September 2026 (published 29 September 2026)",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "intel-i7-1255u-power",
+   "kind": "power",
+   "wattsLow": 15,
+   "wattsHigh": 55,
+   "chip": "Intel Core i7-1255U",
+   "how": "Intel's published figures for the chip: Processor Base Power 15 W (the rated sustained power) and Maximum Turbo Power 55 W. The model uses 15 W for the extra draw of AI work on a laptop that is already on for the employee — change it on the page.",
+   "source": "https://www.intel.com/content/www/us/en/products/sku/226259/intel-core-i71255u-processor-12m-cache-up-to-4-70-ghz/specifications.html",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "fx-gbp-usd",
+   "kind": "fx",
+   "gbpPerUsd": 0.75396,
+   "how": "ECB euro reference rates for 2026-09-28: USD 1.1378 and GBP 0.85785 per euro, so GBP per USD = 0.85785 / 1.1378",
+   "source": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+   "checked": "2026-09-29"
+  },
+  {
+   "id": "ons-cpi",
+   "kind": "rate",
+   "value": 0.031,
+   "what": "UK Consumer Prices Index, 12-month rate to August 2026",
+   "quote": "The Consumer Prices Index (CPI) rose by 3.1% in the 12 months to August 2026",
+   "publisher": "ONS, Consumer price inflation, UK: August 2026 (released 16 September 2026)",
+   "source": "https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2026",
+   "checked": "2026-09-29",
+   "how": "Applied every year to seats, both teams, compliance work, people's time and electricity. API token prices are not inflated."
+  }
+ ]
+}

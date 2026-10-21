@@ -24,7 +24,7 @@ export const SETS = {
   telco: { title: 'Telecom customers', outcome: 'left the company', files: { 'telco-churn.csv': '16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91' }, read: ([a]) => loadTelco(a) },
   shop: { title: 'Online shop sessions', outcome: 'bought', files: { 'online_shoppers_intention.csv': 'd8e130ba51532985f93281a73ce299e6ce150cb915769a7962a11e595eadd6a1' }, read: ([a]) => loadShop(a) },
   bank: { title: 'Bank marketing calls', outcome: 'subscribed', files: { 'bank-additional-full.csv': '74adfc578bf77a7ff4bb1ba4a9f8709d9e3c6907342959c2c8416847e0afb4d8' }, read: ([a]) => loadBank(a) },
-  adult: { title: 'Census adults', outcome: 'earns over $50k', files: { 'adult.data': '5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d', 'adult.test': 'a2a9044bc167a35b2361efbabec64e89d69ce82d9790d2980119aac5fd7e9c05' }, read: ([a, b]) => loadAdult(a, b) },
+  adult: { title: 'Census adults', outcome: 'earns over 50K a year', files: { 'adult.data': '5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d', 'adult.test': 'a2a9044bc167a35b2361efbabec64e89d69ce82d9790d2980119aac5fd7e9c05' }, read: ([a, b]) => loadAdult(a, b) },
   hospital: { title: 'Hospital stays', outcome: 'readmitted within 30 days', files: { 'diabetic_data.csv': '0689e7ec031237dc63031b938805c48377748761a3b26acab621567afa24df97' }, read: ([a]) => loadHospital(a) },
   credit: { title: 'Credit card clients', outcome: 'defaulted', files: { 'credit-default.csv': '4edce6da569b2c30788a85fd98a9bafb1a983e8ca1a7aac875dd7ff853cbd0bb' }, read: ([a]) => loadCredit(a) },
 };

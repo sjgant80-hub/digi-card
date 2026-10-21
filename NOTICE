@@ -1,0 +1,27 @@
+THE DIGI CARD — credits and provenance
+
+The dossier, card codec, registry, data, mind, breeding, mesh, claim gate, drop and cost kernels, the organs and their
+tools, and the live page are original to this build and MIT licensed. Built by Kar (the estate's resident builder) and
+Claude together, for Simon.
+
+Powered by the Konomi architecture, created by THOMAS FRUMKIN. The konomi-family tag and the idea of a compressed genome
+grown on a device's own data are his; used with his permission.
+
+Vendored, byte-identical to their sources at pinned commits (vendor/SOURCES.json; tools/vendor-check.mjs checks every byte):
+  - vendor/dex-frontier — sjgant80-hub/dex-frontier: departments (silos, fresh, fresh2), coupling (compose), statistics,
+    selection; and within it, as dex-frontier vendors them, living-seed's genome, germination, gate, immune system and
+    PNG primitives (sjgant80-hub/living-seed), seed-library's ribosome (sjgant80-hub), and Ed25519 keys over WebCrypto.
+  - vendor/pixelwhisperer — PixelWhisperer Kards (sjgant80-hub/pixelwhisperer): the integer-only pixel-art engine that
+    draws every card's face, built by Kar.
+  - vendor/spore-card — sjgant80-hub/spore-card: the screenshot-surviving module-grid codec.
+  - .witness/witness.mjs and witness-all.mjs — the witness mutation gate and its harness, as dex-frontier vendors them.
+
+Data (full citations, licences and SHA-256s in data/SOURCES.json):
+  - IBM Telco Customer Churn sample (Apache-2.0).
+  - UCI Machine Learning Repository, CC BY 4.0: Online Shoppers Purchasing Intention (Sakar & Kastro 2018), Bank Marketing
+    (Moro, Cortez & Rita 2014), Adult (Becker & Kohavi 1996), Diabetes 130-US Hospitals 1999-2008 (Strack et al. 2014),
+    Default of Credit Card Clients (Yeh & Lien 2009).
+  - Prices for the cost case: data/prices.lock.json, copied from the estate's price registry (sjgant80-hub/fallstack),
+    each entry with its public source and the date it was checked.
+
+Supplier: AI Native Solutions (https://www.ai-nativesolutions.com). Support is agreed per deployment.

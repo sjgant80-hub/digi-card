@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DIGI Card — a picture that is a working mind you own</title>
+<meta name="description" content="A DIGI card is a PNG that carries, in plain view, a sealed recipe for a small working mind grown on real records, its owners and every level it earned. It grows that mind on your device, offline, proves its score on cases it never saw, and can be owned, traded, bred and coupled — every claim re-runs." />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<meta name="theme-color" content="#120a24" />
+<meta property="og:title" content="DIGI Card — a picture that is a working mind you own" />
+<meta property="og:description" content="Own it, grow it offline, level it by re-runnable receipts, breed it (the child must beat both parents), trade it, couple it into a mesh. Re-run every claim yourself." />
+<meta property="og:url" content="https://sjgant80-hub.github.io/digi-card/" />
+<meta property="og:image" content="https://sjgant80-hub.github.io/digi-card/cards/0001.png" />
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"DIGI Card","applicationCategory":"BusinessApplication","operatingSystem":"Any modern browser; Node 20+","url":"https://sjgant80-hub.github.io/digi-card/","codeRepository":"https://github.com/sjgant80-hub/digi-card","license":"https://opensource.org/license/mit","description":"A PNG card that carries a sealed, re-runnable working mind grown on real records, its ownership and every level it earned; it grows offline on the holder's device, breeds only children that beat both parents, trades by re-signing, and couples into a mesh with measured contribution shares.","creator":{"@type":"Organization","name":"AI Native Solutions","url":"https://www.ai-nativesolutions.com"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is a DIGI card an NFT?","acceptedAnswer":{"@type":"Answer","text":"It keeps what NFTs promised (unique, ownable, tradeable, provenance) without the pointer: the card itself carries the mind, its ownership history and its proofs, and it runs on your device. Nothing sits on a server or a chain."}},{"@type":"Question","name":"What is the mind inside a card?","acceptedAnswer":{"@type":"Answer","text":"A scorecard of at most six threshold rules over one department's columns, found by evolutionary search and judged on cases it never grew on. Nothing is neural; every rule is readable."}},{"@type":"Question","name":"Can a card be sold twice?","acceptedAnswer":{"@type":"Answer","text":"A card alone cannot stop its owner signing it to two buyers, so a registry settles it: the first give recorded wins, and the other chain is refused for good."}}]}]}</script>
+<style>
+:root{--bg:#120a24;--bg2:#1a0f33;--panel:#1c1236;--panel2:#150c2b;--ink:#f3eefe;--dim:#b7a9d6;--faint:#9a8cbc;--line:#33255a;
+  --accent:#2df0c8;--accent2:#7cc4ff;--hot:#ff4fb8;--gold:#ffd166;--bad:#ff6b8a;--warn:#ffb15c;--violet:#c39bff;--on-accent:#04251e;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --grid:linear-gradient(transparent 0 calc(100% - 1px),color-mix(in srgb,var(--hot) 22%,transparent) calc(100% - 1px)),linear-gradient(90deg,transparent 0 calc(100% - 1px),color-mix(in srgb,var(--hot) 22%,transparent) calc(100% - 1px))}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#fbf8ff;--bg2:#f1eaff;--panel:#ffffff;--panel2:#f6f1ff;--ink:#1a1030;--dim:#54477a;--faint:#665a8a;--line:#dcd2f2;--accent:#007a63;--accent2:#1f5fbf;--hot:#c2187a;--gold:#8a6200;--bad:#b3264a;--warn:#9a5200;--violet:#6b3fc9;--on-accent:#ffffff}}
+:root[data-theme="light"]{--bg:#fbf8ff;--bg2:#f1eaff;--panel:#ffffff;--panel2:#f6f1ff;--ink:#1a1030;--dim:#54477a;--faint:#665a8a;--line:#dcd2f2;--accent:#007a63;--accent2:#1f5fbf;--hot:#c2187a;--gold:#8a6200;--bad:#b3264a;--warn:#9a5200;--violet:#6b3fc9;--on-accent:#ffffff}
+:root[data-theme="dark"]{--bg:#120a24;--bg2:#1a0f33;--panel:#1c1236;--panel2:#150c2b;--ink:#f3eefe;--dim:#b7a9d6;--faint:#9a8cbc;--line:#33255a;--accent:#2df0c8;--accent2:#7cc4ff;--hot:#ff4fb8;--gold:#ffd166;--bad:#ff6b8a;--warn:#ffb15c;--violet:#c39bff;--on-accent:#04251e}
+*{box-sizing:border-box}html,body{margin:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px 48px}
+a{color:var(--accent2)}
+code,.mono{font-family:var(--mono);font-size:.92em;overflow-wrap:anywhere}
+header{padding:22px 0 6px;position:relative}
+.hero{display:grid;gap:18px;grid-template-columns:1fr;align-items:center}
+@media(min-width:880px){.hero{grid-template-columns:1.25fr .75fr}}
+.sky{position:absolute;inset:0 -16px auto -16px;height:360px;z-index:-1;background:radial-gradient(ellipse at 70% 0%,color-mix(in srgb,var(--hot) 26%,transparent),transparent 62%),var(--grid);background-size:auto,34px 34px;mask-image:linear-gradient(#000 40%,transparent)}
+h1{font-family:var(--mono);font-size:clamp(34px,8vw,64px);margin:0;font-weight:900;letter-spacing:.06em;line-height:1.02;text-transform:uppercase}
+h1 .x{color:var(--hot);text-shadow:0 0 18px color-mix(in srgb,var(--hot) 55%,transparent)}h1 .y{color:var(--accent);text-shadow:0 0 18px color-mix(in srgb,var(--accent) 45%,transparent)}
+.lede{font-size:clamp(16px,2.4vw,19px);max-width:68ch;margin:12px 0 0}
+.tag{color:var(--dim);max-width:76ch;margin:8px 0 0;font-size:15px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.pill{display:inline-block;font-family:var(--mono);font-size:12px;color:var(--dim);border:1px solid var(--line);border-radius:4px;padding:2px 9px;background:var(--panel2)}
+.pill.ok{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.pill.hot{color:var(--hot);border-color:color-mix(in srgb,var(--hot) 45%,var(--line))}
+.herocard{justify-self:center;text-align:center}
+canvas.card{width:min(300px,78vw);height:auto;aspect-ratio:384/576;image-rendering:pixelated;border-radius:6px;box-shadow:0 0 0 2px var(--line),0 0 38px color-mix(in srgb,var(--hot) 30%,transparent);background:var(--panel2)}
+.cap{color:var(--dim);font-size:13px;margin:6px 0 0}
+nav.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:14px -16px 0;padding:0 16px;display:flex;align-items:center;gap:6px}
+nav.top ul{list-style:none;display:flex;gap:2px;margin:0;padding:0;overflow-x:auto;scrollbar-width:thin;flex:1}
+nav.top a{display:block;padding:10px 10px;color:var(--dim);text-decoration:none;white-space:nowrap;font-size:14px;border-bottom:2px solid transparent}
+nav.top a:hover,nav.top a:focus-visible{color:var(--ink);border-bottom-color:var(--hot)}
+section{padding:30px 0 6px;scroll-margin-top:52px}
+h2{font-size:clamp(21px,3.6vw,29px);margin:0 0 6px}
+h2 .n{font-family:var(--mono);color:var(--hot);font-size:.66em;margin-right:8px;vertical-align:middle}
+h3{font-size:17px;margin:20px 0 6px}
+p{margin:8px 0;max-width:78ch}
+.sub{color:var(--dim);margin-top:0}
+.grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:900px){.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}.grid.side{grid-template-columns:330px 1fr}}
+@media(min-width:640px) and (max-width:899px){.grid.three{grid-template-columns:1fr 1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
+.panel h3{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+button,.btn{font:inherit;font-size:14px;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px 13px;cursor:pointer;min-height:40px;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+button:hover,.btn:hover{border-color:var(--accent)}button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible,label.btn:focus-within{outline:2px solid var(--accent2);outline-offset:2px}
+button.primary,.btn.primary{background:var(--hot);border-color:var(--hot);color:#fff;font-weight:800;letter-spacing:.02em}
+button.go{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
+input,select{font:inherit;font-size:14px;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-width:0;max-width:100%}
+input[type=file]{padding:6px}
+label{font-size:14px}
+.status{font-size:14px;margin:8px 0;padding:8px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel2);overflow-wrap:anywhere}
+.status.ok{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}.status.bad{border-color:color-mix(in srgb,var(--bad) 60%,var(--line))}
+.ok-t{color:var(--accent)}.bad-t{color:var(--bad)}.warn-t{color:var(--warn)}.dim{color:var(--dim)}
+.chip{display:inline-block;font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:4px;padding:0 7px;white-space:nowrap}
+.chip.live,.chip.pass{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
+.chip.cut,.chip.fail{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 50%,var(--line))}
+.chip.dormant{color:var(--warn)}.chip.pred{color:var(--violet);border-color:color-mix(in srgb,var(--violet) 50%,var(--line))}
+.tw{overflow-x:auto;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+td.num{font-family:var(--mono);white-space:nowrap}
+.steps{counter-reset:s;list-style:none;padding:0;margin:10px 0}
+.steps>li{counter-increment:s;position:relative;padding:4px 0 12px 42px;max-width:80ch}
+.steps>li::before{content:counter(s);position:absolute;left:0;top:2px;width:30px;height:30px;border-radius:4px;border:1px solid var(--hot);color:var(--hot);font-family:var(--mono);font-size:14px;display:grid;place-items:center;font-weight:800}
+.wallet{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;margin:10px 0}
+.cardbtn{flex-direction:column;padding:6px;align-items:stretch;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.cardbtn.on{border-color:var(--hot);box-shadow:0 0 0 1px var(--hot) inset}
+canvas.thumb{width:100%;height:auto;aspect-ratio:384/576;image-rendering:pixelated;border-radius:3px;background:var(--panel2)}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.out{margin:6px 0 12px}
+.answer{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel2);margin-top:8px}
+.answer .v{font-family:var(--mono);font-weight:900;font-size:18px;letter-spacing:.04em}
+.rules{font-family:var(--mono);font-size:12.5px;margin:6px 0 0;padding-left:18px}
+.life{font-size:13.5px;padding-left:20px;margin:6px 0}.life li{margin:2px 0}
+.checks{list-style:none;padding:0;margin:6px 0}.checks li{margin:3px 0}
+.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:8px 0}
+.fields label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--dim)}
+.zone{border:2px dashed var(--line);border-radius:10px;padding:22px;text-align:center;background:var(--panel2)}.zone.on{border-color:var(--hot)}
+.kpis{display:grid;gap:10px;grid-template-columns:repeat(2,1fr);margin:12px 0}
+@media(min-width:760px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .v{font-size:clamp(20px,4vw,28px);font-weight:900;font-family:var(--mono);line-height:1.15;color:var(--accent)}
+.kpi .l{font-size:13px;color:var(--dim)}
+.gloss{display:grid;grid-template-columns:1fr;gap:4px 18px;margin:8px 0 0}@media(min-width:760px){.gloss{grid-template-columns:repeat(2,1fr)}}
+.gloss div{border-top:1px solid var(--line);padding:6px 0}.gloss dt{font-weight:700;display:inline}.gloss dd{display:inline;margin:0;color:var(--dim)}
+.note{border-left:3px solid var(--warn);padding:6px 12px;background:var(--panel);border-radius:0 8px 8px 0;margin:10px 0;max-width:80ch}
+.note.honest{border-left-color:var(--violet)}
+.diagram{overflow-x:auto;margin:10px 0;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.diagram svg{display:block;min-width:760px;width:100%;height:auto}
+.dg-box{fill:var(--panel2);stroke:var(--line);stroke-width:1.5}.dg-hot{stroke:var(--hot)}.dg-ok{stroke:var(--accent)}.dg-bad{stroke:var(--bad);stroke-dasharray:5 4}
+.dg-t{fill:var(--ink);font:700 14px var(--sans)}.dg-s{fill:var(--dim);font:12px var(--sans)}.dg-m{fill:var(--accent);font:12px var(--mono)}.dg-h{fill:var(--hot);font:700 12px var(--mono)}
+.dg-a{stroke:var(--faint);stroke-width:1.6;fill:none;marker-end:url(#arr)}.dg-ah{fill:var(--faint)}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--panel);margin:8px 0}
+summary{cursor:pointer;font-weight:600}
+pre{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.5;max-height:340px}
+article.paper{max-width:80ch}article.paper h3{margin-top:22px}
+.role h4{color:var(--hot);margin:0 0 6px}
+footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:var(--dim);font-size:14px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header id="top">
+  <div class="sky" aria-hidden="true"></div>
+  <div class="hero">
+    <div>
+      <h1><span class="x">DIGI</span> <span class="y">CARD</span></h1>
+      <p class="lede"><b>A trading card that is a working mind you own.</b> The picture carries — in plain view, in its top strip of pixels — a sealed recipe for a small mind grown on real records, the signed history of everyone who has owned it, and every level it has earned. Open it on any device and it grows that mind there, offline, and proves its score on cases it never saw. Own it. Trade it. Breed it. Put it to work with others. Every claim on it re-runs.</p>
+      <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere.</p>
+      <div class="pills">
+        <span class="pill hot"><span data-k="drop-total">…</span> genesis cards · decoder #0001</span>
+        <span class="pill ok">every claim re-runs</span>
+        <span class="pill ok">records never leave your device</span>
+        <span class="pill">MIT — no licence fee</span>
+      </div>
+      <div class="row">
+        <button class="primary" id="card-me">Card me</button>
+        <a class="btn" href="#open">Open a card</a>
+        <a class="btn" href="#how">How it works</a>
+        <button id="theme-toggle" aria-label="Switch light or dark">◐</button>
+      </div>
+      <div id="boot" aria-live="polite"><div class="status">Loading the drop and checking it here, from nothing…</div></div>
+      <div id="cardme-out" aria-live="polite"></div>
+      <p id="nocrypto" class="note" hidden>This browser cannot sign or check Ed25519 signatures, which every card needs. Use a current Chrome, Edge, Firefox or Safari.</p>
+    </div>
+    <div class="herocard">
+      <canvas class="card" id="hero-card" width="384" height="576" role="img" aria-label="Decoder #0001, the first DIGI card, drawn here from the life it carries"></canvas>
+      <p class="cap">Decoder #0001, drawn here, now, from what it carries. The strip at the top <i>is</i> its data.</p>
+    </div>
+  </div>
+  <nav class="top" aria-label="Sections"><ul>
+    <li><a href="#what">What it is</a></li><li><a href="#start">Start here</a></li><li><a href="#wallet">Wallet</a></li><li><a href="#open">Open a card</a></li>
+    <li><a href="#mesh">The mesh</a></li><li><a href="#own">Your data</a></li><li><a href="#drop">The drop</a></li><li><a href="#how">How it works</a></li>
+    <li><a href="#blueprint">Blueprint</a></li><li><a href="#proof">Proof</a></li><li><a href="#business">For business</a></li><li><a href="#paper">White paper</a></li><li><a href="#faq">Questions</a></li>
+  </ul></nav>
+</header>
+
+<section id="what" aria-labelledby="what-h">
+  <h2 id="what-h"><span class="n">00</span>What it is, in plain words</h2>
+  <p>A <b>DIGI card</b> is a 384 × 576 PNG. Its top sixteen rows are its <b>band</b>: the card’s whole record, byte for byte, laid into the red, green and blue of the pixels where anyone can see them — never hidden in the picture. Everything below is its <b>face</b>, a pixel-art creature drawn from the card’s own facts. A reader redraws the face from the band and refuses the card if a single pixel differs, so <b>what you see is what it carries</b>.</p>
+  <p>What it carries is a <b>mind</b>: a recipe for a scorecard of at most six readable rules over one department’s records — telecom customers who leave, shop sessions that buy, bank calls that sell, adults who earn over 50K a year, credit clients who default. The recipe is sealed by its maker. On your device it grows into a working mind on the real records, offline, and must clear its bar on <b>GATE</b> — cases it never grew on — or it is cut and abstains, always. Nothing in it is neural; you can read every rule.</p>
+  <p>It also carries its <b>life</b>: who issued it, every owner it was handed to, every <b>level</b> it earned and every new skin, each event signed by whoever had the right to sign it and chained to the one before. A level is earned, never printed: a new search must beat its mind by 0.002 on GATE, and the receipt carries exactly what it takes for anyone to re-run it.</p>
+  <h3>An NFT, done the other way round</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>A typical NFT</th><th>A DIGI card</th></tr></thead>
+    <tbody>
+      <tr><td>What you own</td><td>a token pointing at a file on someone’s server</td><td>the card itself: the mind, its ownership and its proofs are in its pixels</td></tr>
+      <tr><td>Where it runs</td><td>nowhere — it is a picture</td><td>on your device, offline: it grows and answers</td></tr>
+      <tr><td>What makes it rare</td><td>a number printed at mint</td><td>levels it earned, each re-run before it counts</td></tr>
+      <tr><td>Can it be faked?</td><td>the picture can be copied freely</td><td>a copy is a copy of the same card; a forged one is refused byte by byte</td></tr>
+      <tr><td>Can it be sold twice?</td><td>a chain prevents it</td><td>a registry prevents it: the first give recorded wins (below)</td></tr>
+      <tr><td>Breeding</td><td>random traits</td><td>a child is born only if it beats both parents on real cases</td></tr>
+    </tbody></table></div>
+  <h3 id="words">The words this page uses</h3>
+  <dl class="gloss">
+    <div><dt>Band</dt> <dd>— the card’s top 16 pixel rows: its dossier, byte for byte, in the open.</dd></div>
+    <div><dt>Face</dt> <dd>— the picture below, drawn from the card’s facts by the PixelWhisperer art engine.</dd></div>
+    <div><dt>Dossier</dt> <dd>— the card’s whole record: its sealed genome and its signed, chained life.</dd></div>
+    <div><dt>Genome</dt> <dd>— the mind’s recipe, a few hundred bytes, sealed by its maker’s Ed25519 key.</dd></div>
+    <div><dt>FIT · GATE · TEST</dt> <dd>— the rows a mind grows on, the rows it must prove itself on, and rows nothing in this repository ever fits or selects on.</dd></div>
+    <div><dt>AUC</dt> <dd>— how often a mind ranks a real yes above a real no: 0.5 is a coin, 1 is perfect.</dd></div>
+    <div><dt>Level</dt> <dd>— a better mind found by search and adopted only if it beats the old one by 0.002 on GATE.</dd></div>
+    <div><dt>Receipt</dt> <dd>— what a level carries so anyone can re-run it: both minds, the data’s hash, both scores.</dd></div>
+    <div><dt>Registry</dt> <dd>— the ordered record of cards’ lives that settles a double sale: the first recorded give wins.</dd></div>
+    <div><dt>Mesh</dt> <dd>— owned cards of one business answering as one; each card’s share of the credit is measured.</dd></div>
+    <div><dt>Decoder #0001</dt> <dd>— the first card: it names the exact code that reads cards and the record of the whole drop, so you can re-run the drop from it.</dd></div>
+    <div><dt>Key</dt> <dd>— your Ed25519 identity, made in this browser on your first visit. Your cards are signed to it.</dd></div>
+  </dl>
+</section>
+
+<section id="start" aria-labelledby="start-h">
+  <h2 id="start-h"><span class="n">01</span>Start here</h2>
+  <ol class="steps">
+    <li><b>Press “Card me”.</b> A genesis card is signed to your key (made in this browser on your first visit; back it up in the wallet). It appears in your <a href="#wallet">wallet</a>.</li>
+    <li><b>Press “Grow it”.</b> The page fetches that card’s real dataset from this site (its size is shown), checks it is the published bytes, and grows the card’s mind on it — on your device, offline. You see its GATE score beside the one the drop declared: they match to the millionth.</li>
+    <li><b>Press “Ask it”.</b> It is handed a real case from TEST, which it has never seen, and answers yes or no with the rules that fired — or abstains. You also see what really happened.</li>
+    <li><b>Press “Level up”.</b> It runs up to three searches for a better mind (each takes some seconds: a search is real work). If one beats it by 0.002 on GATE, the receipt is signed into the card, re-run here before it is recorded, and its face shows the new stage.</li>
+    <li><b>Breed.</b> Press “Card me” until you hold two cards of one business, then breed them. A child is sealed only if it beats both parents; most pairings try many crossings, and some produce nothing — that is the gate working.</li>
+    <li><b>Hand it on.</b> Paste a friend’s key into “Send” and you get a new PNG that is theirs. They open it in <a href="#open">Open a card</a>, and everything is checked again on their device.</li>
+    <li><b>Put cards to work together</b> in <a href="#mesh">the mesh</a>, or <b>grow your own</b> from <a href="#own">your own table</a>. Then <a href="#drop">re-run the whole drop</a> from decoder #0001.</li>
+  </ol>
+</section>
+
+<section id="wallet" aria-labelledby="wallet-h">
+  <h2 id="wallet-h"><span class="n">02</span>Your wallet</h2>
+  <p class="sub">The cards whose last signed give names your key, as this device’s registry records them.</p>
+  <div class="panel">
+    <h3>Your key</h3>
+    <p class="mono" style="margin:0"><span data-k="me">…</span></p>
+    <div class="row"><button id="key-copy">Copy my key</button><button id="key-backup">Back up my key</button><label class="btn">Restore a key <input type="file" id="key-restore" accept=".json,application/json" class="sr" /></label><button id="card-me-2" class="primary">Card me</button></div>
+    <div id="key-out" aria-live="polite"></div>
+    <p class="dim" style="font-size:13px">Your key lives in this browser only. Whoever holds it can sign your cards away; nobody else can — not this site, not its maker. You hold <b data-k="held">0</b> card(s).</p>
+  </div>
+  <div class="wallet" id="wallet-grid" aria-label="Your cards"></div>
+  <div class="panel" id="detail" hidden>
+    <div class="grid side">
+      <div><canvas class="card" id="detail-card" width="384" height="576" role="img" aria-label="The selected card"></canvas></div>
+      <div>
+        <div id="detail-facts" class="tw"></div>
+        <div class="acts" role="group" aria-label="What to do with this card">
+          <button class="go" id="act-grow">Grow it</button><button id="act-ask">Ask it</button><button id="act-level">Level up</button><button id="act-breed">Breed with</button>
+          <select id="breed-partner" aria-label="Partner card for breeding"></select>
+          <button id="act-skin">Re-skin</button><button id="act-download">Download PNG</button><button id="act-verify">Verify everything</button>
+        </div>
+        <div class="row"><input id="send-to" placeholder="their key: 64 hex characters" aria-label="The key of the person you are giving this card to" size="40" /><button id="act-send">Send</button></div>
+        <div class="out" id="out-grow" aria-live="polite"></div>
+        <div class="out" id="out-ask" aria-live="polite"></div>
+        <div class="fields" id="ask-fields"></div><button id="ask-own" hidden>Ask about these values</button>
+        <div class="out" id="out-level" aria-live="polite"></div>
+        <div class="out" id="out-breed" aria-live="polite"></div>
+        <div class="out" id="out-send" aria-live="polite"></div>
+        <div class="out" id="out-skin" aria-live="polite"></div>
+        <div class="out" id="out-verify" aria-live="polite"></div>
+        <details><summary>Its life, event by event</summary><div id="detail-life"></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="open" aria-labelledby="open-h">
+  <h2 id="open-h"><span class="n">03</span>Open a card someone sent you</h2>
+  <p class="sub">Drop any DIGI card PNG here. It is checked on this device in this order, and refused at the first thing that fails: every PNG chunk’s CRC; the band’s dossier, opened under its seals; every signature of its life; the face redrawn from it and compared pixel for pixel; then its standing in this device’s registry.</p>
+  <label class="zone" id="open-zone">Drop a card here, or <span class="btn">choose a PNG</span><input type="file" id="open-file" accept="image/png" class="sr" /></label>
+  <div id="open-report" aria-live="polite"></div>
+</section>
+
+<section id="mesh" aria-labelledby="mesh-h">
+  <h2 id="mesh-h"><span class="n">04</span>The mesh: owned cards answer as one</h2>
+  <p>Cards of one business — one department each — join a mesh only with a consent their owner signed for the card as it stands (sell it, and it leaves until its new owner consents). Each must answer here and lead a coin on GATE with a bootstrap bound above zero. The mesh fields its best-proven card for each department; the rest wait on the bench with their numbers. Their scores are coupled into one answer by non-negative stacking learned on GATE. Only scores cross between cards — never a record.</p>
+  <p>Each card’s <b>share</b> is measured: the mesh’s out-of-fold GATE AUC with it, minus without it, as a part of a million. When the mesh does a job, every owner is credited cases × share in a hash-chained ledger that replays from the shares. <b>Credits are an accounting of contribution, not money</b> — what a credit is worth is the business of whoever runs the mesh.</p>
+  <div class="row"><label>Business <select id="mesh-set"><option value="credit">Credit card clients</option><option value="telco">Telecom customers</option><option value="shop">Online shop sessions</option><option value="bank">Bank marketing calls</option><option value="adult">Census adults</option></select></label><button class="go" id="mesh-build">Assemble the mesh</button></div>
+  <div id="mesh-out" aria-live="polite"></div>
+  <div class="row"><button id="mesh-ask">Ask the mesh a TEST case</button><label>Cases in a job <input id="mesh-cases" type="number" min="1" max="1000000" value="1000" /></label><button id="mesh-job">Do a job and credit the owners</button></div>
+  <div id="mesh-ask-out" aria-live="polite"></div>
+  <div id="mesh-ledger" aria-live="polite"></div>
+  <p class="dim" style="font-size:13px">In this demo the genesis cards still belong to the drop’s maker, whose key is public, so the page can sign their consents; your own cards consent with your key.</p>
+</section>
+
+<section id="own" aria-labelledby="own-h">
+  <h2 id="own-h"><span class="n">05</span>Grow a card from your own table</h2>
+  <p>Choose a CSV. Pick the yes/no column to predict and which value counts as yes. Every other column that is a number on every row becomes a measurement (at most sixteen). The table is split the bundled sets’ seeded way into FIT, GATE and TEST, a search runs on your FIT rows in a background worker, and if the mind it finds clears 0.6 on GATE, a card is sealed with <b>you</b> as its maker and owner. <b>Your table never leaves this device.</b> Levels earned on it name its hash, so they re-run wherever the same table is held — and nowhere else.</p>
+  <label class="btn">Choose a CSV <input type="file" id="own-file" accept=".csv,text/csv" class="sr" /></label>
+  <div id="own-step2" hidden>
+    <div class="row"><label>Predict <select id="own-target"></select></label><label>Yes means <select id="own-positive"></select></label><label>Name <input id="own-name" value="my-first-digi" pattern="[a-z][a-z0-9-]{0,23}" /></label><button class="go" id="own-grow">Grow my DIGI</button></div>
+  </div>
+  <div id="own-out" aria-live="polite"></div>
+</section>
+
+<section id="drop" aria-labelledby="drop-h">
+  <h2 id="drop-h"><span class="n">06</span>The drop, and decoder #0001</h2>
+  <div class="grid side">
+    <div><canvas class="card" id="drop-card" width="384" height="576" role="img" aria-label="Decoder #0001"></canvas></div>
+    <div>
+      <p><b><span data-k="drop-total">…</span> genesis cards</b> across <span data-k="drop-depts">…</span> departments. Each is one search on one department’s FIT rows; it entered the drop only if the mind it found cleared 0.6 on GATE. Nothing was picked by hand — the rules were committed before the first search ran, and every search, live or cut, is in <code>drop/searches.jsonl</code>.</p>
+      <p><b>Decoder #0001</b> carries the best mind of the whole genesis (<span data-k="first-domain">…</span>, GATE <span data-k="first-gate">…</span>) and one more thing: a drop receipt naming the hash of the decoder — the exact <span data-k="decoder-files">…</span> source files that read, check and draw a card (<span class="mono" data-k="decoder-hash">…</span>) — and the head of the registry log holding every other genesis card (<span class="mono" data-k="drop-head">…</span>). Hold #0001 and you can check all of it.</p>
+      <div class="status ok">This page <span data-k="drop-status">is checking the drop…</span></div>
+      <p class="note honest" data-k="demo"></p>
+      <div class="row"><button class="go" id="drop-rerun">Re-run the drop</button><label>Re-grow genesis card # <input id="regrow-serial" type="number" min="1" max="1000" value="2" /></label><button id="regrow-btn">Re-grow it</button></div>
+      <div id="drop-out" aria-live="polite"></div><div id="regrow-out" aria-live="polite"></div>
+    </div>
+  </div>
+  <h3>The genesis, department by department</h3>
+  <div class="tw" id="drop-depts"></div>
+  <h3>What the drop may say in public</h3>
+  <p>The drop is spread by Grok and by people. Every post it makes passes the <b>claim gate</b> first: it may claim only what a card can prove — verified, owned, grown, offline, levels, births, mesh shares, the drop itself — and every number in a post must be one a claim just re-ran. It never says a DIGI is self-aware, conscious or alive, never promises anything, and never mentions a price. Each post carries this page so anyone can re-run it.</p>
+  <div id="posts"></div>
+</section>
+
+<section id="how" aria-labelledby="how-h">
+  <h2 id="how-h"><span class="n">07</span>How it works, step by step</h2>
+  <p class="sub">Traced from the real decoder #0001 this page just drew and checked.</p>
+  <h3>1 · The card: a band you can see, a face you can check</h3>
+  <div class="diagram"><svg viewBox="0 0 900 300" role="img" aria-label="Anatomy of a DIGI card">
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-ah" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+    <rect class="dg-box dg-hot" x="30" y="20" width="170" height="255" rx="6"/><rect x="30" y="20" width="170" height="16" fill="var(--hot)" opacity=".55"/>
+    <text class="dg-h" x="40" y="32">BAND · 16 rows</text><text class="dg-t" x="58" y="150">FACE</text><text class="dg-s" x="44" y="172">384 × 560, drawn</text><text class="dg-s" x="44" y="188">from the facts</text>
+    <path class="dg-a" d="M205,28 C260,28 260,60 300,60"/><path class="dg-a" d="M205,150 C260,150 260,200 300,200"/>
+    <rect class="dg-box" x="300" y="22" width="270" height="92" rx="8"/><text class="dg-t" x="314" y="46">The dossier, byte for byte</text>
+    <text class="dg-s" x="314" y="66">'DG1' + length + <tspan class="dg-m" data-k="first-bytes">…</tspan> bytes of</text><text class="dg-s" x="314" y="82">canonical JSON (room for <tspan class="dg-m" data-k="capacity">…</tspan>)</text><text class="dg-s" x="314" y="100">genome + <tspan class="dg-m" data-k="first-events">…</tspan> signed events</text>
+    <rect class="dg-box" x="300" y="160" width="270" height="92" rx="8"/><text class="dg-t" x="314" y="184">The face, redrawn on read</text>
+    <text class="dg-s" x="314" y="204">paintArt(facts, theme): id, title,</text><text class="dg-s" x="314" y="220">dataset, stage, rarity, lineage —</text><text class="dg-s" x="314" y="236">integer maths, the same everywhere</text>
+    <path class="dg-a" d="M575,68 C640,68 640,140 690,140"/><path class="dg-a" d="M575,206 C640,206 640,150 690,150"/>
+    <rect class="dg-box dg-ok" x="690" y="96" width="190" height="104" rx="8"/><text class="dg-t" x="704" y="122">Read = check</text><text class="dg-s" x="704" y="142">CRCs → seals → every</text><text class="dg-s" x="704" y="158">signature → redraw face</text><text class="dg-s" x="704" y="174">→ compare every pixel</text><text class="dg-m" x="704" y="192">one pixel off: refused</text>
+  </svg></div>
+  <h3>2 · A life: every event signed by the right key and chained to the one before</h3>
+  <div class="diagram"><svg viewBox="0 0 900 190" role="img" aria-label="A card's life as a chain of signed events">
+    <g><rect class="dg-box" x="20" y="40" width="150" height="96" rx="8"/><text class="dg-t" x="34" y="64">genome</text><text class="dg-s" x="34" y="84">sealed by its maker</text><text class="dg-s" x="34" y="100">its hash starts</text><text class="dg-s" x="34" y="116">the chain</text></g>
+    <path class="dg-a" d="M172,88 L208,88"/>
+    <g><rect class="dg-box dg-hot" x="210" y="40" width="150" height="96" rx="8"/><text class="dg-t" x="224" y="64">issue</text><text class="dg-s" x="224" y="84">signed by the maker</text><text class="dg-s" x="224" y="100">serial, first owner,</text><text class="dg-s" x="224" y="116">face, generation</text></g>
+    <path class="dg-a" d="M362,88 L398,88"/>
+    <g><rect class="dg-box" x="400" y="40" width="150" height="96" rx="8"/><text class="dg-t" x="414" y="64">give</text><text class="dg-s" x="414" y="84">signed by the owner</text><text class="dg-s" x="414" y="100">of that moment: the</text><text class="dg-s" x="414" y="116">new owner’s key</text></g>
+    <path class="dg-a" d="M552,88 L588,88"/>
+    <g><rect class="dg-box dg-ok" x="590" y="40" width="150" height="96" rx="8"/><text class="dg-t" x="604" y="64">receipt</text><text class="dg-s" x="604" y="84">a level: both minds,</text><text class="dg-s" x="604" y="100">the data’s hash, both</text><text class="dg-s" x="604" y="116">scores — re-runnable</text></g>
+    <path class="dg-a" d="M742,88 L778,88"/>
+    <g><rect class="dg-box" x="780" y="40" width="100" height="96" rx="8"/><text class="dg-t" x="794" y="64">skin</text><text class="dg-s" x="794" y="84">a new face</text><text class="dg-s" x="794" y="100">theme</text></g>
+    <text class="dg-s" x="20" y="170">Each event names the SHA-256 of the one before (prev) and is signed over its one canonical byte form, so nothing can be dropped, reordered, re-wrapped or forged.</text>
+  </svg></div>
+  <h3>3 · Growing a mind: FIT to grow, GATE to prove, TEST untouched</h3>
+  <div class="diagram"><svg viewBox="0 0 900 210" role="img" aria-label="Germination">
+    <rect class="dg-box" x="20" y="50" width="170" height="100" rx="8"/><text class="dg-t" x="34" y="74">the recipe</text><text class="dg-s" x="34" y="94">which columns, which</text><text class="dg-s" x="34" y="110">quantile cut, which way,</text><text class="dg-s" x="34" y="126">what weight (≤ 6 rules)</text>
+    <path class="dg-a" d="M192,100 L238,100"/>
+    <rect class="dg-box" x="240" y="30" width="190" height="60" rx="8"/><text class="dg-t" x="254" y="54">FIT rows</text><text class="dg-s" x="254" y="74">cuts read off the real records</text>
+    <rect class="dg-box dg-hot" x="240" y="110" width="190" height="60" rx="8"/><text class="dg-t" x="254" y="134">GATE rows</text><text class="dg-s" x="254" y="154">AUC must clear the 0.6 bar</text>
+    <path class="dg-a" d="M432,140 L478,140"/>
+    <rect class="dg-box dg-ok" x="480" y="100" width="170" height="80" rx="8"/><text class="dg-t" x="494" y="124">live</text><text class="dg-s" x="494" y="144">answers, VERIFIED,</text><text class="dg-s" x="494" y="160">with the rules that fired</text>
+    <rect class="dg-box dg-bad" x="480" y="20" width="170" height="64" rx="8"/><text class="dg-t" x="494" y="44">cut</text><text class="dg-s" x="494" y="64">abstains, always</text>
+    <path class="dg-a" d="M432,128 C455,110 455,60 478,60"/>
+    <rect class="dg-box" x="700" y="50" width="180" height="100" rx="8"/><text class="dg-t" x="714" y="74">TEST rows</text><text class="dg-s" x="714" y="94">never fitted, never</text><text class="dg-s" x="714" y="110">selected on: only the</text><text class="dg-s" x="714" y="126">sealed organs read them</text>
+  </svg></div>
+  <h3>4 · Levelling up, breeding, the mesh and the registry</h3>
+  <div class="grid two">
+    <div class="panel"><h3>A level</h3><p>A <b>search</b> (seed-library’s evolution: 40 candidates, 30 generations, on FIT) finds a scorecard. If it beats the mind it would replace by 0.002 on GATE, the owner signs a receipt into the card: the found mind in fixed form, the search that found it, the data’s hash, and both scores in millionths. <b>Re-running it</b> re-expresses both minds on the same bytes and demands the very same numbers (milliseconds); a deep re-run repeats the search and demands the very same mind.</p></div>
+    <div class="panel"><h3>A birth</h3><p>Two cards of the same department: their rule shapes are crossed rule by rule and, half the time, changed once. Two departments of one business: the child carries both minds and answers through a coupling learned on GATE. Either way the breeder’s device tries up to twelve crossings and seals the first child that <b>beats both parents on GATE</b>, naming both — or nothing at all.</p></div>
+    <div class="panel"><h3>The mesh</h3><p>Consent for this life → answers here → leads a coin on GATE (bootstrap bound above zero) → the best-proven card per department is fielded → non-negative coupling learned on GATE → each card’s share = its leave-one-out contribution, out of fold → a job credits owners cases × share in a hash-chained ledger anyone can replay.</p></div>
+    <div class="panel"><h3>The registry</h3><p>A card proves what it is, not what it is not: its owner could sign it to two buyers and both chains would check. So every device keeps a registry — an ordered log of lives, each entry linked to the one before — and <b>the first give recorded wins</b>. The other chain is refused for good, naming the event where it parts. Any copy of the log re-runs from nothing; the drop’s own log is published and re-run by CI on every change.</p></div>
+  </div>
+</section>
+
+<section id="blueprint" aria-labelledby="blueprint-h">
+  <h2 id="blueprint-h"><span class="n">08</span>The blueprint: how it is built, organ by organ</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Kernel</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td class="num">src/dossier.mjs</td><td>The card’s record: issue, give, receipt, skin — each signed, each chained, one canonical byte form; the owner is the last give; facts read off a checked life.</td></tr>
+      <tr><td class="num">src/card.mjs</td><td>The PNG: the band carries the dossier’s exact bytes; the face is drawn by the art engine handed in; reading checks CRCs, then seals, then redraws and compares every pixel.</td></tr>
+      <tr><td class="num">src/registry.mjs</td><td>The ordered log that settles a double sale: first recorded give wins; one card per serial per maker; a level recorded only once re-run; any copy replays from nothing.</td></tr>
+      <tr><td class="num">src/data.mjs</td><td>The ground: six real public datasets opened only on their published SHA-256s, cut into departments by dex-frontier’s loaders; an owner’s own CSV, its question bound into its id.</td></tr>
+      <tr><td class="num">src/mind.mjs</td><td>The mind: express a recipe (milliseconds for a fixed one), answer or abstain, search for a level, re-run a level receipt exactly.</td></tr>
+      <tr><td class="num">src/breed.mjs</td><td>Breeding: crossing within a department or coupling across two; born only if it beats both parents on GATE; any holder of the ground can re-run the birth.</td></tr>
+      <tr><td class="num">src/mesh.mjs</td><td>The mesh: owner consent for this life, the join rule, merit fielding, non-negative coupling, measured shares, a replayable ledger of credits.</td></tr>
+      <tr><td class="num">src/claims.mjs</td><td>The claim gate: a public post passes only on claims that re-run now, every number vouched for, nothing a card cannot prove, the re-run link carried.</td></tr>
+      <tr><td class="num">src/drop.mjs</td><td>The genesis: the plan, the minting, decoder #0001’s drop receipt and its re-run.</td></tr>
+      <tr><td class="num">vendor/pixelwhisperer</td><td>The art engine (PixelWhisperer Kards): synthwave and blockcraft faces from the card’s facts, integer-only, every published theme frozen.</td></tr>
+      <tr><td class="num">vendor/dex-frontier</td><td>Byte-identical: dex-frontier’s departments, coupling and statistics; within it living-seed’s genome, germination and PNG primitives; seed-library’s ribosome; Ed25519 keys.</td></tr>
+    </tbody></table></div>
+  <p>Every kernel is gated by <b>witness</b>, the estate’s mutation gate: it changes the code one operator at a time and requires a test to fail for every change. Each vendored file is byte-identical to its source at a pinned commit (<code>vendor/SOURCES.json</code>, checked by <code>tools/vendor-check.mjs</code> in CI). Each dataset is pinned by hash with its licence (<code>data/SOURCES.json</code>).</p>
+</section>
+
+<section id="proof" aria-labelledby="proof-h">
+  <h2 id="proof-h"><span class="n">09</span>Proof: the organs, sealed before they were measured</h2>
+  <p>Each organ of the build is a claim written down, with the code and data it runs on pinned by hash, and committed <b>before</b> it was measured; git proves the order (<code>tools/order.mjs</code>). The judge then reads the record by the sealed rules alone. A failed prediction is kept, not tuned away.</p>
+  <div class="tw"><table><thead><tr><th>Rule</th><th>The claim, as sealed</th><th>Verdict</th><th>What the record shows</th></tr></thead><tbody id="proof-rows"><tr><td colspan="4" class="dim">Reading the verdicts…</td></tr></tbody></table></div>
+</section>
+
+<section id="business" aria-labelledby="business-h">
+  <h2 id="business-h"><span class="n">10</span>For your business</h2>
+  <p class="lede" style="font-size:18px"><b>DIGI cards give each department a small, proven scoring mind that it owns outright.</b> It runs on the laptops you already have, never sends a record out of the building, and every claim it makes — its score, every level, every child — can be re-run by your own auditors from the card alone.</p>
+  <h3>What it does for each role</h3>
+  <div class="grid three">
+    <div class="panel role"><h4>Chief executive</h4><p>Your scoring stops being rent. Each team’s mind is a file you own, not a subscription, and it improves only by gains it proves on cases it never saw. The proof travels with it, so a mind you buy, sell or breed is worth exactly what it re-runs to.</p></div>
+    <div class="panel role"><h4>Finance</h4><p>The cost case below is computed by the kernel from published prices, each sourced and dated: by hand at the National Living Wage floor, rented from the cheapest cloud model, or on the machine you already run. No new hardware, no per-seat fee, no token bill.</p></div>
+    <div class="panel role"><h4>Operations</h4><p>Every queue — collections, retention, campaign lists — is ranked the moment the records land, with the rules that put each case at the top shown beside it. A mind that cannot clear its bar abstains rather than guess, so your people see where it knows and where it does not.</p></div>
+    <div class="panel role"><h4>Technology and security</h4><p>No server, no API key, no egress: the page and the kernels are static files. Every card is checked before it is read — CRCs, Ed25519 seals, every signature, the face redrawn and compared. The code is mutation-gated, vendored byte for byte at pinned commits, served under a strict Content-Security-Policy.</p></div>
+    <div class="panel role"><h4>Department heads</h4><p>Grow a card from your own export (a CSV, any yes/no outcome, up to sixteen measured columns). You are its maker and owner. It levels overnight on your data, couples with other teams’ cards by consent, and is credited for what it measurably adds — without any team ever seeing another’s records.</p></div>
+    <div class="panel role"><h4>The people who use it</h4><p>Six rules you can read, not a black box: each answer lists the rules that fired. The card says yes, no, or “I don’t know this case” — and the person stays the decision-maker, with the evidence in front of them.</p></div>
+  </div>
+  <h3 id="cost">The cost case, computed</h3>
+  <p>Score a business’s cases three ways, over three years. Every price is read from <code>data/prices.lock.json</code> (copied from the estate’s price registry, each entry with its source and the day it was checked); the milliseconds per case are measured live in this browser on the real records.</p>
+  <div class="row"><label>Business <select id="cost-set"><option value="credit">Credit card clients</option><option value="telco">Telecom customers</option><option value="shop">Online shop sessions</option><option value="bank">Bank marketing calls</option><option value="adult">Census adults</option></select></label>
+    <label>Cases a month <input id="cost-cases" type="number" min="1" value="30000" /></label><label>Minutes per case by hand <input id="cost-minutes" type="number" min="0.1" step="0.1" value="1" /></label><button class="go" id="cost-run">Compute</button></div>
+  <div id="cost-out" aria-live="polite"></div>
+  <h3>Security, data protection and audit</h3>
+  <ul>
+    <li><b>Records never leave the device.</b> The mind is grown and run where the data is. There is no processor to contract with and no transfer abroad: privacy by design and by default, structurally (UK GDPR Articles 5 and 25).</li>
+    <li><b>Every event is signed.</b> Issue by the genome’s maker, every give, level and skin by the owner of that moment — Ed25519 over one canonical byte form, chained by SHA-256.</li>
+    <li><b>Verify before parse.</b> A card is refused at the first thing that fails, before a fact of it is used; the reader is total (no input makes it throw), proven by fuzzing in the tests.</li>
+    <li><b>Every number re-runs.</b> Scores are re-expressed on the published bytes; levels and births re-run; the drop replays from decoder #0001; the organs were sealed before they were measured, and git proves the order.</li>
+    <li><b>Protected characteristics are visible, not hidden.</b> Some genesis departments read columns such as sex, race or age, because the public research datasets hold them. A business must not decide about people on those grounds (Equality Act 2010) — and with a DIGI card it can see exactly which rules read which columns, and grow its own cards only from the columns it chooses.</li>
+  </ul>
+  <h3>Roll-out</h3>
+  <ol class="steps">
+    <li><b>Day one:</b> open this page (or host the repository’s static files yourself — nothing else is needed). Card a genesis mind, grow it, ask it, verify it.</li>
+    <li><b>Week one:</b> each department grows its own card from an export, on its own machine. You see each card’s GATE score and its rules before anyone uses it.</li>
+    <li><b>Month one:</b> cards level overnight on fresh records; departments couple their cards into a mesh by consent and the ledger credits each team by measured contribution.</li>
+    <li><b>Ongoing:</b> keep your registry where you keep records — a device, a shared drive, or a private repository whose CI replays the log on every change.</li>
+  </ol>
+  <h3>Ownership, support and exit</h3>
+  <p>MIT — no licence fee. Your cards are files you hold; the software is static files you can keep forever. Supplier: <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>; support, service levels and warranty are agreed per deployment, in each deployment’s agreement. There is no lock-in: stop using us and every card still reads, grows and re-runs.</p>
+  <h3>Risks, answered straight</h3>
+  <dl class="gloss">
+    <div><dt>Is a six-rule mind good enough?</dt> <dd>— Each card’s GATE score is shown and re-runs; the organs measure how it holds on TEST. It is a ranking aid that abstains when it does not know, not an oracle. Where a department’s columns do not predict the outcome, no card is minted (the hospital departments did not clear the bar, so the drop has none).</dd></div>
+    <div><dt>What if a key is lost?</dt> <dd>— Its cards can no longer be signed onward. Back the key up (Wallet → Back up my key) and keep it with your other credentials.</dd></div>
+    <div><dt>Can a card be sold twice?</dt> <dd>— A card alone cannot prevent it, so the registry does: the first recorded give wins and the second is refused for good.</dd></div>
+    <div><dt>Do levels overfit?</dt> <dd>— A level is adopted on GATE; whether it holds on TEST is measured in organ 3, and the result is published either way.</dd></div>
+    <div><dt>Who holds the order of the registry?</dt> <dd>— Whoever keeps the log. It cannot forge a single event into a card, and any copy re-runs from nothing; ordering is the one thing it is trusted for.</dd></div>
+  </dl>
+  <h3>The case for the board</h3>
+  <p class="note honest">Every department gets a proven, readable scoring mind that it owns, that runs on hardware already paid for, that never moves a record off-site, and whose every claim an auditor can re-run from the card itself. It costs the electricity of a few milliseconds per case. It improves only by measured gains, couples across teams without sharing records, and leaves nothing to switch off.</p>
+</section>
+
+<section id="paper" aria-labelledby="paper-h">
+  <h2 id="paper-h"><span class="n">11</span>White paper</h2>
+  <article class="paper" id="paper-body">
+    <p><b>Abstract.</b> A DIGI card is a 384 × 576 PNG whose top sixteen pixel rows carry, byte for byte, a canonical dossier: a living-seed genome sealed by its maker (a few hundred bytes of recipe for a scorecard mind) and a chain of events — issue, give, receipt, skin — each signed by the key entitled to it and linked by SHA-256 to the one before. The face below the band is drawn from the dossier’s facts by an integer-only art engine, so any reader can redraw it and refuse a card whose picture differs by a pixel. The mind is grown on the holder’s device from real records, judged on cases it never grew on, and changes only by levels that anyone holding the same bytes can re-run. Ownership is settled by an ordered, replayable registry; minds breed only into children that beat both parents; and owned cards couple into a mesh whose ledger credits each owner by measured contribution. Every claim the drop makes in public passes a claim gate that re-runs it.</p>
+    <h3>1 · The problem</h3>
+    <p>A typical NFT owns a pointer: a token on a chain naming a picture on a server. A typical AI product rents answers: records go out to a model someone else runs. Both separate the thing of value from the person who holds it. A DIGI card puts the value — a working mind, its ownership and its proofs — inside the object the holder keeps.</p>
+    <h3>2 · The card</h3>
+    <p>The band begins with the magic <code>DG1</code> and a three-byte length, then the dossier’s UTF-8 bytes, then black to the end of the band (18,426 bytes of room). The face is <code>paintArt(facts, theme, 384, 560)</code>: id, title, dataset, department, stage, rarity, generation and parents decide the creature, the frame and the marks. Writing is stored-deflate and deterministic; reading accepts any valid PNG of the right shape, so an editor’s re-compression still opens, and checks every chunk’s CRC before the pixels are read.</p>
+    <h3>3 · The life</h3>
+    <p>The genome is opened under its maker’s seal first (verify before parse). The issue must be signed by that maker; every later event by the owner of that moment — whoever the last give names. Each event names the hash of the one before, so nothing can be dropped, reordered or re-wrapped; each is signed over its one canonical byte form, so nothing can be altered.</p>
+    <h3>4 · The mind</h3>
+    <p>The genome carries recipes, not weights: for each department it knows, which columns, which quantile cuts, which direction and which weights make a scorecard of at most six rules (seed-library’s ribosome). Expressed on a ground, the cuts are read off its FIT rows; the mind must clear its genome’s bar (0.6 AUC) on GATE or it is cut and abstains. TEST rows are never fitted or selected on by anything in the build; only the sealed organs read them. A genesis card carries the mind its search found in fixed form, so expressing it takes milliseconds and gives the same bytes on every device.</p>
+    <h3>5 · Levels</h3>
+    <p>A level is a new search (seeded from the card’s life, so every card searches its own way) whose mind beats the current one by at least 0.002 on GATE. The receipt carries the found mind, the search, the ground’s hash and both scores in millionths. Re-running it re-expresses both minds and demands the same numbers; a deep re-run repeats the search and demands the same mind. A registry records a level only once it has re-run it, so a self-signed fake level reads as a card but never counts.</p>
+    <h3>6 · Breeding</h3>
+    <p>Within a department, the parents’ rule shapes are crossed rule by rule and, half the time, mutated once; across two departments of one business, the child carries both minds and a coupling learned on GATE. The breeder, who must own both, tries up to twelve crossings and seals the first child that beats both parents on GATE, naming both — or nothing. Cards on different grounds share no cases to judge a child on, so that is refused.</p>
+    <h3>7 · Ownership</h3>
+    <p>A chain of signatures proves what a card is but not what it is not: an owner can sign one life to two buyers. The registry is an append-only log of lives, each entry linked to the one before; the first recorded give wins, a forked life is refused at the event where it parts, one serial per maker, and replay() re-records every entry from nothing and demands the same entry back.</p>
+    <h3>8 · The mesh and its credits</h3>
+    <p>Cards of one business join a mesh by their owner’s consent for their current life, if they answer and lead a coin on GATE with a paired-bootstrap bound above zero. The best-proven card per department is fielded; scores — never records — are coupled by non-negative stacking learned on GATE. Each member’s share is its out-of-fold leave-one-out contribution as a part of a million; jobs credit owners cases × share in a hash-chained ledger that replays from the shares. Credits are accounting, not money.</p>
+    <h3>9 · The drop</h3>
+    <p>Every department of six public datasets was a candidate; a department was admitted if four of its first eight genesis searches cleared the bar; serials went to admitted departments in turn; every search, live or cut, is recorded. Decoder #0001 carries the best genesis mind and a drop receipt naming the hash of the frozen decoder files and the head of the genesis log. Its re-run replays the log from nothing and hashes the decoder.</p>
+    <h3>10 · The claim gate</h3>
+    <p>Public posts may claim only verified, owned, grown, offline, level, born, mesh or drop — each re-run by a checker at posting time — and every number in a post must be one a claim just re-ran. A post never says a DIGI is self-aware, conscious or alive, never promises, and never mentions a price.</p>
+    <h3>11 · What was measured</h3>
+    <p>Eight organs, each sealed before it was measured, are in <a href="#proof">Proof</a>, with every rule’s verdict read live from the committed records — the ones that failed included.</p>
+    <h3>12 · Limits</h3>
+    <p>The minds are small by design: readable, fast and provable, not the most accurate models one could fit; pooled gradient-boosted trees beat them in dex-frontier’s measurements. A level is adopted on GATE, and how it holds on TEST is measured, not assumed. The registry’s keeper decides only the order of arrivals. The drop on this page is sealed with a public demo key; the real drop is sealed by its owner’s own key.</p>
+    <h3>13 · Credits</h3>
+    <p>Powered by the Konomi architecture, created by Thomas Frumkin. Built on living-seed (genome, germination, gate, card primitives), dex-frontier (departments, coupling, statistics), seed-library (the ribosome) and PixelWhisperer Kards (the art engine) — all in the estate, vendored byte for byte.</p>
+  </article>
+</section>
+
+<section id="faq" aria-labelledby="faq-h">
+  <h2 id="faq-h"><span class="n">12</span>Questions</h2>
+  <div id="faq-body">
+    <details><summary>Is a DIGI card an NFT?</summary><p>It keeps what NFTs promised — unique, ownable, tradeable, with provenance — without the pointer. The card itself carries the mind, its ownership history and its proofs, and it runs on your device. There is no chain and no server.</p></details>
+    <details><summary>If I copy the PNG, do I own a copy?</summary><p>A copy is the same card with the same owner: ownership is the last signed give, not possession of the file. To own it, its owner signs it to your key — and the registry records that give.</p></details>
+    <details><summary>Is the mind “AI”?</summary><p>It is machine learning of the plainest kind: an evolutionary search finds a scorecard of at most six threshold rules over a department’s columns, judged on cases it never saw. Nothing is neural, and you can read every rule. It does not chat; it ranks cases and says why.</p></details>
+    <details><summary>Does it really run offline?</summary><p>Yes. Once the page and the card’s dataset are on your device, growing and asking run with the network trapped; organ 2 measures exactly that on every genesis card.</p></details>
+    <details><summary>Why are there no hospital cards?</summary><p>None of the five hospital departments cleared the 0.6 bar in admission, so none entered the drop. The drop’s rules were committed before the first search; the cut searches are in the record.</p></details>
+    <details><summary>Can I fake a high stage?</summary><p>You can sign anything into your own card, and it will read — a card proves what it is. But a level counts only once it has been re-run: no registry records a level whose numbers do not come back exactly, so a faked stage never makes it into anyone’s record.</p></details>
+    <details><summary>What stops a double sale?</summary><p>The registry: the first give recorded wins, and any other chain from the same life is refused for good, naming the event where it parts.</p></details>
+    <details><summary>What do mesh credits pay?</summary><p>Credits are an accounting of measured contribution, not money. What a credit is worth, if anything, is decided by whoever runs the mesh.</p></details>
+    <details><summary>What does the page send to anyone?</summary><p>Nothing. It fetches its own files from the site it came from; your key, cards and tables stay in your browser.</p></details>
+    <details><summary>Who made it?</summary><p>Kar, the estate’s resident builder, and Claude, for Simon, on the Konomi architecture created by Thomas Frumkin; art by PixelWhisperer Kards. Supplied by AI Native Solutions.</p></details>
+  </div>
+</section>
+
+<footer>
+  <p>Powered by the Konomi architecture, created by Thomas Frumkin. Built by Kar and Claude for Simon. Supplier: <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> — support is agreed per deployment, and the software keeps running without us. MIT — no licence fee. <a href="https://github.com/sjgant80-hub/digi-card">Source</a>.</p>
+  <p>Data: IBM Telco Customer Churn (Apache-2.0); UCI Online Shoppers Purchasing Intention, Bank Marketing, Adult, Diabetes 130-US Hospitals and Default of Credit Card Clients (CC BY 4.0) — full citations in <code>data/SOURCES.json</code>.</p>
+</footer>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

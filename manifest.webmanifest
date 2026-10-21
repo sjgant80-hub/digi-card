@@ -1,0 +1,11 @@
+{
+  "name": "DIGI Card — a picture that is a working mind you own",
+  "short_name": "DIGI Card",
+  "description": "A PNG card that carries a sealed, re-runnable working mind, its owners and every level it earned; it grows offline on your device.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#120a24",
+  "theme_color": "#120a24",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

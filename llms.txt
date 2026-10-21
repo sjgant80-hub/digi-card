@@ -1,0 +1,24 @@
+# DIGI Card
+
+> A DIGI card is a 384x576 PNG that carries, in its top 16 pixel rows, a sealed recipe for a small working mind (a
+> scorecard of at most six readable rules over one department's records), the signed history of its owners, and every
+> level it has earned. Opened on any device, it grows that mind there, offline, and proves its score on cases it never
+> grew on. It can be owned, traded (re-signed), bred (a child is born only if it beats both parents) and coupled into a
+> mesh whose ledger credits each owner by measured contribution. Every claim on it can be re-run.
+
+Live page: https://sjgant80-hub.github.io/digi-card/
+Source: https://github.com/sjgant80-hub/digi-card (MIT — no licence fee)
+
+## Key facts
+- The genesis drop: genesis cards across the departments of five public datasets that cleared a 0.6 AUC bar on GATE;
+  decoder #0001 re-runs the whole drop (it names the decoder's hash and the genesis log's head).
+- A level is earned only by a search that beats the mind by 0.002 AUC on GATE; its receipt re-runs exactly.
+- Ownership: the last signed give names the owner; a double sale is refused by the registry (first recorded give wins).
+- Nothing is neural; nothing is sent anywhere; records never leave the device.
+- Every kernel is mutation-gated (witness); every organ was sealed before it was measured (git proves the order).
+
+## Sections of the page
+- What it is · Start here · Wallet · Open a card · The mesh · Your data · The drop · How it works · Blueprint · Proof ·
+  For business (cost case computed from sourced prices) · White paper · Questions
+
+Powered by the Konomi architecture, created by Thomas Frumkin. Supplier: AI Native Solutions (https://www.ai-nativesolutions.com).

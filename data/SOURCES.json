@@ -1,0 +1,110 @@
+{
+ "kind": "digi-card.data-sources",
+ "v": 1,
+ "why": "every dataset the cards grow on: where it came from, under what licence, and its SHA-256 (src/data.mjs opens a set only on these bytes); copied from dex-frontier@6846e9a, which downloaded them with Simon’s go-ahead",
+ "files": [
+  {
+   "path": "data/telco-churn.csv",
+   "sha256": "16320c9c1ec72448db59aa0a26a0b95401046bef5d02fd3aeb906448e3055e91",
+   "from": "IBM/telco-customer-churn-on-icp4d, data/Telco-Customer-Churn.csv (byte-identical: git blob 3de7a612d1609f25f21a455bda77948729369002), as dex-frontier stores it",
+   "dataset": "IBM Telco Customer Churn sample",
+   "licence": "Apache-2.0",
+   "rows": 7043,
+   "set": "telco"
+  },
+  {
+   "path": "data/online_shoppers_intention.csv",
+   "sha256": "d8e130ba51532985f93281a73ce299e6ce150cb915769a7962a11e595eadd6a1",
+   "from": "UCI Machine Learning Repository, as living-seed and dex-frontier store it",
+   "dataset": "Online Shoppers Purchasing Intention, DOI 10.24432/C5F88Q",
+   "licence": "CC BY 4.0",
+   "cite": "C. Sakar and Y. Kastro. Online Shoppers Purchasing Intention Dataset. UCI Machine Learning Repository (2018), doi:10.24432/C5F88Q",
+   "rows": 12330,
+   "set": "shop"
+  },
+  {
+   "path": "data/bank-additional-full.csv",
+   "sha256": "74adfc578bf77a7ff4bb1ba4a9f8709d9e3c6907342959c2c8416847e0afb4d8",
+   "from": "https://archive.ics.uci.edu/static/public/222/bank+marketing.zip → bank-additional.zip → bank-additional/bank-additional-full.csv (byte for byte, CRLF kept)",
+   "zipSha256": "e0bf5f5de5b846e2f18e9d90606637267d46dfa260e0f17bb12e605db5efbeb4",
+   "dataset": "Bank Marketing, UCI Machine Learning Repository, DOI 10.24432/C5K306",
+   "licence": "CC BY 4.0",
+   "cite": "S. Moro, P. Cortez and P. Rita. A Data-Driven Approach to Predict the Success of Bank Telemarketing. Decision Support Systems 62 (2014), doi:10.1016/j.dss.2014.03.001",
+   "rows": 41188,
+   "note": "ordered by date, May 2008 to November 2010; the duration column is dropped (known only after the call, per the dataset's own note)",
+   "set": "bank"
+  },
+  {
+   "path": "data/adult.data",
+   "sha256": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+   "from": "https://archive.ics.uci.edu/static/public/2/adult.zip → adult.data (byte for byte)",
+   "zipSha256": "7537312dd56c2b98035880805ce99e68183a30ee468aa5329d6df0fbb3cc21bb",
+   "dataset": "Adult, UCI Machine Learning Repository, DOI 10.24432/C5XW20",
+   "licence": "CC BY 4.0",
+   "cite": "B. Becker and R. Kohavi. Adult. UCI Machine Learning Repository (1996), doi:10.24432/C5XW20",
+   "rows": 32561,
+   "note": "split 75 / 25 into FIT and GATE",
+   "set": "adult"
+  },
+  {
+   "path": "data/adult.test",
+   "sha256": "a2a9044bc167a35b2361efbabec64e89d69ce82d9790d2980119aac5fd7e9c05",
+   "from": "https://archive.ics.uci.edu/static/public/2/adult.zip → adult.test (byte for byte)",
+   "zipSha256": "7537312dd56c2b98035880805ce99e68183a30ee468aa5329d6df0fbb3cc21bb",
+   "dataset": "Adult, UCI Machine Learning Repository, DOI 10.24432/C5XW20",
+   "licence": "CC BY 4.0",
+   "cite": "B. Becker and R. Kohavi. Adult. UCI Machine Learning Repository (1996), doi:10.24432/C5XW20",
+   "rows": 16281,
+   "note": "the dataset's own official test file: TEST, untouched until the sealed measurement",
+   "set": "adult"
+  },
+  {
+   "path": "data/diabetic_data.csv",
+   "sha256": "0689e7ec031237dc63031b938805c48377748761a3b26acab621567afa24df97",
+   "from": "https://archive.ics.uci.edu/static/public/296/diabetes+130-us+hospitals+for+years+1999-2008.zip → diabetic_data.csv (byte for byte)",
+   "zipSha256": "f82ac129da2ddd2299391ff6fbae3a6a58b3edcf59ac9d7bd480c00fe453112a",
+   "dataset": "Diabetes 130-US Hospitals for Years 1999–2008, UCI Machine Learning Repository, DOI 10.24432/C5230J",
+   "licence": "CC BY 4.0",
+   "cite": "B. Strack, J. P. DeShazo, C. Gennings, J. L. Olmo, S. Ventura, K. J. Cios and J. N. Clore. Impact of HbA1c Measurement on Hospital Readmission Rates: Analysis of 70,000 Clinical Database Patient Records. BioMed Research International (2014), doi:10.1155/2014/781670",
+   "rows": 101766,
+   "note": "one stay per patient (the first), stays ending in death or hospice left out: 69,973 stays; weight, payer, medical specialty and the secondary diagnoses are not used",
+   "set": "hospital"
+  },
+  {
+   "path": "data/IDS_mapping.csv",
+   "sha256": "f1bb82b471cb34649352597572c9b1fb00bd27f77b9f5a22a03dc3eb1039749e",
+   "from": "the same zip → IDS_mapping.csv (byte for byte, CRLF kept)",
+   "zipSha256": "f82ac129da2ddd2299391ff6fbae3a6a58b3edcf59ac9d7bd480c00fe453112a",
+   "dataset": "Diabetes 130-US Hospitals for Years 1999–2008, UCI Machine Learning Repository, DOI 10.24432/C5230J",
+   "licence": "CC BY 4.0",
+   "cite": "as above",
+   "lines": 68,
+   "note": "what the admission and discharge codes mean: the frontier model reads them in these words",
+   "set": "hospital"
+  },
+  {
+   "path": "data/credit-default.xls",
+   "sha256": "30c6be3abd8dcfd3e6096c828bad8c2f011238620f5369220bd60cfc82700933",
+   "from": "https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.zip → default of credit card clients.xls (byte for byte, renamed)",
+   "zipSha256": "56c885f84457f6680f8438f02bfcdac9579323d8a94465ee5f26e32baa727602",
+   "dataset": "Default of Credit Card Clients, UCI Machine Learning Repository, DOI 10.24432/C55S3H",
+   "licence": "CC BY 4.0",
+   "cite": "I.-C. Yeh and C.-H. Lien. The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients. Expert Systems with Applications 36(2) (2009), doi:10.1016/j.eswa.2007.12.020",
+   "rows": 30000,
+   "note": "read with src/xls.mjs (no package installed): 30,000 clients, 6,636 defaults, as published",
+   "set": "credit"
+  },
+  {
+   "path": "data/credit-default.csv",
+   "sha256": "4edce6da569b2c30788a85fd98a9bafb1a983e8ca1a7aac875dd7ff853cbd0bb",
+   "from": "derived from data/credit-default.xls by tools/convert-credit.mjs (CI re-derives it byte for byte)",
+   "zipSha256": "56c885f84457f6680f8438f02bfcdac9579323d8a94465ee5f26e32baa727602",
+   "dataset": "Default of Credit Card Clients, UCI Machine Learning Repository, DOI 10.24432/C55S3H",
+   "licence": "CC BY 4.0",
+   "cite": "as above",
+   "rows": 30000,
+   "note": "the .xls sheet as plain CSV: its column names, then every client’s 25 numbers in the file’s order",
+   "set": "credit"
+  }
+ ]
+}

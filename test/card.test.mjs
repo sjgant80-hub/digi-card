@@ -233,3 +233,19 @@ test('fuzz: no bytes make the reader throw; a mangled card is refused, never mis
     assert.ok(r.ok === false || canonical(r.dossier) === canonical(d), 'a changed byte is refused or changed nothing that counts');
   }
 });
+
+test('with the real art engine: both published themes draw a face that reads back, and one pixel off is refused', async () => {
+  const { paintArt, THEMES } = await import('../vendor/pixelwhisperer/kards/kardart.mjs');
+  const art = (f, t, w, h) => paintArt(f, t, w, h);
+  const { alice, d } = await world();
+  assert.deepEqual(Object.keys(THEMES).slice(0, 2), ['synthwave-v1', 'blockcraft-v1']);
+  for (const life of [d, (await reskin(d, alice, 'blockcraft-v1')).dossier]) {
+    const c = await cardOf(life, art);
+    assert.ok(c.ok, c.why);
+    const r = await readCard(c.png, art);
+    assert.ok(r.ok, r.why); assert.deepEqual(r.dossier, life);
+    assert.deepEqual((await cardOf(life, art)).png, c.png, 'the art is the same every time');
+    const p = pixelsIn(c.png); p[W * BAND * 3 + 999] ^= 1;
+    assert.equal((await readCard(resaved(p), art)).why, 'the card’s face does not match what it carries');
+  }
+});
