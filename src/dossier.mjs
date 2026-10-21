@@ -10,6 +10,13 @@
 // by the card's owner at that moment. The genome is opened under its seal and the chain checked link by link before a
 // single fact is read from it (verify before parse, as living-seed checks a genome).
 //
+// A card has a FORM: the kind of mind it carries and how it is put to work. Every card issued until now is form 'card' (a
+// scorer) and a version 1 dossier, byte for byte as it was. A card of another form is a version 2 dossier whose issue names
+// its form, so the form is signed by the maker and nobody can relabel a card; a reader that knows only version 1 (decoder
+// #0001) refuses it in plain words instead of misreading it. FORMS holds only the forms this repository can put to work:
+//   card     a scorer: it scores and ranks its department's cases, and abstains where its rules cannot read one
+//   chat     a talker: the same verified mind, answering questions in words (src/chat.mjs), and abstaining otherwise
+//
 // Ownership is the chain: the owner is whoever the last give names. A card alone cannot stop its owner signing it away
 // twice — two chains that share a beginning are a double sale — so the registry (src/registry.mjs) settles it: the first
 // give recorded there wins. That is said wherever ownership is.
@@ -28,11 +35,12 @@ export const MAX_EVENTS = 40;           // a card's life fits its band; a longer
 export const MAX_BYTES = 18000;         // the dossier's canonical text in UTF-8 bytes, at most (the card's band holds 18,426)
 export const DATASETS = ['telco', 'shop', 'bank', 'adult', 'hospital', 'credit'];
 export const RARITY = [[10, 'legendary'], [6, 'epic'], [3, 'rare'], [1, 'uncommon'], [0, 'common']];   // by stage, highest first
+export const FORMS = ['card', 'chat'];   // the forms a card can carry; 'card' is version 1, every other form version 2
 
 const PUB = /^[0-9a-f]{64}$/, SIG = /^[0-9a-f]{128}$/, THEME = /^[a-z][a-z0-9]{1,15}-v[1-9][0-9]{0,2}$/;
 /** a plain record with exactly these keys (one test: arrays, null and every primitive fail it) */
 const exactly = (x, keys) => Object.prototype.toString.call(x) === '[object Object]' && Object.keys(x).sort().join() === keys.join();
-const KEYS = { issue: ['by', 'card', 'generation', 'prev', 'serial', 'sig', 'theme', 'to', 'type'], give: ['by', 'card', 'k', 'prev', 'sig', 'to', 'type'], receipt: ['by', 'card', 'k', 'prev', 'receipt', 'sig', 'type'], skin: ['by', 'card', 'k', 'prev', 'sig', 'theme', 'type'] };
+const KEYS = { issue: ['by', 'card', 'generation', 'prev', 'serial', 'sig', 'theme', 'to', 'type'], issue2: ['by', 'card', 'form', 'generation', 'prev', 'serial', 'sig', 'theme', 'to', 'type'], give: ['by', 'card', 'k', 'prev', 'sig', 'to', 'type'], receipt: ['by', 'card', 'k', 'prev', 'receipt', 'sig', 'type'], skin: ['by', 'card', 'k', 'prev', 'sig', 'theme', 'type'] };
 const no = (why) => ({ ok: false, why });
 const bytesOf = (text) => utf8(text).length;   // what the band carries is bytes, and € is three of them
 const hashOf = (event) => sha256Hex(canonical(event));
@@ -64,14 +72,15 @@ export function decode(text) {
  * The maker issues a card for a sealed genome: serial (1…), the first owner's key, the face's theme, its generation.
  * → { ok, dossier } | a refusal
  */
-export async function issue(genomeText, makerKeys, { serial, to, theme, generation = 0 }) {
+export async function issue(genomeText, makerKeys, { serial, to, theme, generation = 0, form = 'card' }) {
   const g = await open(genomeText);
   if (!g.ok) return no('only a genome that opens can be issued: ' + g.why);
   if (g.fields.by !== makerKeys.pub) return no('only the genome’s own maker issues its card');
-  const fields = { type: 'issue', card: g.id, serial, to, theme, generation, prev: sha256Hex(genomeText) };
+  if (!FORMS.includes(form)) return no('the form is one of ' + FORMS.join(', '));
+  const fields = { type: 'issue', card: g.id, serial, to, theme, generation, prev: sha256Hex(genomeText), ...(form === 'card' ? {} : { form }) };
   const bad = check(fields);
   if (bad) return no(bad);
-  return { ok: true, dossier: { v: 1, genome: genomeText, events: [await signed(fields, makerKeys)] } };
+  return { ok: true, dossier: { v: form === 'card' ? 1 : 2, genome: genomeText, events: [await signed(fields, makerKeys)] } };
 }
 
 function check(f) {
@@ -113,15 +122,15 @@ export const reskin = (dossier, ownerKeys, theme) => append(dossier, ownerKeys, 
 export async function verify(dossier, opts = {}) {
   try {
     if (!exactly(dossier, ['events', 'genome', 'v'])) return no('not a dossier');
-    if (dossier.v !== 1) return no('not a version 1 dossier');
+    if (dossier.v !== 1 && dossier.v !== 2) return no('not a version 1 or 2 dossier');
     if (!Array.isArray(dossier.events) || !dossier.events.length) return no('a dossier’s life begins with its issue');
     if (dossier.events.length > MAX_EVENTS) return no('a card’s life is at most ' + MAX_EVENTS + ' events');
     const g = await open(dossier.genome, opts.trust ? { trust: opts.trust } : {});
     if (!g.ok) return no('the genome was refused: ' + g.why);
-    let owner = null, theme = null, prev = sha256Hex(dossier.genome), serial = 0, generation = 0, gives = 0;
+    let owner = null, theme = null, prev = sha256Hex(dossier.genome), serial = 0, generation = 0, gives = 0, form = 'card';
     const receipts = [];
     for (const [k, e] of dossier.events.entries()) {
-      const type = Object.prototype.toString.call(e) === '[object Object]' ? e.type : '', want = exactly(e, KEYS[type] || []) ? KEYS[type] : null;
+      const type = Object.prototype.toString.call(e) === '[object Object]' ? e.type : '', shape = type === 'issue' && dossier.v === 2 ? 'issue2' : type, want = type !== 'issue2' && exactly(e, KEYS[shape] || []) ? KEYS[shape] : null;
       if (!want) return no('event ' + k + ' is not a dossier event');
       if (k === 0 && e.type !== 'issue') return no('the first event is the issue');
       if (k > 0 && e.type === 'issue') return no('a card is issued once');
@@ -134,13 +143,17 @@ export async function verify(dossier, opts = {}) {
       if (k > 0 && e.by !== owner) return no('event ' + k + ' was not signed by the card’s owner');
       if (!SIG.test(e.sig)) return no('event ' + k + ' is not signed');
       if (!(await verifySig(e.by, e.sig, utf8(canonical(unsigned(e)))))) return no('event ' + k + '’s signature does not check');
-      if (e.type === 'issue') ({ to: owner, theme, serial, generation } = e);
+      if (e.type === 'issue') {
+        ({ to: owner, theme, serial, generation } = e);
+        if (dossier.v === 2 && (e.form === 'card' || !FORMS.includes(e.form))) return no('a version 2 card names a form other than card: one of ' + FORMS.slice(1).join(', '));
+        form = dossier.v === 2 ? e.form : 'card';
+      }
       else if (e.type === 'give') { owner = e.to; gives++; }
       else if (e.type === 'receipt') receipts.push(e.receipt);
       else theme = e.theme;
       prev = hashOf(e);
     }
-    return { ok: true, id: g.id, maker: g.fields.by, owner, serial, generation, theme, gives, receipts, genome: g.fields, head: prev };
+    return { ok: true, id: g.id, maker: g.fields.by, owner, serial, generation, theme, form, gives, receipts, genome: g.fields, head: prev };
   } catch { return no('not a dossier'); }
 }
 
