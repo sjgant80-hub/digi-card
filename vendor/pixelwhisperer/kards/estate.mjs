@@ -3,13 +3,16 @@
 //
 // Built by Kar for the PixelWhisperer repo. Powered by the Konomi architecture, created by Thomas Frumkin.
 //
-// The plot is a 12 x 12 map of isometric blocks in five districts. SCORER and TOOLS are open: a district with n holdings has
-// tilesFor(n) = min(36, 8 + 2n) open tiles, so a new player starts with 16 (a 4 x 4 plot's worth) and every holding opens two
-// more. TALKER, SWARM and ROUTER are fenced grey and marked COMING. A scorer card is a tower (taller with its level) whose
-// trim is its rarity palette, with its own creature on a sign; a new child's tile is highlighted; mesh wires (cyan) join
-// consented cards. One source: the cube, the canvas, the palettes and the creature come from kardart.mjs, the lettering
-// from ui.mjs. Integer arithmetic only, deterministic, total: bad input is { ok: false, why }, never a throw.
-import { DATASETS, RARITIES, RAR, PIXEL, THEMES, creatureFront } from './kardart.mjs';
+// The plot is a map of isometric blocks in five districts. A district with n holdings has tilesFor(n) = min(36, 8 + 2n) open
+// tiles, so every holding opens two more. Holdings of scorer cards alone draw the first plot, 12 x 12, as it was published:
+// SCORER and TOOLS open, TALKER, SWARM and ROUTER fenced grey and marked COMING. Holdings with items or swarms draw the full
+// plot: all five districts open, each 6 x 6 so the rule holds to 36 everywhere, on an L of five squares. A scorer card is a
+// tower (taller with its level) whose trim is its rarity palette, with its own creature on a sign; a new child's tile is
+// highlighted; mesh wires (cyan) join consented cards. Apps and pwas are tool blocks, nodes server blocks, talkers terminal
+// blocks, routers antenna blocks; a swarm (a consented team of cards) is a stack of its members' blocks, wired to their towers.
+// One source: the cube, the canvas, the palettes and the creature come from kardart.mjs, the lettering from ui.mjs. Integer
+// arithmetic only, deterministic, total: bad input is { ok: false, why }, never a throw.
+import { DATASETS, RARITIES, FORMS, TIERS, RAR, PIXEL, THEMES, creatureFront } from './kardart.mjs';
 import { GLYPHS } from './ui.mjs';
 
 const { newCanvas, rect, dot, at, cube, mul, rng, span, div, PAD } = PIXEL;
@@ -29,6 +32,14 @@ export const DISTRICTS = Object.freeze([
   Object.freeze({ id: 'swarm', name: 'SWARM', open: false, i: [4, 8], k: [6, 12], label: [-16, 45] }),
   Object.freeze({ id: 'router', name: 'ROUTER', open: false, i: [8, 12], k: [6, 12], label: [22, 57] }),
 ]);
+/** The full plot, once a player holds items or swarms: every district open and 6 x 6, so the one rule holds to 36 tiles in all
+ *  five, on an L of five squares (SCORER, TOOLS and ROUTER along the top edge, TALKER and SWARM below). */
+export const ITEM_DISTRICTS = Object.freeze([
+  DISTRICTS[0], DISTRICTS[1],
+  Object.freeze({ id: 'talker', name: 'TALKER', open: true, i: [0, 6], k: [6, 12], label: [-66, 46], inner: [5, 6] }),
+  Object.freeze({ id: 'swarm', name: 'SWARM', open: true, i: [6, 12], k: [6, 12], label: [24, 84], inner: [6, 6] }),
+  Object.freeze({ id: 'router', name: 'ROUTER', open: true, i: [12, 18], k: [0, 6], label: [98, 28], inner: [12, 5] }),
+]);
 /** The published formula: open tiles in a district that holds n blocks (n a whole number), or null for anything else. */
 export function tilesFor(n) { return whole(n, 1000000000) ? Math.min(36, 8 + 2 * n) : null; }
 
@@ -37,21 +48,34 @@ export function tilesFor(n) { return whole(n, 1000000000) ? Math.min(36, 8 + 2 *
 const ring = (i, k, [ci, ck]) => Math.max(Math.abs(i - ci), Math.abs(k - ck));
 const tilesOf = (d) => span(0, 36).map((q) => [d.i[0] + (q % 6), d.k[0] + div(q, 6)]);
 const ordered = (d, key) => tilesOf(d).map(([i, k]) => [key(i, k), i, k]).sort((a, b) => a[0] - b[0]).map(([, i, k]) => [i, k]);
-const OPENS = {}, SLOTS = {};
-for (const d of DISTRICTS.filter((x) => x.open)) {
-  OPENS[d.id] = ordered(d, (i, k) => ring(i, k, d.inner) * 144 + k * 12 + i);
-  SLOTS[d.id] = ordered(d, (i, k) => ((i - d.inner[0]) % 2 || (k - d.inner[1]) % 2 ? 6000 : 0) + ring(i, k, d.inner) * 144 + k * 12 + i);
+// A layout: its districts, its ground tiles back to front (by depth, then across), the order each open district's tiles open
+// and its blocks stand, what a fenced one says, and how far left and up it sits so it fits the picture.
+function plan(ds, note, wide, shift, lift) {
+  const opens = {}, slots = {}, ground = [];
+  for (const d of ds.filter((x) => x.open)) {
+    opens[d.id] = ordered(d, (i, k) => ring(i, k, d.inner) * 144 + k * 12 + i);
+    slots[d.id] = ordered(d, (i, k) => ((i - d.inner[0]) % 2 || (k - d.inner[1]) % 2 ? 6000 : 0) + ring(i, k, d.inner) * 144 + k * 12 + i);
+  }
+  for (const k of span(0, PLOT)) for (const i of span(0, wide)) if (ds.some((d) => i >= d.i[0] && i < d.i[1] && k >= d.k[0] && k < d.k[1])) ground.push([i, k]);
+  return { ds, opens, slots, note, ground, shift, lift };
 }
+const PLAN = plan(DISTRICTS, 'COMING', PLOT, 0, 0), ITEM_PLAN = plan(ITEM_DISTRICTS, '', 18, 18, 6);
+const ITEM_FORMS = FORMS.slice(1), FOR = { app: 'tools', pwa: 'tools', node: 'tools', talker: 'talker', router: 'router' };   // the district each item stands in
 
 /**
  * Check a player's holdings and put them in canonical order (so the same holdings, in any order, draw the same picture).
  * holdings: { cards: [{ id, dataset, stage, rarity, generation, department?, fresh? }], wires?: [[idA, idB]], tools?: n, levels?: n, snapshot?: bool }
+ *   or, for the full plot, items?: [{ id, form: app | pwa | node | talker | router, tier: prototype | works | proven, fresh? }] and
+ *   swarms?: [{ id, members: [card ids] }] in place of tools (TOOLS then counts the apps, pwas and nodes; TALKER the talkers;
+ *   ROUTER the routers; SWARM the swarms, each a consented team of 2 to 36 of the player's own cards).
  * -> { ok: true, h } | { ok: false, why }
  */
 export function checkHoldings(x) {
   try {
     if (typeof x !== 'object' || x === null || Array.isArray(x)) return no('holdings must be an object');
-    const { cards, wires = [], tools = 0, levels = null, snapshot = false } = x;
+    const { cards, wires = [], tools = 0, levels = null, snapshot = false, items, swarms } = x;
+    const full = items !== undefined || swarms !== undefined;
+    if (full && Object.prototype.hasOwnProperty.call(x, 'tools')) return no('tools are counted from the items when items or swarms are given');
     if (!Array.isArray(cards) || cards.length > 1000) return no('cards must be an array of at most 1000');
     if (!Array.isArray(wires) || wires.length > 4000) return no('wires must be an array of at most 4000 pairs');
     if (!whole(tools, 999)) return no('tools must be a whole number from 0 to 999');
@@ -86,7 +110,38 @@ export function checkHoldings(x) {
     }
     const order = held.map((card) => [String(9 - card.ri) + String(199 - card.stage) + card.id, card]).sort();   // rarest and highest first: they take the tiles nearest the centre
     links.sort();
-    return { ok: true, h: { cards: order.map(([, card]) => card), wires: links, tools, levels, snapshot } };
+    const h = { cards: order.map(([, card]) => card), wires: links, tools, levels, snapshot };
+    if (!full) return { ok: true, h };
+    const list = items === undefined ? [] : items, teams = swarms === undefined ? [] : swarms, cardIds = new Set(ids);
+    if (!Array.isArray(list) || list.length > 1000) return no('items must be an array of at most 1000');
+    if (!Array.isArray(teams) || teams.length > 100) return no('swarms must be an array of at most 100');
+    const kept = [];
+    for (let n = 0; n < list.length; n++) {
+      const it = list[n];
+      if (typeof it !== 'object' || it === null || Array.isArray(it)) return no('every item must be an object');
+      const { id, form, tier, fresh = false } = it, ti = TIERS.indexOf(tier);
+      if (!isId(id)) return no('every item id must be 16 lowercase hex characters');
+      if (ids.has(id)) return no('a card is held once: ' + id);
+      if (ITEM_FORMS.indexOf(form) < 0) return no('an item form must be one of ' + ITEM_FORMS.join(', '));
+      if (ti < 0) return no('an item tier must be one of ' + TIERS.join(', '));
+      if (typeof fresh !== 'boolean') return no('fresh must be true or false');
+      ids.add(id);
+      kept.push([String(ITEM_FORMS.indexOf(form)) + String(9 - ti) + id, { id, form, tier, fresh, ti }]);   // by form, the best proven first
+    }
+    const named = new Set(), crews = [];
+    for (let n = 0; n < teams.length; n++) {
+      const s = teams[n];
+      if (typeof s !== 'object' || s === null || Array.isArray(s)) return no('every swarm must be an object');
+      const { id, members } = s;
+      if (!isId(id)) return no('every swarm id must be 16 lowercase hex characters');
+      if (named.has(id)) return no('a swarm is listed once: ' + id);
+      if (!Array.isArray(members) || members.length < 2 || members.length > 36 || !members.every((m) => cardIds.has(m)) || new Set(members).size !== members.length) return no('every swarm has from 2 to 36 members, each a card held, each once');
+      named.add(id);
+      crews.push({ id, members: [...members].sort() });
+    }
+    const all = kept.sort().map(([, it]) => it), count = (form) => all.filter((it) => it.form === form).length;
+    const teamsInOrder = crews.map((s) => [s.id, s]).sort().map(([, s]) => s);   // by id
+    return { ok: true, h: { ...h, tools: count('app') + count('pwa') + count('node'), talkers: count('talker'), routers: count('router'), items: all, swarms: teamsInOrder } };
   } catch (e) { return no('the holdings could not be read'); }
 }
 
@@ -94,8 +149,10 @@ export function checkHoldings(x) {
 export function estateStats(holdings) {
   const c = checkHoldings(holdings);
   if (!c.ok) return c;
-  const { cards, tools, wires, levels } = c.h, scorer = tilesFor(cards.length), toolTiles = tilesFor(tools);
-  return { ok: true, blocks: cards.length + tools, cards: cards.length, tools, links: wires.length, levels, tiles: { scorer, tools: toolTiles, total: scorer + toolTiles } };
+  const { cards, tools, wires, levels, items, talkers, routers, swarms } = c.h, scorer = tilesFor(cards.length), toolTiles = tilesFor(tools);
+  if (!items) return { ok: true, blocks: cards.length + tools, cards: cards.length, tools, links: wires.length, levels, tiles: { scorer, tools: toolTiles, total: scorer + toolTiles } };
+  const talker = tilesFor(talkers), swarm = tilesFor(swarms.length), router = tilesFor(routers);
+  return { ok: true, blocks: cards.length + items.length + swarms.length, cards: cards.length, items: items.length, tools, talkers, routers, swarms: swarms.length, links: wires.length, levels, tiles: { scorer, tools: toolTiles, talker, swarm, router, total: scorer + toolTiles + talker + swarm + router } };
 }
 
 // how each theme dresses the plot: background, lettering, wires and the snapshot's bands
@@ -107,12 +164,31 @@ const LOOKS = {
 };
 const BAY = [0, 128, 32, 160, 192, 64, 224, 96, 48, 176, 16, 144, 240, 112, 208, 80];
 const TOOL = [0x4ad6e0, 0x4a7ee8, 0xd060c8, 0x9ad84a, 0xf0c84a, 0xff8a4a];   // tool blocks, in turn
+const BLOCK = { node: 0x4a4f5c, talker: 0x2a9d8f, router: 0x3c414c }, LINK = { form: 'link' };   // the other item blocks' colours; a swarm's blocks are linked
 const DCOL = [0x40e8ff, 0xffa040, 0x86ff92, 0xff6ad0, 0xff5a5a, 0x6aa8ff, 0xffffff];   // the dataset colours the cards use
 
 function letters(cv, s, x, y, c, sh) {   // the UI font at one pixel per cell, with a drop shadow
   for (const [col, off] of [[sh, 1], [c, 0]]) Array.from(s).forEach((ch, n) => (GLYPHS[ch] || GLYPHS[' ']).forEach((row, r) => Array.from(row).forEach((cell, q) => { if (cell === '#') dot(cv, x + n * 6 + q + off, y + r + off, col); })));
 }
 const width = (s) => s.length * 6 - 1;
+const LEFT = [3, 3, 4, 4, 5, 5];   // the cube's left face: its top row in each of its six columns (as kardart draws it)
+const onLeft = (cv, px, py, dx, r, c) => dot(cv, px - 6 + dx, py + LEFT[dx] + 1 + r, c);
+function face(cv, form, px, py) {   // what a block carries on its face: a tool's screen, a pwa's phone and bolt, a server's slits and lights, a terminal's text and speech
+  if (form === 'tool' || form === 'app') { rect(cv, px - 4, py + 7, 3, 2, 0x14141a); dot(cv, px - 3, py + 7, 0x86ff92); }
+  if (form === 'pwa') { for (const r of span(0, 4)) { onLeft(cv, px, py, 2, r + 1, 0x14141a); onLeft(cv, px, py, 3, r + 1, 0x14141a); } onLeft(cv, px, py, 3, 2, 0xffe646); onLeft(cv, px, py, 2, 3, 0xffe646); }
+  if (form === 'node') for (const dx of span(1, 5)) { onLeft(cv, px, py, dx, 1, 0x14141a); onLeft(cv, px, py, dx, 3, 0x14141a); if (dx > 3) { onLeft(cv, px, py, dx, 2, 0x86ff92); onLeft(cv, px, py, dx, 4, 0xffb347); } }
+  if (form === 'talker') {
+    for (const dx of span(1, 5)) for (const r of span(1, 4)) onLeft(cv, px, py, dx, r, r === 2 && dx < 4 ? 0x86ff92 : 0x0c1a14);
+    rect(cv, px - 3, py - 9, 7, 4, 0xffffff); dot(cv, px - 2, py - 5, 0xffffff); dot(cv, px - 3, py - 4, 0xffffff);   // a speech bubble over it
+    for (const x of [-2, 0, 2]) dot(cv, px + x, py - 7, 0x14141a);
+  }
+  if (form === 'router') {   // an antenna: a mast with a crossbar, a lit tip, its signal either side, and its lights
+    rect(cv, px, py - 9, 1, 10, 0xb4b4bc); rect(cv, px - 2, py - 5, 5, 1, 0xb4b4bc); dot(cv, px, py - 10, 0xff5a5a);
+    for (const [x, y] of [[-3, -9], [-4, -8], [3, -9], [4, -8]]) dot(cv, px + x, py + y, 0x2be8ff);
+    onLeft(cv, px, py, 2, 2, 0x86ff92); onLeft(cv, px, py, 4, 3, 0x86ff92);
+  }
+  if (form === 'link') { onLeft(cv, px, py, 2, 2, 0x2be8ff); onLeft(cv, px, py, 3, 2, 0x2be8ff); }   // a swarm's block: the link that holds it to the team
+}
 function line(cv, x0, y0, x1, y1, c) {   // a straight line in whole steps: each point rounded to the nearest pixel, integers only
   const n = Math.max(1, Math.abs(x1 - x0), Math.abs(y1 - y0));
   for (const t of span(0, n + 1)) dot(cv, x0 + div(2 * (x1 - x0) * t + n, 2 * n), y0 + div(2 * (y1 - y0) * t + n, 2 * n), c);
@@ -137,19 +213,25 @@ export function paintEstate(holdings, themeId, w, h) {
     if (L.star) for (const n of span(0, 40)) dot(cv, r(lw), r(lh), L.star);
     if (L.cloud) for (const n of span(0, 3)) { const x = r(lw), y = r(div(lh, 3)); rect(cv, x, y, 28, 5, L.cloud); rect(cv, x + 6, y - 4, 14, 4, L.cloud); }
     if (L.confetti) for (const n of span(0, 30)) rect(cv, r(lw), r(lh), 2, 2, L.confetti[r(4)]);
-    const band = H.snapshot ? 12 : 0, cx = div(lw, 2), oy = div(lh - 128 - 2 * band, 2) + 50 + band;
+    const P = H.items ? ITEM_PLAN : PLAN, band = H.snapshot ? 12 : 0, cx = div(lw, 2) - P.shift, oy = div(lh - 128 - 2 * band, 2) + 50 + band - P.lift;
     const pos = (i, j, kk) => [cx + (i - kk) * 6, oy + (i + kk) * 3 - j * 6];
 
+    // what stands where: towers in SCORER; the first plot's tool blocks, or each item in its own district; swarms in SWARM
+    const open = new Set(), fresh = new Set(), locked = new Set(), district = (id) => P.ds.find((d) => d.id === id);
+    const towers = H.cards.slice(0, 36).map((card, n) => ({ card, i: P.slots.scorer[n][0], kk: P.slots.scorer[n][1] }));
+    const kit = H.items || P.slots.tools.slice(0, Math.min(H.tools, 36)).map(() => ({ form: 'tool' })), blocks = [], counts = { tools: H.tools, talker: H.talkers, router: H.routers };
+    for (const where of H.items ? ['tools', 'talker', 'router'] : ['tools']) {
+      kit.filter((it) => (FOR[it.form] || 'tools') === where).slice(0, 36).forEach((it, n) => blocks.push({ it, i: P.slots[where][n][0], kk: P.slots[where][n][1], col: BLOCK[it.form] || TOOL[n % 6] }));
+      P.opens[where].slice(0, tilesFor(counts[where])).forEach(([i, kk]) => open.add(i * PLOT + kk));
+    }
+    const byId = new Map(H.cards.map((card) => [card.id, card])), stacks = (H.swarms || []).slice(0, 36).map((sw, n) => ({ sw, i: P.slots.swarm[n][0], kk: P.slots.swarm[n][1], tall: Math.min(4, sw.members.length) }));
+    if (H.swarms) P.opens.swarm.slice(0, tilesFor(H.swarms.length)).forEach(([i, kk]) => open.add(i * PLOT + kk));
+    P.opens.scorer.slice(0, tilesFor(H.cards.length)).forEach(([i, kk]) => open.add(i * PLOT + kk));
+    for (const t of towers.concat(blocks, stacks)) { open.add(t.i * PLOT + t.kk); if ((t.card || t.it || t.sw).fresh) fresh.add(t.i * PLOT + t.kk); }   // a block always stands on open ground
+    for (const d of P.ds.filter((x) => !x.open)) for (const kk of span(d.k[0], d.k[1])) for (const i of span(d.i[0], d.i[1])) locked.add(i * PLOT + kk);
+
     // the ground: two layers, grass on the open tiles, grey stone on the fenced ones
-    const open = new Set(), fresh = new Set(), locked = new Set();
-    const towers = H.cards.slice(0, 36).map((card, n) => ({ card, i: SLOTS.scorer[n][0], kk: SLOTS.scorer[n][1] }));
-    const tools = SLOTS.tools.slice(0, Math.min(H.tools, 36));
-    OPENS.scorer.slice(0, tilesFor(H.cards.length)).forEach(([i, kk]) => open.add(i * PLOT + kk));
-    OPENS.tools.slice(0, tilesFor(H.tools)).forEach(([i, kk]) => open.add(i * PLOT + kk));
-    for (const t of towers) { open.add(t.i * PLOT + t.kk); if (t.card.fresh) fresh.add(t.i * PLOT + t.kk); }   // a block always stands on open ground
-    for (const [i, kk] of tools) open.add(i * PLOT + kk);
-    for (const d of DISTRICTS.filter((x) => !x.open)) for (const kk of span(d.k[0], d.k[1])) for (const i of span(d.i[0], d.i[1])) locked.add(i * PLOT + kk);
-    for (const j of [-2, -1]) for (const kk of span(0, PLOT)) for (const i of span(0, PLOT)) {
+    for (const j of [-2, -1]) for (const [i, kk] of P.ground) {
       const [px, py] = pos(i, j, kk), lit = [256, 204, 154], t = i * PLOT + kk;
       if (j === -2) cube(cv, px, py, 0x8a5a33, t + 7, lit);
       else if (fresh.has(t)) cube(cv, px, py, 0x9ef06a, t, lit, 2, 0x7ad04a);
@@ -157,12 +239,12 @@ export function paintEstate(holdings, themeId, w, h) {
       else if (locked.has(t)) cube(cv, px, py, 0x6e6e78, t, lit, 2, 0x5a5a62);
       else cube(cv, px, py, 0x8e8e96, t, lit, 2, 0x76767e);
     }
-    for (const d of DISTRICTS.filter((x) => !x.open)) for (const kk of span(d.k[0], d.k[1])) for (const i of span(d.i[0], d.i[1])) {   // a fence round each locked district
+    for (const d of P.ds.filter((x) => !x.open)) for (const kk of span(d.k[0], d.k[1])) for (const i of span(d.i[0], d.i[1])) {   // a fence round each locked district
       const edge = i === d.i[0] || kk === d.k[0] || i === d.i[1] - 1 || kk === d.k[1] - 1;
       if (edge && (i + kk) % 2 === 0) { const [px, py] = pos(i, -1, kk); rect(cv, px - 1, py - 1, 2, 5, 0x3a3a40); dot(cv, px - 1, py - 2, 0xb4b4bc); dot(cv, px, py - 2, 0xb4b4bc); }
     }
 
-    // the blocks: towers (stone, capped in the card's rarity), tool blocks; drawn layer by layer, back to front
+    // the blocks: towers (stone, capped in the card's rarity), item blocks, swarm stacks; drawn layer by layer, back to front
     const vox = [];
     for (const t of towers) {
       const p = RAR[t.card.ri], tall = div(t.card.stage, 25);
@@ -170,19 +252,22 @@ export function paintEstate(holdings, themeId, w, h) {
       vox.push([tall, t.kk, t.i, p.hi, [256, 190, 140]]);
       t.top = pos(t.i, tall, t.kk);
     }
-    tools.forEach(([i, kk], n) => vox.push([0, kk, i, TOOL[n % 6], [256, 204, 154], true]));
+    for (const b of blocks) vox.push([0, b.kk, b.i, b.col, [256, 204, 154], b.it]);
+    for (const s of stacks) {   // a swarm: one block for each of its first four members, in that member's rarity, linked
+      for (const j of span(0, s.tall)) vox.push([j, s.kk, s.i, RAR[byId.get(s.sw.members[j]).ri].hi, [256, 204, 154], LINK]);
+      s.top = pos(s.i, s.tall - 1, s.kk);
+    }
     vox.sort((a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2]);
-    for (const [j, kk, i, col, lit, tool] of vox) {
+    for (const [j, kk, i, col, lit, it] of vox) {
       const [px, py] = pos(i, j, kk);
-      cube(cv, px, py, col, i * 13 + kk * 7 + j, lit);
-      if (tool) { rect(cv, px - 4, py + 7, 3, 2, 0x14141a); dot(cv, px - 3, py + 7, 0x86ff92); }   // a tool block's little screen
+      if (it && it.tier) cube(cv, px, py, col, i * 13 + kk * 7 + j, lit, 1, RAR[it.ti].hi); else cube(cv, px, py, col, i * 13 + kk * 7 + j, lit);   // an item's top edge is trimmed in its tier
+      if (it) face(cv, it.form, px, py);
+      if (it && it.fresh) { rect(cv, px + 3, py - 2, 3, 1, 0xffffff); rect(cv, px + 4, py - 3, 1, 3, 0xffffff); }   // a new item sparkles, as a new child does
     }
-    // mesh wires between consented cards, then each card's sign: its creature, framed in its rarity
-    const where = new Map(towers.map((t) => [t.card.id, t]));
-    for (const [a, b] of H.wires) {
-      const ta = where.get(a), tb = where.get(b);
-      if (ta && tb) { line(cv, ta.top[0], ta.top[1] + 1, tb.top[0], tb.top[1] + 1, mul(L.wire, 150)); line(cv, ta.top[0], ta.top[1], tb.top[0], tb.top[1], L.wire); }
-    }
+    // mesh wires between consented cards, and from each swarm to its members; then each card's sign: its creature, framed in its rarity
+    const where = new Map(towers.map((t) => [t.card.id, t])), wires = H.wires.map(([a, b]) => [where.get(a), where.get(b)]);
+    for (const s of stacks) for (const m of s.sw.members) wires.push([s, where.get(m)]);
+    for (const [ta, tb] of wires) if (ta && tb) { line(cv, ta.top[0], ta.top[1] + 1, tb.top[0], tb.top[1] + 1, mul(L.wire, 150)); line(cv, ta.top[0], ta.top[1], tb.top[0], tb.top[1], L.wire); }
     for (const t of towers.slice().sort((a, b) => a.i + a.kk - (b.i + b.kk) || a.kk - b.kk)) {
       const p = RAR[t.card.ri], fr = creatureFront(t.card.id), x0 = t.top[0] - 5, y0 = t.top[1] - 17;
       rect(cv, x0, y0, 11, 16, p.lo); rect(cv, x0, y0, 11, 1, p.hi); rect(cv, x0, y0 + 15, 11, 1, p.hi); rect(cv, x0, y0, 1, 16, p.hi); rect(cv, x0 + 10, y0, 1, 16, p.hi);
@@ -191,13 +276,17 @@ export function paintEstate(holdings, themeId, w, h) {
       if (t.card.fresh) { rect(cv, x0 + 4, y0 - 5, 3, 1, 0xffffff); rect(cv, x0 + 5, y0 - 6, 1, 3, 0xffffff); }   // a new child sparkles
     }
 
-    // district names, lettered over the ground like signage; the locked ones say they are coming
-    for (const d of DISTRICTS) {
+    // district names, lettered over the ground like signage; on the first plot the fenced ones say they are coming
+    for (const d of P.ds) {
       const px = cx + d.label[0], py = oy + d.label[1];
       letters(cv, d.name, px - div(width(d.name), 2), py, d.open ? L.text : L.dim, L.shadow);
-      if (!d.open) letters(cv, 'COMING', px - div(width('COMING'), 2), py + 10, L.dim, L.shadow);
+      if (!d.open) letters(cv, P.note, px - div(width(P.note), 2), py + 10, L.dim, L.shadow);
     }
     if (H.cards.length > 36) { const more = '+' + (H.cards.length - 36) + ' MORE', px = cx - 48, py = oy + 12; letters(cv, more, px - div(width(more), 2), py, L.text, L.shadow); }
+    for (const [id, n] of H.items ? [['tools', H.tools], ['talker', H.talkers], ['router', H.routers], ['swarm', H.swarms.length]] : []) if (n > 36) {   // past 36 in a district: how many more
+      const d = district(id), more = '+' + (n - 36) + ' MORE';
+      letters(cv, more, cx + d.label[0] - div(width(more), 2), oy + d.label[1] + 10, L.text, L.shadow);
+    }
 
     // the snapshot's bands: what it is, and the numbers it was drawn from
     if (H.snapshot) {

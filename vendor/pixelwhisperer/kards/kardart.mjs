@@ -25,19 +25,31 @@ const span = (a, b, s = 1) => Array.from({ length: div(b - a + s - 1, s) }, (_, 
 // -- the facts -------------------------------------------------------------------------------------------------------
 export const DATASETS = Object.freeze(['telco', 'shop', 'bank', 'adult', 'hospital', 'credit', 'custom']);
 export const RARITIES = Object.freeze(['common', 'uncommon', 'rare', 'epic', 'legendary']);
+/** The forms a card takes. A 'scorer' is a creature (every card before items, and any card that names no form); the rest
+ *  are items, each drawn as the object it is: an app a window, a pwa a phone with a bolt, a node a server, a talker a terminal,
+ *  a router an antenna (it picks, case by case, which of its owner's allies answers). Append-only, like THEMES. */
+export const FORMS = Object.freeze(['scorer', 'app', 'pwa', 'node', 'talker', 'router']);
+/** An item's verified tier, lowest first. Its index is its rarity: a prototype is common, it works is uncommon, proven is rare. */
+export const TIERS = Object.freeze(['prototype', 'works', 'proven']);
+/** The gear slot each item fills on a scorer card: a node or a router is an ally, an app or a pwa a tool, a talker a voice. */
+export const GEAR = Object.freeze({ app: 'tool', pwa: 'tool', node: 'ally', talker: 'voice', router: 'ally' });
 const HEXD = '0123456789abcdef';
 const TITLE_CH = " &'.-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const DEPT_CH = '-0123456789abcdefghijklmnopqrstuvwxyz';
+const SRC_CH = '-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 const only = (s, set) => { for (const ch of s) if (set.indexOf(ch) < 0) return false; return true; };
 const isId = (s) => typeof s === 'string' && s.length === 16 && only(s, HEXD);
 const whole = (n, max) => Number.isInteger(n) && n >= 0 && n <= max;
 
-/** Are these a card's facts? -> { ok: true, f (the facts, read once, with their dataset and rarity indexes) } | { ok: false, why }. Total. */
+/** Are these a card's facts? -> { ok: true, f (the facts, read once, with their dataset and rarity indexes) } | { ok: false, why }. Total.
+ *  An item (facts.form one of app, pwa, node, talker, router) has { form, id, name, source, tier, spdx? } instead (an app's id: the
+ *  first 16 hex of the sha it was proven at; spdx: its licence id); no form, or 'scorer', is a scorer. */
 export function checkFacts(x) {
   try { return readFacts(x); } catch (e) { return no('the facts could not be read'); }
 }
 function readFacts(x) {
   if (typeof x !== 'object' || x === null || Array.isArray(x)) return no('facts must be an object');
+  if (has(x, 'form') && x.form !== 'scorer') return readItem(x);
   const { id, title, dataset, department, stage, rarity, generation, parents } = x;
   if (!isId(id)) return no('id must be 16 lowercase hex characters');
   if (typeof title !== 'string' || title.length > 24 || !only(title, TITLE_CH)) return no('title must be at most 24 characters from A-Z a-z 0-9 space & . - and the apostrophe');
@@ -52,6 +64,17 @@ function readFacts(x) {
   const kin = [];
   for (let i = 0; i < parents.length; i++) { if (!isId(parents[i])) return no('every parent must be 16 lowercase hex characters'); kin.push(parents[i]); }
   return { ok: true, f: { id, title, dataset, department, stage, rarity, generation, parents: kin, di, ri } };
+}
+function readItem(x) {
+  const { form, id, name, source, tier, spdx = '' } = x;
+  if (FORMS.indexOf(form) < 1) return no('form must be one of ' + FORMS.join(', '));
+  if (!isId(id)) return no('id must be 16 lowercase hex characters');
+  if (typeof name !== 'string' || name.length > 24 || !only(name, TITLE_CH)) return no('name must be at most 24 characters from A-Z a-z 0-9 space & . - and the apostrophe');
+  if (typeof source !== 'string' || source.length < 1 || source.length > 20 || !only(source, SRC_CH)) return no('source must be 1 to 20 characters from A-Z a-z 0-9 . and -');
+  const ri = TIERS.indexOf(tier);
+  if (ri < 0) return no('tier must be one of ' + TIERS.join(', '));
+  if (typeof spdx !== 'string' || spdx.length > 16 || !only(spdx, SRC_CH)) return no('spdx must be at most 16 characters from A-Z a-z 0-9 . and -');
+  return { ok: true, f: { form, id, name, source, tier, spdx, ri } };
 }
 const dim = (n) => Number.isInteger(n) && n >= 64 && n <= 1024;
 
@@ -140,6 +163,55 @@ function build(id) {
 /** The creature an id makes: { ok, g (its genome), v (Uint8Array 9 x 14 x 7 of voxel classes, index (y*7+z)*9+x), hi, lo }. */
 export function spriteOf(id) { return isId(id) ? build(id) : no('id must be 16 lowercase hex characters'); }
 
+// -- items: each form is an object built of voxels in the creature's grid and classes (1-2 body, 3-4 accent, 5 pale,
+// 6 ink, 7 white, 8 glow), so every theme draws an item the way it draws a creature; the id picks its colours and details
+function itemModel(form, t) {
+  const v = new Uint8Array(MX * MY * MZ), put = (x, y, z, c) => { v[(y * MZ + z) * MX + x] = c; };
+  const box = (x0, x1, y0, y1, z0, z1, c) => { for (const y of span(y0, y1 + 1)) for (const z of span(z0, z1 + 1)) for (const x of span(x0, x1 + 1)) put(x, y, z, c); };
+  if (form === 'app') {   // a window on a stand: title bar and its three lights, a dark screen, lines of text and a button
+    box(2, 6, 0, 0, 2, 4, 2); box(4, 4, 1, 2, 3, 3, 2);
+    box(0, 8, 3, 12, 3, 4, 1); box(0, 8, 12, 12, 3, 4, 3);
+    put(1, 12, 4, 8); put(2, 12, 4, 7); put(3, 12, 4, 7);
+    box(1, 7, 4, 11, 4, 4, 6);
+    for (const y of [10, 8, 6]) box(2, 3 + t(2), y, y, 4, 4, 5);
+    if (t(1)) box(5, 6, 4, 5, 4, 4, 3); else box(2, 4, 4, 4, 4, 4, 3);
+  }
+  if (form === 'pwa') {   // a phone with a lightning bolt on its screen: installed from the web, it runs offline
+    box(1, 7, 1, 12, 2, 3, 1); box(2, 6, 3, 10, 3, 3, 6);
+    put(4, 11, 3, 6); put(4, 2, 3, 5); put(5, 11, 2, t(1) ? 3 : 6);
+    for (const [x, y] of [[5, 10], [6, 10], [4, 9], [5, 9], [3, 8], [4, 8], [3, 7], [4, 7], [5, 7], [6, 7], [4, 6], [5, 6], [3, 5], [4, 5], [3, 4]]) put(x, y, 3, 8);
+    if (t(1)) put(7, 12, 3, 3);   // a badge
+  }
+  if (form === 'node') {   // a server: a case, four rack units of slits, bays and lights, and a lid
+    box(1, 7, 0, 12, 1, 5, 2); box(1, 7, 12, 12, 1, 5, 1); box(1, 7, 0, 11, 5, 5, 1);
+    for (const u of span(0, 4)) {
+      const y = 1 + u * 3;
+      box(2, 6, y, y, 5, 5, 6); box(2, 3, y + 1, y + 1, 5, 5, 5);
+      put(5, y + 1, 5, t(1) ? 8 : 4); put(6, y + 1, 5, t(1) ? 8 : 4);
+    }
+  }
+  if (form === 'talker') {   // a terminal with text on its screen, and a speech bubble rising from it
+    box(2, 6, 0, 0, 2, 4, 2); box(1, 7, 1, 7, 1, 5, 1); box(2, 6, 2, 6, 5, 5, 6);
+    box(2, 3 + t(2), 5, 5, 5, 5, 8); box(2, 2 + t(2), 3, 3, 5, 5, 8); put(5, 3 + 2 * t(1), 5, 7);
+    box(2, 8, 10, 13, 3, 4, 7);   // the bubble: its corners rounded off, its tail running down to the screen
+    for (const [x, y] of [[2, 10], [8, 10], [2, 13], [8, 13]]) { put(x, y, 3, 0); put(x, y, 4, 0); }
+    for (const [x, y] of [[3, 9], [2, 8]]) { put(x, y, 3, 7); put(x, y, 4, 7); }
+    for (const x of [3, 5, 7]) put(x, 11, 4, 6);
+  }
+  if (form === 'router') {   // an antenna: a box of lights, a mast with two crossbars, a glowing tip, and its signal either side
+    box(1, 7, 0, 3, 2, 4, 2); box(2, 6, 1, 2, 4, 4, 6);
+    for (const x of span(2, 7)) put(x, 1 + (x % 2), 4, t(1) ? 8 : 4);
+    box(4, 4, 4, 12, 3, 3, 1); box(3, 5, 7, 7, 3, 3, 1); box(2, 6, 10, 10, 3, 3, 1); put(4, 13, 3, 8);
+    for (const [x, y] of [[1, 12], [0, 11], [7, 12], [8, 11]]) put(x, y, 3, 3);
+    for (const [x, y] of [[2, 13], [6, 13]]) put(x, y, 3, t(1) ? 3 : 4);   // its signal, strong or faint
+  }
+  return v;
+}
+function itemSprite(f) {
+  const [hi, lo] = whiten(f.id), t = reader(hi, lo), g = { hueA: t(4), hueB: t(3) };
+  return { g, v: itemModel(f.form, t), hi, lo };
+}
+
 // -- the canvas: 192 x 280 logical pixels (a card is drawn at 2x), with padding so nothing needs clipping -----------
 const LW = 192, LH = 280, PAD = 32;
 const WX = 8, WY = 24, WW = 176, WH = 152;       // the art window
@@ -192,6 +264,15 @@ export const ICON_ROWS = Object.freeze({
   custom: Object.freeze(['................', '................', '...##########...', '..############..', '.##.#..##..#.##.', '################', '.##############.', '..############..', '...##########...', '....########....', '.....######.....', '......####......', '.......##.......', '................', '................', '................']),
 });
 const ICONS = Object.fromEntries(Object.entries(ICON_ROWS).map(([k, rows]) => [k, bitmap(rows)]));
+/** The four item forms' 16 x 16 icons: a window, a phone with a bolt, a server, a terminal with a speech bubble. */
+export const FORM_ICON_ROWS = Object.freeze({
+  app: Object.freeze(['................', '.##############.', '.#.#.#.########.', '.##############.', '.#............#.', '.#.########...#.', '.#............#.', '.#.#####......#.', '.#............#.', '.#.#######....#.', '.#............#.', '.#.####..####.#.', '.#.......####.#.', '.#............#.', '.##############.', '................']),
+  pwa: Object.freeze(['................', '...##########...', '...#..####..#...', '...#........#...', '...#.....##.#...', '...#....##..#...', '...#...##...#...', '...#..#####.#...', '...#....##..#...', '...#...##...#...', '...#..##....#...', '...#.##.....#...', '...#........#...', '...#...##...#...', '...##########...', '................']),
+  node: Object.freeze(['................', '..############..', '..#..........#..', '..#.###..#.#.#..', '..#..........#..', '..############..', '..#..........#..', '..#.###..#.#.#..', '..#..........#..', '..############..', '..#..........#..', '..#.###..#.#.#..', '..#..........#..', '..############..', '...##......##...', '................']),
+  talker: Object.freeze(['.......#########', '.......#.......#', '.......#.#.#.#.#', '.......#.......#', '.......##.######', '........#.......', '###########.....', '#.........#.....', '#.######..#.....', '#.........#.....', '#.####.##.#.....', '#.........#.....', '###########.....', '....###.........', '..#######.......', '................']),
+  router: Object.freeze(['.......##.......', '..#....##....#..', '.#..#..##..#..#.', '.#.#...##...#.#.', '.#.#..####..#.#.', '.#..#..##..#..#.', '..#....##....#..', '.....######.....', '.......##.......', '....########....', '.......##.......', '................', '.##############.', '.#.#.#.#.#.#.##.', '.##############.', '................']),
+});
+const FORM_ICONS = Object.fromEntries(Object.entries(FORM_ICON_ROWS).map(([k, rows]) => [k, bitmap(rows)]));
 /** The 8 x 8 rarity star. */
 export const STAR_ROWS = Object.freeze(['...##...', '...##...', '########', '.######.', '..####..', '..####..', '.##..##.', '.#....#.']);
 const STAR = bitmap(STAR_ROWS);
@@ -229,13 +310,22 @@ function chip(cv, x, y, pid, look) {   // a parent's identicon: 3 x 6 cells mirr
   bevel(cv, x, y, 20, 20, p.hi, p.lo);
 }
 
+function shell(cv, u, title) {   // the card's body, the art window sunk into it, the title plate and the panel
+  rect(cv, 0, 0, LW, 24, u.bg); rect(cv, 0, WY + WH, LW, LH - WY - WH, u.bg); rect(cv, 0, WY, WX, WH, u.bg); rect(cv, WX + WW, WY, LW - WX - WW, WH, u.bg);
+  bevel(cv, WX - 1, WY - 1, WW + 2, WH + 2, u.dark, u.light);
+  rect(cv, 8, 6, 176, 16, u.plate); bevel(cv, 8, 6, 176, 16, u.light, u.dark);
+  label(cv, title, 8 + div(176 - tw(title), 2), 10, u.text, u.shadow);
+  rect(cv, 8, 178, 176, 96, u.panel); bevel(cv, 8, 178, 176, 96, u.light, u.dark);
+}
+function idLine(cv, id, u, p) {   // the id, then its 64 bits as a barcode
+  rect(cv, 12, 254, 164, 1, u.rule);
+  label(cv, '#' + id.slice(0, 8) + '~', 12, 259, u.text, u.shadow);
+  for (const i of span(0, 16)) for (const b of span(0, 4)) rect(cv, 104 + (i * 4 + b) + div(i * 4 + b, 8), 258, 1, (HEXD.indexOf(id[i]) >> (3 - b)) & 1 ? 12 : 5, p.hi);
+}
+
 function chrome(cv, f, look) {
   const u = look.ui, p = look.p, dc = look.dcol[f.di];
-  rect(cv, 0, 0, LW, 24, u.bg); rect(cv, 0, WY + WH, LW, LH - WY - WH, u.bg); rect(cv, 0, WY, WX, WH, u.bg); rect(cv, WX + WW, WY, LW - WX - WW, WH, u.bg);
-  bevel(cv, WX - 1, WY - 1, WW + 2, WH + 2, u.dark, u.light);                            // the art window sunk into the card
-  rect(cv, 8, 6, 176, 16, u.plate); bevel(cv, 8, 6, 176, 16, u.light, u.dark);
-  label(cv, f.title, 8 + div(176 - tw(f.title), 2), 10, u.text, u.shadow);              // title plate
-  rect(cv, 8, 178, 176, 96, u.panel); bevel(cv, 8, 178, 176, 96, u.light, u.dark);
+  shell(cv, u, f.title);
   label(cv, 'LV ' + f.stage, 12, 183, p.hi, u.shadow, 2);                                 // level and its 100-pixel bar
   rect(cv, 74, 184, 102, 10, p.lo); rect(cv, 75, 185, 100, 8, u.bg);
   rect(cv, 75, 185, f.stage, 8, p.mid); rect(cv, 75, 185, f.stage, 2, p.hi);
@@ -255,9 +345,29 @@ function chrome(cv, f, look) {
     if (f.parents.length > 1) chip(cv, 156, 229, f.parents[1], look);
     else for (const i of span(0, 20, 2)) { dot(cv, 156 + i, 229, p.lo); dot(cv, 156 + i, 248, p.lo); dot(cv, 156, 229 + i, p.lo); dot(cv, 175, 229 + i, p.lo); }
   } else { blit(cv, STAR, 124, 235, p.hi); label(cv, 'GENESIS', 135, 235, u.text, u.shadow); }
-  rect(cv, 12, 254, 164, 1, u.rule);
-  label(cv, '#' + f.id.slice(0, 8) + '~', 12, 259, u.text, u.shadow);                    // the id, then its 64 bits as a barcode
-  for (const i of span(0, 16)) for (const b of span(0, 4)) rect(cv, 104 + (i * 4 + b) + div(i * 4 + b, 8), 258, 1, (HEXD.indexOf(f.id[i]) >> (3 - b)) & 1 ? 12 : 5, p.hi);
+  idLine(cv, f.id, u, p);
+}
+
+function itemChrome(cv, f, look) {   // an item's panel: what it is, its verified tier, where it came from, the slot it fills, the id
+  const u = look.ui, p = look.p, icon = FORM_ICONS[f.form], tier = f.tier.toUpperCase();
+  shell(cv, u, f.name);
+  blit(cv, icon, 13, 181, u.shadow); blit(cv, icon, 12, 180, p.hi);
+  label(cv, f.form.toUpperCase(), 32, 183, p.hi, u.shadow, 2);
+  label(cv, tier, 176 - tw(tier), 183, p.hi, u.shadow);
+  for (const i of span(0, 3)) blit(cv, STAR, 150 + i * 9, 193, i <= f.ri ? p.hi : p.lo);
+  label(cv, 'FROM', 12, 205, p.mid, u.shadow); label(cv, f.source, 42, 205, u.text, u.shadow);
+  const slot = GEAR[f.form].toUpperCase() + ' SLOT';   // the slot it fits; beside it, when it says, its licence
+  if (f.spdx) { label(cv, f.spdx, 12, 216, u.text, u.shadow); label(cv, slot, 176 - tw(slot), 216, p.mid, u.shadow); } else label(cv, 'FITS THE ' + slot, 12, 216, u.text, u.shadow);
+  rect(cv, 12, 226, 164, 1, u.rule);
+  let x = 12;   // the tier ladder: each tier the item has reached is lit, with a chevron on to the next
+  TIERS.forEach((t, i) => {
+    const s = t.toUpperCase(), w = tw(s) + 8, lit = i <= f.ri;
+    rect(cv, x, 231, w, 15, lit ? p.mid : u.bg); bevel(cv, x, 231, w, 15, lit ? p.hi : p.lo, u.dark);
+    label(cv, s, x + 4, 234, lit ? u.text : p.lo, u.shadow);
+    if (i < 2) { dot(cv, x + w + 3, 236, p.hi); dot(cv, x + w + 4, 237, p.hi); dot(cv, x + w + 3, 238, p.hi); }
+    x += w + 8;
+  });
+  idLine(cv, f.id, u, p);
 }
 
 // -- themes: the colours, and a scene that draws the art window -------------------------------------------------------
@@ -456,16 +566,35 @@ export const THEMES = Object.freeze({
  *  dots, the isometric cube, bitmaps, colour arithmetic and the deterministic dice. */
 export const PIXEL = Object.freeze({ newCanvas, rect, dot, at, cube, blit, bitmap, mul, mix, rng, span, div, hash3, PAD });
 
+const rgba = (px, o, q) => { px[o] = (q >> 16) & 255; px[o + 1] = (q >> 8) & 255; px[o + 2] = q & 255; px[o + 3] = 255; };
+function portrait(sp) {   // a sprite from the front at one pixel per voxel, in the blockcraft palette, darker the deeper
+  const cc = classColors(BLOCK_BODY, BLOCK_ACC, UI_B.ink, sp.g), big = frontSprite(sp, (c, z) => mul(cc[c], 256 - (MZ - 1 - z) * 14)), px = new Uint8Array(MX * MY * 4);
+  for (const y of span(0, MY)) for (const x of span(0, MX)) {
+    const q = big[(y * 8 + 4) * SW + x * 8 + 4];
+    if (q & FLAG) rgba(px, (y * MX + x) * 4, q);
+  }
+  return { ok: true, w: MX, h: MY, px };
+}
 /** A creature from the front at one pixel per voxel, in the blockcraft palette, for signs, chips and portraits.
  *  -> { ok: true, w: 9, h: 14, px: Uint8Array(9*14*4) RGBA, alpha 0 where there is no voxel } | { ok: false, why }. */
 export function creatureFront(id) {
+  return isId(id) ? portrait(build(id)) : no('id must be 16 lowercase hex characters');
+}
+/** A creature in profile, facing right (its front to the right), one pixel per voxel, for the arena; mirror it to face left.
+ *  Its eyes and mouth show at the edge of its face. -> { ok: true, w: 7, h: 14, px: Uint8Array(7*14*4) RGBA } | { ok: false, why }. */
+export function creatureSide(id) {
   if (!isId(id)) return no('id must be 16 lowercase hex characters');
-  const sp = build(id), cc = classColors(BLOCK_BODY, BLOCK_ACC, UI_B.ink, sp.g), big = frontSprite(sp, (c, z) => mul(cc[c], 256 - (MZ - 1 - z) * 14)), px = new Uint8Array(MX * MY * 4);
-  for (const y of span(0, MY)) for (const x of span(0, MX)) {
-    const q = big[(y * 8 + 4) * SW + x * 8 + 4], o = (y * MX + x) * 4;
-    if (q & FLAG) { px[o] = (q >> 16) & 255; px[o + 1] = (q >> 8) & 255; px[o + 2] = q & 255; px[o + 3] = 255; }
+  const sp = build(id), cc = classColors(BLOCK_BODY, BLOCK_ACC, UI_B.ink, sp.g), px = new Uint8Array(MZ * MY * 4);
+  for (const y of span(0, MY)) for (const z of span(0, MZ)) {
+    const row = span(0, MX).map((x) => sp.v[(y * MZ + z) * MX + x]), face = row.find((c) => c > 5), near = row.filter((c) => c).length;
+    if (near) rgba(px, ((MY - 1 - y) * MZ + z) * 4, face ? cc[face] : mul(cc[row.find((c) => c)], 256 - (MX - near) * 12));   // the nearer the body comes to you, the brighter
   }
-  return { ok: true, w: MX, h: MY, px };
+  return { ok: true, w: MZ, h: MY, px };
+}
+/** An item from the front at one pixel per voxel, for inventory slots: { ok: true, w: 9, h: 14, px RGBA } | { ok: false, why }. */
+export function itemFront(form, id) {
+  if (FORMS.indexOf(form) < 1) return no('form must be one of ' + FORMS.slice(1).join(', '));
+  return isId(id) ? portrait(itemSprite({ form, id })) : no('id must be 16 lowercase hex characters');
 }
 
 // -- the painter ----------------------------------------------------------------------------------------------------
@@ -479,9 +608,9 @@ export function paintArt(facts, themeId, w, h) {
     if (!c.ok) return c;
     if (typeof themeId !== 'string' || !has(THEMES, themeId)) return no('unknown theme');
     if (!dim(w) || !dim(h)) return no('width and height must be whole numbers from 64 to 1024');
-    const f = c.f, th = THEMES[themeId], look = (th.look || plainLook)(f, th), sp = build(f.id), cv = newCanvas();
-    th.scene(cv, f, sp, look);
-    chrome(cv, f, look);
+    const f = c.f, th = THEMES[themeId], look = (th.look || plainLook)(f, th), sp = f.form ? itemSprite(f) : build(f.id), cv = newCanvas();
+    th.scene(cv, f, sp, look);   // an item stands where a creature would, drawn the theme's way
+    if (f.form) itemChrome(cv, f, look); else chrome(cv, f, look);
     frame(cv, look.p, f.ri);
     const px = new Uint8Array(w * h * 3), cols = span(0, w).map((x) => div(x * LW, w));   // nearest pixel: at 384 x 560 every logical pixel is exactly 2 x 2
     span(0, h).forEach((y) => {

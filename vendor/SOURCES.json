@@ -107,20 +107,32 @@
   },
   {
    "repo": "sjgant80-hub/pixelwhisperer",
-   "commit": "7f5f43f0f6f0db605da59a9d9351e6159c1cfade",
+   "commit": "a90610893fa05dc101bd8ac9c08769ec9278fdea",
    "local": "C:/Users/sjgan/pixelwhisperer",
    "files": {
     "vendor/pixelwhisperer/kards/kardart.mjs": {
      "from": "kards/kardart.mjs",
-     "sha256": "30b9bfde6e12598956c9d810e58797f00639cca67924bdb28d58001b8cb7bd64"
+     "sha256": "59d6338e22c7547a13123500874537cfd6e931e1726015162e6d9d7942236bcd"
     },
     "vendor/pixelwhisperer/kards/ui.mjs": {
      "from": "kards/ui.mjs",
-     "sha256": "47f7504ed03517c081ec035e6c3553bc124d0d075deab0b76fa15477a6d6891e"
+     "sha256": "2f02545c98ac25aecd7220b2f3203e2db32b02080afd267158abaa8c479eec95"
     },
     "vendor/pixelwhisperer/kards/estate.mjs": {
      "from": "kards/estate.mjs",
-     "sha256": "eed9b9f223d9246fee4e9f03beabb9494d673045e5478b9bf159481b56f94306"
+     "sha256": "7309155c7689a6dc3f500bde6ba5a4023b3a2fca6e6541965e76c8907cf57806"
+    },
+    "vendor/pixelwhisperer/kards/arena.mjs": {
+     "from": "kards/arena.mjs",
+     "sha256": "6e1fe5fb687b141aecbb11b635bffe84d6965c98a7f621726965338adc4be674"
+    },
+    "vendor/pixelwhisperer/kards/raid.mjs": {
+     "from": "kards/raid.mjs",
+     "sha256": "062c485e12360d01b76c025dd04e010b4544e911be88c6212c9e25876b97da2f"
+    },
+    "vendor/pixelwhisperer/kards/gear.mjs": {
+     "from": "kards/gear.mjs",
+     "sha256": "a61e4dc8f9be5e8ba70f044be3c469807512a1307391eda943b3f892c9aae73c"
     },
     "vendor/pixelwhisperer/kards/kardpng.mjs": {
      "from": "kards/kardpng.mjs",

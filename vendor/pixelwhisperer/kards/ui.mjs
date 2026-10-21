@@ -6,7 +6,7 @@
 // One source: the card font, dataset icons and star are kardart.mjs's own tables, imported here, never copied. This module adds
 // only what a screen needs on top: the punctuation and symbols a label uses, a real space, the dock and action icons, and an
 // identicon for an Ed25519 public key. Integer arithmetic only, deterministic, total (bad input is { ok: false, why }).
-import { FONT, ICON_ROWS, STAR_ROWS, PIXEL } from './kardart.mjs';
+import { FONT, ICON_ROWS, FORM_ICON_ROWS, STAR_ROWS, GEAR, PIXEL } from './kardart.mjs';
 
 const { span } = PIXEL;
 const no = (why) => ({ ok: false, why });
@@ -84,6 +84,14 @@ export const UI_ICONS = Object.freeze({
   verify: I('................', '.....######.....', '...##......##...', '..#..........#..', '.#............#.', '.#..........#.#.', '#..........##..#', '#..#......##...#', '#..##....##....#', '#...##..##.....#', '.#...####.....#.', '.#....##......#.', '..#..........#..', '...##......##...', '.....######.....', '................'),
   key: I('................', '................', '................', '................', '.####...........', '#....#..........', '#.##.##########.', '#.##.#.....#.#..', '#....#.....#.#..', '.####...........', '................', '................', '................', '................', '................', '................'),
   lock: I('................', '.....######.....', '....##....##....', '....#......#....', '....#......#....', '..############..', '..############..', '..#####..#####..', '..#####..#####..', '..######.#####..', '..############..', '..############..', '..############..', '................', '................', '................'),
+  // inventory: an empty slot, a filled one, and the equip glyph (an item dropping into its slot)
+  slot: I('.##############.', '#..............#', '#.###......###.#', '#.#..........#.#', '#.#..........#.#', '#..............#', '#..............#', '#..............#', '#..............#', '#..............#', '#..............#', '#.#..........#.#', '#.#..........#.#', '#.###......###.#', '#..............#', '.##############.'),
+  'slot-filled': I('.##############.', '#..............#', '#.############.#', '#.#.##########.#', '#.##.#########.#', '#.############.#', '#.############.#', '#.############.#', '#.############.#', '#.############.#', '#.############.#', '#.############.#', '#.############.#', '#.############.#', '#..............#', '.##############.'),
+  equip: I('................', '......####......', '......####......', '......####......', '......####......', '...##########...', '....########....', '.....######.....', '......####......', '.......##.......', '................', '.##..........##.', '.##..........##.', '.##############.', '.##############.', '................'),
+  // a scorer card's three gear slots, each a slot showing what goes in it: an ally (a node), a tool (an app or a pwa), a voice (a talker)
+  ally: I('.##############.', '#..............#', '#..............#', '#..............#', '#...########...#', '#...#.##.#.#...#', '#...########...#', '#...#.##.#.#...#', '#...########...#', '#...#.##.#.#...#', '#...########...#', '#....#....#....#', '#..............#', '#..............#', '#..............#', '.##############.'),
+  tool: I('.##############.', '#..............#', '#..............#', '#..##########..#', '#..#.#.######..#', '#..##########..#', '#..#........#..#', '#..#.#####..#..#', '#..#........#..#', '#..#.###....#..#', '#..#........#..#', '#..##########..#', '#..............#', '#..............#', '#..............#', '.##############.'),
+  voice: I('.##############.', '#..............#', '#..............#', '#..............#', '#.############.#', '#.#..........#.#', '#.#.##.##.##.#.#', '#.#..........#.#', '#.##..########.#', '#...##.........#', '#..##..........#', '#..............#', '#..............#', '#..............#', '#..............#', '.##############.'),
 });
 /** The dataset icons and the rarity star, from kardart.mjs (the cards draw with these very tables). */
 export const DATASET_ICONS = ICON_ROWS;
@@ -92,6 +100,13 @@ export const STAR = STAR_ROWS;
 export const DOCK = Object.freeze(['estate', 'base', 'cards', 'evals', 'mint', 'mesh', 'send', 'proof']);
 /** The action icons. */
 export const ACTIONS = Object.freeze(['boot', 'eval', 'train', 'breed', 'skin', 'share', 'verify', 'key', 'lock']);
+/** The inventory icons: an empty slot, a filled slot, and the equip glyph. */
+export const INVENTORY = Object.freeze(['slot', 'slot-filled', 'equip']);
+/** A scorer card's gear slots, and the item forms each one takes (from kardart.mjs's GEAR: one source). */
+export const GEAR_SLOTS = Object.freeze(['ally', 'tool', 'voice']);
+export const FITS = Object.freeze(Object.fromEntries(GEAR_SLOTS.map((s) => [s, Object.freeze(Object.keys(GEAR).filter((form) => GEAR[form] === s))])));
+/** The item forms' icons, from kardart.mjs (the item faces draw with these very tables). */
+export const FORM_ICONS = FORM_ICON_ROWS;
 
 // -- identicon: a key's face, for the YOUR KEY chip and the RIG operator ------------------------------------------------
 const HEX = '0123456789abcdef';
