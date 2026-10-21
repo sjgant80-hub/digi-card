@@ -130,6 +130,17 @@
      "sha256": "525f3e5fdd726a583018ef8153811f537ad3375251a92a5883f0e8a3318853bb"
     }
    }
+  },
+  {
+   "repo": "sjgant80-hub/pixelwhisperer",
+   "commit": "3047ccc63d2f9a125cb269ffe7a764fa6ce57146",
+   "local": "C:/Users/sjgan/pixelwhisperer",
+   "files": {
+    "vendor/pixelwhisperer/kards/kardart.mjs": {
+     "from": "kards/kardart.mjs",
+     "sha256": "cbb00d3a522c82f9a5aad0d553f5125e28bcc0f6793dee43298ebe91d61acb40"
+    }
+   }
   }
  ]
 }
