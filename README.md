@@ -20,8 +20,8 @@ The game's own files are `ui/mode.js`, `ui/game.js` and `ui/game.css`, and they 
 
 ## What was proven
 
-Eight organs, each sealed before it was measured (git proves the order: `node tools/order.mjs --organ k`), judged by
-their sealed rules alone — **41 of 44 sealed rules held; 3 failed predictions are kept; no property failed.**
+Nine organs, each sealed before it was measured (git proves the order: `node tools/order.mjs --organ k`), judged by
+their sealed rules alone — **47 of 51 sealed rules held; 4 failed predictions are kept; no property failed.**
 
 | Organ | Result |
 |---|---|
@@ -33,8 +33,9 @@ their sealed rules alone — **41 of 44 sealed rules held; 3 failed predictions 
 | 6 · the mesh | beats its best single card on TEST in 5/5 businesses; shares sum to a million; ledgers replay (not blind: dry-run before its seal, disclosed) |
 | 7 · the drop | decoder #0001 re-runs the genesis; 5/5 posts pass the claim gate, 12/12 overreaching drafts refused; 100/100 card-me claims work |
 | 8 · scale | the mesh climbs as each department joins, in 5/5 businesses; a 10,000-entry registry replays identically in 36.8 s |
+| 9 · the arena | 1,000/1,000 duels re-run to the same receipt; every batch 64 distinct GATE rows, no TEST row read; 240/240 forgeries refused; ratings replay and their total is conserved; the duel winner had the higher TEST AUC in 78.4% of decided pairs; 26.3% of duels were upsets — **failed:** the median duel took 278 ms, over the 250 predicted (measured while a local language model ran on the same laptop) |
 
-Every kernel is witness CLEAN (359/359 mutants killed) and CI re-proves all of it on every push.
+Every kernel is witness CLEAN (469/469 mutants killed) and CI re-proves all of it on every push.
 
 ## Run it
 
@@ -79,7 +80,9 @@ or sent by the tools: a person does that.
 | `src/claims.mjs` | the claim gate for every public post |
 | `src/drop.mjs` | the genesis and decoder #0001 |
 | `src/cost.mjs` | the cost case, from sourced prices only |
-| `data/organ-*/` | eight organs: sealed claims, records, verdicts |
+| `src/arena.mjs` | duels: both owners sign, the batch comes from both signatures, the better ranking wins, ratings from a published table |
+| `src/raid.mjs` | raids: the unsolved departments as bosses, signed strikes anyone re-checks, the first card of a fallen boss as loot |
+| `data/organ-*/` | nine organs: sealed claims, records, verdicts |
 | `drop/` | the manifest, the genesis log, every search |
 | `decoder/v1/` | the exact files that read a card, frozen at the drop |
 

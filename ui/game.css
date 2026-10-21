@@ -175,6 +175,23 @@ html.game canvas.card, .g-card1, .g-card2, .g-thumb { display: block; image-rend
 .g-skins button[aria-pressed="true"] { border-color: var(--g-cy); }
 .g-skins canvas { width: 72px; height: 105px; image-rendering: pixelated; display: block; }
 
+/* play: the arena */
+.g-subnav { display: flex; gap: 6px; margin: 0 0 12px; } .g-subnav a { padding: 6px 12px; border: 2px solid var(--g-rule); background: var(--g-plate); color: var(--g-ink); text-decoration: none; text-transform: uppercase; font-family: var(--g-font); }
+.g-subnav a[aria-current="page"] { border-color: var(--g-cy); background: #0b2a30; }
+.g-batch { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; margin: 10px 0; }
+.g-batch i { display: block; aspect-ratio: 1; background: var(--g-deep); border: 1px solid var(--g-rule); }
+.g-batch i.a { background: var(--g-cy); } .g-batch i.b { background: var(--g-hot); } .g-batch i.both { background: #8a8f9e; } .g-batch i.none { background: #2a1a40; }
+.g-win { font-size: 36px; font-family: var(--g-font); text-transform: uppercase; } .g-win.ok { color: var(--g-ok); } .g-win.bad { color: var(--g-bad); } .g-win.draw { color: var(--g-gold); }
+html.game textarea { width: 100%; font: inherit; font-size: 14px; font-family: var(--g-text); background: var(--g-deep); color: var(--g-ink); border: 2px solid var(--g-rule); padding: 8px; }
+
+/* play: raids */
+.g-bosses { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.g-boss { background: var(--g-panel); border: 2px solid var(--g-bad); padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.g-boss.down { border-color: var(--g-ok); }
+.g-boss h3 { margin: 0; color: var(--g-bad); } .g-boss.down h3 { color: var(--g-ok); }
+.g-hp { height: 18px; background: #080212; border: 2px solid var(--g-rule); position: relative; } .g-hp i { display: block; height: 100%; background: var(--g-bad); }
+.g-boss.down .g-hp i { background: var(--g-ok); }
+
 /* the "i" taps */
 .g-i { min-height: 24px !important; width: 24px; padding: 0 !important; margin-left: 6px; border-radius: 50% !important; font-size: 14px !important; box-shadow: none !important; border: 2px solid var(--g-cy) !important; color: var(--g-cy) !important; background: transparent !important; text-transform: lowercase !important; font-family: var(--g-text) !important; vertical-align: middle; }
 .g-i[aria-expanded="true"] { background: var(--g-cy) !important; color: var(--g-on-cy) !important; }

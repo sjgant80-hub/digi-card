@@ -57,7 +57,7 @@ try {
   if (!(await until(`document.documentElement.classList.contains('game') && document.querySelector('#first-s.on') && !document.querySelector('#g-first-cardme').disabled`, 60000, 'the first screen and its Card me button'))) await done(1);
   seen.push('first visit');
   await js(`document.querySelector('#g-first-cardme').click()`);
-  if (await until(`document.querySelector('#g-boot-match') && document.querySelector('#g-boot-match').children.length > 0`, 90000, 'the boot to finish')) {
+  if (await until(`document.querySelector('#g-boot-say') && document.querySelector('#g-boot-say').textContent.length > 0`, 90000, 'the boot to finish')) {
     const b = await js(`({ steps: [...document.querySelectorAll('#g-boot-steps li')].map((l) => l.className), gate: document.querySelector('#g-boot-gate').textContent, match: document.querySelector('#g-boot-match').textContent, rules: document.querySelectorAll('#g-boot-rules li').length })`);
     if (!b.steps.length || b.steps.some((c) => c !== 'k')) problems.push('a boot step did not pass: ' + b.steps.join(','));
     if (!/matches/i.test(b.match) || !b.match.includes(b.gate)) problems.push('the boot score ' + b.gate + ' is not shown as matching the declared one (' + b.match + ')');
@@ -65,7 +65,7 @@ try {
     seen.push('boot ' + b.gate + ' matches');
   }
   // every screen from the dock: it shows, it is the only one shown, and it is not empty
-  for (const s of ['estate', 'base', 'cards', 'evals', 'mint', 'mesh', 'send', 'proof']) {
+  for (const s of ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof']) {
     await js(`document.querySelector('#g-dock a[data-go="${s}"]').click()`);
     await sleep(700);
     const r = await js(`({ on: [...document.querySelectorAll('section[data-screen].on')].map((x) => x.dataset.screen), current: (document.querySelector('#g-dock a[aria-current="page"]') || {}).dataset?.go, text: [...document.querySelectorAll('section[data-screen].on')].map((x) => x.innerText).join(' ').length })`);
@@ -86,6 +86,30 @@ try {
     const e = await js(`document.querySelector('#g-eval-out').innerText`);
     if (!/What really happened|Abstained/.test(e)) problems.push('the eval does not say what really happened');
     seen.push('an eval of a real TEST case');
+  }
+  // the arena: a rated duel against a drop card, its result shown, then re-fought to the very same receipt
+  await js(`location.hash = '#arena'`);
+  if (await until(`document.querySelector('#g-ar-foe') && document.querySelector('#g-ar-foe').options.length > 0 && document.querySelector('#g-ar-mine').value`, 30000, 'the arena’s fighters')) {
+    await js(`document.querySelector('#g-ar-fight').click()`);
+    if (await until(`/You win|They win|A draw|Refused/.test(document.querySelector('#g-ar-result').textContent)`, 60000, 'a duel')) {
+      const res = await js(`document.querySelector('#g-ar-result').innerText`), blocks = await js(`document.querySelectorAll('#g-ar-batch i').length`);
+      if (/Refused/.test(res)) problems.push('the duel was refused: ' + res.slice(0, 120));
+      else if (blocks !== 64) problems.push('the duel showed ' + blocks + ' cases, not 64');
+      else {
+        await js(`document.querySelector('#g-ar-rerun').click()`);
+        if (await until(`/Re-fought here|✗/.test(document.querySelector('#g-ar-result').textContent)`, 30000, 'the duel re-fought'))
+          (await js(`/Re-fought here: the very same receipt/.test(document.querySelector('#g-ar-result').textContent)`)) ? seen.push('a rated duel, re-fought to the same receipt') : problems.push('the duel did not re-fight to the same receipt');
+      }
+    }
+  }
+  // a raid: one strike on the smallest boss's records, signed and re-checked here
+  await js(`location.hash = '#raids'`);
+  if (await until(`[...document.querySelectorAll('#g-rd-bosses .g-boss h3')].some((h) => /credit billing/.test(h.textContent))`, 30000, 'the raid bosses')) {
+    await js(`[...document.querySelectorAll('#g-rd-bosses .g-boss')].find((b) => /credit billing/.test(b.querySelector('h3').textContent)).querySelector('button').click()`);
+    if (await until(`/on GATE|could not|did not check/.test(document.querySelector('#g-rd-out').textContent)`, 240000, 'a raid strike')) {
+      const out = await js(`document.querySelector('#g-rd-out').textContent`);
+      /re-checked here/.test(out) ? seen.push('a raid strike, signed and re-checked') : problems.push('the raid strike: ' + out.slice(0, 120));
+    }
   }
   // the mesh: assembled, the fielded cards shown, their shares a million between them
   await js(`location.hash = '#mesh'`); await sleep(400);
@@ -113,7 +137,7 @@ try {
   // phone width: every screen holds without a sideways scroll
   await size(390, 844, true); await sleep(400);
   const wide = [];
-  for (const s of ['estate', 'base', 'cards', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot']) {
+  for (const s of ['estate', 'base', 'cards', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot']) {
     await js(`location.hash = '#${s}'`); await sleep(500);
     const w = await js(`document.documentElement.scrollWidth`);
     if (w > 392) wide.push(s + ' ' + w + 'px');

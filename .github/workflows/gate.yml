@@ -22,7 +22,7 @@ jobs:
         env: { CHROME: /usr/bin/google-chrome }
       - name: every organ sealed before measured, judged by its sealed rules
         run: |
-          for k in 1 2 3 4 5 6 7 8; do
+          for k in 1 2 3 4 5 6 7 8 9; do
             if [ -f data/organ-$k/verdict.json ]; then node tools/order.mjs --organ $k && node tools/judge-$k.mjs --check; fi
           done
   witness:

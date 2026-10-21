@@ -15,6 +15,12 @@ import { SETS } from '../src/data.mjs';
 import { standing, hashOf } from '../src/registry.mjs';
 import { tally } from '../src/mesh.mjs';
 import { THEMES, paintArt } from '../vendor/pixelwhisperer/kards/kardart.mjs';
+import { challenge as arenaChallenge, accept as arenaAccept, duel, rerun as rerunDuel, ratings } from '../src/arena.mjs';
+import { mindOf, organOf, searchOf, GROW } from '../src/mind.mjs';
+import { bossesOf, strikeSeed, strike as raidStrike, check as checkStrike, standing as raidStanding, lootOf, BAR as RAID_BAR } from '../src/raid.mjs';
+import { seal as sealGenome } from '../vendor/dex-frontier/vendor/living-seed/src/genome.mjs';
+import { issue as issueCard } from '../src/dossier.mjs';
+import { verify as verifyLife } from '../src/dossier.mjs';
 import { UI_ICONS, DATASET_ICONS, identicon as keyFace } from '../vendor/pixelwhisperer/kards/ui.mjs';
 import { paintEstate, tilesFor } from '../vendor/pixelwhisperer/kards/estate.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
@@ -59,7 +65,7 @@ const INFO = {
   drop: '1,000 genesis cards whose rules were fixed before the first search. Rerun it to check every seal here, from nothing.',
   life: 'Every event in the card’s life, signed by the right key and linked to the one before. There is no price column: nothing here is for sale.',
   verify: 'Re-checks the card here, in order: the PNG, its data band, its seals, its signatures, this device’s registry, and every pixel of its face.',
-  organs: 'The build’s claims, each written down and locked before it was measured. 41 of 44 held; the 3 that failed are shown, not hidden.',
+  organs: 'The build’s claims, each written down and locked before it was measured, then judged by those rules alone. The ones that failed are shown, not hidden.',
   rules: 'Its whole mind: at most six rules over one department’s columns. Each adds or takes away points; above the line means yes.',
   key: 'Your key is what makes cards yours. It lives in this tab and in the key file you save — never on a server, never in this browser’s storage. Lose the file and you lose the cards.',
   gate: 'How well its mind ranks cases it never grew on: 0.5 is a coin toss, 1.0 is perfect. Every genesis card reached 0.6.',
@@ -74,6 +80,9 @@ const INFO = {
   lv: 'Levels earned. A level counts only when a new search beats its mind by 0.002 and anyone can re-run it. Rarity follows the level.',
   gen: 'Generation: 0 for a genesis card; a child is one more than its parents.',
   owners: 'How many keys it has passed through. Replay checks its whole signed life.',
+  raids: 'A raid is many players searching one unsolved department, each search signed and re-checkable. The boss’s health is how far the best search so far is from the 0.6 bar. The first strike to clear it fells the boss, and its striker seals the first card of that department — the loot. The best of many tries is luckier than one: the screen always says how many strikes it took.',
+  arena: 'Two cards of one business meet on 64 cases both minds were proven on, chosen by both owners’ signatures together. The card whose mind ranks them better wins. Nothing is staked: a duel moves no card and no credit, and anyone re-runs it from its receipt.',
+  ladder: 'Ratings from the duels this device has seen, in order, from a published table — the same on every device. Self-play is never rated.',
 };
 /** an "i" button and the sentence it opens, beside the term it explains */
 function infoFor(key) {
@@ -147,9 +156,9 @@ const whose = (v) => (v.owner === S.me.pub ? 'yours' : v.owner === S.maker.pub ?
 // ── screens ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 const ALIAS = { wallet: 'cards', own: 'mint', open: 'send', drop: 'proof', explorer: 'proof', 'send-s': 'send', 'base-s': 'base', 'estate-s': 'estate', 'evals-s': 'evals', 'boot-s': 'boot', 'first-s': 'first' };
 const CLASSIC = ['top', 'what', 'worth', 'words', 'start', 'how', 'blueprint', 'business', 'cost', 'paper', 'faq'];
-const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'evals', 'mint', 'mesh', 'send', 'proof'];
-const DOCK = ['estate', 'base', 'cards', 'evals', 'mint', 'mesh', 'send', 'proof'];
-const TITLES = { first: 'DIGI', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer' };
+const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
+const DOCK = ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof'];
+const TITLES = { first: 'DIGI', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer' };
 
 function route() {
   const h = decodeURIComponent((location.hash || '').slice(1));
@@ -163,7 +172,7 @@ function go(screen, opts = {}) {
   if (!document.documentElement.classList.contains('game')) return;
   G.screen = screen;
   $$('section[data-screen]').forEach((s) => s.classList.toggle('on', s.dataset.screen === screen));
-  $$('#g-dock a').forEach((a) => { if (a.dataset.go === screen) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $$('#g-dock a').forEach((a) => { if (a.dataset.go === screen || (a.dataset.group || '').split(' ').includes(screen)) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   document.title = TITLES[screen] + ' · DIGI Card';
   if (!opts.keepHash && location.hash !== '#' + screen) history.replaceState(null, '', '#' + screen);
   if (!opts.keepScroll) scrollTo(0, 0);
@@ -172,7 +181,7 @@ function go(screen, opts = {}) {
   render(screen);
 }
 function render(screen) {
-  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
+  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, arena: renderArena, raids: renderRaids, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
   renderTop();
 }
 
@@ -557,6 +566,218 @@ async function runEval() {
   saveState(); renderEvals(); renderTop();
 }
 
+// ── play: the arena ─────────────────────────────────────────────────────────────────────────────────────────────
+const A = { last: null, tab: 'drop', pending: null };
+const dropOwner = () => S.maker;   // the drop's public demo key: it accepts here as it hands out cards here
+async function renderArena() {
+  const mine = [];
+  for (const id of api.mine()) { const v = await verify(api.lifeOf(id)); if (v.ok && api.setOf(v)) mine.push({ id, v, f: facts(v) }); }
+  const pick = $('#g-ar-mine'), keep = pick.value || S.sel;
+  fill(pick, mine.length ? mine.map((m) => el('option', { value: m.id }, m.f.title + ' #' + pad4(m.v.serial))) : el('option', { value: '' }, 'card me first'));
+  if (mine.some((m) => m.id === keep)) pick.value = keep;
+  await arenaSides();
+  renderLadder();
+}
+async function arenaSides() {
+  const id = $('#g-ar-mine').value;
+  if (!id) return;
+  const v = await show($('#g-ar-a'), $('#g-ar-a-ring'), api.lifeOf(id)), set = api.setOf(v), rate = (ratings(G.st.duels || []).ratings || {})[id];
+  fill($('#g-ar-a-line'), facts(v).title + ' #' + pad4(v.serial) + ' · rating ' + (rate ?? 1000));
+  // the drop's cards of the same business still held by its maker, best first, and a few at random
+  const pool = S.manifest.cards.filter((c) => c.domain.split('-')[0] === set && S.reg.cards[c.card] && S.reg.cards[c.card].owner === S.maker.pub && c.card !== id);
+  const top = [...pool].sort((a, b) => b.gate - a.gate).slice(0, 6), rest = pool.filter((c) => !top.includes(c)).filter((c, k) => k % 11 === 0).slice(0, 6);
+  const foe = $('#g-ar-foe'), keepFoe = foe.value;
+  fill(foe, [...top, ...rest].map((c) => el('option', { value: c.card }, '#' + pad4(c.serial) + ' · ' + c.domain.replace(set + '-', '') + ' · GATE ' + four(c.gate))));
+  if (keepFoe && [...foe.options].some((o) => o.value === keepFoe)) foe.value = keepFoe;
+  const own = $('#g-ar-own');
+  const ownSame = [];
+  for (const x of api.mine()) if (x !== id) { const w = await verify(api.lifeOf(x)); if (w.ok && api.setOf(w) === set) ownSame.push({ x, w }); }
+  fill(own, ownSame.length ? ownSame.map(({ x, w }) => el('option', { value: x }, facts(w).title + ' #' + pad4(w.serial))) : el('option', { value: '' }, 'no other card of yours on this business'));
+  await showFoe();
+}
+async function showFoe() {
+  const id = A.tab === 'drop' ? $('#g-ar-foe').value : A.tab === 'mine' ? $('#g-ar-own').value : A.pending && A.pending.foe;
+  if (!id || !api.lifeOf(id)) { fill($('#g-ar-b-line'), A.tab === 'friend' ? 'Their card appears once you paste their challenge or answer' : 'No opponent here yet'); return; }
+  const v = await show($('#g-ar-b'), $('#g-ar-b-ring'), api.lifeOf(id));
+  fill($('#g-ar-b-line'), facts(v).title + ' #' + pad4(v.serial) + ' · ' + whose(v));
+}
+function arenaTab(t) {
+  A.tab = t;
+  for (const k of ['drop', 'mine', 'friend']) { $('#g-ar-t-' + k).setAttribute('aria-selected', String(k === t)); $('#g-ar-p-' + k).hidden = k !== t; }
+  $('#g-ar-fight').hidden = t === 'friend';
+  showFoe();
+}
+async function fightWith(vA, vB, keysA, keysB, nonce) {
+  const g = await api.groundFor(vA), ch = await arenaChallenge(keysA, vA, nonce);
+  if (!ch.ok) return { ok: false, why: ch.why };
+  const ac = await arenaAccept(keysB, vB, ch.challenge);
+  if (!ac.ok) return { ok: false, why: ac.why };
+  return { ...(await duel(vA, vB, g, { challenge: ch.challenge, accept: ac.accept })), signed: { challenge: ch.challenge, accept: ac.accept }, g };
+}
+async function arenaFight() {
+  const aId = $('#g-ar-mine').value, bId = A.tab === 'drop' ? $('#g-ar-foe').value : $('#g-ar-own').value;
+  if (!aId || !bId) return fill($('#g-ar-result'), el('p', { class: 'g-badt' }, A.tab === 'mine' ? 'You hold no other card of this business: card me, breed or mint one.' : 'Pick a fighter and an opponent.'));
+  const btn = $('#g-ar-fight'); btn.disabled = true; btn.textContent = 'Fighting…';
+  try {
+    const vA = await verify(api.lifeOf(aId)), vB = await verify(api.lifeOf(bId));
+    const nonce = 'd' + ((G.st.duels || []).length + 1) + '-' + Date.now().toString(36);
+    const r = await fightWith(vA, vB, S.me, A.tab === 'drop' ? dropOwner() : S.me, nonce);
+    showDuel(r, vA, vB);
+  } catch (e) { fill($('#g-ar-result'), el('p', { class: 'g-badt' }, String(e.message || e))); }
+  finally { btn.disabled = false; btn.textContent = 'Fight'; }
+}
+function showDuel(r, vA, vB) {
+  if (!r.ok) { fill($('#g-ar-result'), el('p', { class: 'g-badt' }, 'Refused · ' + r.why)); bleep('refused'); return; }
+  const x = r.receipt, mA = mindOf(vA, r.g), mB = mindOf(vB, r.g);
+  // each case: which side put it on the right side of its own line (the AUC, not this, decides the duel)
+  fill($('#g-ar-batch'), r.batch.map((row, k) => { const okA = (r.scores.a[k] > mA.threshold) === (r.y[k] === 1), okB = (r.scores.b[k] > mB.threshold) === (r.y[k] === 1); return el('i', { class: okA && okB ? 'both' : okA ? 'a' : okB ? 'b' : 'none', title: 'case ' + row + ': ' + (okA ? 'yours right' : 'yours wrong') + ' · ' + (okB ? 'theirs right' : 'theirs wrong') }); }));
+  const you = x.winner === 'a' ? 'ok' : x.winner === 'b' ? 'bad' : 'draw', before = ratings(G.st.duels || []).ratings || {};
+  G.st.duels = [...(G.st.duels || []), x].slice(-500);
+  A.last = { receipt: x, signed: r.signed, vA, vB };
+  const after = ratings(G.st.duels).ratings || {}, move = x.self ? null : (after[vA.id] ?? 1000) - (before[vA.id] ?? 1000);
+  note('duel', { id: vA.id, won: x.winner === 'a' });
+  saveState();
+  fill($('#g-ar-result'), el('p', { class: 'g-win ' + you }, x.winner === 'a' ? 'You win' : x.winner === 'b' ? 'They win' : 'A draw'),
+    el('p', {}, 'Your mind ' + six(x.a.auc) + ' · theirs ' + six(x.b.auc) + ' (AUC on the batch)'),
+    el('p', { class: 'g-small g-dim' }, x.self ? 'Practice: one owner on both sides, so no rating moves' : 'Rating ' + (move >= 0 ? '+' : '') + move + ' → ' + (after[vA.id] ?? 1000)),
+    el('p', { class: 'g-small g-dim' }, 'Cyan: only yours ranked the case right of its line · pink: only theirs · grey: both · dark: neither'));
+  $('#g-ar-rerun').disabled = false; $('#g-ar-receipt').disabled = false;
+  bleep(you === 'ok' ? 'kept' : you === 'bad' ? 'wrong' : 'abstain');
+  renderLadder(); fill($('#g-ar-a-line'), facts(vA).title + ' #' + pad4(vA.serial) + ' · rating ' + (after[vA.id] ?? 1000));
+}
+async function arenaRerun() {
+  if (!A.last) return;
+  const g = await api.groundFor(A.last.vA), r = await rerunDuel(A.last.receipt, A.last.vA, A.last.vB, g, A.last.signed);
+  $('#g-ar-result').append(el('p', { class: r.ok ? 'g-okt' : 'g-badt' }, r.ok ? '✓ Re-fought here: the very same receipt' : '✗ ' + r.why));
+}
+function renderLadder() {
+  const r = ratings(G.st.duels || []), rows = Object.entries(r.ratings || {}).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  fill($('#g-ar-ladder'), rows.length ? rows.map(([id, pts]) => line(api.mine().includes(id) ? 'k' : '', '#' + pad4((S.reg.cards[id] || {}).serial || 0) + ' ' + ((S.manifest.cards.find((c) => c.card === id) || {}).domain || id.slice(0, 8)), el('small', {}, pts + ' · ' + (r.played[id] || 0) + ' duels'))) : line('x', 'No rated duels on this device yet'));
+}
+// a friend: the challenge (or the answer) travels as text, with the card's whole life, so their device holds what it fights
+const enc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+const dec = (s) => { try { return JSON.parse(decodeURIComponent(escape(atob(String(s).trim())))); } catch { return null; } };
+async function arenaCopy() {
+  const id = $('#g-ar-mine').value;
+  if (!id) return;
+  const v = await verify(api.lifeOf(id)), ch = await arenaChallenge(S.me, v, 'f' + Date.now().toString(36));
+  if (!ch.ok) return fill($('#g-ar-friend-out'), el('p', { class: 'g-badt' }, ch.why));
+  const code = enc({ kind: 'digi.duel.challenge', challenge: ch.challenge, card: api.lifeOf(id) });
+  A.pending = { mine: id, challenge: ch.challenge };
+  try { await navigator.clipboard.writeText(code); fill($('#g-ar-friend-out'), el('p', { class: 'g-okt g-small' }, 'Copied (' + Math.round(code.length / 1024) + ' KB). Send it to them; paste their answer here.')); }
+  catch { $('#g-ar-code').value = code; fill($('#g-ar-friend-out'), el('p', { class: 'g-small' }, 'Copy the text above and send it to them.')); }
+}
+async function arenaPaste() {
+  const o = dec($('#g-ar-code').value), out = $('#g-ar-friend-out');
+  if (!o || !o.card) return fill(out, el('p', { class: 'g-badt' }, 'That is not a DIGI challenge or answer.'));
+  const them = await verifyLife(o.card);
+  if (!them.ok) return fill(out, el('p', { class: 'g-badt' }, 'Their card does not check: ' + them.why));
+  const kept = await api.keep(o.card);   // their card's life, recorded here like any card opened here
+  if (!kept.ok && kept.why) { /* already held, or a later life is here: the duel checks the heads itself */ }
+  if (o.kind === 'digi.duel.challenge') {
+    const id = $('#g-ar-mine').value;
+    if (!id) return fill(out, el('p', { class: 'g-badt' }, 'Pick your fighter first.'));
+    const v = await verify(api.lifeOf(id)), ac = await arenaAccept(S.me, v, o.challenge);
+    if (!ac.ok) return fill(out, el('p', { class: 'g-badt' }, ac.why));
+    const g = await api.groundFor(them), r = await duel(them, v, g, { challenge: o.challenge, accept: ac.accept });
+    A.pending = { foe: them.id }; await showFoe();
+    if (r.ok) { r.signed = { challenge: o.challenge, accept: ac.accept }; r.g = g; }
+    const answer = enc({ kind: 'digi.duel.answer', challenge: o.challenge, accept: ac.accept, card: api.lifeOf(id) });
+    $('#g-ar-code').value = answer;
+    fill(out, el('p', { class: 'g-small' }, 'Fought here. Send them the answer now in the box (or copy it): their device fights the very same duel.'));
+    showDuel(r, them, v);
+    return;
+  }
+  if (o.kind === 'digi.duel.answer') {
+    if (!A.pending || !A.pending.challenge || A.pending.challenge.sig !== o.challenge.sig) return fill(out, el('p', { class: 'g-badt' }, 'This answers a challenge this tab did not send.'));
+    const v = await verify(api.lifeOf(A.pending.mine)), g = await api.groundFor(v), r = await duel(v, them, g, { challenge: o.challenge, accept: o.accept });
+    A.pending = { foe: them.id }; await showFoe();
+    if (r.ok) { r.signed = { challenge: o.challenge, accept: o.accept }; r.g = g; }
+    showDuel(r, v, them);
+    return;
+  }
+  fill(out, el('p', { class: 'g-badt' }, 'That is not a DIGI challenge or answer.'));
+}
+
+// ── play: raids ─────────────────────────────────────────────────────────────────────────────────────────────────
+const R = { running: new Set() };
+async function renderRaids() {
+  admission ||= await fetch('drop/admission.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const bosses = bossesOf(admission), st = raidStanding(bosses, G.st.strikes || []), box = $('#g-rd-bosses');
+  if (!bosses.length) return fill(box, el('p', { class: 'g-dim' }, 'The admission record did not load.'));
+  fill(box, bosses.map((b) => {
+    const r = st.raids[b.domain], mine = (G.st.strikes || []).filter((s) => s.domain === b.domain && s.by === S.me.pub).length, pct = Math.round((r.hp / RAID_BAR) * 100 * 25);
+    const go = el('button', { type: 'button', class: 'g-btn hot', disabled: R.running.has(b.domain) || r.fallen, onclick: () => raidGo(b, mine) }, R.running.has(b.domain) ? 'Striking…' : r.fallen ? 'Fallen' : 'Strike');
+    return el('div', { class: 'g-boss' + (r.fallen ? ' down' : '') }, el('h3', {}, b.domain.replace('-', ' ')),
+      el('div', { class: 'g-hp', role: 'img', 'aria-label': 'Health ' + six(r.hp) + ' from the bar' }, el('i', { style: 'width:' + Math.min(100, pct) + '%' })),
+      el('p', { class: 'g-small' }, r.fallen ? 'Fallen after ' + r.kill.after + ' strike' + (r.kill.after === 1 ? '' : 's') + ' · ' + six(r.kill.gate) + ' by ' + (r.kill.by === S.me.pub ? 'you' : api.short(r.kill.by)) : 'Best ' + six(r.best) + ' · the bar 0.600000 · ' + six(r.hp) + ' to go'),
+      el('p', { class: 'g-small g-dim' }, 'Genesis tried ' + b.searched + ' · raid strikes ' + r.strikes + ' (' + mine + ' yours) · ' + Object.keys(r.strikers).length + ' striker' + (Object.keys(r.strikers).length === 1 ? '' : 's')),
+      el('div', { class: 'g-row' }, go, r.fallen && r.kill.by === S.me.pub && !G.st.loot?.[b.domain] ? el('button', { type: 'button', class: 'g-btn gold', onclick: () => raidLoot(b) }, 'Seal the loot') : null,
+        G.st.loot?.[b.domain] ? el('a', { class: 'g-btn', href: '#cards' }, 'Your ' + b.domain.split('-')[1] + ' card') : null));
+  }));
+}
+async function raidGo(b, k) {
+  const out = $('#g-rd-out');
+  R.running.add(b.domain); renderRaids();
+  try {
+    fill(out, el('p', { class: 'g-small' }, 'Fetching the ' + b.set + ' records (checked by their hash) for a strike on ' + b.domain + '…'));
+    const g = await api.groundOf(b.set, (t) => fill(out, el('p', { class: 'g-small' }, t)));
+    const seed = strikeSeed(S.me.pub, b.domain, k), t0 = Date.now(), tick = setInterval(() => fill(out, el('p', { class: 'g-small' }, 'Strike ' + (k + 1) + ' on ' + b.domain + ': a search on its FIT rows (seed ' + seed + ') — ' + Math.round((Date.now() - t0) / 1000) + ' s')), 500);
+    const w = await api.work({ op: 'search', set: b.set, own: null, domain: b.domain, seed, bar: RAID_BAR / 1e6, grow: GROW });
+    clearInterval(tick);
+    if (!w.ok) return fill(out, el('p', { class: 'g-badt' }, 'The strike could not run: ' + w.why));
+    const s = await raidStrike(S.me, g, b.domain, k, { organ: { ok: true, fixed: w.fixed, gate: w.gate } });
+    const c = s.ok ? await checkStrike(s.strike, g) : s;
+    if (!c.ok) return fill(out, el('p', { class: 'g-badt' }, 'The strike did not check here: ' + c.why));
+    G.st.strikes = [...(G.st.strikes || []), s.strike].slice(-2000);
+    note('strike', { id: b.domain, gate: s.strike.gate, kept: s.strike.gate >= RAID_BAR });
+    saveState();
+    const cleared = s.strike.gate >= RAID_BAR;
+    fill(out, el('p', { class: cleared ? 'g-okt' : '' }, (cleared ? '★ The boss falls: ' : 'Strike ' + (k + 1) + ': ') + six(s.strike.gate) + ' on GATE' + (cleared ? ' — seal the loot' : ' (the bar is 0.600000)') + ' · re-checked here'));
+    bleep(cleared ? 'level' : 'refused');
+  } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
+  finally { R.running.delete(b.domain); renderRaids(); }
+}
+async function raidLoot(b) {
+  const st = raidStanding(bossesOf(admission), G.st.strikes || []), r = st.raids[b.domain], s = (G.st.strikes || []).find((x) => x.domain === b.domain && x.by === r.kill.by && x.k === r.kill.k);
+  const l = lootOf(s);
+  if (!l.ok) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, l.why));
+  const sealed = await sealGenome(l.genome, S.me);
+  if (!sealed.ok) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, sealed.why));
+  const serial = 1 + Object.values(S.reg.cards).filter((c) => c.maker === S.me.pub).reduce((m, c) => Math.max(m, c.serial), 0);
+  const c = await issueCard(sealed.text, S.me, { serial, to: S.me.pub, theme: 'synthwave-v1', generation: 0 });
+  const kept = c.ok ? await api.keep(c.dossier) : c;
+  if (!kept.ok) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, kept.why));
+  G.st.loot = { ...(G.st.loot || {}), [b.domain]: kept.entry ? kept.entry.card : sealed.id };
+  note('minted', { id: G.st.loot[b.domain] }); saveState();
+  await api.renderWallet();
+  fill($('#g-rd-out'), el('p', { class: 'g-okt' }, '★ Sealed: the first ' + b.domain + ' card, with you as its maker. It is in your collection.'));
+  renderRaids();
+}
+async function raidShare() {
+  const mine = (G.st.strikes || []).filter((s) => s.by === S.me.pub), code = btoa(unescape(encodeURIComponent(JSON.stringify({ kind: 'digi.raid.strikes', strikes: mine }))));
+  try { await navigator.clipboard.writeText(code); fill($('#g-rd-out'), el('p', { class: 'g-okt g-small' }, 'Copied your ' + mine.length + ' strike' + (mine.length === 1 ? '' : 's') + '. A friend adds them to their raid; each is re-checked on arrival.')); }
+  catch { const t = $('#g-rd-code'); t.hidden = false; t.value = code; fill($('#g-rd-out'), el('p', { class: 'g-small' }, 'Copy the text above and send it.')); }
+}
+async function raidImport() {
+  const t = $('#g-rd-code');
+  if (t.hidden || !t.value.trim()) { t.hidden = false; t.value = ''; t.focus(); return fill($('#g-rd-out'), el('p', { class: 'g-small' }, 'Paste a friend’s strikes in the box, then press Add a friend’s strikes again.')); }
+  let o = null;
+  try { o = JSON.parse(decodeURIComponent(escape(atob(t.value.trim())))); } catch { o = null; }
+  if (!o || o.kind !== 'digi.raid.strikes' || !Array.isArray(o.strikes)) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, 'Those are not DIGI raid strikes.'));
+  const bosses = bossesOf(admission), have = new Set((G.st.strikes || []).map((s) => s.sig));
+  let added = 0, refused = 0;
+  for (const s of o.strikes.slice(0, 500)) {
+    const b = bosses.find((x) => x.domain === s.domain);
+    if (!b || have.has(s.sig)) continue;
+    const c = await checkStrike(s, await api.groundOf(b.set));
+    if (c.ok) { G.st.strikes = [...(G.st.strikes || []), s]; have.add(s.sig); added++; } else refused++;
+  }
+  saveState(); t.value = ''; t.hidden = true;
+  fill($('#g-rd-out'), el('p', { class: added ? 'g-okt' : '' }, added + ' strike' + (added === 1 ? '' : 's') + ' added, each re-checked here' + (refused ? ' · ' + refused + ' refused' : '')));
+  renderRaids();
+}
+
 // ── mesh, send, proof ────────────────────────────────────────────────────────────────────────────────────────────────
 function renderMesh() {
   const box = $('#g-meshslots');
@@ -604,7 +825,7 @@ async function verifyChain() {
 }
 let organs = null;
 async function renderOrgans() {
-  organs ||= await Promise.all([1, 2, 3, 4, 5, 6, 7, 8].map(async (k) => {
+  organs ||= await Promise.all([1, 2, 3, 4, 5, 6, 7, 8, 9].map(async (k) => {
     const [v, p] = await Promise.all(['verdict', 'prereg'].map((f) => fetch('data/organ-' + k + '/' + f + '.json').then((r) => (r.ok ? r.json() : null)).catch(() => null)));
     return { k, name: p ? p.organ : 'organ ' + k, blind: !(p && p.disclosure), held: v ? v.verdicts.filter((x) => x.pass).length : 0, all: v ? v.verdicts.length : 0 };
   }));
@@ -686,6 +907,12 @@ function wire() {
     try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text }); return; } } catch { return; }
     api.download(png.png, file.name);
   });
+  on('#g-ar-mine', 'change', arenaSides); on('#g-ar-foe', 'change', showFoe); on('#g-ar-own', 'change', showFoe);
+  on('#g-ar-t-drop', 'click', () => arenaTab('drop')); on('#g-ar-t-mine', 'click', () => arenaTab('mine')); on('#g-ar-t-friend', 'click', () => arenaTab('friend'));
+  on('#g-ar-fight', 'click', arenaFight); on('#g-ar-rerun', 'click', arenaRerun);
+  on('#g-ar-receipt', 'click', () => { if (A.last) api.download(new TextEncoder().encode(JSON.stringify({ kind: 'digi.duel', receipt: A.last.receipt, challenge: A.last.signed.challenge, accept: A.last.signed.accept }, null, 1)), 'digi-duel-' + A.last.receipt.seed.slice(0, 8) + '.json'); });
+  on('#g-ar-copy', 'click', arenaCopy); on('#g-ar-paste', 'click', arenaPaste);
+  on('#g-rd-share', 'click', raidShare); on('#g-rd-import', 'click', raidImport);
   const toTab = (t) => () => { tab = t; renderTabs(); };
   on('#g-tab-rules', 'click', toTab('rules')); on('#g-tab-reruns', 'click', toTab('reruns')); on('#g-tab-life', 'click', toTab('life'));
   on('#g-work', 'click', () => api.workOvernight());

@@ -676,7 +676,7 @@ async function renderTraces() {
 // ── the organs' sealed verdicts ──────────────────────────────────────────────────────────────────────────────────────
 async function renderProof() {
   const rows = [];
-  for (let k = 1; k <= 8; k++) {
+  for (let k = 1; k <= 9; k++) {
     const v = await fetch('data/organ-' + k + '/verdict.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
     const pre = v && (await fetch('data/organ-' + k + '/prereg.json').then((r) => (r.ok ? r.json() : null)).catch(() => null));
     if (pre) rows.push(el('tr', {}, el('td', { class: 'num' }, 'organ ' + k), el('td', { colspan: '3' }, el('b', {}, pre.organ), pre.disclosure ? el('div', { class: 'note' }, pre.disclosure) : null)));
@@ -752,5 +752,5 @@ boot();
 
 /** what the game screens drive: the same actions the page's buttons run, nothing more */
 const api = { cardMe, select, actGrow, actAsk, actLevel, actBreed, actSend, actSkin, actDownload, actVerify, openFile, rerunDrop, regrow, buildMesh, meshAsk, meshJob, workOvernight,
-  renderWallet, lifeOf, mine, drawCard, pixels, groundFor, groundOf, setOf, ownSetOf, protectedOf, download, saveKeyFile, forgetStoredKey, short, auc, emit, keep, load, save, paint };
+  renderWallet, lifeOf, mine, drawCard, pixels, groundFor, groundOf, setOf, ownSetOf, protectedOf, download, saveKeyFile, forgetStoredKey, short, auc, emit, keep, load, save, paint, work: work_ };
 export { S, ready, api };

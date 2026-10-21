@@ -152,7 +152,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere.</p>
       <div class="pills">
         <span class="pill hot"><span data-k="drop-total">…</span> genesis cards · decoder #0001</span>
-        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">8 organs, sealed before measured</a></span>
+        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">9 organs, sealed before measured</a></span>
         <span class="pill ok">records never leave your device</span>
         <span class="pill">MIT — no licence fee</span>
       </div>
@@ -183,7 +183,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="g-first">
     <h2 id="first-h" class="g-hero">A card that is a mind you own</h2>
     <p class="g-lead">It runs on this device · nothing you do here is sent anywhere</p>
-    <button class="g-btn hot huge" id="g-first-cardme" type="button" disabled>Card me</button>
+    <button class="g-btn hot huge" id="g-first-cardme" type="button" aria-label="Card me: get your first DIGI card, free" disabled>Card me</button>
     <p class="g-dim g-small" id="g-first-status" aria-live="polite">Checking the 1,000 genesis cards here, from nothing…</p>
     <p class="g-okt">Free · no account · no chain · no seed phrase</p>
     <p class="g-dim">A telco card from the genesis 1,000 · it boots here in seconds</p>
@@ -233,7 +233,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <div class="g-row g-centre-row"><b class="g-title" id="g-feat-title">…</b><span class="g-goldt" id="g-feat-serial"></span><span class="g-tag ok" id="g-feat-tag">genesis</span></div>
       <div class="g-row g-centre-row" id="g-feat-line"></div>
       <div class="g-row g-centre-row">
-        <button class="g-btn hot big" id="g-cardme" type="button">Card me</button>
+        <button class="g-btn hot big" id="g-cardme" type="button" aria-label="Card me: get another DIGI card, free">Card me</button>
         <button class="g-btn cy big" id="g-boot" type="button">Boot</button>
         <button class="g-btn big" id="g-eval" type="button">Eval</button>
         <a class="g-btn big" href="#cards" id="g-inspect">Inspect</a>
@@ -273,7 +273,50 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   </div>
 </section>
 
+<section id="arena-s" class="g-only g-screen" data-screen="arena" aria-labelledby="arena-h">
+  <nav class="g-subnav" aria-label="Play"><a href="#arena" aria-current="page">Arena</a><a href="#raids">Raids</a><a href="#evals">Evals</a></nav>
+  <div class="g-grid g-3">
+    <div class="g-col">
+      <h2 id="arena-h" class="g-h" data-info="arena">Arena</h2>
+      <div class="g-panel"><h3>Your fighter</h3><label class="g-small">Card <select id="g-ar-mine" aria-label="Your fighter"></select></label>
+        <div class="g-cardcol"><div class="g-ring" id="g-ar-a-ring"><canvas class="g-card2" id="g-ar-a" width="384" height="576" role="img" aria-label="Your fighter"></canvas></div></div><p class="g-small" id="g-ar-a-line"></p></div>
+    </div>
+    <div class="g-col g-centre">
+      <div class="g-panel" style="width:100%"><h3>The fight</h3><p class="g-small g-dim" id="g-ar-rule">64 cases from the GATE rows both minds were proven on, drawn from both owners’ signatures · the better ranking wins</p>
+        <div class="g-batch" id="g-ar-batch" aria-label="The batch, case by case"></div>
+        <div id="g-ar-result" aria-live="polite"></div>
+        <div class="g-row g-centre-row"><button class="g-btn hot big" id="g-ar-fight" type="button">Fight</button><button class="g-btn" id="g-ar-rerun" type="button" disabled>Rerun it</button><button class="g-btn" id="g-ar-receipt" type="button" disabled>Save the receipt</button></div></div>
+      <div class="g-panel" style="width:100%"><h3 data-info="ladder">Ladder <small>from the duels on this device</small></h3><ol class="g-lines" id="g-ar-ladder"></ol></div>
+    </div>
+    <div class="g-col">
+      <div class="g-panel"><h3>Opponent</h3>
+        <div class="g-tabs" role="tablist" aria-label="Who to fight"><button role="tab" type="button" id="g-ar-t-drop" aria-selected="true">The drop</button><button role="tab" type="button" id="g-ar-t-mine" aria-selected="false">Your cards</button><button role="tab" type="button" id="g-ar-t-friend" aria-selected="false">A friend</button></div>
+        <div id="g-ar-p-drop"><label class="g-small">Drop card <select id="g-ar-foe" aria-label="The drop card to fight"></select></label><p class="g-small g-dim">The drop’s maker accepts here with its public demo key, as it hands out cards here · rated</p></div>
+        <div id="g-ar-p-mine" hidden><label class="g-small">Your card <select id="g-ar-own" aria-label="Your other card to fight"></select></label><p class="g-small g-dim">Practice: one owner on both sides is never rated</p></div>
+        <div id="g-ar-p-friend" hidden>
+          <p class="g-small">1 · Copy your challenge and send it. 2 · They paste it, fight, and send back their answer. 3 · Paste their answer: your device fights the very same duel.</p>
+          <div class="g-row"><button class="g-btn" id="g-ar-copy" type="button">Copy my challenge</button></div>
+          <textarea id="g-ar-code" rows="4" aria-label="A challenge or an answer, pasted" placeholder="paste a challenge or an answer here"></textarea>
+          <div class="g-row"><button class="g-btn cy" id="g-ar-paste" type="button">Fight what I pasted</button></div>
+          <div id="g-ar-friend-out" aria-live="polite"></div>
+        </div>
+        <div class="g-cardcol"><div class="g-ring" id="g-ar-b-ring"><canvas class="g-card2" id="g-ar-b" width="384" height="576" role="img" aria-label="The opponent"></canvas></div></div><p class="g-small" id="g-ar-b-line"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="raids-s" class="g-only g-screen" data-screen="raids" aria-labelledby="raids-h">
+  <nav class="g-subnav" aria-label="Play"><a href="#arena">Arena</a><a href="#raids" aria-current="page">Raids</a><a href="#evals">Evals</a></nav>
+  <div class="g-row"><h2 id="raids-h" class="g-h" data-info="raids">Raids</h2><span class="g-sp"></span><button class="g-btn" id="g-rd-share" type="button">Copy my strikes</button><button class="g-btn" id="g-rd-import" type="button">Add a friend’s strikes</button></div>
+  <p class="g-small g-dim">Each boss is a department where no genesis search reached the bar. Strike it: one search, from a seed your key fixes, signed by you. The best strike so far is its health; when a strike clears 0.6, the boss falls and you seal the first card of that department.</p>
+  <textarea id="g-rd-code" rows="3" aria-label="Strikes, pasted or copied" placeholder="a friend’s strikes, pasted here" hidden></textarea>
+  <div id="g-rd-out" aria-live="polite"></div>
+  <div class="g-bosses" id="g-rd-bosses"></div>
+</section>
+
 <section id="evals-s" class="g-only g-screen" data-screen="evals" aria-labelledby="evals-h">
+  <nav class="g-subnav" aria-label="Play"><a href="#arena">Arena</a><a href="#raids">Raids</a><a href="#evals" aria-current="page">Evals</a></nav>
   <div class="g-grid g-3">
     <div class="g-col">
       <h2 id="evals-h" class="g-h">Eval runs</h2>
@@ -657,7 +700,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <h3>10 · The claim gate</h3>
     <p>Public posts may claim only verified, owned, grown, offline, level, born, mesh or drop — each re-run by a checker at posting time — and every number in a post must be one a claim just re-ran. A post never says a DIGI is self-aware, conscious or alive, never promises, and never mentions a price.</p>
     <h3>11 · What was measured</h3>
-    <p>Eight organs, each sealed before it was measured, are in <a href="#proof">Proof</a>, with every rule’s verdict read live from the committed records — the ones that failed included. Not everything held. One example: the shop’s TEST cases are its holiday months, and its minds rank them less well than the months they were judged on — the shop-context department’s median TEST AUC fell under the 0.6 bar its cards cleared on GATE. That result is kept as sealed, not tuned away.</p>
+    <p>Nine organs, each sealed before it was measured, are in <a href="#proof">Proof</a>, with every rule’s verdict read live from the committed records — the ones that failed included. Not everything held. One example: the shop’s TEST cases are its holiday months, and its minds rank them less well than the months they were judged on — the shop-context department’s median TEST AUC fell under the 0.6 bar its cards cleared on GATE. That result is kept as sealed, not tuned away.</p>
     <h3>12 · Limits</h3>
     <p>The minds are small by design: readable, fast and provable, not the most accurate models one could fit; pooled gradient-boosted trees beat them in dex-frontier’s measurements. A level is adopted on GATE, and how it holds on TEST is measured, not assumed. The registry’s keeper decides only the order of arrivals. The drop on this page is sealed with a public demo key; the real drop is sealed by its owner’s own key.</p>
     <h3>13 · Credits</h3>
@@ -703,7 +746,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </footer>
 </div>
 <nav id="g-dock" class="g-only g-dock" aria-label="Screens" data-icons="1">
-  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards"><span class="n">3</span>Cards</a><a href="#evals" data-go="evals"><span class="n">4</span>Evals</a>
+  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards"><span class="n">3</span>Cards</a><a href="#arena" data-go="arena" data-group="arena raids evals"><span class="n">4</span>Play</a>
   <a href="#mint" data-go="mint"><span class="n">5</span>Mint</a><a href="#mesh" data-go="mesh"><span class="n">6</span>Mesh</a><a href="#send" data-go="send"><span class="n">7</span>Send</a><a href="#proof" data-go="proof"><span class="n">8</span>Proof</a>
 </nav>
 <script type="module" src="app.js"></script>
