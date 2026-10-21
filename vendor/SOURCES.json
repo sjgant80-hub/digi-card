@@ -150,6 +150,21 @@
      "sha256": "ee2fb7b0d40d4668b861a4f0d082d5ecc50944bcef41b132b7abcc97f499baa4"
     }
    }
+  },
+  {
+   "repo": "sjgant80-hub/kcc-mesh",
+   "commit": "3282a92a9e7df8f821e0f10b6df0a7a382a415a0",
+   "local": "C:/Users/sjgan/kcc-mesh",
+   "files": {
+    "vendor/kcc-mesh/contrib.mjs": {
+     "from": "contrib.mjs",
+     "sha256": "b275501705812dd6caf61833da69bd45070095d22a5b9fc700d4371927a6ffc3"
+    },
+    "vendor/kcc-mesh/digi-gate.mjs": {
+     "from": "digi-gate.mjs",
+     "sha256": "d6c5de3edaf0a7807d0832dbbbe5d9034e65de9671a021cff4bec9be26da7615"
+    }
+   }
   }
  ]
 }
