@@ -2,7 +2,9 @@
 // tools/genesis.mjs — THE GENESIS: every search behind the drop, then the drop itself. Nothing is picked by hand.
 //
 //   node tools/genesis.mjs --searches [--workers 10]     admission + searches → drop/searches.jsonl, drop/admission.json
-//   node tools/genesis.mjs --mint [--key <file>]         the cards, decoder #0001, the drop log → drop/, decoder/v1/
+//   node tools/genesis.mjs --mint [--key <file>] [--total N]   the cards, decoder #0001, the drop log → drop/, decoder/v1/
+//     (--total: the drop's size including #0001; 1000 by default; 1001 makes 1,000 free cards plus the decoder — the
+//      cached searches hold a spare live mind per department, so no search is re-run)
 //
 // THE RULES (committed before the first search ran; tools/order.mjs can prove it from git):
 //   · every department of the six bundled sets is a candidate (23 of them);
@@ -123,8 +125,8 @@ async function mint() {
   const pool = adm.admitted.flatMap((d) => lists[d]);
   const best = pool.reduce((b, r) => (r.gate > b.gate ? r : b));
   lists[best.domain] = lists[best.domain].filter((r) => r !== best);
-  const order = [...adm.admitted], plan = [];
-  for (let serial = 2, k = 0; serial <= TOTAL; serial++) {
+  const order = [...adm.admitted], plan = [], total = Number(arg('--total', TOTAL));
+  for (let serial = 2, k = 0; serial <= total; serial++) {
     let tries = 0;
     while (!lists[order[k % order.length]].length && tries++ < order.length) k++;
     if (tries > order.length) break;
