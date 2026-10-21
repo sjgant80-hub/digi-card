@@ -1,0 +1,164 @@
+{
+ "kind": "digi-card.vocab",
+ "v": 1,
+ "why": "How each department's columns are said in words, read off the encodings dex-frontier's loaders fix (vendor/dex-frontier/src/silos.mjs, fresh.mjs, fresh2.mjs): a column's plain name and unit, and how its values are spoken — a number, a yes/no flag, a yes/no/unknown, named levels, or one member of a family of one-hot columns. src/chat.mjs reads questions and says rules with it; test/vocab.test.mjs checks every entry against the published records.",
+ "sets": {
+  "telco": {
+   "thing": "customer", "outcome": "leave the company",
+   "columns": {
+    "gender": { "say": "gender", "kind": "levels", "words": ["gender", "sex"], "levels": { "female": 1, "woman": 1, "male": 0, "man": 0 } },
+    "SeniorCitizen": { "say": "senior citizen", "kind": "flag", "words": ["senior citizen", "senior"] },
+    "Partner": { "say": "partner", "kind": "flag", "words": ["partner"] },
+    "Dependents": { "say": "dependents", "kind": "flag", "words": ["dependents", "dependants"] },
+    "PhoneService": { "say": "phone service", "kind": "flag", "words": ["phone service", "phone line"] },
+    "MultipleLines": { "say": "multiple lines", "kind": "flag", "words": ["multiple lines"] },
+    "InternetService": { "say": "internet service", "kind": "levels", "words": ["internet service", "internet"], "levels": { "none": 0, "no": 0, "dsl": 1, "fiber optic": 2, "fibre optic": 2, "fiber": 2, "fibre": 2 } },
+    "OnlineSecurity": { "say": "online security", "kind": "flag", "words": ["online security"] },
+    "OnlineBackup": { "say": "online backup", "kind": "flag", "words": ["online backup"] },
+    "DeviceProtection": { "say": "device protection", "kind": "flag", "words": ["device protection"] },
+    "TechSupport": { "say": "tech support", "kind": "flag", "words": ["tech support", "technical support"] },
+    "StreamingTV": { "say": "streaming TV", "kind": "flag", "words": ["streaming tv", "tv streaming"] },
+    "StreamingMovies": { "say": "streaming movies", "kind": "flag", "words": ["streaming movies", "movie streaming"] },
+    "tenure": { "say": "tenure", "kind": "number", "unit": "months", "words": ["tenure", "months as a customer", "months with the company"] },
+    "Contract": { "say": "contract", "kind": "levels", "words": ["contract"], "levels": { "month-to-month": 0, "month to month": 0, "monthly": 0, "one year": 1, "one-year": 1, "1 year": 1, "two year": 2, "two-year": 2, "two years": 2, "2 year": 2 } },
+    "PaperlessBilling": { "say": "paperless billing", "kind": "flag", "words": ["paperless billing", "paperless"] },
+    "ElectronicCheck": { "say": "pays by electronic check", "kind": "flag", "words": ["electronic check", "electronic cheque", "e-check"] },
+    "AutoPay": { "say": "pays automatically", "kind": "flag", "words": ["automatic payment", "autopay", "auto-pay", "auto pay"] },
+    "MonthlyCharges": { "say": "monthly charges", "kind": "number", "unit": "dollars a month", "words": ["monthly charges", "monthly charge", "monthly bill"] },
+    "TotalCharges": { "say": "total charges", "kind": "number", "unit": "dollars", "words": ["total charges", "total charge", "charged in total"] }
+   },
+   "groups": {}
+  },
+  "shop": {
+   "thing": "session", "outcome": "buy",
+   "columns": {
+    "Administrative": { "say": "administrative pages", "kind": "number", "unit": "pages", "words": ["administrative pages", "admin pages"] },
+    "Administrative_Duration": { "say": "time on administrative pages", "kind": "number", "unit": "seconds", "words": ["time on administrative pages", "seconds on administrative pages", "administrative duration"] },
+    "Informational": { "say": "informational pages", "kind": "number", "unit": "pages", "words": ["informational pages", "info pages"] },
+    "Informational_Duration": { "say": "time on informational pages", "kind": "number", "unit": "seconds", "words": ["time on informational pages", "seconds on informational pages", "informational duration"] },
+    "ProductRelated": { "say": "product pages", "kind": "number", "unit": "pages", "words": ["product pages", "product related pages", "product-related pages"] },
+    "ProductRelated_Duration": { "say": "time on product pages", "kind": "number", "unit": "seconds", "words": ["time on product pages", "seconds on product pages", "product duration"] },
+    "BounceRates": { "say": "bounce rate", "kind": "number", "unit": "a share from 0 to 1", "words": ["bounce rate", "bounce rates"] },
+    "ExitRates": { "say": "exit rate", "kind": "number", "unit": "a share from 0 to 1", "words": ["exit rate", "exit rates"] },
+    "PageValues": { "say": "page value", "kind": "number", "unit": "dollars", "words": ["page value", "page values"] },
+    "SpecialDay": { "say": "closeness to a special day", "kind": "number", "unit": "from 0 to 1", "words": ["special day", "closeness to a special day"] },
+    "OperatingSystems": { "say": "operating system code", "kind": "number", "unit": "a code", "words": ["operating system", "os"] },
+    "Browser": { "say": "browser code", "kind": "number", "unit": "a code", "words": ["browser"] },
+    "Region": { "say": "region code", "kind": "number", "unit": "a code", "words": ["region"] },
+    "TrafficType": { "say": "traffic type code", "kind": "number", "unit": "a code", "words": ["traffic type", "traffic source"] },
+    "VisitorType": { "say": "visitor type", "kind": "levels", "words": ["visitor type", "visitor"], "levels": { "returning": 1, "returning visitor": 1, "new": 0, "new visitor": 0, "other": 0.5 } },
+    "Weekend": { "say": "weekend", "kind": "flag", "words": ["weekend", "at the weekend", "on a weekend"] }
+   },
+   "groups": {}
+  },
+  "bank": {
+   "thing": "call", "outcome": "subscribe",
+   "columns": {
+    "age": { "say": "age", "kind": "number", "unit": "years", "words": ["age", "aged", "years old"] },
+    "education": { "say": "education", "kind": "levels", "words": ["education", "schooling"], "levels": { "illiterate": 0, "basic 4 years": 1, "basic 4y": 1, "basic 6 years": 2, "basic 6y": 2, "basic 9 years": 3, "basic 9y": 3, "high school": 4, "professional course": 5, "university degree": 6, "university": 6, "unknown": -1 } },
+    "default": { "say": "credit in default", "kind": "tri", "words": ["credit in default", "in default", "default"] },
+    "housing": { "say": "housing loan", "kind": "tri", "words": ["housing loan", "home loan", "mortgage"] },
+    "loan": { "say": "personal loan", "kind": "tri", "words": ["personal loan"] },
+    "cellular": { "say": "contacted on a mobile", "kind": "levels", "words": ["contact", "contacted", "called"], "levels": { "cellular": 1, "mobile": 1, "cell phone": 1, "telephone": 0, "landline": 0 } },
+    "month": { "say": "month of the last contact", "kind": "levels", "words": ["month"], "bare": true, "levels": { "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6, "july": 7, "august": 8, "september": 9, "october": 10, "november": 11, "december": 12 } },
+    "day": { "say": "day of the week of the last contact", "kind": "levels", "words": ["day of the week", "day"], "bare": true, "levels": { "monday": 1, "tuesday": 2, "wednesday": 3, "thursday": 4, "friday": 5 } },
+    "campaign": { "say": "contacts in this campaign", "kind": "number", "unit": "contacts", "words": ["contacts in this campaign", "calls in this campaign", "campaign contacts"] },
+    "pdays": { "say": "days since the last contact of a previous campaign", "kind": "number", "unit": "days (999 means never contacted)", "words": ["days since the last contact", "days since last contacted", "days since the previous contact"] },
+    "previous": { "say": "contacts before this campaign", "kind": "number", "unit": "contacts", "words": ["contacts before this campaign", "previous contacts", "earlier contacts"] },
+    "poutcome": { "say": "outcome of the previous campaign", "kind": "levels", "words": ["outcome of the previous campaign", "previous outcome", "last campaign outcome"], "levels": { "nonexistent": 0, "none": 0, "failure": 1, "failed": 1, "success": 2, "succeeded": 2 } },
+    "emp.var.rate": { "say": "employment variation rate", "kind": "number", "unit": "a quarterly rate", "words": ["employment variation rate", "employment variation"] },
+    "cons.price.idx": { "say": "consumer price index", "kind": "number", "unit": "an index", "words": ["consumer price index", "price index"] },
+    "cons.conf.idx": { "say": "consumer confidence index", "kind": "number", "unit": "an index", "words": ["consumer confidence index", "consumer confidence"] },
+    "euribor3m": { "say": "3-month euribor rate", "kind": "number", "unit": "percent", "words": ["3-month euribor", "three month euribor", "euribor rate", "euribor"] },
+    "nr.employed": { "say": "number employed", "kind": "number", "unit": "thousands, quarterly", "words": ["number employed", "number of employees"] }
+   },
+   "groups": {
+    "job": { "say": "job", "words": ["job", "works as", "occupation", "employed as"], "none": ["unknown job", "job unknown", "no known job"], "members": { "job_admin.": ["admin", "administrative"], "job_blue-collar": ["blue-collar", "blue collar"], "job_entrepreneur": ["entrepreneur"], "job_housemaid": ["housemaid"], "job_management": ["management", "manager"], "job_retired": ["retired"], "job_self-employed": ["self-employed", "self employed"], "job_services": ["services", "service job"], "job_student": ["student"], "job_technician": ["technician"], "job_unemployed": ["unemployed", "out of work"] } },
+    "marital": { "say": "marital status", "words": ["marital status", "status"], "none": ["divorced or unknown marital status", "divorced", "unknown marital status", "marital status unknown"], "members": { "married": ["married"], "single": ["single"] } }
+   }
+  },
+  "adult": {
+   "thing": "person", "outcome": "earn over 50K a year",
+   "columns": {
+    "age": { "say": "age", "kind": "number", "unit": "years", "words": ["age", "aged", "years old"] },
+    "male": { "say": "sex", "kind": "levels", "words": ["sex", "gender"], "levels": { "male": 1, "man": 1, "female": 0, "woman": 0 } },
+    "usBorn": { "say": "born in the United States", "kind": "flag", "words": ["born in the united states", "born in the us", "us-born", "us born"] },
+    "educationYears": { "say": "years of education", "kind": "number", "unit": "years", "words": ["years of education", "education years", "years of school", "years of schooling"] },
+    "hours": { "say": "hours worked a week", "kind": "number", "unit": "hours a week", "words": ["hours a week", "hours per week", "hours worked", "hours"] },
+    "capitalGain": { "say": "capital gain", "kind": "number", "unit": "dollars", "words": ["capital gain", "capital gains"] },
+    "capitalLoss": { "say": "capital loss", "kind": "number", "unit": "dollars", "words": ["capital loss", "capital losses"] }
+   },
+   "groups": {
+    "race": { "say": "race", "words": ["race"], "none": ["a race other than white or black", "asian", "pacific islander", "american indian", "other race"], "members": { "race_White": ["white"], "race_Black": ["black"] } },
+    "marital": { "say": "marital status", "words": ["marital status"], "none": ["married to a member of the armed forces"], "members": { "marital_Married-civ-spouse": ["married"], "marital_Never-married": ["never married", "never-married", "single"], "marital_Divorced": ["divorced"], "marital_Separated": ["separated"], "marital_Widowed": ["widowed"], "marital_Married-spouse-absent": ["spouse absent", "married with the spouse absent"] } },
+    "relationship": { "say": "relationship in the household", "words": ["relationship"], "none": ["other relative"], "members": { "rel_Husband": ["husband"], "rel_Wife": ["wife"], "rel_Own-child": ["own child", "a child in the household"], "rel_Not-in-family": ["not in family", "not in a family"], "rel_Unmarried": ["unmarried"] } },
+    "occupation": { "say": "occupation", "words": ["occupation", "works as", "job"], "none": ["armed forces or unknown occupation", "armed forces", "unknown occupation"], "members": { "occ_Tech-support": ["tech support", "technical support"], "occ_Craft-repair": ["craft repair", "craft-repair", "craft"], "occ_Other-service": ["other service"], "occ_Sales": ["sales"], "occ_Exec-managerial": ["executive", "managerial", "manager"], "occ_Prof-specialty": ["professional", "prof specialty"], "occ_Handlers-cleaners": ["handler", "cleaner", "handlers cleaners"], "occ_Machine-op-inspct": ["machine operator", "machine op", "inspector"], "occ_Adm-clerical": ["clerical", "admin clerical", "office clerk"], "occ_Farming-fishing": ["farming", "fishing", "farmer", "fisher"], "occ_Transport-moving": ["transport", "moving", "driver"], "occ_Priv-house-serv": ["private household service", "house service", "domestic service"], "occ_Protective-serv": ["protective service", "security guard", "police"] } },
+    "employer": { "say": "employer", "words": ["employer", "works for", "workclass", "sector"], "none": ["never worked or unknown employer", "never worked", "unknown employer"], "members": { "work_Private": ["private sector", "a private company", "private"], "work_Self-emp-not-inc": ["self-employed not incorporated", "self-employed, not incorporated", "self-employed"], "work_Self-emp-inc": ["self-employed incorporated", "own incorporated business"], "work_Federal-gov": ["federal government"], "work_Local-gov": ["local government", "local council"], "work_State-gov": ["state government"], "work_Without-pay": ["without pay", "unpaid"] } }
+   }
+  },
+  "credit": {
+   "thing": "client", "outcome": "default next month",
+   "columns": {
+    "limit": { "say": "credit limit", "kind": "number", "unit": "New Taiwan dollars", "words": ["credit limit", "limit"] },
+    "female": { "say": "sex", "kind": "levels", "words": ["sex", "gender"], "levels": { "female": 1, "woman": 1, "male": 0, "man": 0 } },
+    "education": { "say": "education", "kind": "levels", "words": ["education", "schooling"], "levels": { "graduate school": 3, "postgraduate": 3, "university": 2, "high school": 1, "other education": 0 } },
+    "age": { "say": "age", "kind": "number", "unit": "years", "words": ["age", "aged", "years old"] },
+    "PAY_0": { "say": "repayment status in September", "kind": "number", "unit": "months late (-1 paid on time)", "words": ["repayment status in september", "september repayment status", "repayment status last month"] },
+    "PAY_2": { "say": "repayment status in August", "kind": "number", "unit": "months late (-1 paid on time)", "words": ["repayment status in august", "august repayment status"] },
+    "PAY_3": { "say": "repayment status in July", "kind": "number", "unit": "months late (-1 paid on time)", "words": ["repayment status in july", "july repayment status"] },
+    "PAY_4": { "say": "repayment status in June", "kind": "number", "unit": "months late (-1 paid on time)", "words": ["repayment status in june", "june repayment status"] },
+    "PAY_5": { "say": "repayment status in May", "kind": "number", "unit": "months late (-1 paid on time)", "words": ["repayment status in may", "may repayment status"] },
+    "PAY_6": { "say": "repayment status in April", "kind": "number", "unit": "months late (-1 paid on time)", "words": ["repayment status in april", "april repayment status"] },
+    "BILL_AMT1": { "say": "bill in September", "kind": "number", "unit": "New Taiwan dollars", "words": ["bill in september", "september bill", "bill amount in september"] },
+    "BILL_AMT2": { "say": "bill in August", "kind": "number", "unit": "New Taiwan dollars", "words": ["bill in august", "august bill", "bill amount in august"] },
+    "BILL_AMT3": { "say": "bill in July", "kind": "number", "unit": "New Taiwan dollars", "words": ["bill in july", "july bill", "bill amount in july"] },
+    "BILL_AMT4": { "say": "bill in June", "kind": "number", "unit": "New Taiwan dollars", "words": ["bill in june", "june bill", "bill amount in june"] },
+    "BILL_AMT5": { "say": "bill in May", "kind": "number", "unit": "New Taiwan dollars", "words": ["bill in may", "may bill", "bill amount in may"] },
+    "BILL_AMT6": { "say": "bill in April", "kind": "number", "unit": "New Taiwan dollars", "words": ["bill in april", "april bill", "bill amount in april"] },
+    "PAY_AMT1": { "say": "paid in September", "kind": "number", "unit": "New Taiwan dollars", "words": ["paid in september", "september payment", "payment in september"] },
+    "PAY_AMT2": { "say": "paid in August", "kind": "number", "unit": "New Taiwan dollars", "words": ["paid in august", "august payment", "payment in august"] },
+    "PAY_AMT3": { "say": "paid in July", "kind": "number", "unit": "New Taiwan dollars", "words": ["paid in july", "july payment", "payment in july"] },
+    "PAY_AMT4": { "say": "paid in June", "kind": "number", "unit": "New Taiwan dollars", "words": ["paid in june", "june payment", "payment in june"] },
+    "PAY_AMT5": { "say": "paid in May", "kind": "number", "unit": "New Taiwan dollars", "words": ["paid in may", "may payment", "payment in may"] },
+    "PAY_AMT6": { "say": "paid in April", "kind": "number", "unit": "New Taiwan dollars", "words": ["paid in april", "april payment", "payment in april"] }
+   },
+   "groups": {
+    "marital": { "say": "marital status", "words": ["marital status"], "none": ["divorced or other marital status", "divorced", "other marital status"], "members": { "married": ["married"], "single": ["single"] } }
+   }
+  },
+  "hospital": {
+   "thing": "hospital stay", "outcome": "be readmitted within 30 days",
+   "columns": {
+    "age": { "say": "age", "kind": "number", "unit": "years (the middle of its decade)", "words": ["age", "aged", "years old"] },
+    "female": { "say": "sex", "kind": "levels", "words": ["sex", "gender"], "levels": { "female": 1, "woman": 1, "male": 0, "man": 0, "unknown sex": 0.5 } },
+    "time_in_hospital": { "say": "days in hospital", "kind": "number", "unit": "days", "words": ["days in hospital", "time in hospital", "length of stay"] },
+    "num_lab_procedures": { "say": "lab procedures", "kind": "number", "unit": "procedures", "words": ["lab procedures", "lab tests"] },
+    "num_procedures": { "say": "procedures other than lab tests", "kind": "number", "unit": "procedures", "words": ["procedures"] },
+    "num_medications": { "say": "medications", "kind": "number", "unit": "distinct medications", "words": ["medications", "drugs given"] },
+    "number_diagnoses": { "say": "diagnoses", "kind": "number", "unit": "diagnoses", "words": ["diagnoses"] },
+    "glucose": { "say": "maximum glucose", "kind": "levels", "words": ["max glucose", "maximum glucose", "glucose"], "levels": { "not measured": 0, "normal": 1, "over 200": 2, "over 300": 3 } },
+    "a1c": { "say": "A1c result", "kind": "levels", "words": ["a1c", "hba1c"], "levels": { "not measured": 0, "normal": 1, "over 7": 2, "over 8": 3 } },
+    "insulin": { "say": "insulin", "kind": "levels", "words": ["insulin"], "levels": { "none": 0, "not given": 0, "down": 1, "decreased": 1, "steady": 2, "up": 3, "increased": 3 } },
+    "metformin": { "say": "metformin", "kind": "levels", "words": ["metformin"], "levels": { "none": 0, "not given": 0, "down": 1, "decreased": 1, "steady": 2, "up": 3, "increased": 3 } },
+    "glipizide": { "say": "glipizide", "kind": "levels", "words": ["glipizide"], "levels": { "none": 0, "not given": 0, "down": 1, "decreased": 1, "steady": 2, "up": 3, "increased": 3 } },
+    "glyburide": { "say": "glyburide", "kind": "levels", "words": ["glyburide"], "levels": { "none": 0, "not given": 0, "down": 1, "decreased": 1, "steady": 2, "up": 3, "increased": 3 } },
+    "glimepiride": { "say": "glimepiride", "kind": "levels", "words": ["glimepiride"], "levels": { "none": 0, "not given": 0, "down": 1, "decreased": 1, "steady": 2, "up": 3, "increased": 3 } },
+    "pioglitazone": { "say": "pioglitazone", "kind": "levels", "words": ["pioglitazone"], "levels": { "none": 0, "not given": 0, "down": 1, "decreased": 1, "steady": 2, "up": 3, "increased": 3 } },
+    "rosiglitazone": { "say": "rosiglitazone", "kind": "levels", "words": ["rosiglitazone"], "levels": { "none": 0, "not given": 0, "down": 1, "decreased": 1, "steady": 2, "up": 3, "increased": 3 } },
+    "repaglinide": { "say": "repaglinide", "kind": "levels", "words": ["repaglinide"], "levels": { "none": 0, "not given": 0, "down": 1, "decreased": 1, "steady": 2, "up": 3, "increased": 3 } },
+    "med_change": { "say": "a change of diabetes medication", "kind": "flag", "words": ["change of medication", "medication changed", "medication change"] },
+    "diabetes_med": { "say": "on diabetes medication", "kind": "flag", "words": ["diabetes medication", "diabetes medicine"] },
+    "number_outpatient": { "say": "outpatient visits in the year before", "kind": "number", "unit": "visits", "words": ["outpatient visits"] },
+    "number_emergency": { "say": "emergency visits in the year before", "kind": "number", "unit": "visits", "words": ["emergency visits"] },
+    "number_inpatient": { "say": "inpatient stays in the year before", "kind": "number", "unit": "stays", "words": ["inpatient stays", "inpatient visits"] }
+   },
+   "groups": {
+    "race": { "say": "race", "words": ["race"], "none": ["other or unknown race", "other race", "unknown race"], "members": { "race_Caucasian": ["caucasian", "white"], "race_AfricanAmerican": ["african american", "black"], "race_Hispanic": ["hispanic"], "race_Asian": ["asian"] } },
+    "admission": { "say": "admission type", "words": ["admission type", "admitted as"], "none": ["other admission"], "members": { "adm_emergency": ["emergency admission"], "adm_urgent": ["urgent admission", "urgent"], "adm_elective": ["elective admission", "elective"] } },
+    "source": { "say": "admitted from", "words": ["admitted from", "admission source", "came from"], "none": ["other source"], "members": { "src_er": ["the emergency room", "emergency room", "er"], "src_referral": ["a referral", "referral", "referred"], "src_transfer": ["a transfer", "transfer", "transferred"] } },
+    "diagnosis": { "say": "primary diagnosis", "words": ["primary diagnosis", "diagnosis", "diagnosed with"], "none": ["other diagnosis"], "members": { "dx_circulatory": ["circulatory"], "dx_respiratory": ["respiratory"], "dx_digestive": ["digestive"], "dx_diabetes": ["diabetes"], "dx_injury": ["injury"], "dx_musculoskeletal": ["musculoskeletal"], "dx_genitourinary": ["genitourinary"], "dx_neoplasms": ["neoplasm", "neoplasms", "cancer"] } },
+    "discharge": { "say": "discharged to", "words": ["discharged to", "discharge"], "none": ["other discharge"], "members": { "dis_home": ["home"], "dis_home_health": ["home health", "home with home health"], "dis_snf": ["skilled nursing", "a nursing facility", "nursing facility"], "dis_short_term": ["a short-term hospital", "short-term hospital", "another hospital"], "dis_rehab": ["rehab", "rehabilitation"], "dis_ama": ["against medical advice"] } }
+   }
+  }
+ }
+}
