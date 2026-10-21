@@ -1,0 +1,49 @@
+{
+ "kind": "digi-card.organ-7.prereg",
+ "v": 1,
+ "organ": "the drop: decoder #0001 re-runs the whole genesis; a claimed card works for its claimant; the public voice says only what re-runs",
+ "population": "the drop as committed; the drafted posts of tools/posts.mjs; twelve drafts that overreach; 100 \"card me\" claims of serials 2 to 101 by fresh demo claimants",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Decoder #0001’s drop receipt re-runs: the genesis log replays from nothing to its head, every card of one maker, and the frozen decoder v1 files hash to the decoder it names."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every drafted post passes the claim gate with checkers that re-run each of its claims now; and each of twelve drafts that overreach (self-aware, conscious, alive, AGI, a price, a currency sign, investment, a guarantee, the moon, an unvouched number, no link, no re-run) is refused, for its own reason."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "In 100 \"card me\" claims, the maker’s give to a fresh key makes a card that reads on the claimant’s side, records in a registry the claimant replays from the drop, names the claimant as owner, and grows a mind with the network trapped that scores exactly its declared GATE."
+  }
+ ],
+ "judgedBy": "tools/judge-7.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "3c239143bdfa5e0b499ada224335947c6a68a8b86eef5bf9ca5fd77eab9304b8",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "2773d17573b26b1a0aabe81e47a8c86d4fd0b83baab44fce20a90d2221d66e26",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "40e724dae07505b1c7946cbeadd976a510472b902016e60e83806d87d70cb4c2",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "tools/checkers.mjs": "1a1075a00cac59d6d23a513915f2917075c991abc590808b37e15336224ab1de",
+  "tools/posts.mjs": "65da89a3fba38dad5bbf1cccf1fe1587d3ed60573aeecbde108b0eb4e64a2caf",
+  "vendor/pixelwhisperer/kards/kardart.mjs": "cbb00d3a522c82f9a5aad0d553f5125e28bcc0f6793dee43298ebe91d61acb40",
+  "tools/measure-7.mjs": "ab5a89d5e10ee4daba21138e5410a59c61cb79c080544f865bb20fe18306fb1f",
+  "tools/judge-7.mjs": "f226ba5843b5dd953b3ce071d43c8a167c62cd1e795d0353f984788705847e4b",
+  "tools/seal-7.mjs": "1c384c69d7246e94151e69a40062cd4fc540bea53eab6ef713e2d6ba4a413dc3"
+ }
+}

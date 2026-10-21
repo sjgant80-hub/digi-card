@@ -1,0 +1,62 @@
+{
+ "kind": "digi-card.organ-1.prereg",
+ "v": 1,
+ "organ": "the card: a PNG that carries its whole life and shows exactly what it carries",
+ "population": "every genesis card in drop/log.json (the drop as committed); the forgery suite on every tenth card by serial",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every genesis card, written as a PNG with the real art engine and read back, returns exactly its dossier (canonical bytes equal), with its facts."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every genesis card written twice is byte-identical: the same life makes the same card."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "On every tenth genesis card, each of 12 forgeries — a face pixel flipped, a byte after the dossier, another card’s face, a changed owner, a changed serial, a changed genome byte, a re-wrapped dossier, a cut-short file, a damaged chunk, the wrong size, an event signed by a stranger, the magic removed — is refused, every one."
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "Reading a card touches no network: every read on the sampled cards runs with the network trapped and never reaches for it."
+  },
+  {
+   "id": "P5",
+   "kind": "property",
+   "claim": "A level signed into a card by its own owner with made-up numbers still reads (a card proves what it is), and is refused by the registry, which re-runs every level before recording it — on every sampled card."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "The median time to read and fully check a card (CRCs, seals, signatures, redrawn face) is at most 250 ms on the measuring machine."
+  }
+ ],
+ "judgedBy": "tools/judge-1.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "3c239143bdfa5e0b499ada224335947c6a68a8b86eef5bf9ca5fd77eab9304b8",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "2773d17573b26b1a0aabe81e47a8c86d4fd0b83baab44fce20a90d2221d66e26",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "40e724dae07505b1c7946cbeadd976a510472b902016e60e83806d87d70cb4c2",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "vendor/pixelwhisperer/kards/kardart.mjs": "cbb00d3a522c82f9a5aad0d553f5125e28bcc0f6793dee43298ebe91d61acb40",
+  "tools/measure-1.mjs": "82e9fc6870940231cc8c5fb5b5b5a66b6f388e218c477941d6923852fda56829",
+  "tools/judge-1.mjs": "034f200a72a8ce8a0e738e30aea68226b8d5e1a58090e13a79e65b3a78922fa1",
+  "tools/seal-1.mjs": "62b0e6430267b2d54003a1f9380512a9f5b87f3c2222bfd495032111f11892f6"
+ }
+}

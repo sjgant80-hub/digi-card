@@ -1,0 +1,67 @@
+{
+ "kind": "digi-card.organ-2.prereg",
+ "v": 1,
+ "organ": "germination: a card grows its mind on the device, offline, and it is exactly the mind the drop declared",
+ "population": "every genesis card; the deep re-run on every twentieth card by serial",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every genesis card’s mind, expressed from the recipe it carries on the published bytes, scores exactly the GATE AUC the drop manifest declares, to the millionth."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every one of those expressions runs with the network trapped and never reaches for it."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "On every twentieth genesis card, the search the manifest names, run again from nothing, finds exactly the mind the card carries."
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "For each bundled set, a file with one byte changed is refused before a row of it is read."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "At least 99% of genesis cards score above a coin (AUC > 0.5) on TEST, cases nothing in the build ever fitted or selected on."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "The median drop from a genesis card’s GATE AUC to its TEST AUC is at most 0.020 (cards were admitted on GATE, so some drop is expected)."
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "For every department in the drop, the median TEST AUC of its genesis cards is at least 0.600."
+  }
+ ],
+ "judgedBy": "tools/judge-2.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "3c239143bdfa5e0b499ada224335947c6a68a8b86eef5bf9ca5fd77eab9304b8",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "2773d17573b26b1a0aabe81e47a8c86d4fd0b83baab44fce20a90d2221d66e26",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "40e724dae07505b1c7946cbeadd976a510472b902016e60e83806d87d70cb4c2",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "tools/search-worker.mjs": "de631b2499c6174e1a5e9b492eb040bd398bb6401a93be97b26039122b013df3",
+  "tools/measure-2.mjs": "9015d7142ca567292200979da28cf4c00877eb074f51fb6ccc5c274e895dfe50",
+  "tools/judge-2.mjs": "6c9ac5954dc9d8eabe35098fbb49d578806e7d2e011ee8a6a9d94696ccfe46ef",
+  "tools/seal-2.mjs": "c767545f072a45176a9818a177a16fc5812300a598a417b3493673e092c6bd63"
+ }
+}

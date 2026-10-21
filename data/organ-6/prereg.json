@@ -1,0 +1,57 @@
+{
+ "kind": "digi-card.organ-6.prereg",
+ "v": 1,
+ "organ": "the mesh: owned cards of one business answer as one, by consent, and each owner is credited by measured contribution",
+ "population": "every set with two or more departments in the drop; for each department, its three best genesis cards by declared GATE, each handed to a different demo owner who signs a consent for the mesh",
+ "disclosure": "NOT BLIND: on 2026-10-21, before this seal, tools/measure-6.mjs was dry-run on a provisional 693-card drop to test the tooling, and that run read TEST (the mesh beat its best member on TEST in 4 of 5 sets; 12 of 13 positive shares added on TEST). These rules were committed in 4b27df3 before that run and are unchanged; treat Q1 and Q2 as checks, not blind predictions.",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "No card joins without its owner’s consent for its current life: on every mesh, a card with no consent, one whose consent was for an earlier life (it has been sold since), and one whose consent is signed by someone else are all left out, each with its reason."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "On every mesh the fielded members’ shares sum to exactly 1,000,000, and a ledger of 100 jobs replays with every credit exactly cases × share."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "On every mesh, only scores cross between members: the coupling is learned from the members’ scores on GATE and nothing else."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "The mesh beats its best single fielded member on TEST with a paired-bootstrap 95% lower bound above zero, on at least 3 of the sets (on all of them, if fewer than 3 have two departments)."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Of the members with a positive share, at least 70% also add to the mesh on TEST (its TEST AUC with them, minus without them, coupling re-learned on GATE, is above zero)."
+  }
+ ],
+ "judgedBy": "tools/judge-6.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "3c239143bdfa5e0b499ada224335947c6a68a8b86eef5bf9ca5fd77eab9304b8",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "2773d17573b26b1a0aabe81e47a8c86d4fd0b83baab44fce20a90d2221d66e26",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "40e724dae07505b1c7946cbeadd976a510472b902016e60e83806d87d70cb4c2",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "tools/measure-6.mjs": "d59024cc3f4b3f1a85500fb728f4376ba3230983517c65b3c190c9a4ed169226",
+  "tools/judge-6.mjs": "023427c6dfb5fed9bf684fd3645883afb77d6dbb5b1bb0313efd78b8da12d303",
+  "tools/seal-6.mjs": "24f0a3725551e165589809fb9ffdef71975f8a64eff68893dfa6a6851f0b3ed0"
+ }
+}
