@@ -69,7 +69,8 @@ html.game .g-top { display: flex; }
 .g-logo { font-size: 36px; color: var(--g-hot) !important; text-decoration: none; text-shadow: 4px 4px 0 #4a1480; letter-spacing: .08em; }
 .g-sp { flex: 1; }
 .g-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 10px; background: var(--g-plate); border: 2px solid var(--g-rule); color: var(--g-ink); text-decoration: none; font: inherit; font-size: 16px; }
-.g-chip b { color: var(--g-gold); font-weight: 400; } .g-chip small { color: var(--g-dim); font-size: 12px; }
+.g-chip b { color: var(--g-gold); font-weight: 400; } .g-chip small { color: var(--g-dim); font-size: 12px; white-space: nowrap; }
+.g-chip, .g-tag { white-space: nowrap; }
 .g-chip canvas { width: 20px; height: 20px; image-rendering: pixelated; flex: none; }
 .g-key { min-width: 0; } .g-key > span:not(.g-tag) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .g-pack { border-color: var(--g-cy); background: #0b2a30; cursor: pointer; }
@@ -81,6 +82,8 @@ html.game .g-top { display: flex; }
 html.game .g-dock { display: flex; }
 .g-dock a { position: relative; display: flex; align-items: center; justify-content: center; width: 112px; height: 52px; background: var(--g-plate); border: 2px solid var(--g-rule); color: var(--g-ink); text-decoration: none; font-size: 18px; }
 .g-dock a .n { position: absolute; left: 4px; top: 2px; font-size: 12px; color: var(--g-gold); }
+.g-dock a { gap: 6px; } .g-icon { image-rendering: pixelated; flex: none; } .g-dock a .g-icon { width: 32px; height: 32px; }
+.g-dsets .g-icon { width: 32px; height: 32px; }
 .g-dock a[aria-current="page"] { border-color: var(--g-cy); background: #0b2a30; }
 .g-classic-bar { position: sticky; top: 0; z-index: 20; padding: 8px 16px; background: #1a0836; border-bottom: 2px solid #4a1a80; }
 .g-classic-bar button { font: inherit; }
@@ -192,7 +195,7 @@ html.game canvas.card, .g-card1, .g-card2, .g-thumb { display: block; image-rend
 .g-plotbox { position: relative; } .g-plotbox p { text-transform: uppercase; }
 html.game .dim { color: var(--g-dim); }
 html.game .g-meshslots { display: flex; }
-.g-plotbox canvas { display: block; width: 100%; max-width: 680px; height: auto; image-rendering: pixelated; background: var(--g-deep); margin: 0 auto; }
+.g-plotbox canvas { display: block; width: 100%; max-width: 720px; height: auto; image-rendering: pixelated; background: var(--g-deep); margin: 0 auto; }
 
 /* the collection and inspect */
 html.game #wallet > p.sub, html.game #wallet-grid, html.game #detail-facts, html.game #detail details, html.game #detail .acts { display: none; }
@@ -260,7 +263,8 @@ html.game footer.g-foot { border-top: 4px solid var(--g-rule); color: var(--g-di
   .g-span2 { grid-column: auto; }
   .g-dsets { flex-direction: row; flex-wrap: wrap; } .g-dsets button { width: auto; flex: 1 1 140px; }
   .g-card1, html.game #detail-card { width: 192px; height: 288px; }
-  .g-dock { gap: 2px; padding: 4px 2px; } .g-dock a { width: calc((100vw - 18px) / 8); height: 48px; font-size: 10px; letter-spacing: 0; } .g-dock a .n { font-size: 10px; }
+  .g-dock { gap: 2px; padding: 4px 2px; } .g-dock a { width: calc((100vw - 18px) / 8); height: 52px; font-size: 0; letter-spacing: 0; flex-direction: column; } .g-dock a .n { font-size: 10px; }
+  .g-dock a .g-icon { width: 32px; height: 32px; }
   .g-hero { font-size: 27px; } .g-btn.huge { font-size: 36px; min-height: 80px; padding: 0 28px; }
   .g-big { font-size: 36px; } h2, html.game .g-h { font-size: 22px; }
   .g-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -15,6 +15,8 @@ import { SETS } from '../src/data.mjs';
 import { standing, hashOf } from '../src/registry.mjs';
 import { tally } from '../src/mesh.mjs';
 import { THEMES, paintArt } from '../vendor/pixelwhisperer/kards/kardart.mjs';
+import { UI_ICONS, DATASET_ICONS, identicon as keyFace } from '../vendor/pixelwhisperer/kards/ui.mjs';
+import { paintEstate, tilesFor } from '../vendor/pixelwhisperer/kards/estate.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 import { crc32, cat, zlibStored } from '../vendor/dex-frontier/vendor/living-seed/src/card.mjs';
 
@@ -182,14 +184,27 @@ function renderTop() {
   if (tag) { tag.textContent = S.keySaved ? 'saved' : 'not saved'; tag.className = 'g-tag ' + (S.keySaved ? 'ok' : 'bad'); }
   identicon($('#g-idn'), S.me.pub);
 }
-/** a 5 × 5 mirrored mark from a key, so two keys look different at a glance (it proves nothing; the key does) */
+/** a key's face, PixelWhisperer's identicon: two keys look different at a glance (it proves nothing; the key does) */
 function identicon(canvas, pub) {
   if (!canvas || !pub) return;
-  const x = canvas.getContext('2d'), bits = parseInt(pub.slice(0, 8), 16), hue = ['#2be8ff', '#ffd23c', '#ff2bd6', '#7dff8a'][parseInt(pub.slice(8, 9), 16) % 4];
-  canvas.width = 10; canvas.height = 10;
-  x.fillStyle = '#0e0420'; x.fillRect(0, 0, 10, 10); x.fillStyle = hue;
-  for (let y = 0; y < 5; y++) for (let i = 0; i < 5; i++) { const c = i < 3 ? i : 4 - i; if ((bits >>> (y * 3 + c)) & 1) x.fillRect(i * 2, y * 2, 2, 2); }
+  const f = keyFace(pub, 2);
+  if (f.ok) putRGB(canvas, f.px, 20, 20);
 }
+/** RGB rows onto a canvas of that size */
+function putRGB(canvas, px, w, h) {
+  canvas.width = w; canvas.height = h;
+  const x = canvas.getContext('2d'), img = x.createImageData(w, h);
+  for (let i = 0, j = 0; i < px.length; i += 3, j += 4) { img.data[j] = px[i]; img.data[j + 1] = px[i + 1]; img.data[j + 2] = px[i + 2]; img.data[j + 3] = 255; }
+  x.putImageData(img, 0, 0);
+}
+/** a 16 × 16 icon of '#' cells, drawn at a whole scale in one colour */
+function iconCanvas(rows, k, color, label) {
+  const c = el('canvas', { width: 16 * k, height: 16 * k, class: 'g-icon', 'aria-hidden': label ? null : 'true', role: label ? 'img' : null, 'aria-label': label || null }), x = c.getContext('2d');
+  x.fillStyle = color;
+  rows.forEach((row, y) => Array.from(row).forEach((cell, i) => { if (cell === '#') x.fillRect(i * k, y * k, k, k); }));
+  return c;
+}
+const SET_COLOUR = { telco: '#40e8ff', shop: '#ffa040', bank: '#ffd23c', adult: '#dba2ff', credit: '#86ff92', hospital: '#ff7a8a', custom: '#7dff8a' };
 
 // ── first visit ──────────────────────────────────────────────────────────────────────────────────────────────────────
 function renderFirst() {
@@ -358,39 +373,25 @@ async function renderEstate() {
   const away = G.st.log.filter((x) => G.since && x.t > G.since);
   const bred = away.filter((x) => x.type === 'birth'), kept = bred.filter((x) => x.kept).length;
   fill($('#g-overnight'), line('', away.filter((x) => x.type === 'search').length + ' searches ran'), line('k', away.filter((x) => x.type === 'level').length + ' levels kept · re-run'), line('', bred.length + ' bred · ' + kept + ' kept'), line('r', away.filter((x) => x.type === 'search' && !x.kept).length + ' searches refused'));
-  drawPlot(held, links);
+  drawPlot(held);
 }
-/** the published rule for the plot's size: a 4 × 4 plot, one more row and column for every four blocks held, to 12 × 12 */
-const plotSide = (blocks) => Math.min(12, 4 + Math.floor(blocks / 4));
-function drawPlot(held, links) {
-  const side = plotSide(held.length), c = $('#g-plot');
-  setK('g-plot-open', 'Plot ' + side + ' × ' + side + ' open');
-  fill($('#g-plot-rule'), 'Tiles: a 4 × 4 plot, plus one row and column for every 4 blocks you hold, up to 12 × 12 · drawn from your holdings only');
+/** what the painter is handed: the verified holdings, the consented wires between them, the levels — nothing else */
+function holdingsOf(held, snapshot = false) {
+  const since = G.since, fresh = (id) => !!(since && G.st.log.some((e) => e.id === id && e.t > since && (e.type === 'card' || e.type === 'birth' || e.type === 'minted')));
+  const ids = new Set(held.map((h) => h.id)), mineIn = S.mesh ? S.mesh.m.members.filter((m) => m.joined && ids.has(m.card)).map((m) => m.card) : [];
+  return { cards: held.map((h) => ({ id: h.id, dataset: h.f.dataset, department: String(h.f.department).slice(0, 16), stage: h.f.stage, rarity: h.f.rarity, generation: h.f.generation, fresh: fresh(h.id) })),
+    wires: mineIn.slice(1).map((id, k) => [mineIn[k], id]), tools: 0, levels: held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0), snapshot };
+}
+const plotTheme = () => (document.documentElement.dataset.ui === 'blockcraft' ? 'blockcraft-v1' : 'synthwave-v1');
+function drawPlot(held) {
+  const c = $('#g-plot'), open = tilesFor(held.length);
+  setK('g-plot-open', 'Scorer district · ' + open + ' tiles open');
+  fill($('#g-plot-rule'), 'The published rule: a district holding n blocks opens 8 + 2n tiles, up to 36 · drawn from your holdings only, by PixelWhisperer’s estate painter');
   if (!c) return;
-  const x = c.getContext('2d'), TW = 40, TH = 20, CH = 18, N = 12, ox = c.width / 2, oy = 70;
-  x.imageSmoothingEnabled = false; x.fillStyle = '#0e0420'; x.fillRect(0, 0, c.width, c.height);
-  const iso = (i, j, z) => [Math.round(ox + (i - j) * TW / 2), Math.round(oy + (i + j) * TH / 2 - z * CH)];
-  const cube = (i, j, z, top, left, right) => {
-    const [px, py] = iso(i, j, z);
-    x.fillStyle = top; x.beginPath(); x.moveTo(px, py); x.lineTo(px + TW / 2, py + TH / 2); x.lineTo(px, py + TH); x.lineTo(px - TW / 2, py + TH / 2); x.closePath(); x.fill();
-    x.fillStyle = left; x.beginPath(); x.moveTo(px - TW / 2, py + TH / 2); x.lineTo(px, py + TH); x.lineTo(px, py + TH + CH); x.lineTo(px - TW / 2, py + TH / 2 + CH); x.closePath(); x.fill();
-    x.fillStyle = right; x.beginPath(); x.moveTo(px + TW / 2, py + TH / 2); x.lineTo(px, py + TH); x.lineTo(px, py + TH + CH); x.lineTo(px + TW / 2, py + TH / 2 + CH); x.closePath(); x.fill();
-  };
-  for (let s = 0; s < 2 * N; s++) for (let i = 0; i < N; i++) { const j = s - i; if (j < 0 || j >= N) continue; if (i < side && j < side) cube(i, j, 0, '#5cb347', '#3f8a34', '#2f6e2b'); else cube(i, j, 0, '#3c3c46', '#24242c', '#1c1c22'); }
-  const RAR = { common: ['#c8ccd6', '#8a8f9e', '#4a4e5c'], uncommon: ['#86ff92', '#36c44c', '#147030'], rare: ['#80c4ff', '#3a7ee8', '#163f98'], epic: ['#dba2ff', '#9c4ee2', '#4e1c8e'], legendary: ['#ffe680', '#f2b422', '#8e5a0a'] };
-  const spots = held.slice(0, side * side).map((h, k) => ({ h, i: (k % side), j: Math.floor(k / side) }));
-  const since = G.since;
-  for (const s of spots.sort((a, b) => a.i + a.j - (b.i + b.j))) {
-    const tall = 1 + Math.min(4, s.h.f.stage) + (s.h.v.generation > 0 ? 1 : 0), trim = RAR[s.h.f.rarity] || RAR.common;
-    const fresh = since && G.st.log.some((e) => e.id === s.h.id && e.t > since && (e.type === 'card' || e.type === 'birth' || e.type === 'minted'));
-    for (let z = 1; z <= tall; z++) cube(s.i, s.j, z, z === tall ? (fresh ? '#7dff8a' : trim[0]) : '#4a4a54', z === tall ? trim[1] : '#3c3c46', z === tall ? trim[2] : '#32323a');
-  }
-  if (links > 1 && S.mesh) {   // consented mesh members of yours, wired in cyan
-    const mineIn = spots.filter((s) => S.mesh.m.fielded.some((m) => m.card === s.h.id));
-    x.fillStyle = '#2be8ff';
-    for (let k = 1; k < mineIn.length; k++) { const [ax, ay] = iso(mineIn[k - 1].i, mineIn[k - 1].j, 1), [bx, by] = iso(mineIn[k].i, mineIn[k].j, 1); for (let t = 0; t <= 24; t++) x.fillRect(Math.round(ax + (bx - ax) * t / 24) - 2, Math.round(ay + (by - ay) * t / 24) + TH / 2 - 2, 4, 4); }
-  }
-  G.plot = { held: held.length, side };
+  const art = paintEstate(holdingsOf(held), plotTheme(), c.width, c.height);
+  if (!art.ok) return fill($('#g-plot-rule'), 'The estate could not be drawn: ' + art.why);
+  putRGB(c, art.px, c.width, c.height);
+  G.plot = { held: held.length, open };
 }
 function pngOfCanvas(c) {
   const w = c.width, h = c.height, rgba = c.getContext('2d').getImageData(0, 0, w, h).data, raw = new Uint8Array(h * (1 + w * 3));
@@ -402,7 +403,11 @@ function pngOfCanvas(c) {
 async function shareSnapshot() {
   const held = await holdings(), levels = held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0);
   const text = 'My DIGI estate · ' + held.length + ' block' + (held.length === 1 ? '' : 's') + ' · ' + levels + ' level' + (levels === 1 ? '' : 's') + ' re-run · every card re-runs on your device: ' + location.origin + location.pathname;
-  const png = pngOfCanvas($('#g-plot')), file = new File([png], 'digi-estate.png', { type: 'image/png' });
+  // the snapshot is painted afresh, with its title and stats bands, from the holdings alone
+  const snap = el('canvas', { width: 720, height: 480 }), art = paintEstate(holdingsOf(held, true), plotTheme(), 720, 480);
+  if (!art.ok) return fill($('#g-snap-out'), el('p', { class: 'g-badt g-small' }, 'The snapshot could not be drawn: ' + art.why));
+  putRGB(snap, art.px, 720, 480);
+  const png = pngOfCanvas(snap), file = new File([png], 'digi-estate.png', { type: 'image/png' });
   const out = $('#g-snap-out');
   try {
     if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text }); fill(out, el('p', { class: 'g-okt g-small' }, 'Shared.')); return; }
@@ -422,7 +427,7 @@ async function renderCards() {
   fill($('#g-dsets'), sets.map((s) => {
     const depts = (admitted[s] || []).filter((x) => x.admitted), have = new Set((bySet[s] || []).map((h) => h.f.department)).size;
     const label = s === 'custom' ? 'Your own' : SET_NAMES[s], count = s === 'custom' ? String((bySet.custom || []).length) : depts.length ? have + ' of ' + depts.length : 'none';
-    return el('button', { type: 'button', role: 'tab', 'aria-selected': String(openSet === s), class: count === 'none' ? 'none' : '', onclick: () => { openSet = s; renderCards(); } }, label, el('b', {}, count));
+    return el('button', { type: 'button', role: 'tab', 'aria-selected': String(openSet === s), class: count === 'none' ? 'none' : '', onclick: () => { openSet = s; renderCards(); } }, DATASET_ICONS[s] ? iconCanvas(DATASET_ICONS[s], 2, SET_COLOUR[s]) : null, label, el('b', {}, count));
   }));
   fill($('#g-set-h'), (openSet === 'custom' ? 'Your own' : SET_NAMES[openSet]) + (openSet === 'custom' ? ' · cards minted from your tables' : ' · ' + ((admitted[openSet] || []).filter((x) => x.admitted).length) + ' departments in the drop'));
   const grid = $('#g-slotgrid'), slots = [];
@@ -709,7 +714,10 @@ function wire() {
   });
   addEventListener('pagehide', () => { G.st.seen = new Date().toISOString(); saveState(); });
 }
+/** the dock wears PixelWhisperer's own icons */
+function dockIcons() { for (const a of $$('#g-dock a')) if (UI_ICONS[a.dataset.go] && !a.querySelector('canvas')) a.prepend(iconCanvas(UI_ICONS[a.dataset.go], 2, '#2be8ff')); }
 async function start() {
+  dockIcons();
   wireInfo();
   if (store.get('digi-plain') === '1') { document.documentElement.classList.add('plain'); setK('g-plain', 'on'); }
   if (store.get('digi-sound') === '1') { G.sound = true; setK('g-sound', 'on'); }
