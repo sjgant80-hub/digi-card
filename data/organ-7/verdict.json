@@ -1,0 +1,29 @@
+{
+ "kind": "digi-card.organ-7.verdict",
+ "v": 1,
+ "prereg": "8e417fb06398e756",
+ "record": "ae1997c48bba06b9",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Decoder #0001’s drop receipt re-runs: the genesis log replays from nothing to its head, every card of one maker, and the frozen decoder v1 files hash to the decoder it names.",
+   "pass": true,
+   "saw": "the drop log replays to #0001’s head over 999 cards; decoder v1 hashes to the one it names"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every drafted post passes the claim gate with checkers that re-run each of its claims now; and each of twelve drafts that overreach (self-aware, conscious, alive, AGI, a price, a currency sign, investment, a guarantee, the moon, an unvouched number, no link, no re-run) is refused, for its own reason.",
+   "pass": true,
+   "saw": "5 of 5 drafts pass; 12 of 12 overreaching drafts refused for their own reason"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "In 100 \"card me\" claims, the maker’s give to a fresh key makes a card that reads on the claimant’s side, records in a registry the claimant replays from the drop, names the claimant as owner, and grows a mind with the network trapped that scores exactly its declared GATE.",
+   "pass": true,
+   "saw": "claimed 100, read 100, recorded 100, owned 100, grown to the declared GATE 100, offline 100"
+  }
+ ]
+}
