@@ -583,6 +583,18 @@ async function renderPosts() {
   }));
 }
 
+// ── traces: a real level, a real birth and a real refused double sale, read from the organs' committed records ───────
+async function renderTraces() {
+  const get = (k) => fetch('data/organ-' + k + '/record.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const [r3, r4, r5] = await Promise.all([get(3), get(4), get(5)]), items = [];
+  const l = r3 && r3.levels.find((x) => x.testAfter > x.testBefore);
+  if (l) items.push(el('li', {}, el('b', {}, 'A level. '), 'Genesis card #' + pad4(l.serial) + ' (' + l.domain + ') ran the search its life named (seed ' + l.seed + '): GATE ' + (l.before / 1e6).toFixed(6) + ' → ' + (l.after / 1e6).toFixed(6) + '. Signed in, re-run exactly and deeply, five forged copies of the receipt refused; on TEST, which it never saw, ' + (l.testBefore / 1e6).toFixed(3) + ' → ' + (l.testAfter / 1e6).toFixed(3) + '.'));
+  const b = r4 && r4.rows.find((x) => x.born && x.kind === 'cross');
+  if (b) items.push(el('li', {}, el('b', {}, 'A birth. '), 'Cards #' + pad4(b.a) + ' (' + b.domains[0] + ', GATE ' + three(b.parentsGate[0]) + ') and #' + pad4(b.b) + ' (' + b.domains[1] + ', GATE ' + three(b.parentsGate[1]) + ') bred a child carrying both minds: GATE ' + three(b.gate) + ', beating both; on TEST ' + three(b.test) + ' against ' + three(b.parentsTest[0]) + ' and ' + three(b.parentsTest[1]) + '.'));
+  if (r5 && r5.forkWhy && r5.forkWhy[0]) items.push(el('li', {}, el('b', {}, 'A double sale. '), 'An owner signed one life of a card to two buyers; both chains checked on their own. The registry recorded the first and refused the second: “' + r5.forkWhy[0] + '” — ' + r5.doubleRefused + ' of ' + r5.doubles + ' such attempts refused in organ 5.'));
+  if (items.length) clear($('#traces'), el('ul', {}, items));
+}
+
 // ── the organs' sealed verdicts ──────────────────────────────────────────────────────────────────────────────────────
 async function renderProof() {
   const rows = [];
@@ -649,7 +661,7 @@ async function boot() {
     if (linked) { $('#regrow-serial').value = String(Number(linked[1])); $('#drop').scrollIntoView(); regrow(); }
   } catch (e) { say(status, 'The drop could not be checked: ' + (e.message || e), 'bad'); }
   await renderWallet();
-  renderProof(); renderPosts();
+  renderProof(); renderPosts(); renderTraces();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 boot();
