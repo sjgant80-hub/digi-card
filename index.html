@@ -8,6 +8,8 @@
 <meta name="description" content="A DIGI card is a PNG that carries, in plain view, a sealed recipe for a small working mind grown on real records, its owners and every level it earned. It grows that mind on your device, offline, proves its score on cases it never saw, and can be owned, traded, bred and coupled — every claim re-runs." />
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="icon" href="icon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="ui/game.css" />
+<script src="ui/mode.js"></script>
 <meta name="theme-color" content="#120a24" />
 <meta property="og:title" content="DIGI Card — a picture that is a working mind you own" />
 <meta property="og:description" content="Own it, grow it offline, level it by re-runnable receipts, breed it (the child must beat both parents), trade it, couple it into a mesh. Re-run every claim yourself." />
@@ -119,6 +121,26 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </style>
 </head>
 <body>
+<a class="g-only g-skip" href="#g-main">Skip to the screen</a>
+<div id="g-top" class="g-only g-top">
+  <a class="g-logo" href="#base" aria-label="DIGI — base">DIGI</a>
+  <span class="g-sp"></span>
+  <a class="g-chip g-key" href="#cards" id="g-key"><canvas id="g-idn" width="10" height="10" aria-hidden="true"></canvas><span>Key <b data-k="me-short">…</b></span><span class="g-tag bad" id="g-key-tag">Not saved</span></a>
+  <span class="g-chip g-wide">Blocks <b data-k="g-blocks">0</b></span>
+  <span class="g-chip g-wide">Credits <b data-k="g-credits">0</b> <small>accounting · not money</small></span>
+  <span class="g-chip g-wide">Uptime <b data-k="g-uptime">1d</b></span>
+  <button class="g-chip g-pack" id="g-install" type="button" hidden>Install</button>
+  <details class="g-menu"><summary class="g-chip">Menu</summary>
+    <div class="g-menu-list">
+      <button id="g-ui-theme" type="button">Chrome: <b data-k="g-ui-name">synthwave</b></button>
+      <button id="g-sound" type="button" aria-pressed="false">Sound: <b data-k="g-sound">off</b></button>
+      <button id="g-plain" type="button" aria-pressed="false">Plain text: <b data-k="g-plain">off</b></button>
+      <button id="g-classic" type="button">Classic view</button>
+      <a href="#what">What it is</a><a href="#start">Start here</a><a href="#how">How it works</a><a href="#blueprint">Blueprint</a><a href="#business">For business</a><a href="#paper">White paper</a><a href="#faq">Questions</a>
+    </div>
+  </details>
+</div>
+<div id="g-classic-bar" class="g-classic-bar" hidden><button id="g-back" type="button">Back to the DIGI game view</button></div>
 <div class="wrap">
 <header id="top">
   <div class="sky" aria-hidden="true"></div>
@@ -155,7 +177,113 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   </ul></nav>
 </header>
 
-<section id="what" aria-labelledby="what-h">
+<div id="g-main" class="g-only" tabindex="-1"></div>
+<section id="first-s" class="g-only g-screen" data-screen="first" aria-labelledby="first-h">
+  <div class="g-first">
+    <h2 id="first-h" class="g-hero">A card that is a mind you own</h2>
+    <p class="g-lead">It grows on this device · nothing is sent</p>
+    <button class="g-btn hot huge" id="g-first-cardme" type="button" disabled>Card me</button>
+    <p class="g-dim g-small" id="g-first-status" aria-live="polite">Checking the 1,000 genesis cards here, from nothing…</p>
+    <p class="g-okt">Free · no account · no chain · no seed phrase</p>
+    <p class="g-dim">A telco card from the genesis 1,000 · it boots here in seconds</p>
+    <div class="g-row g-centre-row">
+      <a class="g-btn" href="#send">Open a card</a>
+      <label class="g-btn" for="key-restore">I have a key file</label>
+      <a class="g-btn" href="#how">How it works</a>
+      <a class="g-btn" href="#business">For business</a>
+    </div>
+    <p class="g-dim g-small" id="g-first-back" hidden>You held <b data-k="g-away-cards">0</b> card(s) here before. Open your key file to hold them again.</p>
+  </div>
+</section>
+
+<section id="boot-s" class="g-only g-screen" data-screen="boot" aria-labelledby="boot-h">
+  <div class="g-grid g-boot">
+    <div class="g-cardcol"><div class="g-ring" id="g-boot-ring"><canvas class="g-card1" id="g-boot-card" width="384" height="576" role="img" aria-label="The card booting"></canvas></div><p class="g-dim g-small" id="g-boot-band"></p></div>
+    <div class="g-col">
+      <h2 id="boot-h" class="g-h">Boot <span id="g-boot-name" class="g-white"></span></h2>
+      <ol class="g-lines" id="g-boot-steps" aria-live="polite"></ol>
+      <div class="g-panel">
+        <p class="g-dim g-small">GATE AUC · computed on this device</p>
+        <div class="g-big" id="g-boot-gate" aria-live="polite">–</div>
+        <div class="g-row" id="g-boot-match"></div>
+        <p class="g-dim g-small" id="g-boot-rows"></p>
+      </div>
+      <div class="g-row"><button class="g-btn" id="g-boot-again" type="button">Boot again</button><a class="g-btn" href="#cards">Inspect</a></div>
+    </div>
+    <div class="g-col">
+      <div class="g-panel"><h3>Rules <small>printed as it grew</small></h3><ol class="g-lines g-rules" id="g-boot-rules"></ol><p class="g-dim g-small" id="g-boot-say"></p><div id="g-boot-protected"></div></div>
+      <div class="g-panel g-gold" id="g-keep"><h3>Keep this card</h3><p class="g-badt g-small" id="g-keep-why">Your key lives only in this tab until you save it</p>
+        <button class="g-btn gold big" id="g-save-key" type="button">Save my key file</button>
+        <a class="g-btn" href="#evals">Next · eval one test case</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="base-s" class="g-only g-screen" data-screen="base" aria-labelledby="base-h">
+  <h2 id="base-h" class="sr">Base</h2>
+  <div class="g-grid g-3">
+    <div class="g-col">
+      <div class="g-panel"><h3>Ops log</h3><p class="g-dim g-small">While you were away</p><ul class="g-lines" id="g-away"></ul></div>
+      <div class="g-panel"><h3>Eval runs <span class="g-tag ok">free</span></h3><div id="g-evals-mini"></div></div>
+      <div class="g-panel"><h3>Registry <span class="g-tag ok">read live</span></h3><ul class="g-lines" id="g-ticker"></ul></div>
+    </div>
+    <div class="g-col g-centre">
+      <div class="g-ring" id="g-feat-ring"><canvas class="g-card2" id="g-feat" width="384" height="576" role="img" aria-label="Your featured card"></canvas></div>
+      <div class="g-row g-centre-row"><b class="g-title" id="g-feat-title">…</b><span class="g-goldt" id="g-feat-serial"></span><span class="g-tag ok" id="g-feat-tag">genesis</span></div>
+      <div class="g-row g-centre-row" id="g-feat-line"></div>
+      <div class="g-row g-centre-row">
+        <button class="g-btn hot big" id="g-cardme" type="button">Card me</button>
+        <button class="g-btn cy big" id="g-boot" type="button">Boot</button>
+        <button class="g-btn big" id="g-eval" type="button">Eval</button>
+        <a class="g-btn big" href="#cards" id="g-inspect">Inspect</a>
+      </div>
+      <p class="g-dim g-small" id="g-feat-note"></p>
+    </div>
+    <div class="g-col">
+      <div class="g-panel"><h3>Forms</h3><div class="g-forms">
+        <div class="g-form on">Scorer<small>live</small></div>
+        <div class="g-form off">Talker<small>language · coming</small></div>
+        <div class="g-form off">Swarm<small>suite · coming</small></div>
+        <div class="g-form off">Router<small>hybrid · coming</small></div></div></div>
+      <div class="g-panel"><h3>Mint station <span class="g-tag ok">free</span></h3>
+        <a class="g-line k" href="#mint">Mint a DIGI from your table <small>live</small></a>
+        <div class="g-line x">Mint an app <small>coming</small></div><div class="g-line x">Mint a node <small>coming</small></div><div class="g-line x">Mint a suite <small>coming</small></div>
+        <p class="g-dim g-small">The gate decides · a failed mint mints nothing</p></div>
+      <div class="g-panel"><h3>Skin packs <small>PixelWhisperer</small></h3><div class="g-skins" id="g-skins"></div><p class="g-dim g-small" id="g-skin-note"></p></div>
+    </div>
+  </div>
+</section>
+
+<section id="estate-s" class="g-only g-screen" data-screen="estate" aria-labelledby="estate-h">
+  <div class="g-grid g-estate">
+    <div class="g-col">
+      <div class="g-panel"><h2 id="estate-h" class="g-h">My estate</h2><p class="g-hot">Grow your estate</p></div>
+      <div class="g-panel"><h3>Stats <small>from your key and this device’s registry</small></h3><dl class="g-stats" id="g-estate-stats"></dl></div>
+      <div class="g-panel"><h3>Overnight</h3><ul class="g-lines" id="g-overnight"></ul><button class="g-btn" id="g-work" type="button" aria-pressed="false">Work overnight</button><p class="g-dim g-small">Keeps only a level that re-runs · inert until checked</p></div>
+      <button class="g-btn gold big" id="g-snapshot" type="button">Share snapshot</button>
+      <div id="g-snap-out" aria-live="polite"></div>
+    </div>
+    <div class="g-panel g-plotbox"><p class="g-row"><b class="g-okt" data-k="g-plot-open">Plot</b><small class="g-dim">more blocks open more tiles</small></p><canvas id="g-plot" width="680" height="560" role="img" aria-label="Your estate: one block for every card you hold"></canvas><p class="g-dim g-small" id="g-plot-rule"></p></div>
+    <div class="g-col">
+      <div class="g-panel"><h3>Districts</h3><ul class="g-lines" id="g-districts"></ul></div>
+      <div class="g-panel"><h3>Legend</h3><ul class="g-legend"><li><span class="g-sw wire"></span>Mesh wire · a consented link</li><li><span class="g-sw fresh"></span>New since your last visit</li><li><span class="g-sw lock"></span>Locked tile · coming</li></ul></div>
+      <p class="g-badt g-small">No land sale · never ranked by value</p>
+    </div>
+  </div>
+</section>
+
+<section id="evals-s" class="g-only g-screen" data-screen="evals" aria-labelledby="evals-h">
+  <div class="g-grid g-3">
+    <div class="g-col">
+      <h2 id="evals-h" class="g-h">Eval runs</h2>
+      <div class="g-panel"><h3>Today <span class="g-tag">optional</span></h3><div id="g-today"></div><button class="g-btn hot big" id="g-eval-run" type="button">Eval a test case</button><p class="g-okt g-small">Missing a day loses nothing</p></div>
+      <div class="g-panel"><h3>Missions</h3><ul class="g-lines" id="g-missions"></ul><p class="g-dim g-small">Rewards are titles · never paid</p></div>
+    </div>
+    <div class="g-panel g-span2" id="g-eval-out" aria-live="polite"><p class="g-dim">Press Eval: one real TEST case — a case nothing in the build ever grew or was judged on — then what really happened.</p></div>
+  </div>
+</section>
+
+<section id="what" data-screen="about" aria-labelledby="what-h">
   <h2 id="what-h"><span class="n">00</span>What it is, in plain words</h2>
   <p>A <b>DIGI card</b> is a 384 × 576 PNG. Its top sixteen rows are its <b>band</b>: the card’s whole record, byte for byte, laid into the red, green and blue of the pixels where anyone can see them — never hidden in the picture. Everything below is its <b>face</b>, a pixel-art creature drawn from the card’s own facts. A reader redraws the face from the band and refuses the card if a single pixel differs, so <b>what you see is what it carries</b>.</p>
   <p>What it carries is a <b>mind</b>: a recipe for a scorecard of at most six readable rules over one department’s records — telecom customers who leave, shop sessions that buy, bank calls that sell, adults who earn over 50K a year, credit clients who default. The recipe is sealed by its maker. On your device it grows into a working mind on the real records, offline, and must clear its bar on <b>GATE</b> — cases it never grew on — or it is cut and abstains, always. Nothing in it is neural; you can read every rule.</p>
@@ -195,14 +323,19 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div><dt>Registry</dt> <dd>— the ordered record of cards’ lives that settles a double sale: the first recorded give wins.</dd></div>
     <div><dt>Mesh</dt> <dd>— owned cards of one business answering as one; each card’s share of the credit is measured.</dd></div>
     <div><dt>Decoder #0001</dt> <dd>— the first card: it names the exact code that reads cards and the record of the whole drop, so you can re-run the drop from it.</dd></div>
-    <div><dt>Key</dt> <dd>— your Ed25519 identity, made in this browser on your first visit. Your cards are signed to it.</dd></div>
+    <div><dt>Key</dt> <dd>— your Ed25519 identity, made in this tab on your first visit and kept in your key file, never in the browser’s storage. Your cards are signed to it.</dd></div>
   </dl>
 </section>
 
-<section id="start" aria-labelledby="start-h">
+<section id="start" data-screen="about" aria-labelledby="start-h">
   <h2 id="start-h"><span class="n">01</span>Start here</h2>
+  <p><b>The page opens as a game.</b> Its eight screens sit in the dock at the bottom (keys 1 to 8):
+  <b>Estate</b> (every card you hold is a block on your plot), <b>Base</b> (your featured card and what ran while you were away),
+  <b>Cards</b> (your collection, and one card inspected), <b>Evals</b> (a real test case a day, and missions), <b>Mint</b>
+  (a card from your own table), <b>Mesh</b>, <b>Send</b> (and open a card someone sent you) and <b>Proof</b> (the drop, a card's
+  life, the organs). Every screen runs the same code as this document, which is the game's classic view (Menu → Classic view).</p>
   <ol class="steps">
-    <li><b>Press “Card me”.</b> A genesis card is signed to your key (made in this browser on your first visit; back it up with “Back up my wallet”). It appears in your <a href="#wallet">wallet</a>.</li>
+    <li><b>Press “Card me”.</b> A genesis card is signed to your key (made in this tab on your first visit). Save your key file when the page offers it: that file is what makes the card yours on your next visit. It appears in your <a href="#wallet">wallet</a>.</li>
     <li><b>Press “Grow it”.</b> The page fetches that card’s real dataset from this site (its size is shown), checks it is the published bytes, and grows the card’s mind on it — on your device, offline. You see its GATE score — how well it ranks the cases it never grew on, as an AUC where 0.5 is a coin and 1 is perfect — beside the one the drop declared: they match to the millionth.</li>
     <li><b>Press “Ask it”.</b> It is handed a real case from TEST — cases nothing in the build ever fitted or selected on — and answers yes or no with the rules that fired — or abstains. You also see what really happened.</li>
     <li><b>Press “Level up”.</b> It runs up to three searches for a better mind, in the background (a search is real work: seconds on the telecom set, a minute or more on the larger ones). If one beats it by 0.002 on GATE, the receipt is signed into the card, re-run here before it is recorded, and its face shows the new stage.</li>
@@ -212,36 +345,53 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   </ol>
 </section>
 
-<section id="wallet" aria-labelledby="wallet-h">
+<section id="wallet" data-screen="cards" aria-labelledby="wallet-h">
   <h2 id="wallet-h"><span class="n">02</span>Your wallet</h2>
   <p class="sub">The cards whose last signed give names your key, as this device’s registry records them.</p>
   <div class="panel">
     <h3>Your key</h3>
     <p class="mono" style="margin:0"><span data-k="me">…</span></p>
-    <div class="row"><button id="key-copy">Copy my key</button><button id="key-backup">Back up my wallet</button><label class="btn">Restore a wallet <input type="file" id="key-restore" accept=".json,application/json" class="sr" /></label><button id="card-me-2" class="primary">Card me</button></div>
+    <div class="row"><button id="key-copy">Copy my key</button><button id="key-backup">Save my key file</button><label class="btn">Open my key file <input type="file" id="key-restore" accept=".json,application/json" class="sr" /></label><button id="card-me-2" class="primary">Card me</button></div>
     <div id="key-out" aria-live="polite"></div>
-    <p class="dim" style="font-size:13px">Your key lives in this browser only. Whoever holds it can sign your cards away; nobody else can — not this site, not its maker. You hold <b data-k="held">0</b> card(s).</p>
+    <p class="dim" style="font-size:13px">Your key is <b data-k="key-state">in this tab only</b>. It is never kept in this browser’s storage: save your key file and open it here next time to hold your cards. Whoever holds the file can sign your cards away; nobody else can — not this site, not its maker. You hold <b data-k="held">0</b> card(s).</p>
+    <div class="note" id="key-stored" hidden>This browser still keeps your key the old way, in its storage, where any page on this site’s address could reach it. Save your key file first, then remove it from this browser. <button id="key-forget">Remove my key from this browser</button></div>
+  </div>
+  <div class="g-only g-collection">
+    <div class="g-col g-dsets" id="g-dsets" role="tablist" aria-label="Datasets"></div>
+    <div class="g-panel g-slots"><h3 id="g-set-h">Collection</h3><div class="g-slotgrid" id="g-slotgrid"></div><p class="g-okt g-small">Sets finish by booting, training, breeding · never buying</p></div>
+    <div class="g-panel g-gaps"><h3>Gaps on record <span class="g-tag cy">from the record</span></h3><p class="g-dim g-small">No card · under the 0.6 bar · best GATE</p><ul class="g-lines" id="g-gaps"></ul><a class="g-btn" href="drop/admission.json">See the admission record</a></div>
   </div>
   <div class="row"><button id="work-toggle">Work overnight</button><span class="dim" style="font-size:13px">Every card you own keeps searching for a level while this page is open — the overnight self-improvement, gated: only a re-run gain is kept.</span></div>
   <div id="work-out" aria-live="polite"></div>
   <div class="wallet" id="wallet-grid" aria-label="Your cards"></div>
   <div class="panel" id="detail" hidden>
     <div class="grid side">
-      <div><canvas class="card" id="detail-card" width="384" height="576" role="img" aria-label="The selected card"></canvas></div>
+      <div><div class="g-ring" id="g-detail-ring"><canvas class="card" id="detail-card" width="384" height="576" role="img" aria-label="The selected card"></canvas></div></div>
       <div>
+        <div class="g-only g-inspect-head"><h3 class="g-h" id="g-in-title">Inspect</h3><p class="g-row" id="g-in-tags"></p></div>
+        <div class="g-only g-tabs" role="tablist" aria-label="About this card">
+          <button role="tab" id="g-tab-rules" aria-controls="g-pane-rules" aria-selected="false" type="button">Rules</button><button role="tab" id="g-tab-reruns" aria-controls="g-pane-reruns" aria-selected="true" type="button">Reruns to</button><button role="tab" id="g-tab-life" aria-controls="g-pane-life" aria-selected="false" type="button">Life</button>
+        </div>
+        <div class="g-only g-pane" role="tabpanel" id="g-pane-rules" aria-labelledby="g-tab-rules" hidden></div>
+        <div class="g-only g-pane" role="tabpanel" id="g-pane-reruns" aria-labelledby="g-tab-reruns"><div class="g-tiles" id="g-tiles"></div>
+          <div class="g-panel"><h3>Training run</h3><div class="g-bar"><i id="g-train-bar"></i><span class="g-mark"></span></div><p class="g-small" id="g-train-say">Best gain found · of +0.002 needed</p><p class="g-okt g-small">LV up only after the rerun</p></div></div>
+        <div class="g-only g-pane" role="tabpanel" id="g-pane-life" aria-labelledby="g-tab-life" hidden></div>
+        <div class="g-only g-acts" role="group" aria-label="What to do with this card">
+          <button class="g-btn cy" id="g-a-boot" type="button">Boot</button><button class="g-btn" id="g-a-eval" type="button">Eval</button><button class="g-btn" id="g-a-train" type="button">Train</button><button class="g-btn" id="g-a-breed" type="button">Breed</button>
+          <button class="g-btn" id="g-a-skin" type="button">Skin</button><button class="g-btn" id="g-a-share" type="button">Share</button><a class="g-btn" href="#send">Send to key</a><button class="g-btn cy" id="g-a-verify" type="button">Verify on this device</button><button class="g-btn" id="g-a-png" type="button">Download PNG</button>
+        </div>
+        <div class="g-only g-panel g-breedlab" id="g-breedlab" hidden><h3>Breed lab</h3><p class="g-hot">The child must beat both parents on GATE</p><p class="g-dim g-small">Pick a partner of yours on the same business. Up to 12 crossings are tried; nothing is sealed unless one wins.</p></div>
         <div id="detail-facts" class="tw"></div>
         <div class="acts" role="group" aria-label="What to do with this card">
           <button class="go" id="act-grow">Grow it</button><button id="act-ask">Ask it</button><button id="act-level">Level up</button><button id="act-breed">Breed with</button>
           <select id="breed-partner" aria-label="Partner card for breeding"></select>
           <button id="act-skin">Re-skin</button><button id="act-download">Download PNG</button><button id="act-verify">Verify everything</button>
         </div>
-        <div class="row"><input id="send-to" placeholder="their key: 64 hex characters" aria-label="The key of the person you are giving this card to" size="40" /><button id="act-send">Send</button></div>
         <div class="out" id="out-grow" aria-live="polite"></div>
         <div class="out" id="out-ask" aria-live="polite"></div>
         <div class="fields" id="ask-fields"></div><button id="ask-own" hidden>Ask about these values</button>
         <div class="out" id="out-level" aria-live="polite"></div>
         <div class="out" id="out-breed" aria-live="polite"></div>
-        <div class="out" id="out-send" aria-live="polite"></div>
         <div class="out" id="out-skin" aria-live="polite"></div>
         <div class="out" id="out-verify" aria-live="polite"></div>
         <details><summary>Its life, event by event</summary><div id="detail-life"></div></details>
@@ -250,18 +400,33 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   </div>
 </section>
 
-<section id="open" aria-labelledby="open-h">
+<section id="send-s" data-screen="send" aria-labelledby="send-h">
+  <h2 id="send-h"><span class="n">03</span>Send a card to a key</h2>
+  <div class="g-grid g-send">
+    <div class="g-only g-cardcol"><div class="g-ring" id="g-send-ring"><canvas class="g-card2" id="g-send-card" width="384" height="576" role="img" aria-label="The card you would send"></canvas></div><p class="g-small" id="g-send-which"></p></div>
+    <div>
+      <p class="sub">The card selected in your wallet goes to the key you paste. Ask them for theirs (Wallet → Copy my key).</p>
+      <div class="row"><input id="send-to" placeholder="their key: 64 hex characters" aria-label="The key of the person you are giving this card to" size="40" /><button id="act-send" class="primary">Sign the give</button></div>
+      <p class="g-row"><span class="g-tag ok">paste · live</span><span class="g-tag">QR · coming</span><span class="g-tag">device to device · coming</span></p>
+      <p class="note">A give cannot be undone. The first give recorded wins: send the same card twice and the second bounces, refused as a double sale. There is no price field, ever.</p>
+      <div class="out" id="out-send" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section id="open" data-screen="send" aria-labelledby="open-h">
   <h2 id="open-h"><span class="n">03</span>Open a card someone sent you</h2>
   <p class="sub">Drop any DIGI card PNG here. It is checked on this device in this order, and refused at the first thing that fails: every PNG chunk’s CRC; the band’s dossier, opened under its seals; every signature of its life; the face redrawn from it and compared pixel for pixel; then its standing in this device’s registry.</p>
   <label class="zone" id="open-zone">Drop a card here, or <span class="btn">choose a PNG</span><input type="file" id="open-file" accept="image/png" class="sr" /></label>
   <div id="open-report" aria-live="polite"></div>
 </section>
 
-<section id="mesh" aria-labelledby="mesh-h">
+<section id="mesh" data-screen="mesh" aria-labelledby="mesh-h">
   <h2 id="mesh-h"><span class="n">04</span>The mesh: owned cards answer as one</h2>
   <p>Cards of one business — one department each — join a mesh only with a consent their owner signed for the card as it stands (sell it, and it leaves until its new owner consents). Each must answer here and lead a coin on GATE with a bootstrap bound above zero. The mesh fields its best-proven card for each department; the rest wait on the bench with their numbers. Their scores are coupled into one answer by non-negative stacking learned on GATE. Only scores cross between cards — never a record.</p>
   <p>Each card’s <b>share</b> is measured: the mesh’s out-of-fold GATE AUC with it, minus without it, as a part of a million. When the mesh does a job, every owner is credited cases × share in a hash-chained ledger that replays from the shares. <b>Credits are an accounting of contribution, not money</b> — what a credit is worth is the business of whoever runs the mesh.</p>
   <div class="row"><label>Business <select id="mesh-set"><option value="credit">Credit card clients</option><option value="telco">Telecom customers</option><option value="shop">Online shop sessions</option><option value="bank">Bank marketing calls</option><option value="adult">Census adults</option></select></label><button class="go" id="mesh-build">Assemble the mesh</button></div>
+  <div id="g-meshslots" class="g-only g-meshslots" aria-label="The fielded cards"></div>
   <div id="mesh-out" aria-live="polite"></div>
   <div class="row"><button id="mesh-ask">Ask the mesh a TEST case</button><label>Cases in a job <input id="mesh-cases" type="number" min="1" max="1000000" value="1000" /></label><button id="mesh-job">Do a job and credit the owners</button></div>
   <div id="mesh-ask-out" aria-live="polite"></div>
@@ -269,17 +434,34 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <p class="dim" style="font-size:13px">In this demo, each business’s three best genesis cards per department are handed, for the mesh only, to their own demo owners (keys from public phrases, so anyone can reproduce every consent and every credit); your own cards of that business join too, consenting with your key. Organ 6 measures this very mesh on TEST.</p>
 </section>
 
-<section id="own" aria-labelledby="own-h">
+<section id="own" data-screen="mint" aria-labelledby="own-h">
   <h2 id="own-h"><span class="n">05</span>Grow a card from your own table</h2>
   <p>Choose a CSV. Pick the yes/no column to predict and which value counts as yes. Every other column that is a number on every row becomes a measurement (at most sixteen). The table is split the bundled sets’ seeded way into FIT, GATE and TEST, a search runs on your FIT rows in a background worker, and if the mind it finds clears 0.6 on GATE, a card is sealed with <b>you</b> as its maker and owner. <b>Your table never leaves this device.</b> Levels earned on it name its hash, so they re-run wherever the same table is held — and nowhere else.</p>
   <label class="btn">Choose a CSV <input type="file" id="own-file" accept=".csv,text/csv" class="sr" /></label>
   <div id="own-step2" hidden>
     <div class="row"><label>Predict <select id="own-target"></select></label><label>Yes means <select id="own-positive"></select></label><label>Name <input id="own-name" value="my-first-digi" pattern="[a-z][a-z0-9-]{0,23}" /></label><button class="go" id="own-grow">Grow my DIGI</button></div>
+    <div class="row"><label><input type="checkbox" id="own-keep" /> Keep my table in this browser, so its card grows here tomorrow (any page on this site’s address could read it; leave this off and choose the file again next time)</label></div>
   </div>
+  <div class="g-only g-panel g-recipes"><h3>Recipes</h3>
+    <div class="g-line k">Mint a DIGI <small>live</small></div><div class="g-line x">Mint an app <small>coming</small></div><div class="g-line x">Mint a node <small>coming</small></div><div class="g-line x">Mint a suite <small>coming</small></div>
+    <p class="g-small">No recipe costs anything · no dust, no shards, nothing to buy · the gate decides · a failed mint loses only time · your rows never leave this device</p></div>
   <div id="own-out" aria-live="polite"></div>
 </section>
 
-<section id="drop" aria-labelledby="drop-h">
+<section id="explorer" class="g-only g-screen" data-screen="proof" aria-labelledby="explorer-h">
+  <div class="g-row"><h2 id="explorer-h" class="g-h">Proof explorer</h2><small class="g-dim">signed log · not a blockchain · replay on this device</small>
+    <span class="g-sp"></span><label class="g-search">Find <input id="g-find" placeholder="card id, #serial or key" aria-label="Find a card by id, serial or owner key" /></label><button class="g-btn" id="g-find-go" type="button">Find</button></div>
+  <div class="g-grid g-3">
+    <div class="g-panel"><h3>The drop <span class="g-tag cy">from the record</span></h3><dl class="g-stats" id="g-drop-stats"></dl><button class="g-btn cy big" id="g-rerun" type="button">Rerun the drop</button><p class="g-dim g-small">Re-checks every genesis seal here · <span id="g-rerun-out" aria-live="polite"></span></p></div>
+    <div class="g-col">
+      <div class="g-panel"><h3>Life · <span id="g-life-name">your card</span></h3><div class="g-tw"><table class="g-table" id="g-life"><thead><tr><th>n</th><th>type</th><th>signer</th><th>prev</th><th>hash</th></tr></thead><tbody></tbody></table></div><p class="g-dim g-small">No price column · nothing here is for sale</p><div id="g-find-out" aria-live="polite"></div></div>
+      <div class="g-panel"><h3>Verify on this device</h3><ol class="g-chain" id="g-chain"></ol><button class="g-btn cy big" id="g-verify" type="button">Verify on this device</button><p class="g-dim g-small" id="g-verify-ms"></p></div>
+    </div>
+    <div class="g-panel"><h3>Organs <small>sealed before measured</small></h3><ul class="g-lines" id="g-organs"></ul><p class="g-dim g-small">Git proves each was sealed first · every rule is below</p></div>
+  </div>
+</section>
+
+<section id="drop" data-screen="proof" aria-labelledby="drop-h">
   <h2 id="drop-h"><span class="n">06</span>The drop, and decoder #0001</h2>
   <div class="grid side">
     <div><canvas class="card" id="drop-card" width="384" height="576" role="img" aria-label="Decoder #0001"></canvas></div>
@@ -302,7 +484,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div id="posts"></div>
 </section>
 
-<section id="how" aria-labelledby="how-h">
+<section id="how" data-screen="about" aria-labelledby="how-h">
   <h2 id="how-h"><span class="n">07</span>How it works, step by step</h2>
   <p class="sub">Traced from the real decoder #0001 this page just drew and checked.</p>
   <h3>1 · The card: a band you can see, a face you can check</h3>
@@ -353,7 +535,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   </div>
 </section>
 
-<section id="blueprint" aria-labelledby="blueprint-h">
+<section id="blueprint" data-screen="about" aria-labelledby="blueprint-h">
   <h2 id="blueprint-h"><span class="n">08</span>The blueprint: how it is built, organ by organ</h2>
   <div class="tw"><table>
     <thead><tr><th>Kernel</th><th>What it does</th></tr></thead>
@@ -374,14 +556,14 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <p>Every kernel is gated by <b>witness</b>, the estate’s mutation gate: it changes the code one operator at a time and requires a test to fail for every change. Each vendored file is byte-identical to its source at a pinned commit (<code>vendor/SOURCES.json</code>, checked by <code>tools/vendor-check.mjs</code> in CI). Each dataset is pinned by hash with its licence (<code>data/SOURCES.json</code>).</p>
 </section>
 
-<section id="proof" aria-labelledby="proof-h">
+<section id="proof" data-screen="proof" aria-labelledby="proof-h">
   <h2 id="proof-h"><span class="n">09</span>Proof: the organs, sealed before they were measured</h2>
   <p class="lede" style="font-size:17px"><b data-k="proof-tally">…</b></p>
   <p>Each organ of the build is a claim written down, with the code and data it runs on pinned by hash, and committed <b>before</b> it was measured; git proves the order (<code>tools/order.mjs</code>). The judge then reads the record by the sealed rules alone. A failed prediction is kept, not tuned away.</p>
   <div class="tw"><table><thead><tr><th>Rule</th><th>The claim, as sealed</th><th>Verdict</th><th>What the record shows</th></tr></thead><tbody id="proof-rows"><tr><td colspan="4" class="dim">Reading the verdicts…</td></tr></tbody></table></div>
 </section>
 
-<section id="business" aria-labelledby="business-h">
+<section id="business" data-screen="about" aria-labelledby="business-h">
   <h2 id="business-h"><span class="n">10</span>For your business</h2>
   <p class="lede" style="font-size:18px"><b>DIGI cards give each department a small, proven scoring mind that it owns outright.</b> It runs on the laptops you already have, never sends a record out of the building, and every claim it makes — its score, every level, every child — can be re-run by your own auditors from the card alone.</p>
   <h3>What it does for each role</h3>
@@ -405,7 +587,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <li><b>Records never leave the device.</b> The mind is grown and run where the data is. There is no processor to contract with and no transfer abroad: privacy by design and by default, structurally (UK GDPR Articles 5 and 25).</li>
     <li><b>Every event is signed.</b> Issue by the genome’s maker, every give, level and skin by the owner of that moment — Ed25519 over one canonical byte form, chained by SHA-256.</li>
     <li><b>Verify before parse.</b> A card is refused at the first thing that fails, before a fact of it is used; the reader is total (no input makes it throw), proven by fuzzing in the tests.</li>
-    <li><b>Key management.</b> Your key is an Ed25519 key pair made by the browser’s own WebCrypto on your first visit and kept in this site’s IndexedDB in this browser profile — never sent anywhere. It signs your gives, levels and skins. Whoever can open this browser profile, or holds your wallet backup file, can sign your cards; nobody else can, including this site and its maker. A drop’s maker key is a file its key-holder keeps offline and uses only to sign genesis cards and their hand-outs (tools/card-me.mjs); keep it where you keep other signing keys.</li>
+    <li><b>Key management.</b> Your key is an Ed25519 key pair made by the browser’s own WebCrypto on your first visit. It is held in the open tab only and in the key file you save — never in the browser’s storage, because every page served from this site’s address shares that storage — and never sent anywhere. It signs your gives, levels and skins. Whoever holds your key file can sign your cards; nobody else can, including this site and its maker. A deployment on its own address can choose to keep keys in its storage. A drop’s maker key is a file its key-holder keeps offline and uses only to sign genesis cards and their hand-outs (tools/card-me.mjs); keep it where you keep other signing keys.</li>
     <li><b>Supply chain, checkable.</b> No package is installed; every outside module is vendored byte for byte at a pinned commit, and <code>node tools/vendor-check.mjs --sources</code> proves each file against its source repository. <code>node witness-all.mjs</code> re-runs the mutation gate over every kernel. Both run on GitHub’s machines on every change (see <a href="#blueprint">the gate’s runs</a>).</li>
     <li><b>The audit trail.</b> Every card carries its own signed life. The registry log orders every life and replays from nothing; the mesh ledger chains every credit and replays from the shares. Whoever keeps a log can read and share it — a device, a shared drive, or a repository — and anyone given a copy can re-run it.</li>
     <li><b>Every number re-runs.</b> Scores are re-expressed on the published bytes; levels and births re-run; the drop replays from decoder #0001; the organs were sealed before they were measured, and git proves the order.</li>
@@ -434,13 +616,13 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div><dt>Standards and assurance</dt> <dd>— no third-party certificate is held. What it carries instead is evidence an assessor can re-run: private by design (UK GDPR Articles 5 and 25 — no processor, no transfer), the full source, and a public test record re-proved on GitHub’s machines on every change (tests, mutation gate, vendored bytes, the drop, every organ’s sealed verdict).</dd></div>
     <div><dt>Deployment in a public body</dt> <dd>— host the repository’s static files on your own web server or intranet; there is no backend, database or account system to run. After its first load the page works offline, and a card grows on a machine with no network.</dd></div>
     <div><dt>Scale</dt> <dd>— each department runs on its own machine, so nothing central grows with use. Measured in organ 8: a registry of 10,000 entries — the drop and 9,000 trades among 1,000 owners — replays from nothing in under a minute, and a mesh keeps climbing as each department joins.</dd></div>
-    <div><dt>Accessibility</dt> <dd>— semantic headings and landmarks, every control a labelled button or field reachable by keyboard, every card image labelled, status messages announced, light and dark themes with high-contrast text, and a layout that holds at phone width. No formal accessibility audit has been carried out; an accessibility statement is part of each deployment’s agreement.</dd></div>
+    <div><dt>Accessibility</dt> <dd>— semantic headings and landmarks, every control a labelled button or field reachable by keyboard (the game’s screens on keys 1 to 8), every card image labelled, status messages announced, light and dark themes with high-contrast text, reduced motion honoured (the boot shows its result at once), a plain-text switch for the pixel lettering, the classic document view one click away, sound off unless chosen, and a layout that holds at phone width. No formal accessibility audit has been carried out; an accessibility statement is part of each deployment’s agreement.</dd></div>
     <div><dt>Maintenance</dt> <dd>— the page is static files that keep working as they are; an update is a new commit that passes the same public gates, and a deployment takes it only when it chooses to.</dd></div>
   </dl>
   <h3>Risks, answered straight</h3>
   <dl class="gloss">
     <div><dt>Is a six-rule mind good enough?</dt> <dd>— Measured, not asserted: every genesis card beat a coin on TEST, cases nothing ever fitted or selected on, and the median card lost only 0.002 of AUC from GATE to TEST (organ 2); coupled into a mesh, a business’s cards beat its best single card on TEST in five of five businesses (organ 6). Models fitted on every record pooled in one place do better still — the price of keeping records apart and rules readable. It is a ranking aid that abstains when it does not know, not an oracle; where a department’s columns do not predict the outcome, no card is minted (the hospital departments did not clear the bar, so the drop has none).</dd></div>
-    <div><dt>What if a key is lost?</dt> <dd>— Its cards can no longer be signed onward. Back the wallet up (Wallet → Back up my wallet) and keep it with your other credentials.</dd></div>
+    <div><dt>What if a key is lost?</dt> <dd>— Its cards can no longer be signed onward. Save your key file (Wallet → Save my key file) and keep it with your other credentials.</dd></div>
     <div><dt>Can a card be sold twice?</dt> <dd>— A card alone cannot prevent it, so the registry does: the first recorded give wins and the second is refused for good.</dd></div>
     <div><dt>Do levels overfit?</dt> <dd>— Measured in organ 3: 42 of 69 levels rose on TEST, but the average gain was not distinguishable from zero. So a level is a gain proven on GATE; weigh it on your own fresh cases before you lean on it. The prediction that it would carry failed, and it is kept on the page as failed.</dd></div>
     <div><dt>Who holds the order of the registry?</dt> <dd>— Whoever keeps the log. It cannot forge a single event into a card, and any copy re-runs from nothing; ordering is the one thing it is trusted for.</dd></div>
@@ -449,7 +631,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <p class="note honest">Every department gets a proven, readable scoring mind that it owns, that runs on hardware already paid for, that never moves a record off-site, and whose every claim an auditor can re-run from the card itself. It costs the electricity of a few milliseconds per case. It improves only by measured gains, couples across teams without sharing records, and leaves nothing to switch off.</p>
 </section>
 
-<section id="paper" aria-labelledby="paper-h">
+<section id="paper" data-screen="about" aria-labelledby="paper-h">
   <h2 id="paper-h"><span class="n">11</span>White paper</h2>
   <article class="paper" id="paper-body">
     <p><b>Abstract.</b> A DIGI card is a 384 × 576 PNG whose top sixteen pixel rows carry, byte for byte, a canonical dossier: a living-seed genome sealed by its maker (a few hundred bytes of recipe for a scorecard mind) and a chain of events — issue, give, receipt, skin — each signed by the key entitled to it and linked by SHA-256 to the one before. The face below the band is drawn from the dossier’s facts by an integer-only art engine, so any reader can redraw it and refuse a card whose picture differs by a pixel. The mind is grown on the holder’s device from real records, judged on cases it never grew on, and changes only by levels that anyone holding the same bytes can re-run. Ownership is settled by an ordered, replayable registry; minds breed only into children that beat both parents; and owned cards couple into a mesh whose ledger credits each owner by measured contribution. Every claim the drop makes in public passes a claim gate that re-runs it.</p>
@@ -489,7 +671,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   </article>
 </section>
 
-<section id="faq" aria-labelledby="faq-h">
+<section id="faq" data-screen="about" aria-labelledby="faq-h">
   <h2 id="faq-h"><span class="n">12</span>Questions</h2>
   <div id="faq-body">
     <details><summary>Is a DIGI card an NFT?</summary><p>It keeps what NFTs promised — unique, ownable, tradeable, with provenance — without the pointer. The card itself carries the mind, its ownership history and its proofs, and it runs on your device. There is no chain and no server.</p></details>
@@ -500,24 +682,30 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <details><summary>Can I fake a high stage?</summary><p>You can sign anything into your own card, and it will read — a card proves what it is. But a level counts only once it has been re-run: no registry records a level whose numbers do not come back exactly, so a faked stage never makes it into anyone’s record.</p></details>
     <details><summary>What stops a double sale?</summary><p>The registry: the first give recorded wins, and any other chain from the same life is refused for good, naming the event where it parts.</p></details>
     <details><summary>What do mesh credits pay?</summary><p>Credits are an accounting of measured contribution, not money. What a credit is worth, if anything, is decided by whoever runs the mesh.</p></details>
-    <details><summary>What does the page send to anyone?</summary><p>Nothing. It fetches its own files from the site it came from; your key, cards and tables stay in your browser. <b>Check it yourself:</b> the page’s Content-Security-Policy (in its source) lets it connect only to its own site, so a browser would block anything else; open your browser’s network panel while you use it and every request is one of this site’s files. Organs 1 and 2 ran every card read and every growth with the network trapped, and none reached for it.</p></details>
+    <details><summary>What does the page send to anyone?</summary><p>Nothing. It fetches its own files from the site it came from; your cards stay in your browser, your key in the tab and your key file, and your tables in the tab unless you ask the page to keep them. <b>Check it yourself:</b> the page’s Content-Security-Policy (in its source) lets it connect only to its own site, so a browser would block anything else; open your browser’s network panel while you use it and every request is one of this site’s files. Organs 1 and 2 ran every card read and every growth with the network trapped, and none reached for it.</p></details>
     <details><summary>How do I give or sell a card?</summary><ol><li>The person receiving it opens this page and copies their key (Wallet → Copy my key) and sends it to you.</li><li>You open the card in your wallet, paste their key into Send and press Send. The page signs the give with your key, records it here, and saves the card’s new PNG.</li><li>You send them that PNG, by any means. They open it in <a href="#open">Open a card</a>: it is checked on their device and appears in their wallet.</li><li>Your copy is now history: the registry records the first give of that life, so signing the same life to someone else is refused as a double sale.</li></ol></details>
     <details><summary>What happens when my records change?</summary><p>Grow the card again on the new export: its recipe is re-expressed on your newest FIT rows, so its thresholds move with your data, and its GATE score on the new records tells you at once whether it still holds. Work overnight then looks for a level on the new records. Drift is real and measured here: the shop’s TEST cases are its holiday months, and some shop minds rank them less well than the months they were judged on (organ 2).</p></details>
     <details><summary>What does “I don’t know” mean in practice?</summary><p>The card abstains in two cases, and says which: its mind did not clear its bar on this ground (it is cut, so it never answers), or the case lacks a measurement its rules read. An abstention is a case for a person to decide, with nothing guessed.</p></details>
     <details><summary>Can someone game a readable mind?</summary><p>Yes, as with any published scorecard: whoever knows the rules can learn which measurements move a score. That is the price of a mind you can read and audit. Use a card to rank and to explain, keep a person on the decision, and keep a card’s rules to the people who need them when gaming matters.</p></details>
     <details><summary>Can one business run cards for several departments?</summary><p>Yes. Each card knows one department’s records; grow one per department from each team’s own export. Two cards of the same business can breed a child that carries both minds — across departments every child organ 4 measured beat both its parents on TEST — or join a mesh that answers as one, without any team seeing another’s records.</p></details>
-    <details><summary>What if a card file is lost or damaged?</summary><p>The card is its life, not the file. Your wallet keeps every card’s life in this browser, and Download PNG writes a fresh, identical card from it at any time; a damaged file is refused when opened, and nothing in it is used. Back up your wallet (Wallet → Back up my wallet) so a lost laptop loses nothing.</p></details>
+    <details><summary>What if a card file is lost or damaged?</summary><p>The card is its life, not the file. Your wallet keeps every card’s life in this browser, and Download PNG writes a fresh, identical card from it at any time; a damaged file is refused when opened, and nothing in it is used. Save your key file (Wallet → Save my key file) so a lost laptop loses nothing.</p></details>
     <details><summary>What does working overnight cost?</summary><p>Electricity only. A search is about a minute of one core’s work: <span data-k="search-cost">…</span>. Re-running a level someone else earned takes milliseconds.</p></details>
     <details><summary>How good are the minds, compared with other models?</summary><p>Each card’s GATE score is on it, and the drop’s table shows every department’s median score on TEST — cases nothing in the build fitted or selected on — beside its GATE score (organ 2: the median card lost 0.002 from GATE to TEST). The minds are small by design, six readable rules; models fitted on every record pooled in one place do better, which dex-frontier measured. A business’s cards coupled into a mesh beat its best single card on TEST in five of five businesses (organ 6).</p></details>
+    <details><summary>Is the game view a different program?</summary><p>No. It is this page, played: the same kernels and the same buttons, arranged as screens. Every number on a screen was just computed on your device or is read from a committed record, and the screen says which. Nothing in it is bought, rolled or timed: rarity comes from levels, levels from receipts that re-run, and the estate is a count of the cards you hold. Credits are accounting, not money. Forms, recipes and districts that are not built yet say “coming” and do nothing.</p></details>
     <details><summary>Who made it?</summary><p>Kar, the estate’s resident builder, and Claude, for Simon, on the Konomi architecture created by Thomas Frumkin; art by PixelWhisperer Kards. Supplied by AI Native Solutions.</p></details>
   </div>
 </section>
 
-<footer>
+<footer class="g-foot">
   <p>Powered by the Konomi architecture, created by Thomas Frumkin. Draws on the Guided Entropy Principle of Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC — “Dual-Map Ethical Reasoning” (v0.2), “The Laws of Entropy-Time” (2026), “Dream State Architecture” (2025), “NEXUS — Distributed Synthetic Intelligence” (2026); Open Defensive Prior Art (<a href="#paper">credits in full</a>). Built by Kar and Claude for Simon. The art draws on the work of Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC (credits in full under “Who made it?”). Supplier: <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a> — support is agreed per deployment, and the software keeps running without us. MIT — no licence fee. <a href="https://github.com/sjgant80-hub/digi-card">Source</a>.</p>
   <p>Data: IBM Telco Customer Churn (Apache-2.0); UCI Online Shoppers Purchasing Intention, Bank Marketing, Adult, Diabetes 130-US Hospitals and Default of Credit Card Clients (CC BY 4.0) — full citations in <code>data/SOURCES.json</code>.</p>
 </footer>
 </div>
+<nav id="g-dock" class="g-only g-dock" aria-label="Screens">
+  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards"><span class="n">3</span>Cards</a><a href="#evals" data-go="evals"><span class="n">4</span>Evals</a>
+  <a href="#mint" data-go="mint"><span class="n">5</span>Mint</a><a href="#mesh" data-go="mesh"><span class="n">6</span>Mesh</a><a href="#send" data-go="send"><span class="n">7</span>Send</a><a href="#proof" data-go="proof"><span class="n">8</span>Proof</a>
+</nav>
 <script type="module" src="app.js"></script>
+<script type="module" src="ui/game.js"></script>
 </body>
 </html>

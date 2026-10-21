@@ -16,6 +16,9 @@ Source: https://github.com/sjgant80-hub/digi-card (MIT — no licence fee)
 - Ownership: the last signed give names the owner; a double sale is refused by the registry (first recorded give wins).
 - Nothing is neural; nothing is sent anywhere; records never leave the device.
 - Every kernel is mutation-gated (witness); every organ was sealed before it was measured (git proves the order).
+- The page opens as a pixel game view built from the cards' own art engine: eight screens (Estate, Base, Cards,
+  Evals, Mint, Mesh, Send, Proof) over the same kernels; the classic document view holds the full explanation.
+- A player's key is never kept in browser storage: it lives in the open tab and in the key file they save.
 
 ## Sections of the page
 - What it is · Start here · Wallet · Open a card · The mesh · Your data · The drop · How it works · Blueprint · Proof ·

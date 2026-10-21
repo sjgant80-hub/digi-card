@@ -3,9 +3,13 @@
 // slow searches run the same kernels in worker.js. Nothing is mocked and nothing is sent anywhere: the only network this
 // page uses is fetching its own files (the drop, the data, the decoder) from the site it came from.
 //
-// What is kept on this device (IndexedDB, this browser only): your key, the cards you hold, your own tables, the lives you have signed or
-// received since the drop, and which levels this device has already re-run. Clear the site's data and they are gone —
-// back up your wallet (Wallet → Back up my wallet) if a card matters to you.
+// What is kept on this device (IndexedDB, this browser only): the lives you have signed or received since the drop, which
+// levels this device has already re-run, and your own tables only if you ask. NOT your key: it lives in this tab until you
+// save it to your key file (Wallet → Save my key file), and you open that file to hold your cards again — every page on
+// this site's address shares its storage, so a key kept there could be reached by any of them. A key kept the old way is
+// used for the visit and the page offers to move it to a file.
+//
+// The game screens (ui/game.js) drive the same actions through `api` and keep score from the `digi` events emitted here.
 import { cardOf, readCard, bandOf, W, H, BAND, CAPACITY } from './src/card.mjs';
 import { issue, give, addReceipt, reskin, verify, facts, encode } from './src/dossier.mjs';
 import { empty, record, replay, standing, dossierOf, hashOf } from './src/registry.mjs';
@@ -46,9 +50,12 @@ const db = () => (dbp ||= new Promise((res, rej) => { const r = indexedDB.open('
 const kv = async (mode, fn) => { const d = await db(); return new Promise((res, rej) => { const t = d.transaction('kv', mode), s = t.objectStore('kv'), q = fn(s); t.oncomplete = () => res(q && q.result); t.onerror = () => rej(t.error); }); };
 const load = (k) => kv('readonly', (s) => s.get(k)).catch(() => undefined);
 const save = (k, v) => kv('readwrite', (s) => s.put(v, k)).catch(() => undefined);
+const forget = (k) => kv('readwrite', (s) => s.delete(k)).catch(() => undefined);
 
 // ── state ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-const S = { me: null, maker: null, manifest: null, glog: [], decoder: null, reg: empty(), tail: [], grounds: new Map(), own: new Map(), checked: new Set(), sel: null, ledger: [], mesh: null };
+const S = { me: null, maker: null, manifest: null, glog: [], decoder: null, reg: empty(), tail: [], grounds: new Map(), own: new Map(), checked: new Set(), sel: null, ledger: [], mesh: null, keySaved: false, storedKey: false, storedOwns: false };
+/** what happened, for the game screens to keep score by: { type, ...facts } on window */
+const emit = (type, detail = {}) => dispatchEvent(new CustomEvent('digi', { detail: { type, ...detail } }));
 
 // ── the ground a mind works on: the bundled set, fetched from this site and checked to the byte ─────────────────────
 async function groundOf(set, note = () => {}) {
@@ -105,15 +112,27 @@ async function drawCard(canvas, d) {
 
 // ── the key ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 async function loadMe() {
-  const stored = await load('me');
-  if (stored && stored.pub && stored.priv) return stored;
-  const me = await generate();
-  await save('me', me);
-  return me;
+  const stored = await load('me');   // a key kept the old way: used for this visit; the page offers to move it to a file
+  if (stored && stored.pub && stored.priv) { S.storedKey = true; return stored; }
+  return generate();                 // a new key, in this tab only, until its owner saves it to a file
 }
 function renderMe() {
   setK('me', S.me.pub);
   setK('me-short', short(S.me.pub));
+  setK('key-state', S.keySaved ? 'saved to your key file' : 'in this tab only — save it to keep your cards');
+  const old = $('#key-stored');
+  if (old) old.hidden = !S.storedKey;
+}
+/** the key file: your key and every card you hold, the one thing that makes them yours on another visit or device */
+async function saveKeyFile() {
+  const hex = await exportPriv(S.me), cards = mine().map(lifeOf);
+  download(utf8(JSON.stringify({ kind: 'digi-card.wallet', key: { pub: S.me.pub, pkcs8: hex }, cards })), 'digi-wallet-' + S.me.pub.slice(0, 8) + '.json');
+  S.keySaved = true; renderMe(); emit('key', { saved: true, cards: cards.length });
+  return cards.length;
+}
+/** move a key kept the old way out of this browser's storage (its owner has saved the key file first) */
+async function forgetStoredKey() {
+  await forget('me'); S.storedKey = false; renderMe(); emit('key', { forgotten: true });
 }
 
 // ── the drop: fetched, then replayed from nothing with the decoder #0001 names ──────────────────────────────────────
@@ -179,6 +198,7 @@ async function select(id) {
   for (const x of mine()) if (x !== id && setOf(await verify(lifeOf(x))) === setOf(v)) partners.push(x);
   clear($('#breed-partner'), partners.length ? partners.map((p) => el('option', { value: p }, '#' + String(S.reg.cards[p].serial).padStart(4, '0') + ' · ' + p.slice(0, 8))) : el('option', { value: '' }, 'no other card of yours on this ground'));
   renderWallet();
+  emit('select', { id, partners: partners.length });
 }
 const current = async () => { const d = lifeOf(S.sel); return { d, v: await verify(d) }; };
 
@@ -204,7 +224,10 @@ async function actGrow() {
         o.body ? el('ul', { class: 'rules' }, o.body.rules.map((r) => el('li', {}, r.feat + ' ' + r.op + ' ' + r.v + '  →  ' + (r.w > 0 ? '+' : '') + r.w))) : null,
         o.body ? el('div', { class: 'dim' }, 'says yes above ' + o.body.threshold + ' (the operating point read off the FIT rows)') : null, o.body ? protectedNote(o.body.rules) : null)),
       m.coupling ? el('p', { class: 'dim' }, 'Two or more departments: their scores are coupled by a logistic regression learned on GATE; its GATE AUC is judged out of fold.') : null);
-  } catch (e) { say(out, String(e.message || e), 'bad'); }
+    const grown = { id: v.id, gate: m.gate, declared: declared && v.receipts.filter((r) => r.kind === 'level').length === 0 ? declared.gate : null, ms, rows: g.ds.gateRows.length, mind: m, set: setOf(v) || ownSetOf(v) };
+    emit('grown', grown);
+    return grown;
+  } catch (e) { say(out, String(e.message || e), 'bad'); emit('grown', { id: v.id, error: String(e.message || e) }); return null; }
 }
 
 async function actAsk(own) {
@@ -222,7 +245,9 @@ async function actAsk(own) {
         el('ul', { class: 'rules' }, a.fired.length ? a.fired.map((r) => el('li', {}, r.feat + ' ' + r.op + ' ' + r.v + ' fired: ' + (r.w > 0 ? '+' : '') + r.w)) : el('li', {}, 'no rule fired')),
         truth !== null ? el('div', { class: truth === a.label ? 'ok-t' : 'bad-t' }, 'TEST case #' + row + ' (one it never grew or was judged on): what really happened was ' + (truth ? 'yes' : 'no') + (truth === a.label ? ' — it was right.' : ' — it was wrong on this one. Its GATE AUC says how often it ranks such cases well.')) : null)
       : el('div', { class: 'answer' }, el('div', { class: 'v' }, 'ABSTAIN'), el('div', {}, a.why)));
-  } catch (e) { say(out, String(e.message || e), 'bad'); }
+    emit('eval', { id: v.id, verdict: a.verdict, label: a.label, truth, row, own: !!own, right: truth !== null && a.verdict === 'VERIFIED' ? truth === a.label : null });
+    return { a, truth, row, mind: m };
+  } catch (e) { say(out, String(e.message || e), 'bad'); return null; }
 }
 
 let worker = null, jobs = 0;
@@ -242,11 +267,13 @@ async function actLevel() {
     const t0 = Date.now(), tick = setInterval(() => say(out, 'Working: search ' + (k + 1) + ' of 3 (seed ' + seed + ') on ' + domain + '’s FIT rows — ' + Math.round((Date.now() - t0) / 1000) + ' s. A search is the slow part; re-running what it finds takes milliseconds.'), 500);
     const r = await work_({ op: 'level', set, own: own ? { text: S.own.get(own).text, opts: S.own.get(own).opts } : null, dossier: d, domain, seed });
     clearInterval(tick);
+    emit('search', { id: v.id, k, ...searchNumbers(r) });
     if (r.ok) {
       const next = await addReceipt(d, S.me, r.receipt);
       if (!next.ok) return say(out, next.why, 'bad');
       const kept = await keep(next.dossier);
       if (!kept.ok) return say(out, 'The level did not record: ' + kept.why, 'bad');
+      emit('level', { id: v.id, before: r.before, after: r.after });
       await select(S.sel);
       return clear(out, el('div', { class: 'status ok' }, 'LEVEL UP: GATE ' + auc(r.before) + ' → ' + auc(r.after) + ' (+' + auc(r.after - r.before) + '). Stage ' + (tried + 1) + '. The receipt was signed into the card and re-run here before it was recorded: the face you see now was redrawn from it.'),
         el('pre', {}, JSON.stringify(r.receipt, null, 1)));
@@ -257,13 +284,19 @@ async function actLevel() {
   clear(out, el('div', { class: 'status' }, 'No level this time: three searches found nothing that lifts this mind by ' + auc(MARGIN) + ' on GATE. That is the gate working — a level is earned, never printed. Its next searches start from new seeds once its life moves on.'));
 }
 const mindDomains = (v) => v.genome.organs.map((o) => o.split(' ')[2]);
+/** a search's two numbers, millionths: what the mind scored, what the search found (a refusal names both) */
+function searchNumbers(r) {
+  if (r.ok) return { before: r.before, after: r.after, kept: true };
+  const m = /found ([0-9.]+) on GATE against the mind’s ([0-9.]+)/.exec(r.why || '');
+  return m ? { before: Math.round(Number(m[2]) * 1e6), after: Math.round(Number(m[1]) * 1e6), kept: false } : { kept: false, why: r.why };
+}
 
 // ── work overnight: while the page is open, every card you own keeps searching for a level, one search at a time ─────
 let working = false, runs = 0;
 async function workOvernight() {
   const out = $('#work-out'), btn = $('#work-toggle');
   if (working) { working = false; btn.disabled = true; btn.textContent = 'Stopping after this search…'; return; }
-  working = true; btn.textContent = 'Stop working';
+  working = true; btn.textContent = 'Stop working'; emit('working', { on: true });
   const run = ++runs;   // one loop at a time: a loop that is no longer the current run stops at its next step
   let searches = 0, levels = 0;
   const tried = new Map();
@@ -279,14 +312,16 @@ async function workOvernight() {
       say(out, 'Working: search ' + (searches + 1) + ' (card #' + String(v.serial).padStart(4, '0') + ', seed ' + seed + ') · ' + levels + ' level' + (levels === 1 ? '' : 's') + ' earned so far. Leave this page open; stop any time.');
       const r = await work_({ op: 'level', set, own: own ? { text: S.own.get(own).text, opts: S.own.get(own).opts } : null, dossier: d, domain: mindDomains(v)[0], seed });
       searches++;
+      emit('search', { id, overnight: true, ...searchNumbers(r) });
       if (r.ok) {
         const next = await addReceipt(d, S.me, r.receipt);
-        if (next.ok && (await keep(next.dossier)).ok) { levels++; await renderWallet(); if (S.sel === id) await select(id); }
+        if (next.ok && (await keep(next.dossier)).ok) { levels++; emit('level', { id, before: r.before, after: r.after, overnight: true }); await renderWallet(); if (S.sel === id) await select(id); }
       }
     }
   }
   say(out, 'Stopped after ' + searches + ' search' + (searches === 1 ? '' : 'es') + ': ' + levels + ' level' + (levels === 1 ? '' : 's') + ' earned, each re-run here before it was recorded.', levels ? 'ok' : '');
   working = false; btn.disabled = false; btn.textContent = 'Work overnight';
+  emit('working', { on: false, searches, levels });
 }
 
 async function actBreed() {
@@ -296,11 +331,12 @@ async function actBreed() {
     const vp = await verify(lifeOf(pid)), g = await groundFor(v, (t) => say(out, t));
     say(out, 'Crossing their minds, up to 12 times, looking for a child that beats both on GATE…'); await wait();
     const r = await breed(v, vp, g, S.me, { seed: 1 + v.receipts.length + vp.receipts.length });
-    if (!r.born) return clear(out, el('div', { class: 'status' }, 'No child: ' + r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) + '. A child is never a promise — it is what grew: it must beat both parents on GATE.'));
+    if (!r.born) { emit('birth', { kept: false, a: v.id, b: vp.id, tries: r.tries, why: r.why }); return clear(out, el('div', { class: 'status' }, 'No child: ' + r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) + '. A child is never a promise — it is what grew: it must beat both parents on GATE.')); }
     const serial = nextSerial(), child = await issue(r.genome, S.me, { serial, to: S.me.pub, theme: themeOf(serial), generation: Math.max(v.generation, vp.generation) + 1 });
     const kept = await keep(child.dossier);
     if (!kept.ok) return say(out, kept.why, 'bad');
     const vc = await verify(child.dossier), bc = birthCheck(vc, v, vp, g);
+    emit('birth', { kept: true, id: vc.id, a: v.id, b: vp.id, gate: r.gate, parents: r.parents, tries: r.tries });
     await renderWallet();
     clear(out, el('div', { class: 'status ok' }, 'BORN: GATE ' + auc(r.gate) + ', beating both parents (' + auc(r.parents[0]) + ', ' + auc(r.parents[1]) + ') after ' + r.tries + ' crossing' + (r.tries > 1 ? 's' : '') + '. Re-run here: ' + (bc.ok ? 'it holds.' : bc.why)),
       el('button', { onclick: () => select(vc.id) }, 'Open the child'));
@@ -315,23 +351,27 @@ async function actSend() {
   const r = await give(d, S.me, to);
   if (!r.ok) return say(out, r.why, 'bad');
   const kept = await keep(r.dossier);
-  if (!kept.ok) return say(out, kept.why, 'bad');
+  if (!kept.ok) { emit('refused', { what: 'give', why: kept.why }); return say(out, kept.why, 'bad'); }
   const png = await cardOf(r.dossier, paint);
   download(png.png, 'digi-' + String(v.serial).padStart(4, '0') + '-' + v.id + '.png');
   await select(S.sel);   // the panel stays: it now shows the new owner, and the confirmation below
   await renderWallet();
+  emit('given', { id: v.id, to });
   say(out, 'Given to ' + short(to) + '. The card you downloaded is now theirs: send it to them. This device recorded the give first, so any other give of this card from the same life is a double sale and is refused here.', 'ok');
 }
 
-async function actSkin() {
+// theme: a published theme to wear (the game's skin packs); without one, the next in the engine's list
+async function actSkin(theme) {
   const out = $('#out-skin'), { d, v } = await current();
   if (v.owner !== S.me.pub) return say(out, 'Only the card’s owner can re-skin it.', 'bad');
-  const ids = Object.keys(THEMES), next = ids[(ids.indexOf(v.theme) + 1) % ids.length];
+  const ids = Object.keys(THEMES), next = typeof theme === 'string' && ids.includes(theme) ? theme : ids[(ids.indexOf(v.theme) + 1) % ids.length];
+  if (next === v.theme) return say(out, 'It already wears ' + next + '.');
   const r = await reskin(d, S.me, next);
   if (!r.ok) return say(out, r.why, 'bad');
   const kept = await keep(r.dossier);
   if (!kept.ok) return say(out, kept.why, 'bad');
   await select(S.sel);
+  emit('skin', { id: v.id, theme: next });
   say(out, 'Re-skinned to ' + next + '. The face changed; the mind did not. The skin is a signed event of its life, so any reader redraws this face too.', 'ok');
 }
 
@@ -368,7 +408,7 @@ async function openFile(file) {
   if (!file) return;
   say(out, 'Reading ' + file.name + ' (' + kb(file.size) + ')…');
   const bytes = new Uint8Array(await file.arrayBuffer()), r = await readCard(bytes, paint);
-  if (!r.ok) return clear(out, el('div', { class: 'status bad' }, '✗ Refused: ' + r.why + '. Nothing in a refused card is used.'));
+  if (!r.ok) { emit('opened', { ok: false, why: r.why }); return clear(out, el('div', { class: 'status bad' }, '✗ Refused: ' + r.why + '. Nothing in a refused card is used.')); }
   const s = standing(S.reg, r.dossier, r.id), f = r.facts;
   const lines = [['A PNG whose every chunk is whole', true], ['Its dossier opens under its seals: issued by its genome’s maker, every later event signed by the owner of that moment', true], ['Its face is exactly the one its life draws (redrawn here and compared, pixel for pixel)', true]];
   let rec = null;
@@ -377,23 +417,32 @@ async function openFile(file) {
   else { rec = await keep(r.dossier); lines.push([rec.ok ? (rec.outcome === 'already recorded' ? 'This device already holds exactly this life' : 'Recorded here: ' + (rec.outcome === 'recorded' ? 'a card this device had not seen' : 'the events it has grown since')) : 'It could not be recorded: ' + rec.why, rec.ok]); }
   clear(out, el('div', { class: 'status ' + (r.owner === S.me.pub ? 'ok' : '') }, r.owner === S.me.pub ? 'It is yours: ' + f.title + ', serial #' + String(r.v.serial).padStart(4, '0') + ', stage ' + f.stage + '. It is in your wallet.' : 'It checks. Its owner is ' + short(r.owner) + (r.owner === S.manifest?.maker ? ' (the drop’s maker)' : '') + ', not you.'),
     el('ul', { class: 'checks' }, lines.map(([t, ok]) => el('li', { class: ok ? 'ok-t' : 'bad-t' }, (ok ? '✓ ' : '✗ ') + t))));
+  emit('opened', { ok: true, id: r.id, mine: r.owner === S.me.pub, standing: s.standing });
   await renderWallet();
   if (r.owner === S.me.pub) select(r.id);
+  return r;
 }
 
 // ── card me: a genesis card handed to your key ───────────────────────────────────────────────────────────────────────
-async function cardMe() {
+// opts.domain: the next free card of that department, by serial (the game's first card is a telco one — the smallest set,
+// so it boots fastest — of the account department, whose rules read no protected characteristic); opts.quiet: the
+// caller moves the page, not this
+async function cardMe(opts = {}) {
   const out = $('#cardme-out');
-  const free = Object.entries(S.reg.cards).filter(([, c]) => c.owner === S.maker.pub && c.serial > 1).sort((a, b) => a[1].serial - b[1].serial);
-  if (!free.length) return say(out, 'Every genesis card on this device has been handed out.', 'bad');
-  const pick = free[Math.floor(Math.random() * Math.min(free.length, 50))][0];
+  const domainOf = (id) => (S.manifest.cards.find((c) => c.card === id) || {}).domain || '';
+  const free = Object.entries(S.reg.cards).filter(([id, c]) => c.owner === S.maker.pub && c.serial > 1 && (!opts.domain || domainOf(id) === opts.domain)).sort((a, b) => a[1].serial - b[1].serial);
+  if (!free.length && opts.domain) return cardMe({ ...opts, domain: null });
+  if (!free.length) { say(out, 'Every genesis card on this device has been handed out.', 'bad'); return null; }
+  const pick = opts.domain ? free[0][0] : free[Math.floor(Math.random() * Math.min(free.length, 50))][0];
   const r = await give(lifeOf(pick), S.maker, S.me.pub);
-  if (!r.ok) return say(out, r.why, 'bad');
+  if (!r.ok) { say(out, r.why, 'bad'); return null; }
   const kept = await keep(r.dossier);
-  if (!kept.ok) return say(out, kept.why, 'bad');
+  if (!kept.ok) { say(out, kept.why, 'bad'); return null; }
   await renderWallet(); await select(pick);
   say(out, 'Card #' + String(S.reg.cards[pick].serial).padStart(4, '0') + ' is yours: the drop’s maker signed it to your key. (On this page the maker’s key is the public demo key, so the page can sign that give for you; in the real drop, the maker signs it.) Now press Grow it.', 'ok');
-  location.hash = '#wallet';
+  emit('card', { id: pick, serial: S.reg.cards[pick].serial });
+  if (!opts.quiet) location.hash = '#wallet';
+  return pick;
 }
 
 // ── the mesh ─────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -421,6 +470,7 @@ async function buildMesh() {
     if (!m.ok) return say(out, m.why, 'bad');
     S.mesh = { m, g, set }; S.ledger = [];
     renderMesh();
+    emit('mesh', { set, gate: m.gate, best: m.best, fielded: m.fielded.length });
   } catch (e) { say(out, String(e.message || e), 'bad'); }
 }
 function renderMesh() {
@@ -482,8 +532,10 @@ async function ownGrow() {
   if (!g.ok) return say(out, g.why, 'bad');
   const set = 'own-' + g.id.slice(4, 12);
   S.own.set(set, { ...g, text: ownText, opts });
-  const owns = (await load('owns')) || [];   // the table stays on this device: kept in this browser, so its card still grows tomorrow
-  if (!owns.some((o) => o.set === set)) { owns.push({ set, text: ownText, opts }); await save('owns', owns); }
+  if ($('#own-keep') && $('#own-keep').checked) {   // kept in this browser only if its owner asks: then its card still grows tomorrow
+    const owns = (await load('owns')) || [];
+    if (!owns.some((o) => o.set === set)) { owns.push({ set, text: ownText, opts }); await save('owns', owns); S.storedOwns = true; }
+  }
   for (const [k, seed] of seedsFor(g.id, 3).entries()) {
     const t0 = Date.now(), tick = setInterval(() => say(out, 'Searching for a mind on your ' + g.ds.fitRows.length.toLocaleString() + ' FIT rows (try ' + (k + 1) + ' of 3) — ' + Math.round((Date.now() - t0) / 1000) + ' s…'), 500);
     const r = await work_({ op: 'search', own: { text: ownText, opts }, domain: g.ds.name, seed, bar: 0.6 });
@@ -495,10 +547,12 @@ async function ownGrow() {
       const kept = await keep(c.dossier);
       if (!kept.ok) return say(out, kept.why, 'bad');
       await renderWallet(); await select(kept.entry ? kept.entry.card : sealed.id);
+      emit('minted', { ok: true, id: kept.entry ? kept.entry.card : sealed.id, gate: r.gate });
       return say(out, 'Your DIGI is born: GATE AUC ' + auc(r.gate) + ' on ' + g.ds.gateRows.length.toLocaleString() + ' of your rows it never grew on. You are its maker and its owner. Measurements it read: ' + g.used.join(', ') + (g.left.length ? '. Left out (not numbers): ' + g.left.join(', ') : '') + '.', 'ok');
     }
     say(out, 'Try ' + (k + 1) + ': ' + (r.ok ? 'the mind it found scores ' + auc(r.gate) + ' on GATE, under the 0.6 bar' : r.why));
   }
+  emit('minted', { ok: false });
   say(out, 'No mind cleared the 0.6 bar on your table in three searches. That can be the honest answer: these columns may not predict that outcome well. Nothing was minted.', 'bad');
 }
 
@@ -528,6 +582,7 @@ async function rerunDrop() {
   const out = $('#drop-out');
   say(out, 'Fetching decoder v1 and the drop log, then replaying every card from nothing…'); await wait();
   const receipt = lifeOf(S.manifest.first.card).events[1].receipt, t0 = performance.now(), r = await checkDrop(receipt, { decoder: S.decoder, log: S.glog, maker: S.manifest.maker });
+  emit('drop', { ok: r.ok, ms: Math.round(performance.now() - t0) });
   say(out, r.ok ? '✓ The drop re-runs: ' + S.glog.length.toLocaleString() + ' cards replayed to head ' + short(receipt.log) + ' (the one #0001 names), every seal and signature checked, all of one maker; and the decoder here hashes to ' + short(S.decoder) + ', the one #0001 names. (' + Math.round(performance.now() - t0) + ' ms)' : '✗ ' + r.why, r.ok ? 'ok' : 'bad');
 }
 async function regrow() {
@@ -638,8 +693,8 @@ function wire() {
   const on = (s, ev, fn) => { const n = $(s); if (n) n.addEventListener(ev, fn); };
   on('#card-me', 'click', cardMe); on('#card-me-2', 'click', cardMe);
   on('#act-grow', 'click', actGrow); on('#act-ask', 'click', () => actAsk(false)); on('#ask-own', 'click', () => actAsk(true));
-  on('#act-level', 'click', actLevel); on('#act-breed', 'click', actBreed); on('#act-send', 'click', actSend); on('#act-skin', 'click', actSkin);
-  on('#act-download', 'click', actDownload); on('#act-verify', 'click', actVerify); on('#work-toggle', 'click', workOvernight);
+  on('#act-level', 'click', actLevel); on('#act-breed', 'click', actBreed); on('#act-send', 'click', actSend);
+  on('#act-download', 'click', actDownload); on('#act-verify', 'click', actVerify); on('#work-toggle', 'click', workOvernight); on('#act-skin', 'click', () => actSkin());
   on('#open-file', 'change', (e) => openFile(e.target.files[0]));
   const zone = $('#open-zone');
   if (zone) { zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('on'); }); zone.addEventListener('dragleave', () => zone.classList.remove('on')); zone.addEventListener('drop', (e) => { e.preventDefault(); zone.classList.remove('on'); openFile(e.dataTransfer.files[0]); }); }
@@ -648,34 +703,38 @@ function wire() {
   on('#drop-rerun', 'click', rerunDrop); on('#regrow-btn', 'click', regrow); on('#cost-run', 'click', costRun);
   on('#key-copy', 'click', async () => { try { await navigator.clipboard.writeText(S.me.pub); say($('#key-out'), 'Your public key is copied. Give it to anyone who wants to send you a card.', 'ok'); } catch { say($('#key-out'), S.me.pub); } });
   on('#key-backup', 'click', async () => {
-    const hex = await exportPriv(S.me), cards = mine().map(lifeOf);
-    download(utf8(JSON.stringify({ kind: 'digi-card.wallet', key: { pub: S.me.pub, pkcs8: hex }, cards })), 'digi-wallet-' + S.me.pub.slice(0, 8) + '.json');
-    say($('#key-out'), 'Saved your key and your ' + cards.length + ' card(s). This file IS your ownership: whoever holds it can sign your cards away. Keep it safe; never post it. (tools/overnight.mjs reads this file to level your cards on your own machine.)', 'ok');
+    const n = await saveKeyFile();
+    say($('#key-out'), 'Saved your key and your ' + n + ' card(s). This file IS your ownership: whoever holds it can sign your cards away. Keep it safe; never post it. Open it here next time to hold your cards. (tools/overnight.mjs reads this file to level your cards on your own machine.)', 'ok');
   });
+  on('#key-forget', 'click', async () => { await forgetStoredKey(); say($('#key-out'), 'Your key is no longer kept in this browser. It is in your key file, and in this tab until you close it.', 'ok'); });
   on('#key-restore', 'change', async (e) => {
     try {
       const j = JSON.parse(await e.target.files[0].text()), kk = j.key || j, k = await importPriv(kk.pkcs8);
       if (k.pub !== kk.pub) throw new Error('the file’s key does not match its public half');
-      S.me = k; await save('me', k); renderMe();
+      S.me = k; S.keySaved = true; renderMe();   // held in this tab only: the file is where it lives
       let back = 0;
       for (const d of Array.isArray(j.cards) ? j.cards : []) if ((await keep(d)).ok) back++;
       await renderWallet();
+      emit('key', { restored: true, cards: back });
       say($('#key-out'), 'Restored: you are ' + short(k.pub) + ' again' + (back ? ', with ' + back + ' card(s) recorded here' : '') + '.', 'ok');
-    } catch (err) { say($('#key-out'), 'That is not a DIGI wallet file: ' + (/does not match/.test(String(err && err.message)) ? err.message : 'the key in it could not be read') + '. Use the file “Back up my wallet” saved.', 'bad'); }
+    } catch (err) { say($('#key-out'), 'That is not a DIGI wallet file: ' + (/does not match/.test(String(err && err.message)) ? err.message : 'the key in it could not be read') + '. Use the file “Save my key file” saved.', 'bad'); }
   });
   on('#theme-toggle', 'click', () => { const r = document.documentElement, t = r.dataset.theme === 'light' ? 'dark' : 'light'; r.dataset.theme = t; try { localStorage.setItem('digi-theme', t); } catch {} });
 }
 
+let booted;
+/** resolved once the drop has replayed and the wallet is drawn: the game screens start from here */
+const ready = new Promise((r) => { booted = r; });
 async function boot() {
   try { const t = localStorage.getItem('digi-theme'); if (t) document.documentElement.dataset.theme = t; } catch {}
   wire();
   renderPrices();   // the sourced prices need nothing from the drop
   const status = $('#boot');
-  try { await generate(); } catch { $('#nocrypto').hidden = false; say(status, 'This browser cannot sign or check Ed25519, which every card needs. Use a current Chrome, Edge, Firefox or Safari.', 'bad'); return; }
+  try { await generate(); } catch { $('#nocrypto').hidden = false; say(status, 'This browser cannot sign or check Ed25519, which every card needs. Use a current Chrome, Edge, Firefox or Safari.', 'bad'); emit('failed', { why: 'no Ed25519' }); return; }
   S.me = await loadMe(); renderMe();
   S.maker = await demoMaker();
   S.checked = new Set((await load('checked')) || []);
-  for (const o of (await load('owns')) || []) { const g = ownGround(o.text, o.opts); if (g.ok) S.own.set(o.set, { ...g, text: o.text, opts: o.opts }); }
+  for (const o of (await load('owns')) || []) { const g = ownGround(o.text, o.opts); if (g.ok) { S.own.set(o.set, { ...g, text: o.text, opts: o.opts }); S.storedOwns = true; } }
   try {
     const stats = await loadDrop((t) => say(status, t));
     await loadTail();
@@ -687,7 +746,11 @@ async function boot() {
   await renderWallet();
   renderProof(); renderPosts(); renderTraces();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  booted(S);
 }
 boot();
 
-export { S };
+/** what the game screens drive: the same actions the page's buttons run, nothing more */
+const api = { cardMe, select, actGrow, actAsk, actLevel, actBreed, actSend, actSkin, actDownload, actVerify, openFile, rerunDrop, regrow, buildMesh, meshAsk, meshJob, workOvernight,
+  renderWallet, lifeOf, mine, drawCard, pixels, groundFor, groundOf, setOf, ownSetOf, protectedOf, download, saveKeyFile, forgetStoredKey, short, auc, emit, keep, load, save, paint };
+export { S, ready, api };

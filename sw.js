@@ -1,7 +1,7 @@
 // sw.js — offline after the first visit. Network first (always the newest kernel when online), the cache when not; every
 // request is revalidated (cache: 'no-cache': a cheap 304 when nothing changed), so a returning visitor never runs a stale
 // module beside a fresh page. The datasets are cached the first time a card grows on them, so a card grows offline after.
-const CACHE = 'digi-card-v1';
+const CACHE = 'digi-card-v2';
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', (e) => {

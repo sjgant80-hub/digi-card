@@ -11,6 +11,13 @@ only if it beats both parents), put it to work with other cards in a mesh — an
 Everything on the live page is this repository's mutation-gated code running in your browser on six real public
 datasets. Nothing is mocked; nothing is sent anywhere.
 
+The page opens as a game, built from the same blocks as the cards (PixelWhisperer Kards' palettes, rarity rings and
+pixel lettering). Its dock holds eight screens: Estate, Base, Cards, Evals, Mint, Mesh, Send and Proof. Card me hands you
+a telco card, and Boot reads it, checks it, grows its mind and counts up to the score your device computed beside the
+one the drop declared. The classic document view (Menu → Classic view) holds the full explanation, the brochure and
+the white paper. Your key is never kept in the browser's storage: it lives in the tab and in the key file you save.
+The game's own files are `ui/mode.js`, `ui/game.js` and `ui/game.css`, and they change no kernel.
+
 ## What was proven
 
 Eight organs, each sealed before it was measured (git proves the order: `node tools/order.mjs --organ k`), judged by
