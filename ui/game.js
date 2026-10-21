@@ -431,7 +431,8 @@ async function renderCards() {
     const label = s === 'custom' ? 'Your own' : SET_NAMES[s], count = s === 'custom' ? String((bySet.custom || []).length) : depts.length ? have + ' of ' + depts.length : 'none';
     return el('button', { type: 'button', role: 'tab', 'aria-selected': String(openSet === s), class: count === 'none' ? 'none' : '', onclick: () => { openSet = s; renderCards(); } }, DATASET_ICONS[s] ? iconCanvas(DATASET_ICONS[s], 2, SET_COLOUR[s]) : null, label, el('b', {}, count));
   }));
-  fill($('#g-set-h'), (openSet === 'custom' ? 'Your own' : SET_NAMES[openSet]) + (openSet === 'custom' ? ' · cards minted from your tables' : ' · ' + ((admitted[openSet] || []).filter((x) => x.admitted).length) + ' departments in the drop'));
+  fill($('#g-set-h'), (openSet === 'custom' ? 'Your own' : SET_NAMES[openSet]) + (openSet === 'custom' ? ' · cards minted from your tables' : ' · ' + ((admitted[openSet] || []).filter((x) => x.admitted).length) + ' departments in the drop'),
+    openSet !== 'custom' && SETS[openSet] ? el('small', {}, SETS[openSet].title + ' · its cards predict who ' + SETS[openSet].outcome) : null);
   const grid = $('#g-slotgrid'), slots = [];
   if (openSet === 'custom') {
     for (const h of bySet.custom || []) slots.push(heldSlot(h));
