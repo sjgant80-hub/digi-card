@@ -1,0 +1,81 @@
+{
+ "kind": "digi-card.posts",
+ "v": 1,
+ "note": "drafted and claim-gated by tools/posts.mjs; a person publishes them",
+ "posts": [
+  {
+   "text": "Decoder #0001 is out: 1,000 DIGI cards, each a picture whose pixels carry a working mind grown on real records. Hold #0001 and re-run the whole drop yourself: https://sjgant80-hub.github.io/digi-card/#drop",
+   "claims": [
+    {
+     "kind": "drop"
+    }
+   ],
+   "vouched": [
+    "1000",
+    "0001"
+   ]
+  },
+  {
+   "text": "DIGI #0891 (shop-analytics) scores 0.922 on cases it never grew on, and it grows on your device with the network off. Re-run it yourself: https://sjgant80-hub.github.io/digi-card/#card=0891",
+   "claims": [
+    {
+     "kind": "grown",
+     "serial": 891
+    },
+    {
+     "kind": "offline",
+     "serial": 891
+    }
+   ],
+   "vouched": [
+    "0891",
+    "0.922",
+    "0.921988",
+    "0891"
+   ]
+  },
+  {
+   "text": "Say \"card me\" and get a DIGI card: its seals check, its owner is you, and its mind grows offline on real records. No server, no chain. Re-run every claim: https://sjgant80-hub.github.io/digi-card/",
+   "claims": [
+    {
+     "kind": "verified",
+     "serial": 2
+    },
+    {
+     "kind": "offline",
+     "serial": 2
+    }
+   ],
+   "vouched": [
+    "0002",
+    "0002"
+   ]
+  },
+  {
+   "text": "A DIGI card levels up only by a gain anyone can re-run: the receipt carries both minds and both scores. Rarity is earned, never printed. Re-run a level yourself: https://sjgant80-hub.github.io/digi-card/",
+   "claims": [
+    {
+     "kind": "verified",
+     "serial": 1
+    }
+   ],
+   "vouched": [
+    "0001"
+   ]
+  },
+  {
+   "text": "Owned DIGI cards of one business answer as one: on credit, 3 cards score 0.774 on cases none grew on, against 0.742 for the best of them alone. Each owner is credited by measured share. Re-run it: https://sjgant80-hub.github.io/digi-card/",
+   "claims": [
+    {
+     "kind": "mesh",
+     "set": "credit"
+    }
+   ],
+   "vouched": [
+    "3",
+    "0.774",
+    "0.742"
+   ]
+  }
+ ]
+}

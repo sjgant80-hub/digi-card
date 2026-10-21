@@ -1,0 +1,441 @@
+{
+ "kind": "digi-card.genesis-admission",
+ "v": 1,
+ "rule": {
+  "seeds": 8,
+  "live": 4,
+  "bar": 0.6,
+  "grow": {
+   "population": 40,
+   "elites": 8,
+   "generations": 30
+  }
+ },
+ "departments": [
+  {
+   "set": "telco",
+   "domain": "telco-customer",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    635362,
+    666736,
+    661938,
+    671495,
+    677340,
+    675182,
+    653491,
+    645464
+   ],
+   "admitted": true
+  },
+  {
+   "set": "telco",
+   "domain": "telco-services",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    762223,
+    744209,
+    750219,
+    706468,
+    734994,
+    768921,
+    761843,
+    763629
+   ],
+   "admitted": true
+  },
+  {
+   "set": "telco",
+   "domain": "telco-account",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    803935,
+    802698,
+    797940,
+    818213,
+    800684,
+    795001,
+    805750,
+    801357
+   ],
+   "admitted": true
+  },
+  {
+   "set": "shop",
+   "domain": "shop-browsing",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    665976,
+    659582,
+    658605,
+    659417,
+    658150,
+    654464,
+    670946,
+    677697
+   ],
+   "admitted": true
+  },
+  {
+   "set": "shop",
+   "domain": "shop-analytics",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    910852,
+    915097,
+    919491,
+    910843,
+    921634,
+    909048,
+    916936,
+    910476
+   ],
+   "admitted": true
+  },
+  {
+   "set": "shop",
+   "domain": "shop-context",
+   "searched": 8,
+   "live": 6,
+   "gates": [
+    625557,
+    609005,
+    626370,
+    591657,
+    615244,
+    601174,
+    606087,
+    599608
+   ],
+   "admitted": true
+  },
+  {
+   "set": "bank",
+   "domain": "bank-profile",
+   "searched": 8,
+   "live": 6,
+   "gates": [
+    592634,
+    596153,
+    623447,
+    600094,
+    603422,
+    608820,
+    604003,
+    605703
+   ],
+   "admitted": true
+  },
+  {
+   "set": "bank",
+   "domain": "bank-credit",
+   "searched": 8,
+   "live": 0,
+   "gates": [
+    569346,
+    563186,
+    562061,
+    563186,
+    565600,
+    569346,
+    563186,
+    568013
+   ],
+   "admitted": false
+  },
+  {
+   "set": "bank",
+   "domain": "bank-campaign",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    667961,
+    679336,
+    677024,
+    686854,
+    674853,
+    680656,
+    668917,
+    664853
+   ],
+   "admitted": true
+  },
+  {
+   "set": "bank",
+   "domain": "bank-economy",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    768659,
+    754161,
+    766008,
+    764367,
+    766514,
+    758459,
+    761581,
+    770582
+   ],
+   "admitted": true
+  },
+  {
+   "set": "adult",
+   "domain": "adult-person",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    805444,
+    807334,
+    806426,
+    799171,
+    803370,
+    807504,
+    806462,
+    803225
+   ],
+   "admitted": true
+  },
+  {
+   "set": "adult",
+   "domain": "adult-work",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    752582,
+    754365,
+    752015,
+    747901,
+    757899,
+    749872,
+    748373,
+    747826
+   ],
+   "admitted": true
+  },
+  {
+   "set": "adult",
+   "domain": "adult-employer",
+   "searched": 8,
+   "live": 0,
+   "gates": [
+    571842,
+    570870,
+    571626,
+    571626,
+    572118,
+    570955,
+    571335,
+    572045
+   ],
+   "admitted": false
+  },
+  {
+   "set": "adult",
+   "domain": "adult-tax",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    632076,
+    632076,
+    632076,
+    627980,
+    632076,
+    632076,
+    632076,
+    632076
+   ],
+   "admitted": true
+  },
+  {
+   "set": "hospital",
+   "domain": "hospital-admissions",
+   "searched": 8,
+   "live": 0,
+   "gates": [
+    540086,
+    542144,
+    536746,
+    545420,
+    546728,
+    544439,
+    544630,
+    543177
+   ],
+   "admitted": false
+  },
+  {
+   "set": "hospital",
+   "domain": "hospital-clinical",
+   "searched": 8,
+   "live": 0,
+   "gates": [
+    554394,
+    563411,
+    557595,
+    560828,
+    565893,
+    557424,
+    563797,
+    559213
+   ],
+   "admitted": false
+  },
+  {
+   "set": "hospital",
+   "domain": "hospital-pharmacy",
+   "searched": 8,
+   "live": 0,
+   "gates": [
+    537297,
+    539168,
+    537727,
+    534070,
+    534438,
+    514822,
+    537220,
+    534504
+   ],
+   "admitted": false
+  },
+  {
+   "set": "hospital",
+   "domain": "hospital-history",
+   "searched": 8,
+   "live": 0,
+   "gates": [
+    562663,
+    562555,
+    561802,
+    561397,
+    561802,
+    561802,
+    563159,
+    549668
+   ],
+   "admitted": false
+  },
+  {
+   "set": "hospital",
+   "domain": "hospital-discharge",
+   "searched": 8,
+   "live": 0,
+   "gates": [
+    580199,
+    580096,
+    580096,
+    578842,
+    577351,
+    578295,
+    580771,
+    579085
+   ],
+   "admitted": false
+  },
+  {
+   "set": "credit",
+   "domain": "credit-customer",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    626170,
+    632844,
+    638369,
+    632293,
+    634180,
+    631836,
+    631508,
+    636438
+   ],
+   "admitted": true
+  },
+  {
+   "set": "credit",
+   "domain": "credit-collections",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    734254,
+    728018,
+    733650,
+    735770,
+    733095,
+    732578,
+    731957,
+    738587
+   ],
+   "admitted": true
+  },
+  {
+   "set": "credit",
+   "domain": "credit-billing",
+   "searched": 8,
+   "live": 0,
+   "gates": [
+    546171,
+    552927,
+    539311,
+    544853,
+    547180,
+    546567,
+    547108,
+    533642
+   ],
+   "admitted": false
+  },
+  {
+   "set": "credit",
+   "domain": "credit-payments",
+   "searched": 8,
+   "live": 8,
+   "gates": [
+    638048,
+    644278,
+    634081,
+    634641,
+    640473,
+    646128,
+    647659,
+    635934
+   ],
+   "admitted": true
+  }
+ ],
+ "admitted": [
+  "telco-customer",
+  "telco-services",
+  "telco-account",
+  "shop-browsing",
+  "shop-analytics",
+  "shop-context",
+  "bank-profile",
+  "bank-campaign",
+  "bank-economy",
+  "adult-person",
+  "adult-work",
+  "adult-tax",
+  "credit-customer",
+  "credit-collections",
+  "credit-payments"
+ ],
+ "want": {
+  "telco-customer": 68,
+  "telco-services": 68,
+  "telco-account": 68,
+  "shop-browsing": 68,
+  "shop-analytics": 68,
+  "shop-context": 68,
+  "bank-profile": 68,
+  "bank-campaign": 68,
+  "bank-economy": 68,
+  "adult-person": 67,
+  "adult-work": 67,
+  "adult-tax": 67,
+  "credit-customer": 67,
+  "credit-collections": 67,
+  "credit-payments": 67
+ }
+}
