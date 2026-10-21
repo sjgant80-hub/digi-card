@@ -81,7 +81,7 @@ test('a card carries its dossier and shows it: it reads back exactly, and the sa
 
 test('the face moves with the life: a level earned or a new skin redraws it, and the card reads back each time', async () => {
   const { alice, d, card } = await world();
-  const earned = (await addReceipt(d, alice, { kind: 'grow', before: 700000, after: 720000 })).dossier;
+  const earned = (await addReceipt(d, alice, { kind: 'level', before: 700000, after: 720000 })).dossier;
   const skinned = (await reskin(d, alice, 'blockcraft-v1')).dossier;
   const [a, b] = [(await cardOf(earned, paint)).png, (await cardOf(skinned, paint)).png];
   for (const [c, want] of [[a, earned], [b, skinned]]) { const r = await readCard(c, paint); assert.ok(r.ok, r.why); assert.deepEqual(r.dossier, want); }
@@ -166,7 +166,7 @@ test('the face cannot lie: one pixel off, or a face from another life, and the c
     const p = px.slice(); p[at] ^= 1;
     assert.equal((await readCard(resaved(p), paint)).why, 'the card’s face does not match what it carries', 'pixel ' + at);
   }
-  const earned = pixelsIn((await cardOf((await addReceipt(d, alice, { kind: 'grow', before: 1, after: 2 })).dossier, paint)).png);
+  const earned = pixelsIn((await cardOf((await addReceipt(d, alice, { kind: 'level', before: 1, after: 2 })).dossier, paint)).png);
   const lie = px.slice(); lie.set(earned.subarray(first), first);
   assert.equal((await readCard(resaved(lie), paint)).why, 'the card’s face does not match what it carries', 'a stage-1 face on a stage-0 life');
   const stolen = earned.slice(); stolen.set(px.subarray(first), first);
