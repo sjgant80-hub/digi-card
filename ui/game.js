@@ -406,9 +406,9 @@ async function shareSnapshot() {
   const held = await holdings(), levels = held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0);
   const text = 'My DIGI estate · ' + held.length + ' block' + (held.length === 1 ? '' : 's') + ' · ' + levels + ' level' + (levels === 1 ? '' : 's') + ' re-run · every card re-runs on your device: ' + location.origin + location.pathname;
   // the snapshot is painted afresh, with its title and stats bands, from the holdings alone
-  const snap = el('canvas', { width: 720, height: 480 }), art = paintEstate(holdingsOf(held, true), plotTheme(), 720, 480);
+  const snap = el('canvas', { width: 1200, height: 630 }), art = paintEstate(holdingsOf(held, true), plotTheme(), 1200, 630);   // the size a shared link previews at
   if (!art.ok) return fill($('#g-snap-out'), el('p', { class: 'g-badt g-small' }, 'The snapshot could not be drawn: ' + art.why));
-  putRGB(snap, art.px, 720, 480);
+  putRGB(snap, art.px, 1200, 630);
   const png = pngOfCanvas(snap), file = new File([png], 'digi-estate.png', { type: 'image/png' });
   const out = $('#g-snap-out');
   try {
