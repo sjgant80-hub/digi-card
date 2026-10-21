@@ -18,6 +18,8 @@ test('a post that rests on claims that re-run, says only their numbers, and show
   assert.ok((await gate(post('1,000 genesis cards. re-run ' + PAGE, [{ kind: 'grown' }]), { grown: holds(['1000']) })).ok, 'a vouched number may be written with commas');
   assert.deepEqual(numbersIn('#0001 scored 0.739214, 1,000 cards, level 3'), ['0001', '0.739214', '1,000', '3']);
   assert.deepEqual(numbersIn('no numbers'), []);
+  const full = ok + ' '.repeat(MAX_POST - [...ok].length);
+  assert.equal([...full].length, 280); assert.ok((await gate(post(full), checkers)).ok, 'exactly 280 characters is a post');
 });
 
 test('every way a post overreaches is refused, naming it', async () => {
@@ -32,6 +34,8 @@ test('every way a post overreaches is refused, naming it', async () => {
     'no re-run': [post('Card 0001 scores 0.739214. ' + PAGE), 'a post says how to check it: re-run it yourself'],
     'a claim of no kind': [post(ok, [{ kind: 'vibes' }]), 'claim 0 is not of a kind a card can prove'],
     'a claim that is not a record': [post(ok, ['grown']), 'claim 0 is not of a kind a card can prove'],
+    'a claim that is nothing': [post(ok, [null]), 'claim 0 is not of a kind a card can prove'],
+    'a claim that is a list': [post(ok, [['grown']]), 'claim 0 is not of a kind a card can prove'],
     'a kind with no checker': [post(ok, [{ kind: 'born' }]), 'claim 0 (born) has no checker here to re-run it'],
     'an unvouched number': [post('Decoder #0001 scores 0.739215. Re-run it yourself: ' + PAGE), 'the post says 0.739215, which no claim it rests on just re-ran'],
     'a number no claim names': [post(ok.replace('Decoder', '1000 cards. Decoder')), 'the post says 1000, which no claim it rests on just re-ran'],

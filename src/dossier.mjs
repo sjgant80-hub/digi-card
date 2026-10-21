@@ -146,13 +146,13 @@ export async function verify(dossier, opts = {}) {
 
 /**
  * What the card's face shows, read from a checked dossier: the art engine draws exactly these facts. The dataset and
- * department come from its mind's departments (a child bred across departments shows them joined, customer+payments);
+ * department come from its mind's departments (a child bred across departments shows them joined, customer-payments);
  * the stage is its levels — receipts of kind 'level' only, each one re-run before any registry records it.
  */
 export function facts(v) {
   const domains = v.genome.organs.map((o) => { const d = decodeSeed(o, { guard: false }); return d.ok ? d.seed.domain : v.genome.name; });
   const head = domains[0].split('-')[0], dataset = DATASETS.includes(head) && domains.every((d) => d.startsWith(head + '-')) ? head : 'custom';
-  const department = (dataset === 'custom' ? domains : domains.map((d) => d.slice(head.length + 1))).join('+').slice(0, 16).replace(/[-+]+$/, '');
+  const department = (dataset === 'custom' ? domains : domains.map((d) => d.slice(head.length + 1))).join('-').slice(0, 16).replace(/-+$/, '');
   const title = v.genome.name.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').slice(0, 24).trim();
   const stage = Math.min(99, v.receipts.filter((r) => r.kind === 'level').length);
   return { id: v.id, title, dataset, department, stage, rarity: rarityOf(stage), generation: v.generation, parents: v.genome.parents.slice() };

@@ -15,7 +15,8 @@
 // is the business of whoever runs the mesh, outside this repository. Only scores cross between members, never records.
 import { coupleNonNegative, coupled } from '../vendor/dex-frontier/src/compose.mjs';
 import { lead } from '../vendor/dex-frontier/src/stats.mjs';
-import { auc, round6 } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/seedlib.mjs';
+import { round6 } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/seedlib.mjs';
+import { oofAuc } from '../vendor/dex-frontier/src/select.mjs';
 import { sign, verify as verifySig } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/keys.mjs';
 import { canonical, utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 import { sha256Hex } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/sha256.mjs';
@@ -24,7 +25,7 @@ import { mindOf, scoreRow, answer } from './mind.mjs';
 export const CONSENT = 'digi.consent.v1';
 export const MAX_MEMBERS = 12;
 export const ZERO = '0'.repeat(64);
-const MESH = /^[a-z][a-z0-9-]{0,31}$/, PUB = /^[0-9a-f]{64}$/, SIG = /^[0-9a-f]{128}$/;
+const MESH = /^[a-z][a-z0-9-]{0,31}$/;
 const no = (why) => ({ ok: false, why });
 const milli = (x) => Math.round(x * 1e6);
 const exactly = (x, keys) => Object.prototype.toString.call(x) === '[object Object]' && Object.keys(x).sort().join() === keys.join();
@@ -46,22 +47,13 @@ export async function consentOk(c, v, mesh) {
   if (c.card !== v.id) return no('the consent is for another card');
   if (c.head !== v.head) return no('the consent was given for an earlier life of the card: its owner must consent again');
   if (c.by !== v.owner) return no('the consent is not its owner’s');
-  if (!PUB.test(c.by) || !SIG.test(c.sig) || !(await verifySig(c.by, c.sig, utf8(canonical(unsigned(c)))))) return no('the consent’s signature does not check');
+  if (!(await verifySig(c.by, c.sig, utf8(canonical(unsigned(c)))))) return no('the consent’s signature does not check');
   return { ok: true };
 }
 
-/** out-of-fold AUC of the non-negative coupling of these columns (folds by row), or a coin's 0.5 with no columns */
-function oof(cols, y, folds = 4) {
-  if (!cols.length) return 0.5;
-  const pred = new Array(y.length);
-  for (let f = 0; f < folds; f++) {
-    const tr = [], ho = [];
-    y.forEach((_, i) => (i % folds === f ? ho : tr).push(i));
-    const c = coupleNonNegative(cols.map((col) => tr.map((i) => col[i])), tr.map((i) => y[i]));
-    for (const i of ho) pred[i] = coupled(c, cols.map((col) => col[i]));
-  }
-  return auc(pred, y);
-}
+/** out-of-fold AUC of the non-negative coupling of these columns, or a coin's 0.5 with no columns */
+const nonNegative = { name: 'non-negative', learn: (cols, y) => { const c = coupleNonNegative(cols, y); return { predict: (s) => coupled(c, s) }; } };
+const oof = (cols, y) => (cols.length ? oofAuc(nonNegative, cols, y) : 0.5);   // dex-frontier's out-of-fold judge, four folds
 
 /** shares of the positive contributions, in millionths, summing to exactly a million (largest remainder, then order) */
 export function sharesOf(contributions) {
@@ -96,7 +88,7 @@ export async function assemble(mesh, candidates, ground) {
     if (!(l.low95 > 0)) { all.push({ ...row, domains, gate: mind.gate, why: 'it does not lead a coin on GATE (bound ' + l.low95 + ')' }); continue; }
     all.push({ ...row, domains, gate: mind.gate, mind, col, why: null });
   }
-  const able = all.filter((m) => m.why === null).sort((a, b) => b.gate - a.gate || (a.card < b.card ? -1 : 1)), fielded = [];
+  const able = all.filter((m) => m.why === null).sort((a, b) => b.gate - a.gate || a.card.localeCompare(b.card, 'en')), fielded = [];
   for (const m of able) {
     if (fielded.some((f) => f.domains === m.domains)) m.why = 'a better-proven card fields ' + m.domains;
     else if (fielded.length >= MAX_MEMBERS) m.why = 'the mesh fields at most ' + MAX_MEMBERS + ' cards';

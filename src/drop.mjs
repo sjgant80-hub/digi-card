@@ -59,7 +59,7 @@ export async function mintGenesis(organ, { found, serial, keys }) {
 }
 
 /** the decoder's hash: the exact files that read, check and draw a card, by path and SHA-256 */
-export const decoderHash = (files) => sha256Hex(canonical(Object.fromEntries(Object.entries(files).sort(([a], [b]) => (a < b ? -1 : 1)))));
+export const decoderHash = (files) => sha256Hex(canonical(files));   // canonical() sorts the paths itself
 
 /** the receipt decoder #0001 carries: the decoder's hash, the registry log's head, and how many cards that log holds */
 export const dropReceipt = ({ decoder, log, cards }) => ({ kind: 'drop', decoder, log, cards });

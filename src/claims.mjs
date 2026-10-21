@@ -45,7 +45,7 @@ export async function gate(post, checkers) {
   if (!/\bre-run\b/i.test(post.text)) return no('a post says how to check it: re-run it yourself');
   const says = [];
   for (const [k, claim] of post.claims.entries()) {
-    const kind = claim && typeof claim === 'object' ? claim.kind : undefined;
+    const kind = Object.prototype.toString.call(claim) === '[object Object]' ? claim.kind : undefined;
     if (!KINDS.includes(kind)) return no('claim ' + k + ' is not of a kind a card can prove');
     if (!checkers || typeof checkers[kind] !== 'function') return no('claim ' + k + ' (' + kind + ') has no checker here to re-run it');
     let r;

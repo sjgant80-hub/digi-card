@@ -4,7 +4,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { consent, consentOk, assemble, ask, work, tally, sharesOf, entryHash, CONSENT, MAX_MEMBERS, ZERO } from '../src/mesh.mjs';
-import { organOf, mindOf, fixedOf, searchOf, caseAt } from '../src/mind.mjs';
+import { organOf, mindOf, fixedOf, searchOf, caseAt, scoreRow } from '../src/mind.mjs';
+import { coupleNonNegative, coupled } from '../vendor/dex-frontier/src/compose.mjs';
+import { oofAuc } from '../vendor/dex-frontier/src/select.mjs';
 import { viewOf } from '../src/data.mjs';
 import { verify, give } from '../src/dossier.mjs';
 import { stemGenome } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/seedlib.mjs';
@@ -32,6 +34,8 @@ test('consent: signed by the owner, for this mesh, for this card as it stands �
   assert.deepEqual(await consentOk(c, A.v, 'toy-mesh'), { ok: true });
   assert.equal((await consent(bob, A.v, 'toy-mesh')).why, 'only the card’s owner consents for it');
   assert.equal((await consent(alice, { ok: false }, 'toy-mesh')).why, 'only the card’s owner consents for it');
+  assert.equal((await consent(alice, { ...A.v, ok: false }, 'toy-mesh')).why, 'only the card’s owner consents for it', 'its own card, but not checked');
+  assert.equal((await consent(alice, null, 'toy-mesh')).why, 'only the card’s owner consents for it');
   for (const m of ['Toy', '', 'a'.repeat(33), 5]) assert.equal((await consent(alice, A.v, m)).why, 'a mesh is named in lower-case letters, digits and hyphens, at most 32', String(m));
   const sold = await verify((await give(A.d, alice, bob.pub)).dossier);
   const forged = { ...c, by: bob.pub }, resigned = { ...forged, sig: await sign(bob, utf8(canonical({ kind: c.kind, mesh: c.mesh, card: c.card, head: c.head, by: bob.pub }))) };
@@ -77,8 +81,26 @@ test('assemble: the best-proven card per department joins; the rest stand by, ea
   assert.ok(joined.every((x) => x.contribution > 0 && x.share > 0));
   assert.ok(m.members.filter((x) => !x.joined).every((x) => x.share === undefined));
   assert.equal(by[A.v.id].domains, 'toy-a'); assert.equal(by[A.v.id].owner, alice.pub);
+  const rows = ground.ds.gateRows, y = rows.map((i) => ground.ds.y[i]), colOf = (v) => rows.map((i) => scoreRow(mindOf(v, ground), ground, i));
+  const nn = { learn: (c, yy) => { const k = coupleNonNegative(c, yy); return { predict: (s) => coupled(k, s) }; } };
+  assert.equal(m.gate, Math.round(oofAuc(nn, m.fielded.map((f) => colOf(f.card === A.v.id ? A.v : B.v)), y) * 1e6), 'dex-frontier’s own out-of-fold judge');
   const solo = await assemble('toy-mesh', [await joinWith(alice, A)], ground);
   assert.deepEqual([solo.fielded.length, solo.gate, solo.members[0].share, solo.members[0].contribution], [1, solo.members[0].contribution + 500000, 1e6, solo.gate - 500000], 'alone, a card is worth what it adds over a coin');
+});
+
+test('the best-proven card fields its department; a tie goes to the lower id', async () => {
+  const { maker, alice, carol, A } = await town();
+  const weakRecipe = fixedOf('toy-a', 1, { ...stemGenome(), on: 1 });
+  let low = null;
+  for (let k = 0; !low; k++) { const c = await cardOn([weakRecipe], { maker, owner: carol, name: 'toy-w' + k, serial: 40 + k }); if (c.v.id < A.v.id) low = c; }
+  const m = await assemble('toy-mesh', [await joinWith(carol, low), await joinWith(alice, A)], ground);
+  assert.deepEqual(m.fielded.map((f) => f.card), [A.v.id], 'the better mind, though its id is higher');
+  assert.equal(m.members.find((x) => x.card === low.v.id).why, 'a better-proven card fields toy-a');
+  const twin = await cardOn([weakRecipe], { maker, owner: carol, name: 'toy-twin', serial: 90 });
+  const t = await assemble('toy-mesh', [await joinWith(carol, twin), await joinWith(carol, low)], ground);
+  const lower = twin.v.id < low.v.id ? twin : low, higher = lower === twin ? low : twin;
+  assert.deepEqual(t.fielded.map((f) => f.card), [lower.v.id], 'equal minds: the lower id');
+  assert.equal(t.members.find((x) => x.card === higher.v.id).why, 'a better-proven card fields toy-a');
 });
 
 test('assemble refuses a mesh that cannot be, and fields at most MAX_MEMBERS', async () => {
@@ -143,7 +165,7 @@ test('the ledger: each job credits owners cases × share; it is a chain; a repla
   for (const [what, [l, why]] of Object.entries(bad)) assert.equal(tally(l, m).why, why, what);
   assert.equal(tally('x').why, 'not a ledger'); assert.deepEqual(tally([]), { ok: true, totals: {} });
   for (const [opts, why] of [[{ job: 'Bad', cases: 1 }, 'a job is named in lower-case letters, digits and hyphens, at most 32'], [{ job: 'j', cases: 0 }, 'a job is 1 to 1,000,000 answered cases'], [{ job: 'j', cases: 1e6 + 1 }, 'a job is 1 to 1,000,000 answered cases'], [{ job: 'j', cases: 1.5 }, 'a job is 1 to 1,000,000 answered cases']]) assert.equal(work(m, [], opts).why, why);
-  assert.ok(work(m, [], { job: 'j', cases: 1e6 }).ok); assert.equal(work(m, 'x', { job: 'j', cases: 1 }).why, 'not a ledger');
+  assert.ok(work(m, [], { job: 'j', cases: 1e6 }).ok); assert.ok(work(m, [], { job: 'j', cases: 1 }).ok); assert.equal(work(m, 'x', { job: 'j', cases: 1 }).why, 'not a ledger');
 });
 
 test('shares: the positive contributions’ parts in millionths, summing to exactly a million, ties to the earlier card', () => {

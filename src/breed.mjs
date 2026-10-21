@@ -48,8 +48,9 @@ export async function breed(va, vb, ground, keys, { seed = 1, name, tries = MAX_
   const beat = Math.max(a.m.gate, b.m.gate), bar = Math.max(va.genome.gate.auc, vb.genome.gate.auc);
   const shared = union.some((d) => a.organs.some((o) => o.domain === d) && b.organs.some((o) => o.domain === d));
   const attempts = shared ? tries : 1;
-  let best = null, tried = 0;
-  for (let t = 0; t < attempts; t++) {
+  // the first child whose mind beats both parents is born; the best score seen is kept only to say why when none does
+  let born = null, top = -1, tried = 0;
+  for (let t = 0; t < attempts && !born; t++) {
     tried++;
     const r = rng(seed * 7919 + t);
     const organs = union.map((d) => {
@@ -60,13 +61,13 @@ export async function breed(va, vb, ground, keys, { seed = 1, name, tries = MAX_
       return fixedOf(d, seed + t, g);
     });
     const m = mindOfOrgans(organs, bar, ground);
-    if (m.gate !== null && m.live === organs.length && (!best || m.gate > best.m.gate)) best = { organs, m, t };
-    if (best && best.m.gate > beat) break;
+    if (m.gate !== null) top = Math.max(top, m.gate);
+    if (m.gate > beat) born = { organs, m };
   }
-  if (!best || !(best.m.gate > beat)) return no('no child of theirs beat both parents on GATE (' + (best ? best.m.gate : 'none live') + ' against ' + beat + ', ' + tried + ' tried)', { tries: tried });
-  const sealed = await seal({ name: name === undefined ? va.genome.name : name, parents: [va.id, vb.id], gate: { auc: bar }, organs: best.organs }, keys);
+  if (!born) return no('no child of theirs beat both parents on GATE (' + (top === -1 ? 'no live child' : top) + ' against ' + beat + ', ' + tried + ' tried)', { tries: tried });
+  const sealed = await seal({ name: name === undefined ? va.genome.name : name, parents: [va.id, vb.id], gate: { auc: bar }, organs: born.organs }, keys);
   if (!sealed.ok) return no('the child could not be sealed: ' + sealed.why);
-  return { born: true, genome: sealed.text, id: sealed.id, gate: best.m.gate, parents: [a.m.gate, b.m.gate], tries: tried, organs: best.organs };
+  return { born: true, genome: sealed.text, id: sealed.id, gate: born.m.gate, parents: [a.m.gate, b.m.gate], tries: tried, organs: born.organs };
 }
 
 /**
@@ -77,7 +78,7 @@ export async function breed(va, vb, ground, keys, { seed = 1, name, tries = MAX_
 export function birthCheck(vc, va, vb, ground) {
   if ([vc, va, vb].some((v) => !v || v.ok !== true)) return { ok: false, why: 'only cards that check can be compared' };
   const p = vc.genome.parents;
-  if (p.length !== 2 || !p.includes(va.id) || !p.includes(vb.id)) return { ok: false, why: 'the child does not name these two as its parents' };
+  if (va.id === vb.id || !p.includes(va.id) || !p.includes(vb.id)) return { ok: false, why: 'the child does not name these two as its parents' };
   const c = mindOfOrgans(vc.genome.organs, vc.genome.gate.auc, ground).gate, a = mindOf(va, ground).gate, b = mindOf(vb, ground).gate;
   if (c === null || a === null || b === null) return { ok: false, why: 'the three minds are not all live on this ground' };
   return c > Math.max(a, b) ? { ok: true, child: c, parents: [a, b] } : { ok: false, why: 'the child scores ' + c + ' on GATE here, not more than both parents (' + a + ', ' + b + ')' };

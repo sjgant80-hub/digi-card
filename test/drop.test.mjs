@@ -65,6 +65,7 @@ test('decoder #0001’s receipt names the decoder and the drop log’s head; re-
   assert.ok(r.ok, r.why); assert.deepEqual(r.reg, reg);
   const later = [...reg.log, { n: 4, junk: true }];
   assert.ok((await checkDrop(receipt, { decoder: receipt.decoder, log: later })).ok, 'entries after the drop’s are not the drop’s');
+  assert.ok((await checkDrop({ ...receipt, cards: 1, log: hashOf(reg.log[0]) }, { decoder: receipt.decoder, log: reg.log })).ok, 'a drop of one card');
   const stranger = await key('stranger'), alien = (await mintGenesis(live('toy-a', 2), { found: 'x', serial: 99, keys: stranger })).dossier;
   const mixed = (await record(reg, alien)).reg;
   const bad = {

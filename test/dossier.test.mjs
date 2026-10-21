@@ -156,11 +156,11 @@ test('facts: the dataset and department from the genome’s organ, rarity by sta
   assert.deepEqual([f.stage, f.rarity], [12, 'legendary'], 'only levels count toward the stage');
   const two = async (domains) => (await seal({ name: 'two-departments', parents: [p1], gate: { auc: 0.6 }, organs: domains.map((dm) => encodeSeed(makeSeed({ domain: dm, seed: 1, grow: { population: 40, elites: 8, generations: 30 } }))) }, maker)).text;
   const across = facts(await verify((await issue(await two(['credit-customer', 'credit-payments']), maker, { serial: 4, to: alice.pub, theme: 'synthwave-v1', generation: 1 })).dossier));
-  assert.deepEqual([across.dataset, across.department, across.title], ['credit', 'customer+payment', 'Two Departments'], 'a child of two departments shows both');
+  assert.deepEqual([across.dataset, across.department, across.title], ['credit', 'customer-payment', 'Two Departments'], 'a child of two departments shows both');
   const mixed = facts(await verify((await issue(await two(['credit-customer', 'telco-account']), maker, { serial: 5, to: alice.pub, theme: 'synthwave-v1' })).dossier));
   assert.deepEqual([mixed.dataset, mixed.department], ['custom', 'credit-customer'], 'two datasets: custom, cut at sixteen');
   const trail = facts(await verify((await issue(await two(['credit-customer', 'credit-x']), maker, { serial: 6, to: alice.pub, theme: 'synthwave-v1' })).dossier));
-  assert.deepEqual([trail.dataset, trail.department], ['credit', 'customer+x']);
+  assert.deepEqual([trail.dataset, trail.department], ['credit', 'customer-x']);
   const cut = facts(await verify((await issue(await two(['credit-abcdefghijklmno', 'credit-x']), maker, { serial: 7, to: alice.pub, theme: 'synthwave-v1' })).dossier));
-  assert.equal(cut.department, 'abcdefghijklmno', 'a join cut at sixteen drops its dangling plus');
+  assert.equal(cut.department, 'abcdefghijklmno', 'a join cut at sixteen drops its dangling hyphen');
 });
