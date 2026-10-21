@@ -237,18 +237,20 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         <button class="g-btn cy big" id="g-boot" type="button">Boot</button>
         <button class="g-btn big" id="g-eval" type="button">Eval</button>
         <a class="g-btn big" href="#cards" id="g-inspect">Inspect</a>
+        <a class="g-btn big" href="#kit" id="g-kit-go">Kit</a>
       </div>
       <p class="g-dim g-small" id="g-feat-note"></p>
     </div>
     <div class="g-col">
       <div class="g-panel"><h3 data-info="forms">Forms</h3><div class="g-forms">
-        <div class="g-form on">Scorer<small>live</small></div>
-        <div class="g-form off">Talker<small>language · coming</small></div>
-        <div class="g-form off">Swarm<small>suite · coming</small></div>
-        <div class="g-form off">Router<small>hybrid · coming</small></div></div></div>
+        <a class="g-form on" href="#cards">Alone<small>one mind · live</small></a>
+        <a class="g-form on" href="#kit">Kitted<small>your nodes · live</small></a>
+        <a class="g-form on" href="#mesh">Mesh<small>many owners · live</small></a>
+        <a class="g-form on" href="#raids">Party<small>a raid · live</small></a></div></div>
       <div class="g-panel"><h3 data-info="mint">Mint station <span class="g-tag ok">free</span></h3>
         <a class="g-line k" href="#mint">Mint a DIGI from your table <small>live</small></a>
-        <div class="g-line x">Mint an app <small>coming</small></div><div class="g-line x">Mint a node <small>coming</small></div><div class="g-line x">Mint a suite <small>coming</small></div>
+        <a class="g-line k" href="#kit">Mint a node for your DIGI <small>live</small></a>
+        <a class="g-line k" href="#kit">Mint an app tool <small>live · the estate’s proven apps</small></a>
         <p class="g-dim g-small">The gate decides · a failed mint mints nothing</p></div>
       <div class="g-panel"><h3 data-info="skins">Skin packs <small>PixelWhisperer</small></h3><div class="g-skins" id="g-skins"></div><p class="g-dim g-small" id="g-skin-note"></p></div>
     </div>
@@ -267,8 +269,37 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="g-panel g-plotbox"><p class="g-row"><b class="g-okt" data-k="g-plot-open">Plot</b><small class="g-dim">more blocks open more tiles</small></p><canvas id="g-plot" width="720" height="480" role="img" aria-label="Your estate: one block for every card you hold"></canvas><p class="g-dim g-small" id="g-plot-rule"></p></div>
     <div class="g-col">
       <div class="g-panel"><h3 data-info="districts">Districts</h3><ul class="g-lines" id="g-districts"></ul></div>
-      <div class="g-panel"><h3 data-info="legend">Legend</h3><ul class="g-legend"><li><span class="g-sw wire"></span>Mesh wire · a consented link</li><li><span class="g-sw fresh"></span>New since your last visit</li><li><span class="g-sw lock"></span>Locked tile · coming</li></ul></div>
+      <div class="g-panel"><h3 data-info="legend">Legend</h3><ul class="g-legend"><li><span class="g-sw wire"></span>Mesh wire · a consented link</li><li><span class="g-sw fresh"></span>New since your last visit</li><li><span class="g-sw lock"></span>Fenced tile · opens as you hold more cards</li></ul></div>
       <p class="g-badt g-small">No land sale · never ranked by value</p>
+    </div>
+  </div>
+</section>
+
+<section id="kit-s" class="g-only g-screen" data-screen="kit" aria-labelledby="kit-h">
+  <nav class="g-subnav" aria-label="Cards"><a href="#cards">Cards</a><a href="#kit" aria-current="page">Kit</a></nav>
+  <div class="g-grid g-3">
+    <div class="g-col">
+      <h2 id="kit-h" class="g-h" data-info="kit">Kit</h2>
+      <div class="g-panel"><h3>Your DIGI</h3><label class="g-small">Card <select id="g-kit-card" aria-label="The DIGI to kit out"></select></label>
+        <div class="g-cardcol"><div class="g-ring" id="g-kit-ring"><canvas class="g-card2" id="g-kit-face" width="384" height="576" role="img" aria-label="The DIGI you are kitting out"></canvas></div></div><p class="g-small" id="g-kit-line"></p></div>
+    </div>
+    <div class="g-col g-centre">
+      <div class="g-panel" style="width:100%"><h3 data-info="nodes">Node slots <small id="g-kit-nslots"></small></h3><div class="g-slots" id="g-kit-nodes"></div></div>
+      <div class="g-panel" style="width:100%"><h3 data-info="tools">Tool slots <small>2</small></h3><div class="g-slots" id="g-kit-tools"></div><p class="g-small g-dim">A tool rides with your DIGI and opens from here. It never changes a score: the arena and the raids score minds.</p></div>
+      <div class="g-panel" style="width:100%"><h3 data-info="kitted">Measured here</h3><div id="g-kit-measure" aria-live="polite"><p class="g-dim g-small">Put a node in a slot and press Measure: the kitted mind is scored here, out of fold on GATE, with each slot’s worth.</p></div>
+        <div class="g-row g-centre-row"><button class="g-btn cy" id="g-kit-measure-go" type="button">Measure</button><button class="g-btn hot big" id="g-kit-equip" type="button">Equip this kit</button></div><div id="g-kit-out" aria-live="polite"></div></div>
+    </div>
+    <div class="g-col">
+      <div class="g-panel"><h3 data-info="mintnode">Mint a node</h3><p class="g-small g-dim">One search on a department your DIGI does not cover, from a seed your key fixes. If it clears 0.6 on GATE it is sealed as your card, with you as its maker; if not, nothing is minted and the next search tries another seed.</p><ul class="g-lines" id="g-kit-depts"></ul><div id="g-kit-mint-out" aria-live="polite"></div></div>
+      <div class="g-panel"><h3 data-info="mintapp">Mint an app tool</h3>
+        <div class="g-tabs" role="tablist" aria-label="Which apps"><button role="tab" type="button" id="g-kit-t-proven" aria-selected="true">Proven</button><button role="tab" type="button" id="g-kit-t-works" aria-selected="false">Works</button></div>
+        <label class="g-search">Find <input id="g-kit-q" type="search" placeholder="an app’s name or what it does" aria-label="Search the estate’s mintable apps" /></label>
+        <ul class="g-lines" id="g-kit-apps"></ul><p class="g-small g-dim" id="g-kit-apps-note"></p></div>
+      <div class="g-panel"><h3>Hand a tool on, or take one</h3><p class="g-small g-dim">An item goes to another key for good, signed by you, as a card does. They paste what you send them below.</p>
+        <div class="g-row"><select id="g-kit-give-item" aria-label="The tool to hand on"></select></div>
+        <div class="g-row"><input id="g-kit-give-to" placeholder="their key: 64 hex characters" aria-label="The key you are handing the tool to" /><button class="g-btn" id="g-kit-give" type="button">Hand it on</button></div>
+        <textarea id="g-kit-take-code" rows="2" aria-label="An item someone handed you, pasted" placeholder="an item someone handed you, pasted here"></textarea>
+        <div class="g-row"><button class="g-btn cy" id="g-kit-take" type="button">Take it</button></div><div id="g-kit-give-out" aria-live="polite"></div></div>
     </div>
   </div>
 </section>
@@ -451,7 +482,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div>
       <p class="sub">The card selected in your wallet goes to the key you paste. Ask them for theirs (Wallet → Copy my key).</p>
       <div class="row"><input id="send-to" placeholder="their key: 64 hex characters" aria-label="The key of the person you are giving this card to" size="40" /><button id="act-send" class="primary">Sign the give</button></div>
-      <p class="g-row"><span class="g-tag ok">paste · live</span><span class="g-tag">QR · coming</span><span class="g-tag">device to device · coming</span></p>
+      <p class="g-row"><span class="g-tag ok">paste their key · live</span><span class="g-tag ok">the card travels as its PNG · live</span></p>
       <p class="note">A give cannot be undone. The first give recorded wins: send the same card twice and the second bounces, refused as a double sale. There is no price field, ever.</p>
       <div class="out" id="out-send" aria-live="polite"></div>
     </div>
@@ -487,7 +518,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="row"><label><input type="checkbox" id="own-keep" /> Keep my table in this browser, so its card grows here tomorrow (any page on this site’s address could read it; leave this off and choose the file again next time)</label></div>
   </div>
   <div class="g-only g-panel g-recipes"><h3>Recipes</h3>
-    <div class="g-line k">Mint a DIGI <small>live</small></div><div class="g-line x">Mint an app <small>coming</small></div><div class="g-line x">Mint a node <small>coming</small></div><div class="g-line x">Mint a suite <small>coming</small></div>
+    <div class="g-line k">Mint a DIGI from your table <small>live · here</small></div><a class="g-line k" href="#kit">Mint a node for your DIGI <small>live · in Kit</small></a><a class="g-line k" href="#kit">Mint an app tool <small>live · in Kit</small></a>
     <p class="g-small">No recipe costs anything · no dust, no shards, nothing to buy · the gate decides · a failed mint loses only time · your rows never leave this device</p></div>
   <div id="own-out" aria-live="polite"></div>
 </section>
@@ -735,7 +766,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <details><summary>What if a card file is lost or damaged?</summary><p>The card is its life, not the file. Your wallet keeps every card’s life in this browser, and Download PNG writes a fresh, identical card from it at any time; a damaged file is refused when opened, and nothing in it is used. Save your key file (Wallet → Save my key file) so a lost laptop loses nothing.</p></details>
     <details><summary>What does working overnight cost?</summary><p>Electricity only. A search is about a minute of one core’s work: <span data-k="search-cost">…</span>. Re-running a level someone else earned takes milliseconds.</p></details>
     <details><summary>How good are the minds, compared with other models?</summary><p>Each card’s GATE score is on it, and the drop’s table shows every department’s median score on TEST — cases nothing in the build fitted or selected on — beside its GATE score (organ 2: the median card lost 0.002 from GATE to TEST). The minds are small by design, six readable rules; models fitted on every record pooled in one place do better, which dex-frontier measured. A business’s cards coupled into a mesh beat its best single card on TEST in five of five businesses (organ 6).</p></details>
-    <details><summary>Is the game view a different program?</summary><p>No. It is this page, played: the same kernels and the same buttons, arranged as screens. Every number on a screen was just computed on your device or is read from a committed record, and the screen says which. Nothing in it is bought, rolled or timed: rarity comes from levels, levels from receipts that re-run, and the estate is a count of the cards you hold. Credits are accounting, not money. Forms, recipes and districts that are not built yet say “coming” and do nothing.</p></details>
+    <details><summary>Is the game view a different program?</summary><p>No. It is this page, played: the same kernels and the same buttons, arranged as screens. Every number on a screen was just computed on your device or is read from a committed record, and the screen says which. Nothing in it is bought, rolled or timed: rarity comes from levels, levels from receipts that re-run, and the estate is a count of the cards you hold. Credits are accounting, not money. Every form, recipe and district on a screen is live: a control that is there works, and nothing on a screen is a promise.</p></details>
     <details><summary>Who made it?</summary><p>Kar, the estate’s resident builder, and Claude, for Simon, on the Konomi architecture created by Thomas Frumkin; art by PixelWhisperer Kards. Supplied by AI Native Solutions.</p></details>
   </div>
 </section>
@@ -746,7 +777,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </footer>
 </div>
 <nav id="g-dock" class="g-only g-dock" aria-label="Screens" data-icons="1">
-  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards"><span class="n">3</span>Cards</a><a href="#arena" data-go="arena" data-group="arena raids evals"><span class="n">4</span>Play</a>
+  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit"><span class="n">3</span>Cards</a><a href="#arena" data-go="arena" data-group="arena raids evals"><span class="n">4</span>Play</a>
   <a href="#mint" data-go="mint"><span class="n">5</span>Mint</a><a href="#mesh" data-go="mesh"><span class="n">6</span>Mesh</a><a href="#send" data-go="send"><span class="n">7</span>Send</a><a href="#proof" data-go="proof"><span class="n">8</span>Proof</a>
 </nav>
 <script type="module" src="app.js"></script>

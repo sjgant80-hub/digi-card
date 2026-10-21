@@ -111,6 +111,48 @@ try {
       /re-checked here/.test(out) ? seen.push('a raid strike, signed and re-checked') : problems.push('the raid strike: ' + out.slice(0, 120));
     }
   }
+  // the kit: a node minted by a real search (searching again while one falls under the bar), an app tool minted from the
+  // records, the kitted mind measured, the loadout signed, then a kitted duel fought and re-fought to the same receipt
+  await js(`location.hash = '#kit'`);
+  if (await until(`document.querySelector('#g-kit-card') && document.querySelector('#g-kit-card').value && [...document.querySelectorAll('#g-kit-depts button')].length > 0 && document.querySelectorAll('#g-kit-apps button').length > 0`, 60000, 'the kit screen, its departments and its apps')) {
+    let minted = false;
+    for (let t = 0; t < 5 && !minted; t++) {
+      await js(`document.querySelector('#g-kit-depts button:not([disabled])').click()`);
+      if (!(await until(`/Minted|nothing is minted|could not|did not check/.test(document.querySelector('#g-kit-mint-out').textContent) && !document.querySelector('#g-kit-depts button[disabled]')`, 240000, 'a node search'))) break;
+      const out = await js(`document.querySelector('#g-kit-mint-out').textContent`);
+      if (/could not|did not check/.test(out)) { problems.push('the node search: ' + out.slice(0, 120)); break; }
+      minted = /Minted/.test(out);
+    }
+    if (minted) {
+      seen.push('a node minted by a search from the key');
+      await js(`document.querySelector('#g-kit-apps button').click()`);
+      if (await until(`/is yours/.test(document.querySelector('#g-kit-out').textContent) && document.querySelectorAll('#g-kit-tools .g-kslot.full').length === 1`, 30000, 'an app tool in a slot')) seen.push('an app tool minted into a slot');
+      await js(`document.querySelector('#g-kit-measure-go').click()`);
+      if (await until(`/Kitted \\d\\.\\d{6}/.test(document.querySelector('#g-kit-measure').textContent)`, 60000, 'the kit measured')) {
+        const m = await js(`document.querySelector('#g-kit-measure').innerText`);
+        /Node 1 · \w+-\w+[\s\S]*worth [+-]\d/.test(m) ? seen.push('the kit measured, every slot with its worth') : problems.push('the kit measure shows no slot worth: ' + m.slice(0, 160));
+      }
+      await js(`document.querySelector('#g-kit-equip').click()`);
+      if (await until(`/Equipped|Refused/.test(document.querySelector('#g-kit-out').textContent)`, 30000, 'the kit equipped')) {
+        if (!(await js(`/Equipped/.test(document.querySelector('#g-kit-out').textContent)`))) problems.push('equip: ' + (await js(`document.querySelector('#g-kit-out').textContent`)).slice(0, 120));
+        else {
+          await js(`location.hash = '#arena'`);
+          if (await until(`/kitted · 1 node, 1 tool/.test(document.querySelector('#g-ar-a-line').textContent)`, 30000, 'the fighter shown kitted')) {
+            await js(`document.querySelector('#g-ar-result').textContent = ''; document.querySelector('#g-ar-fight').click()`);
+            if (await until(`/You win|They win|A draw|Refused/.test(document.querySelector('#g-ar-result').textContent)`, 60000, 'a kitted duel')) {
+              const res = await js(`document.querySelector('#g-ar-result').innerText`);
+              if (!/Yours fought kitted · 1 node, 1 tool/.test(res)) problems.push('the kitted duel: ' + res.slice(0, 160));
+              else {
+                await js(`document.querySelector('#g-ar-rerun').click()`);
+                if (await until(`/Re-fought here|✗/.test(document.querySelector('#g-ar-result').textContent)`, 30000, 'the kitted duel re-fought'))
+                  (await js(`/Re-fought here: the very same receipt/.test(document.querySelector('#g-ar-result').textContent)`)) ? seen.push('a kitted duel, re-fought to the same receipt') : problems.push('the kitted duel did not re-fight to the same receipt');
+              }
+            }
+          }
+        }
+      }
+    } else if (!problems.length) problems.push('five node searches and none cleared the bar');
+  }
   // the mesh: assembled, the fielded cards shown, their shares a million between them
   await js(`location.hash = '#mesh'`); await sleep(400);
   await js(`document.querySelector('#mesh-set').value = 'telco'; document.querySelector('#mesh-build').click()`);
@@ -137,7 +179,7 @@ try {
   // phone width: every screen holds without a sideways scroll
   await size(390, 844, true); await sleep(400);
   const wide = [];
-  for (const s of ['estate', 'base', 'cards', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot']) {
+  for (const s of ['estate', 'base', 'cards', 'kit', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot']) {
     await js(`location.hash = '#${s}'`); await sleep(500);
     const w = await js(`document.documentElement.scrollWidth`);
     if (w > 392) wide.push(s + ' ' + w + 'px');

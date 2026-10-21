@@ -10,13 +10,15 @@ import { S, ready, api } from '../app.js';
 import { verify, facts, encode } from '../src/dossier.mjs';
 import { cardOf, readCard, W, H, BAND } from '../src/card.mjs';
 import { answer, caseAt, scoreRow } from '../src/mind.mjs';
-import { auc } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/seedlib.mjs';
+import { auc, decodeSeed } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/seedlib.mjs';
 import { SETS } from '../src/data.mjs';
 import { standing, hashOf } from '../src/registry.mjs';
 import { tally } from '../src/mesh.mjs';
 import { THEMES, paintArt } from '../vendor/pixelwhisperer/kards/kardart.mjs';
-import { challenge as arenaChallenge, accept as arenaAccept, duel, rerun as rerunDuel, ratings } from '../src/arena.mjs';
-import { mindOf, organOf, searchOf, GROW } from '../src/mind.mjs';
+import { ratings } from '../src/arena.mjs';
+import { slotsOf, equip, loadoutOk, kitted, kitChallenge, kitAccept, kitDuel, kitRerun } from '../src/kit.mjs';
+import { appsOf, mintApp, giveItem, verifyItem, repoOf } from '../src/item.mjs';
+import { GROW } from '../src/mind.mjs';
 import { bossesOf, strikeSeed, strike as raidStrike, check as checkStrike, standing as raidStanding, lootOf, BAR as RAID_BAR } from '../src/raid.mjs';
 import { seal as sealGenome } from '../vendor/dex-frontier/vendor/living-seed/src/genome.mjs';
 import { issue as issueCard } from '../src/dossier.mjs';
@@ -54,12 +56,12 @@ const INFO = {
   evals: 'An eval is one real case the card has never seen: its answer, then what really happened. Optional; skipping a day loses nothing.',
   missions: 'Things worth trying. They earn titles — nothing else, never money.',
   registry: 'This device’s ordered record of every card’s life. It is what stops a card being given away twice.',
-  forms: 'The shapes a DIGI takes. Scorer (decisions) is live; Talker, Swarm and Router are coming, and show here only once they are proven.',
+  forms: 'The forms a DIGI fights in. Alone: its own mind. Kitted: with your own node cards in its slots. Mesh: with other owners’ cards, each by its owner’s consent. Party: a raid, with friends’ DIGIs. Every one is live.',
   mint: 'Make a card from your own table: a CSV export with a yes/no column. Your rows never leave this device. If its mind does not reach 0.6, nothing is minted.',
   skins: 'A skin changes the picture, never the mind. It is signed into the card’s life, so any reader redraws it.',
   estate: 'One block for every card you hold. More cards open more tiles. It is never sold and never ranked.',
   overnight: 'While this page stays open, your cards search for levels. A level is kept only after it re-runs; until then nothing changes.',
-  districts: 'Each district is a DIGI form. Only Scorer is built; the others are coming.',
+  districts: 'What your estate holds, by kind: your cards, the DIGIs you have kitted out, the app tools you hold, your mesh links, and the raid bosses you have felled.',
   bar: 'A department got cards only if its mind ranked unseen cases at least this well (GATE 0.6). These did not, so they have none — kept on the record, not hidden.',
   training: 'Training is a search for a better mind. It must beat the old one by +0.002 on GATE, and re-run, before the level goes up.',
   drop: '1,000 genesis cards whose rules were fixed before the first search. Rerun it to check every seal here, from nothing.',
@@ -74,14 +76,20 @@ const INFO = {
   mesh: 'Cards from one business’s departments answering together. Only scores pass between them, never records. Each card’s share is its measured part of a million.',
   credits: 'Accounting of what your cards measurably added in a mesh. Not money; it cannot be cashed.',
   estatestats: 'Blocks: cards you hold. Levels re-run: levels your cards earned and this device re-checked. Births: children that beat both parents, and pairings refused. Mesh links: your cards joined, by your consent, in a mesh.',
-  legend: 'A cyan wire joins cards of yours working together in a mesh. A green top marks a card new since your last visit. Grey fenced tiles are districts for DIGI forms that are coming, not built yet.',
+  legend: 'A cyan wire joins cards of yours working together in a mesh. A green top marks a card new since your last visit. Grey fenced tiles open as you hold more cards: a district holding n cards opens 8 + 2n tiles, up to 36.',
   test: 'The same measure on cases nothing in the build ever grew on or was chosen by: the honest check.',
   abstain: 'When its rules cannot read a case, it says “I don’t know” instead of guessing.',
   lv: 'Levels earned. A level counts only when a new search beats its mind by 0.002 and anyone can re-run it. Rarity follows the level.',
   gen: 'Generation: 0 for a genesis card; a child is one more than its parents.',
   owners: 'How many keys it has passed through. Replay checks its whole signed life.',
   raids: 'A raid is many players searching one unsolved department, each search signed and re-checkable. The boss’s health is how far the best search so far is from the 0.6 bar. The first strike to clear it fells the boss, and its striker seals the first card of that department — the loot. The best of many tries is luckier than one: the screen always says how many strikes it took.',
-  arena: 'Two cards of one business meet on 64 cases both minds were proven on, chosen by both owners’ signatures together. The card whose mind ranks them better wins. Nothing is staked: a duel moves no card and no credit, and anyone re-runs it from its receipt.',
+  arena: 'Two cards of one business meet on 64 cases both minds were proven on, chosen by both owners’ signatures together. Each side fights as it is kitted: its nodes answer with it, weighed on GATE cases outside the batch; its tools change nothing. The side that ranks the cases better wins. Nothing is staked: a duel moves no card and no credit, and anyone re-runs it from its receipt.',
+  kit: 'Your DIGI’s inventory. Node slots hold your own cards of the same business, which answer with it; tool slots hold app items, which ride with it. Every card has its slots from birth, and levels open more node slots.',
+  nodes: 'A node is another card of yours from the same business, for a department your DIGI does not cover. It joins only if it measurably adds: it must answer here, cover something new and beat a coin on GATE.',
+  tools: 'A tool is one of the estate’s apps whose own CI passed on GitHub’s machines at the commit it names. It opens from here, and it moves no score.',
+  kitted: 'The kitted mind is your DIGI and its nodes coupled into one answer, scored out of fold on GATE. A slot’s worth is the score with it, less the score without it.',
+  mintnode: 'Minting a node is one search on a department, from a seed your key fixes, like a raid strike. Only a mind that clears 0.6 on GATE is sealed, with you as its maker.',
+  mintapp: 'Minting an app tool signs an item naming that app, its commit and the run that proved it. It is free, and it checks only while the estate’s records list the app exactly so.',
   ladder: 'Ratings from the duels this device has seen, in order, from a published table — the same on every device. Self-play is never rated.',
 };
 /** an "i" button and the sentence it opens, beside the term it explains */
@@ -156,9 +164,9 @@ const whose = (v) => (v.owner === S.me.pub ? 'yours' : v.owner === S.maker.pub ?
 // ── screens ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 const ALIAS = { wallet: 'cards', own: 'mint', open: 'send', drop: 'proof', explorer: 'proof', 'send-s': 'send', 'base-s': 'base', 'estate-s': 'estate', 'evals-s': 'evals', 'boot-s': 'boot', 'first-s': 'first' };
 const CLASSIC = ['top', 'what', 'worth', 'words', 'start', 'how', 'blueprint', 'business', 'cost', 'paper', 'faq'];
-const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
+const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'kit', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
 const DOCK = ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof'];
-const TITLES = { first: 'DIGI', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer' };
+const TITLES = { first: 'DIGI', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', kit: 'Kit', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer' };
 
 function route() {
   const h = decodeURIComponent((location.hash || '').slice(1));
@@ -181,7 +189,7 @@ function go(screen, opts = {}) {
   render(screen);
 }
 function render(screen) {
-  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, arena: renderArena, raids: renderRaids, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
+  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, arena: renderArena, raids: renderRaids, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
   renderTop();
 }
 
@@ -380,7 +388,8 @@ async function renderEstate() {
   fill($('#g-estate-stats'), [['Blocks', held.length], ['Levels re-run', levels], ['Births kept', born], ['Births refused', G.st.births.refused], ['Mesh links', links]].flatMap(([k, n]) => [el('dt', {}, k), el('dd', {}, String(n))]));
   const sets = {};
   for (const h of held) sets[h.f.dataset] = (sets[h.f.dataset] || 0) + 1;
-  fill($('#g-districts'), line('k', 'Scorer', el('small', {}, String(held.length))), line('x', 'Talker', el('small', {}, 'coming')), line('x', 'Swarm', el('small', {}, 'coming')), line('x', 'Router', el('small', {}, 'coming')), line('x', 'Tools', el('small', {}, 'coming')));
+  const kits = held.filter((h) => (G.st.loadouts || {})[h.id]).length, tools = (await heldItems()).length, felled = Object.keys(G.st.loot || {}).length;
+  fill($('#g-districts'), line('k', 'Cards', el('small', {}, String(held.length))), line(kits ? 'k' : '', 'Kitted DIGIs', el('small', {}, String(kits))), line(tools ? 'k' : '', 'App tools', el('small', {}, String(tools))), line(links ? 'k' : '', 'Mesh links', el('small', {}, String(links))), line(felled ? 'k' : '', 'Bosses felled', el('small', {}, String(felled))));
   const away = G.st.log.filter((x) => G.since && x.t > G.since);
   const bred = away.filter((x) => x.type === 'birth'), kept = bred.filter((x) => x.kept).length;
   fill($('#g-overnight'), line('', away.filter((x) => x.type === 'search').length + ' searches ran'), line('k', away.filter((x) => x.type === 'level').length + ' levels kept · re-run'), line('', bred.length + ' bred · ' + kept + ' kept'), line('r', away.filter((x) => x.type === 'search' && !x.kept).length + ' searches refused'));
@@ -582,7 +591,7 @@ async function arenaSides() {
   const id = $('#g-ar-mine').value;
   if (!id) return;
   const v = await show($('#g-ar-a'), $('#g-ar-a-ring'), api.lifeOf(id)), set = api.setOf(v), rate = (ratings(G.st.duels || []).ratings || {})[id];
-  fill($('#g-ar-a-line'), facts(v).title + ' #' + pad4(v.serial) + ' · rating ' + (rate ?? 1000));
+  fill($('#g-ar-a-line'), facts(v).title + ' #' + pad4(v.serial) + ' · rating ' + (rate ?? 1000) + ' · ' + kitLine(await sideFor(v)) + ' · ', el('a', { href: '#kit' }, 'kit'));
   // the drop's cards of the same business still held by its maker, best first, and a few at random
   const pool = S.manifest.cards.filter((c) => c.domain.split('-')[0] === set && S.reg.cards[c.card] && S.reg.cards[c.card].owner === S.maker.pub && c.card !== id);
   const top = [...pool].sort((a, b) => b.gate - a.gate).slice(0, 6), rest = pool.filter((c) => !top.includes(c)).filter((c, k) => k % 11 === 0).slice(0, 6);
@@ -608,11 +617,14 @@ function arenaTab(t) {
   showFoe();
 }
 async function fightWith(vA, vB, keysA, keysB, nonce) {
-  const g = await api.groundFor(vA), ch = await arenaChallenge(keysA, vA, nonce);
+  // each side fights as its owner kitted it here; the drop's maker fields its cards alone
+  const g = await api.groundFor(vA), sA = keysA === S.me ? await sideFor(vA) : alone(vA), sB = keysB === S.me ? await sideFor(vB) : alone(vB);
+  const ch = await kitChallenge(keysA, vA, sA.loadout, nonce);
   if (!ch.ok) return { ok: false, why: ch.why };
-  const ac = await arenaAccept(keysB, vB, ch.challenge);
+  const ac = await kitAccept(keysB, vB, sB.loadout, ch.challenge);
   if (!ac.ok) return { ok: false, why: ac.why };
-  return { ...(await duel(vA, vB, g, { challenge: ch.challenge, accept: ac.accept })), signed: { challenge: ch.challenge, accept: ac.accept }, g };
+  const signed = { challenge: ch.challenge, accept: ac.accept };
+  return { ...(await kitDuel(sA, sB, g, signed)), signed, g, sides: { a: sA, b: sB } };
 }
 async function arenaFight() {
   const aId = $('#g-ar-mine').value, bId = A.tab === 'drop' ? $('#g-ar-foe').value : $('#g-ar-own').value;
@@ -628,26 +640,28 @@ async function arenaFight() {
 }
 function showDuel(r, vA, vB) {
   if (!r.ok) { fill($('#g-ar-result'), el('p', { class: 'g-badt' }, 'Refused · ' + r.why)); bleep('refused'); return; }
-  const x = r.receipt, mA = mindOf(vA, r.g), mB = mindOf(vB, r.g);
-  // each case: which side put it on the right side of its own line (the AUC, not this, decides the duel)
-  fill($('#g-ar-batch'), r.batch.map((row, k) => { const okA = (r.scores.a[k] > mA.threshold) === (r.y[k] === 1), okB = (r.scores.b[k] > mB.threshold) === (r.y[k] === 1); return el('i', { class: okA && okB ? 'both' : okA ? 'a' : okB ? 'b' : 'none', title: 'case ' + row + ': ' + (okA ? 'yours right' : 'yours wrong') + ' · ' + (okB ? 'theirs right' : 'theirs wrong') }); }));
+  const x = r.receipt, pos = r.y.filter((t) => t === 1).length, cut = (sc) => [...sc].sort((p, q) => q - p)[Math.max(0, pos - 1)], lineA = cut(r.scores.a), lineB = cut(r.scores.b);
+  // each case: which side called it right, each calling yes for its top cases, as many as the batch holds (the AUC, not
+  // this, decides the duel)
+  fill($('#g-ar-batch'), r.batch.map((row, k) => { const okA = (r.scores.a[k] >= lineA) === (r.y[k] === 1), okB = (r.scores.b[k] >= lineB) === (r.y[k] === 1); return el('i', { class: okA && okB ? 'both' : okA ? 'a' : okB ? 'b' : 'none', title: 'case ' + row + ': ' + (okA ? 'yours right' : 'yours wrong') + ' · ' + (okB ? 'theirs right' : 'theirs wrong') }); }));
   const you = x.winner === 'a' ? 'ok' : x.winner === 'b' ? 'bad' : 'draw', before = ratings(G.st.duels || []).ratings || {};
   G.st.duels = [...(G.st.duels || []), x].slice(-500);
-  A.last = { receipt: x, signed: r.signed, vA, vB };
+  A.last = { receipt: x, signed: r.signed, vA, vB, sides: r.sides };
   const after = ratings(G.st.duels).ratings || {}, move = x.self ? null : (after[vA.id] ?? 1000) - (before[vA.id] ?? 1000);
   note('duel', { id: vA.id, won: x.winner === 'a' });
   saveState();
   fill($('#g-ar-result'), el('p', { class: 'g-win ' + you }, x.winner === 'a' ? 'You win' : x.winner === 'b' ? 'They win' : 'A draw'),
     el('p', {}, 'Your mind ' + six(x.a.auc) + ' · theirs ' + six(x.b.auc) + ' (AUC on the batch)'),
+    el('p', { class: 'g-small' }, 'Yours fought ' + kitLine(r.sides.a) + ' · theirs ' + kitLine(r.sides.b)),
     el('p', { class: 'g-small g-dim' }, x.self ? 'Practice: one owner on both sides, so no rating moves' : 'Rating ' + (move >= 0 ? '+' : '') + move + ' → ' + (after[vA.id] ?? 1000)),
-    el('p', { class: 'g-small g-dim' }, 'Cyan: only yours ranked the case right of its line · pink: only theirs · grey: both · dark: neither'));
+    el('p', { class: 'g-small g-dim' }, 'Each side calls yes for its top ' + pos + ' cases (as many yeses as the batch holds) · cyan: only yours called it right · pink: only theirs · grey: both · dark: neither'));
   $('#g-ar-rerun').disabled = false; $('#g-ar-receipt').disabled = false;
   bleep(you === 'ok' ? 'kept' : you === 'bad' ? 'wrong' : 'abstain');
   renderLadder(); fill($('#g-ar-a-line'), facts(vA).title + ' #' + pad4(vA.serial) + ' · rating ' + (after[vA.id] ?? 1000));
 }
 async function arenaRerun() {
   if (!A.last) return;
-  const g = await api.groundFor(A.last.vA), r = await rerunDuel(A.last.receipt, A.last.vA, A.last.vB, g, A.last.signed);
+  const g = await api.groundFor(A.last.vA), r = await kitRerun(A.last.receipt, A.last.sides.a, A.last.sides.b, g, A.last.signed);
   $('#g-ar-result').append(el('p', { class: r.ok ? 'g-okt' : 'g-badt' }, r.ok ? '✓ Re-fought here: the very same receipt' : '✗ ' + r.why));
 }
 function renderLadder() {
@@ -660,10 +674,10 @@ const dec = (s) => { try { return JSON.parse(decodeURIComponent(escape(atob(Stri
 async function arenaCopy() {
   const id = $('#g-ar-mine').value;
   if (!id) return;
-  const v = await verify(api.lifeOf(id)), ch = await arenaChallenge(S.me, v, 'f' + Date.now().toString(36));
+  const v = await verify(api.lifeOf(id)), side = await sideFor(v), ch = await kitChallenge(S.me, v, side.loadout, 'f' + Date.now().toString(36));
   if (!ch.ok) return fill($('#g-ar-friend-out'), el('p', { class: 'g-badt' }, ch.why));
-  const code = enc({ kind: 'digi.duel.challenge', challenge: ch.challenge, card: api.lifeOf(id) });
-  A.pending = { mine: id, challenge: ch.challenge };
+  const code = enc({ kind: 'digi.duel.challenge', challenge: ch.challenge, card: api.lifeOf(id), kit: kitCode(side) });
+  A.pending = { mine: id, challenge: ch.challenge, side };
   try { await navigator.clipboard.writeText(code); fill($('#g-ar-friend-out'), el('p', { class: 'g-okt g-small' }, 'Copied (' + Math.round(code.length / 1024) + ' KB). Send it to them; paste their answer here.')); }
   catch { $('#g-ar-code').value = code; fill($('#g-ar-friend-out'), el('p', { class: 'g-small' }, 'Copy the text above and send it to them.')); }
 }
@@ -674,15 +688,17 @@ async function arenaPaste() {
   if (!them.ok) return fill(out, el('p', { class: 'g-badt' }, 'Their card does not check: ' + them.why));
   const kept = await api.keep(o.card);   // their card's life, recorded here like any card opened here
   if (!kept.ok && kept.why) { /* already held, or a later life is here: the duel checks the heads itself */ }
+  const theirs = await sideFromCode(them, o.kit);
+  if (!theirs.ok) return fill(out, el('p', { class: 'g-badt' }, theirs.why));
   if (o.kind === 'digi.duel.challenge') {
     const id = $('#g-ar-mine').value;
     if (!id) return fill(out, el('p', { class: 'g-badt' }, 'Pick your fighter first.'));
-    const v = await verify(api.lifeOf(id)), ac = await arenaAccept(S.me, v, o.challenge);
+    const v = await verify(api.lifeOf(id)), mine = await sideFor(v), ac = await kitAccept(S.me, v, mine.loadout, o.challenge);
     if (!ac.ok) return fill(out, el('p', { class: 'g-badt' }, ac.why));
-    const g = await api.groundFor(them), r = await duel(them, v, g, { challenge: o.challenge, accept: ac.accept });
+    const g = await api.groundFor(them), r = await kitDuel(theirs, mine, g, { challenge: o.challenge, accept: ac.accept });
     A.pending = { foe: them.id }; await showFoe();
-    if (r.ok) { r.signed = { challenge: o.challenge, accept: ac.accept }; r.g = g; }
-    const answer = enc({ kind: 'digi.duel.answer', challenge: o.challenge, accept: ac.accept, card: api.lifeOf(id) });
+    if (r.ok) { r.signed = { challenge: o.challenge, accept: ac.accept }; r.g = g; r.sides = { a: theirs, b: mine }; }
+    const answer = enc({ kind: 'digi.duel.answer', challenge: o.challenge, accept: ac.accept, card: api.lifeOf(id), kit: kitCode(mine) });
     $('#g-ar-code').value = answer;
     fill(out, el('p', { class: 'g-small' }, 'Fought here. Send them the answer now in the box (or copy it): their device fights the very same duel.'));
     showDuel(r, them, v);
@@ -690,9 +706,9 @@ async function arenaPaste() {
   }
   if (o.kind === 'digi.duel.answer') {
     if (!A.pending || !A.pending.challenge || A.pending.challenge.sig !== o.challenge.sig) return fill(out, el('p', { class: 'g-badt' }, 'This answers a challenge this tab did not send.'));
-    const v = await verify(api.lifeOf(A.pending.mine)), g = await api.groundFor(v), r = await duel(v, them, g, { challenge: o.challenge, accept: o.accept });
+    const v = await verify(api.lifeOf(A.pending.mine)), mine = A.pending.side || alone(v), g = await api.groundFor(v), r = await kitDuel(mine, theirs, g, { challenge: o.challenge, accept: o.accept });
     A.pending = { foe: them.id }; await showFoe();
-    if (r.ok) { r.signed = { challenge: o.challenge, accept: o.accept }; r.g = g; }
+    if (r.ok) { r.signed = { challenge: o.challenge, accept: o.accept }; r.g = g; r.sides = { a: mine, b: theirs }; }
     showDuel(r, v, them);
     return;
   }
@@ -738,19 +754,27 @@ async function raidGo(b, k) {
   } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
   finally { R.running.delete(b.domain); renderRaids(); }
 }
-async function raidLoot(b) {
-  const st = raidStanding(bossesOf(admission), G.st.strikes || []), r = st.raids[b.domain], s = (G.st.strikes || []).find((x) => x.domain === b.domain && x.by === r.kill.by && x.k === r.kill.k);
+/** seal a strike that cleared the bar as the first card of its department, with this key as maker. → { ok, id } | why */
+async function sealLoot(s) {
   const l = lootOf(s);
-  if (!l.ok) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, l.why));
+  if (!l.ok) return l;
   const sealed = await sealGenome(l.genome, S.me);
-  if (!sealed.ok) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, sealed.why));
+  if (!sealed.ok) return { ok: false, why: sealed.why };
   const serial = 1 + Object.values(S.reg.cards).filter((c) => c.maker === S.me.pub).reduce((m, c) => Math.max(m, c.serial), 0);
   const c = await issueCard(sealed.text, S.me, { serial, to: S.me.pub, theme: 'synthwave-v1', generation: 0 });
   const kept = c.ok ? await api.keep(c.dossier) : c;
-  if (!kept.ok) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, kept.why));
-  G.st.loot = { ...(G.st.loot || {}), [b.domain]: kept.entry ? kept.entry.card : sealed.id };
-  note('minted', { id: G.st.loot[b.domain] }); saveState();
+  if (!kept.ok) return { ok: false, why: kept.why };
+  const id = kept.entry ? kept.entry.card : sealed.id;
+  note('minted', { id }); saveState();
   await api.renderWallet();
+  return { ok: true, id };
+}
+async function raidLoot(b) {
+  const st = raidStanding(bossesOf(admission), G.st.strikes || []), r = st.raids[b.domain], s = (G.st.strikes || []).find((x) => x.domain === b.domain && x.by === r.kill.by && x.k === r.kill.k);
+  const sealed = await sealLoot(s);
+  if (!sealed.ok) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, sealed.why));
+  G.st.loot = { ...(G.st.loot || {}), [b.domain]: sealed.id };
+  saveState();
   fill($('#g-rd-out'), el('p', { class: 'g-okt' }, '★ Sealed: the first ' + b.domain + ' card, with you as its maker. It is in your collection.'));
   renderRaids();
 }
@@ -776,6 +800,243 @@ async function raidImport() {
   saveState(); t.value = ''; t.hidden = true;
   fill($('#g-rd-out'), el('p', { class: added ? 'g-okt' : '' }, added + ' strike' + (added === 1 ? '' : 's') + ' added, each re-checked here' + (refused ? ' · ' + refused + ' refused' : '')));
   renderRaids();
+}
+
+// ── cards: the kit ──────────────────────────────────────────────────────────────────────────────────────────────────
+// Every card carries its slots from birth (slotsOf). The owner fills them here with nodes — its own cards of the same
+// business — and tools — app items — measures the kitted mind on this device, and signs the loadout. A node is minted
+// the way a raid strikes: one search on a department the DIGI lacks, from a seed the owner's key fixes, sealed only if
+// it clears 0.6 on GATE. A tool is minted from mint-an-app's records, vendored byte for byte.
+const KIT = { card: null, nodes: [], tools: [], measured: null, tier: 'proven', busy: new Set() };
+let appRecords = null;
+async function appsLoaded() {
+  if (appRecords) return appRecords;
+  const [c, m] = await Promise.all(['catalogue-data.json', 'mint-data.json'].map((f) => fetch('vendor/mint-an-app/' + f).then((r) => (r.ok ? r.json() : null)).catch(() => null)));
+  if (!c || !m) return null;
+  appRecords = { apps: appsOf(c, m), rows: new Map((Array.isArray(c.rows) ? c.rows : []).filter((r) => r && typeof r.name === 'string').map((r) => [r.name, r])) };
+  return appRecords;
+}
+/** the app items this key holds, each checked against the records */
+async function heldItems() {
+  const rec = await appsLoaded(), out = [];
+  if (!rec) return out;
+  for (const item of G.st.items || []) { const v = await verifyItem(item, rec.apps); if (v.ok && v.owner === S.me.pub) out.push({ item, v }); }
+  return out;
+}
+/** a card's stored loadout, and what it names, checked as they all stand now */
+async function kitOf(v) {
+  const lo = (G.st.loadouts || {})[v.id];
+  if (!lo) return { lo: null, nodes: [], tools: [], items: [], ok: false, why: 'not kitted yet' };
+  const held = await heldItems(), nodes = [], tools = [], items = [];
+  for (const n of Array.isArray(lo.nodes) ? lo.nodes : []) { const d = api.lifeOf(n.card); nodes.push(d ? await verify(d) : { ok: false }); }
+  for (const t of Array.isArray(lo.tools) ? lo.tools : []) { const h = held.find((x) => x.v.id === t); tools.push(h ? h.v : { ok: false }); items.push(h ? h.item : null); }
+  const r = await loadoutOk(lo, v, nodes, tools);
+  return { lo, nodes, tools, items, ok: r.ok, why: r.why || '' };
+}
+const alone = (v) => ({ v, loadout: null, nodes: [], tools: [], items: [] });
+/** a side for a duel: the card with its loadout while that still checks, else the card alone */
+async function sideFor(v) { const k = await kitOf(v); return k.ok ? { v, loadout: k.lo, nodes: k.nodes, tools: k.tools, items: k.items } : alone(v); }
+const kitLine = (side) => (side && side.loadout ? 'kitted · ' + side.nodes.length + ' node' + (side.nodes.length === 1 ? '' : 's') + ', ' + side.tools.length + ' tool' + (side.tools.length === 1 ? '' : 's') : 'alone');
+/** a side's kit as it travels to a friend: the loadout, its node cards' lives and its tool items */
+const kitCode = (side) => (side.loadout ? { loadout: side.loadout, nodes: side.nodes.map((n) => api.lifeOf(n.id)), items: side.items } : null);
+/** a friend's side from what their code carried: every node card and tool checked here before it fights */
+async function sideFromCode(v, kit) {
+  if (!kit) return { ok: true, ...alone(v) };
+  const rec = await appsLoaded(), nodes = [], tools = [];
+  for (const d of (Array.isArray(kit.nodes) ? kit.nodes : []).slice(0, 4)) {
+    const n = await verifyLife(d);
+    if (!n.ok) return { ok: false, why: 'A node of theirs does not check: ' + n.why };
+    await api.keep(d); nodes.push(n);
+  }
+  for (const it of (Array.isArray(kit.items) ? kit.items : []).slice(0, 2)) {
+    const t = rec ? await verifyItem(it, rec.apps) : { ok: false, why: 'the estate’s app records did not load here' };
+    if (!t.ok) return { ok: false, why: 'A tool of theirs does not check: ' + t.why };
+    tools.push(t);
+  }
+  return { ok: true, v, loadout: kit.loadout, nodes, tools, items: kit.items };
+}
+const domainsOf = (v) => v.genome.organs.map((o) => { const d = decodeSeed(o, { guard: false }); return d.ok ? d.seed.domain : ''; });
+async function myCards(set) {
+  const out = [];
+  for (const id of api.mine()) { const w = await verify(api.lifeOf(id)); if (w.ok && api.setOf(w) && (!set || api.setOf(w) === set)) out.push({ id, v: w, f: facts(w) }); }
+  return out;
+}
+
+async function renderKit() {
+  const mine = await myCards(null), pick = $('#g-kit-card');
+  fill(pick, mine.length ? mine.map((m) => el('option', { value: m.id }, m.f.title + ' #' + pad4(m.v.serial))) : el('option', { value: '' }, 'card me first'));
+  const want = KIT.card || S.sel;
+  if (mine.some((m) => m.id === want)) pick.value = want;
+  const id = pick.value;
+  if (!id) { fill($('#g-kit-nodes')); fill($('#g-kit-tools')); fill($('#g-kit-line'), 'Card me first: then you have a DIGI to kit out.'); fill($('#g-kit-depts')); return renderKitApps(); }
+  const v = await verify(api.lifeOf(id)), k = await kitOf(v);
+  if (KIT.card !== id) {
+    KIT.card = id; KIT.measured = null;
+    KIT.nodes = k.lo ? k.lo.nodes.map((n) => n.card).filter((c) => api.lifeOf(c)) : [];
+    KIT.tools = k.lo ? [...k.lo.tools] : [];
+  }
+  await show($('#g-kit-face'), $('#g-kit-ring'), api.lifeOf(id));
+  const s = slotsOf(v), f = facts(v);
+  fill($('#g-kit-line'), f.title + ' #' + pad4(v.serial) + ' · ' + f.rarity + ' · ' + (k.ok ? 'equipped: ' + k.lo.nodes.length + ' node' + (k.lo.nodes.length === 1 ? '' : 's') + ', ' + k.lo.tools.length + ' tool' + (k.lo.tools.length === 1 ? '' : 's') : k.lo ? 'its kit lapsed: ' + k.why : 'not kitted yet: it fights alone'));
+  fill($('#g-kit-nslots'), s.nodes + ' of 4 open');
+  await renderKitNodes(v, s);
+  await renderKitTools();
+  await renderKitDepts(v);
+  await renderKitApps();
+}
+async function renderKitNodes(v, s) {
+  const same = (await myCards(api.setOf(v))).filter((m) => m.id !== v.id), worth = new Map(((KIT.measured && KIT.measured.slots) || []).map((x) => [x.card, x]));
+  KIT.nodes = KIT.nodes.filter((c) => same.some((m) => m.id === c)).slice(0, s.nodes);
+  const out = [];
+  for (let i = 0; i < 4; i++) {
+    const name = el('b', {}, 'Node slot ' + (i + 1));
+    if (i >= s.nodes) { out.push(el('div', { class: 'g-kslot locked' }, name, el('small', {}, i === 2 ? 'opens when this DIGI levels once' : 'opens at rare: three levels'), el('a', { class: 'g-btn', href: '#cards' }, 'Train it'))); continue; }
+    const id = KIT.nodes[i];
+    if (id) {
+      const m = same.find((x) => x.id === id), w = worth.get(id);
+      out.push(el('div', { class: 'g-kslot full' }, name, el('span', {}, m.f.title + ' #' + pad4(m.v.serial)), el('small', {}, m.f.department + (w ? (w.joined ? ' · worth ' + (w.contribution >= 0 ? '+' : '') + six(w.contribution) : ' · ' + w.why) : ' · measure it to see its worth')),
+        el('button', { type: 'button', class: 'g-btn', onclick: () => { KIT.nodes.splice(i, 1); KIT.measured = null; renderKit(); } }, 'Take out')));
+      continue;
+    }
+    const free = same.filter((m) => !KIT.nodes.includes(m.id));
+    if (!free.length) { out.push(el('div', { class: 'g-kslot empty' }, name, el('small', {}, 'Empty · no other card of yours on this business yet: mint a node, or Card me'))); continue; }
+    const sel = el('select', { 'aria-label': 'A card for node slot ' + (i + 1) }, free.map((m) => el('option', { value: m.id }, m.f.title + ' #' + pad4(m.v.serial) + ' · ' + m.f.department)));
+    out.push(el('div', { class: 'g-kslot empty' }, name, sel, el('button', { type: 'button', class: 'g-btn cy', onclick: () => { KIT.nodes.push(sel.value); KIT.measured = null; renderKit(); } }, 'Put it in')));
+  }
+  fill($('#g-kit-nodes'), out);
+}
+async function renderKitTools() {
+  const held = await heldItems();
+  KIT.tools = KIT.tools.filter((t) => held.some((h) => h.v.id === t)).slice(0, 2);
+  fill($('#g-kit-tools'), [0, 1].map((i) => {
+    const h = held.find((x) => x.v.id === KIT.tools[i]), name = el('b', {}, 'Tool slot ' + (i + 1));
+    if (!h) {
+      const free = held.filter((x) => !KIT.tools.includes(x.v.id));
+      if (!free.length) return el('div', { class: 'g-kslot empty' }, name, el('small', {}, 'Empty · mint an app tool from the list'));
+      const sel = el('select', { 'aria-label': 'A tool for tool slot ' + (i + 1) }, free.map((x) => el('option', { value: x.v.id }, x.v.body.app)));
+      return el('div', { class: 'g-kslot empty' }, name, sel, el('button', { type: 'button', class: 'g-btn cy', onclick: () => { KIT.tools.push(sel.value); renderKit(); } }, 'Put it in'));
+    }
+    const b = h.v.body;
+    return el('div', { class: 'g-kslot full' }, name, el('span', {}, b.app + ' ', el('span', { class: 'g-tag ' + (b.tier === 'proven' ? 'ok' : 'cy') }, b.tier)), el('small', {}, 'commit ' + b.sha.slice(0, 7) + (b.spdx ? ' · ' + b.spdx : '')),
+      el('span', { class: 'g-row' }, el('a', { class: 'g-btn', href: b.page || repoOf(b.app), target: '_blank', rel: 'noopener noreferrer' }, 'Open'), el('a', { class: 'g-btn', href: b.run, target: '_blank', rel: 'noopener noreferrer' }, 'Its proof'),
+        el('button', { type: 'button', class: 'g-btn', onclick: () => { KIT.tools.splice(i, 1); renderKit(); } }, 'Take out')));
+  }));
+  const give = $('#g-kit-give-item');
+  if (give) fill(give, held.length ? held.map((x) => el('option', { value: x.v.id }, x.v.body.app + ' · ' + x.v.id.slice(0, 8))) : el('option', { value: '' }, 'no tool held yet'));
+}
+async function renderKitDepts(v) {
+  admission ||= await fetch('drop/admission.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const set = api.setOf(v), deps = admission && Array.isArray(admission.departments) ? admission.departments.filter((d) => d && d.set === set) : [];
+  if (!deps.length) return fill($('#g-kit-depts'), line('x', 'A card grown on your own table knows its one department: it fights alone, or in a mesh of that table.'));
+  const own = new Set(domainsOf(v)), same = await myCards(set);
+  fill($('#g-kit-depts'), deps.map((d) => {
+    const short = d.domain.replace(set + '-', ''), held = same.find((m) => m.id !== v.id && domainsOf(m.v).includes(d.domain));
+    if (own.has(d.domain)) return line('k', short, el('small', {}, 'your DIGI’s own'));
+    if (held) return line('k', short, el('small', {}, 'you hold #' + pad4(held.v.serial) + (KIT.nodes.includes(held.id) ? ' · in a slot' : ' · put it in a slot')));
+    if (d.admitted !== true) return line('y', short, el('a', { href: '#raids' }, 'a raid boss · strike it in Raids'));
+    const n = (G.st.strikes || []).filter((x) => x.domain === d.domain && x.by === S.me.pub).length;
+    return line('', short, el('button', { type: 'button', class: 'g-btn hot', disabled: KIT.busy.has(d.domain), onclick: () => nodeMint(d.domain) }, KIT.busy.has(d.domain) ? 'Searching…' : n ? 'Search again (' + (n + 1) + ')' : 'Mint a node'));
+  }));
+}
+async function nodeMint(domain) {
+  const v = await verify(api.lifeOf(KIT.card)), set = api.setOf(v), out = $('#g-kit-mint-out');
+  KIT.busy.add(domain); renderKitDepts(v);
+  try {
+    const g = await api.groundOf(set, (t) => fill(out, el('p', { class: 'g-small' }, t)));
+    const k = (G.st.strikes || []).filter((x) => x.domain === domain && x.by === S.me.pub).length, seed = strikeSeed(S.me.pub, domain, k), t0 = Date.now();
+    const tick = setInterval(() => fill(out, el('p', { class: 'g-small' }, 'Search ' + (k + 1) + ' on ' + domain + ', from seed ' + seed + ' (your key fixes it) — ' + Math.round((Date.now() - t0) / 1000) + ' s')), 500);
+    const w = await api.work({ op: 'search', set, own: null, domain, seed, bar: RAID_BAR / 1e6, grow: GROW });
+    clearInterval(tick);
+    if (!w.ok) return fill(out, el('p', { class: 'g-badt' }, 'The search could not run: ' + w.why));
+    const s = await raidStrike(S.me, g, domain, k, { organ: { ok: true, fixed: w.fixed, gate: w.gate } });
+    const c = s.ok ? await checkStrike(s.strike, g) : s;
+    if (!c.ok) return fill(out, el('p', { class: 'g-badt' }, 'The search did not check here: ' + c.why));
+    G.st.strikes = [...(G.st.strikes || []), s.strike].slice(-2000);
+    saveState();
+    if (s.strike.gate < RAID_BAR) {
+      note('strike', { id: domain, gate: s.strike.gate, kept: false }); bleep('refused');
+      return fill(out, el('p', {}, 'Search ' + (k + 1) + ' found ' + six(s.strike.gate) + ' on GATE: under the 0.6 bar, so nothing is minted. The next search starts from another seed.'));
+    }
+    const sealed = await sealLoot(s.strike);
+    if (!sealed.ok) return fill(out, el('p', { class: 'g-badt' }, sealed.why));
+    if (KIT.nodes.length < slotsOf(v).nodes) { KIT.nodes.push(sealed.id); KIT.measured = null; }
+    bleep('level');
+    fill(out, el('p', { class: 'g-okt' }, '★ Minted: a ' + domain + ' node, ' + six(s.strike.gate) + ' on GATE, sealed with you as its maker' + (KIT.nodes.includes(sealed.id) ? ' and put in a slot. Measure it, then equip.' : '. Your node slots are full: it waits in Cards.')));
+  } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
+  finally { KIT.busy.delete(domain); renderKit(); }
+}
+async function kitMeasure() {
+  if (!KIT.card) return;
+  const v = await verify(api.lifeOf(KIT.card)), out = $('#g-kit-measure');
+  fill(out, el('p', { class: 'g-small' }, 'Fetching the records (checked by their hash) and expressing every mind here…'));
+  const g = await api.groundFor(v), nodes = await Promise.all(KIT.nodes.map((c) => verify(api.lifeOf(c)))), k = kitted(v, nodes, g);
+  if (!k.ok) return fill(out, el('p', { class: 'g-badt' }, k.why));
+  KIT.measured = k; note('kit', { id: v.id, gate: k.gate, lift: k.lift });
+  const plus = (m) => (m >= 0 ? '+' : '') + six(m);
+  fill(out, el('p', { class: 'g-win ' + (k.lift > 0 ? 'ok' : 'draw') }, 'Kitted ' + six(k.gate)), el('p', {}, 'Alone ' + six(k.alone) + ' · lift ' + plus(k.lift) + ' · out of fold on ' + k.rows.toLocaleString() + ' GATE cases'),
+    el('ul', { class: 'g-lines' }, line('k', 'Your DIGI', el('small', {}, 'worth ' + plus(k.own))), k.slots.map((x, i) => line(x.joined ? 'k' : 'r', 'Node ' + (i + 1) + ' · ' + (x.domains || '–'), el('small', {}, x.joined ? 'worth ' + plus(x.contribution) : x.why)))),
+    el('p', { class: 'g-small g-dim' }, 'Worth: the kitted score with it, less without it. Whether a lift on GATE holds on TEST, cases nothing here was chosen by, is measured by organ 10, not assumed here.'));
+  await renderKitNodes(v, slotsOf(v));
+}
+async function kitEquip() {
+  if (!KIT.card) return;
+  const v = await verify(api.lifeOf(KIT.card)), out = $('#g-kit-out');
+  const nodes = await Promise.all(KIT.nodes.map((c) => verify(api.lifeOf(c)))), held = await heldItems(), tools = KIT.tools.map((t) => (held.find((h) => h.v.id === t) || {}).v);
+  const r = await equip(S.me, v, nodes, tools);
+  if (!r.ok) { bleep('refused'); return fill(out, el('p', { class: 'g-badt' }, 'Refused · ' + r.why)); }
+  G.st.loadouts = { ...(G.st.loadouts || {}), [v.id]: r.loadout };
+  note('equip', { id: v.id, nodes: nodes.length, tools: tools.length });
+  saveState(); bleep('kept');
+  fill(out, el('p', { class: 'g-okt' }, '✓ Equipped · signed by your key for this card and each node as they stand. It fights kitted in the arena now. Give a card away, level it, or move a node, and you equip again.'));
+  renderKit();
+}
+async function renderKitApps() {
+  const rec = await appsLoaded(), box = $('#g-kit-apps'), n = $('#g-kit-apps-note');
+  for (const t of ['proven', 'works']) $('#g-kit-t-' + t).setAttribute('aria-selected', String(KIT.tier === t));
+  if (!rec) { fill(n); return fill(box, line('r', 'The estate’s app records did not load.')); }
+  const q = String($('#g-kit-q').value || '').trim().toLowerCase(), desc = (b) => String((rec.rows.get(b.app) || {}).desc || '');
+  const all = [...rec.apps.values()].filter((b) => b.tier === KIT.tier && (!q || b.app.toLowerCase().includes(q) || desc(b).toLowerCase().includes(q))), shown = all.slice(0, 20);
+  fill(box, shown.length ? shown.map((b) => line('', el('span', {}, el('b', {}, b.app), el('small', { class: 'g-dim' }, ' ' + desc(b).slice(0, 80))), el('button', { type: 'button', class: 'g-btn', onclick: () => appMint(b.app) }, 'Mint it'))) : line('x', 'No ' + KIT.tier + ' app matches that'));
+  fill(n, all.length.toLocaleString() + ' ' + KIT.tier + ' app' + (all.length === 1 ? '' : 's') + (all.length > shown.length ? ' · the first ' + shown.length + ' shown: narrow the search' : '') + ' · each passed its own CI on GitHub’s machines at the commit it names (mint-an-app’s records) · minting is free');
+}
+async function appMint(name) {
+  const rec = await appsLoaded(), out = $('#g-kit-out');
+  if (!rec) return;
+  const r = await mintApp(S.me, rec.apps, name), v = r.ok ? await verifyItem(r.item, rec.apps) : r;
+  if (!v.ok) return fill(out, el('p', { class: 'g-badt' }, 'Refused · ' + v.why));
+  G.st.items = [...(G.st.items || []), r.item].slice(-200);
+  note('item', { app: name }); saveState();
+  if (KIT.card && KIT.tools.length < 2) KIT.tools.push(v.id);
+  fill(out, el('p', { class: 'g-okt' }, '✓ ' + name + ' is yours: an item signed by your key, checked against its commit and the run that proved it' + (KIT.tools.includes(v.id) ? ', and in a tool slot. Equip to carry it.' : '. Your tool slots are full; it waits in your items.')));
+  renderKit();
+}
+async function itemGive() {
+  const rec = await appsLoaded(), out = $('#g-kit-give-out'), id = $('#g-kit-give-item').value, to = String($('#g-kit-give-to').value || '').trim().toLowerCase();
+  const at = (G.st.items || []).findIndex((it) => it.events && it.events[0] && hashOf(it.events[0]) === id);
+  if (!rec || at < 0) return fill(out, el('p', { class: 'g-badt' }, 'Pick a tool you hold.'));
+  const r = await giveItem(G.st.items[at], S.me, to, rec.apps);
+  if (!r.ok) { bleep('refused'); return fill(out, el('p', { class: 'g-badt' }, 'Refused · ' + r.why)); }
+  G.st.items = G.st.items.map((it, k) => (k === at ? r.item : it));
+  KIT.tools = KIT.tools.filter((t) => t !== id);
+  note('item-give', { id }); saveState(); bleep('kept');
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify({ kind: 'digi.item', item: r.item }))));
+  try { await navigator.clipboard.writeText(code); fill(out, el('p', { class: 'g-okt g-small' }, '✓ Handed on, signed by you. The item’s whole life is copied: send it to them.')); }
+  catch { fill(out, el('p', { class: 'g-small' }, '✓ Handed on, signed by you. Send them this:'), el('textarea', { rows: 3, readonly: true, 'aria-label': 'The item, to send' }, code)); }
+  renderKit();
+}
+/** take an item someone handed to this key: its whole life, checked here, held by this key */
+async function itemTake() {
+  const rec = await appsLoaded(), out = $('#g-kit-give-out'), box = $('#g-kit-take-code');
+  let o = null;
+  try { o = JSON.parse(decodeURIComponent(escape(atob(String(box.value || '').trim())))); } catch { o = null; }
+  if (!rec || !o || o.kind !== 'digi.item') return fill(out, el('p', { class: 'g-badt' }, 'That is not a DIGI item.'));
+  const v = await verifyItem(o.item, rec.apps);
+  if (!v.ok) { bleep('refused'); return fill(out, el('p', { class: 'g-badt' }, 'Refused · ' + v.why)); }
+  if (v.owner !== S.me.pub) return fill(out, el('p', { class: 'g-badt' }, 'Refused · it is held by another key, not yours'));
+  G.st.items = [...(G.st.items || []).filter((it) => !(it.events && it.events[0] && hashOf(it.events[0]) === v.id)), o.item].slice(-200);
+  note('item', { app: v.body.app }); saveState(); bleep('kept'); box.value = '';
+  fill(out, el('p', { class: 'g-okt' }, '✓ ' + v.body.app + ' is yours: its whole life checked here, handed to your key'));
+  renderKit();
 }
 
 // ── mesh, send, proof ────────────────────────────────────────────────────────────────────────────────────────────────
@@ -910,7 +1171,12 @@ function wire() {
   on('#g-ar-mine', 'change', arenaSides); on('#g-ar-foe', 'change', showFoe); on('#g-ar-own', 'change', showFoe);
   on('#g-ar-t-drop', 'click', () => arenaTab('drop')); on('#g-ar-t-mine', 'click', () => arenaTab('mine')); on('#g-ar-t-friend', 'click', () => arenaTab('friend'));
   on('#g-ar-fight', 'click', arenaFight); on('#g-ar-rerun', 'click', arenaRerun);
-  on('#g-ar-receipt', 'click', () => { if (A.last) api.download(new TextEncoder().encode(JSON.stringify({ kind: 'digi.duel', receipt: A.last.receipt, challenge: A.last.signed.challenge, accept: A.last.signed.accept }, null, 1)), 'digi-duel-' + A.last.receipt.seed.slice(0, 8) + '.json'); });
+  on('#g-ar-receipt', 'click', () => { if (A.last) api.download(new TextEncoder().encode(JSON.stringify({ kind: 'digi.duel', receipt: A.last.receipt, challenge: A.last.signed.challenge, accept: A.last.signed.accept, loadouts: { a: A.last.sides.a.loadout, b: A.last.sides.b.loadout } }, null, 1)), 'digi-duel-' + A.last.receipt.seed.slice(0, 8) + '.json'); });
+  on('#g-kit-card', 'change', () => { KIT.card = null; S.sel = $('#g-kit-card').value; renderKit(); });
+  on('#g-kit-measure-go', 'click', kitMeasure); on('#g-kit-equip', 'click', kitEquip);
+  on('#g-kit-t-proven', 'click', () => { KIT.tier = 'proven'; renderKitApps(); }); on('#g-kit-t-works', 'click', () => { KIT.tier = 'works'; renderKitApps(); });
+  on('#g-kit-q', 'input', () => renderKitApps());
+  on('#g-kit-give', 'click', itemGive); on('#g-kit-take', 'click', itemTake);
   on('#g-ar-copy', 'click', arenaCopy); on('#g-ar-paste', 'click', arenaPaste);
   on('#g-rd-share', 'click', raidShare); on('#g-rd-import', 'click', raidImport);
   const toTab = (t) => () => { tab = t; renderTabs(); };
@@ -945,7 +1211,8 @@ function wire() {
   addEventListener('pagehide', () => { G.st.seen = new Date().toISOString(); saveState(); });
 }
 /** the dock wears PixelWhisperer's own icons */
-function dockIcons() { for (const a of $$('#g-dock a')) if (UI_ICONS[a.dataset.go] && !a.querySelector('canvas')) a.prepend(iconCanvas(UI_ICONS[a.dataset.go], 2, '#2be8ff')); }
+const DOCK_ICON = { arena: 'evals' };   // Play holds the arena, the raids and the evals: it wears the evals icon
+function dockIcons() { for (const a of $$('#g-dock a')) { const icon = UI_ICONS[a.dataset.go] || UI_ICONS[DOCK_ICON[a.dataset.go]]; if (icon && !a.querySelector('canvas')) a.prepend(iconCanvas(icon, 2, '#2be8ff')); } }
 async function start() {
   dockIcons();
   wireInfo();

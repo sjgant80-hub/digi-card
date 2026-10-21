@@ -3,7 +3,8 @@
 // wire exists in the page and every slot the page shows is filled by a script; every internal link lands on a section or
 // a game screen; the product carries no price of its own; the Konomi credit and the supplier are on it; the CSP allows
 // only this site; the JSON-LD parses; nothing a script sets from a card is written as markup; and the game view's dock
-// reaches a real screen from every slot, while everything marked coming is a label, never a control that does nothing.
+// reaches a real screen from every slot, and nothing on the page or in its scripts is marked coming: a full build has no
+// "not in yet" list, so a form, recipe or district is on a screen only once it works.
 //   → PAGE OK | PAGE BROKEN (exit 1)
 import { readFileSync } from 'node:fs';
 
@@ -18,7 +19,7 @@ for (const [, k] of html.matchAll(/data-k="([a-z0-9-]+)"/g)) if (!set.has(k)) pr
 const screens = new Set([...html.matchAll(/data-screen="([a-z]+)"/g)].map((x) => x[1]));
 for (const [, h] of html.matchAll(/href="#([a-z0-9-]+)"/g)) if (!ids.has(h) && !screens.has(h)) problems.push('a link goes to #' + h + ', which is neither a section nor a game screen');
 for (const [, s] of html.matchAll(/data-go="([a-z]+)"/g)) if (!screens.has(s)) problems.push('a dock slot goes to the screen ' + s + ', which the page does not have');
-for (const [tag] of html.matchAll(/<(button|a)\b[^>]*>(?:(?!<\/\1>)[\s\S])*?\bcoming\b(?:(?!<\/\1>)[\s\S])*?<\/\1>/gi)) problems.push('something marked coming is a control: ' + tag.slice(0, 80));
+for (const [name, text] of [['the page', html], ['the scripts', app]]) for (const m of text.matchAll(/.{0,40}\b(coming soon|coming|not built yet|not in yet)\b.{0,40}/gi)) problems.push(name + ' marks something “' + m[1] + '”: ' + m[0].trim().slice(0, 90));
 for (const s of ['ui/mode.js', 'ui/game.js']) if (/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(at(s))) problems.push(s + ' writes markup');
 if (/[£$€]\s?\d|per seat|pricing/i.test(at('ui/game.js'))) problems.push('the game view carries a price');
 if (/[£$€]\s?\d|\/mo\b|per seat|priceCurrency|"@type":\s*"Offer"|pricing/i.test(html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, ''))) problems.push('the page carries a price');

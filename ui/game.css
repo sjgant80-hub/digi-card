@@ -289,3 +289,16 @@ html.game footer.g-foot { border-top: 4px solid var(--g-rule); color: var(--g-di
   html.game #mesh .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) { html.game * { animation: none !important; transition: none !important; } }
+
+/* the kit: slots a card is born with, filled, empty or opening with levels */
+.g-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; width: 100%; }
+.g-kslot { display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 2px solid var(--g-rule); background: var(--g-deep); min-width: 0; }
+.g-kslot.full { border-color: var(--g-cy); }
+.g-kslot.empty { border-style: dashed; }
+.g-kslot.locked { opacity: .7; border-style: dotted; }
+.g-kslot select, .g-kslot .g-btn { max-width: 100%; }
+.g-kslot small { overflow-wrap: anywhere; }
+#g-kit-apps li { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+#g-kit-apps li > span { min-width: 0; flex: 1 1 auto; overflow-wrap: anywhere; }
+#g-kit-apps li > span small, #g-kit-depts li small { white-space: normal; display: block; margin-left: 0; }
+#g-kit-take-code, #g-kit-give-to { width: 100%; box-sizing: border-box; }
