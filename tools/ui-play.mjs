@@ -153,6 +153,13 @@ try {
       }
     } else if (!problems.length) problems.push('five node searches and none cleared the bar');
   }
+  // the estate, drawn from only what DIGI holds: with the tool and the kit above, its TOOLS and SWARM districts open
+  await js(`location.hash = '#estate'`);
+  if (await until(`/Scorer \\d+ tiles/.test(document.querySelector('[data-k="g-plot-open"]').textContent)`, 30000, 'the estate drawn')) {
+    const plot = await js(`document.querySelector('[data-k="g-plot-open"]').textContent + ' | ' + document.querySelector('#g-plot-rule').textContent`);
+    if (/could not be drawn/.test(plot) || !/tools 10 · swarm 10/.test(plot)) problems.push('the estate: ' + plot.slice(0, 160));
+    else seen.push('the estate drawn from what DIGI holds, its tool and its kit in their districts');
+  }
   // a world boss: the player's own telco cards strike it as a party, and strike again to the very same receipt
   await js(`location.hash = '#raids'`);
   if (await until(`[...document.querySelectorAll('#g-pt-bosses .g-boss h3')].some((h) => /Telecom/.test(h.textContent))`, 30000, 'the world bosses')) {

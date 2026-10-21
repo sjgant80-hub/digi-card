@@ -410,22 +410,36 @@ async function renderEstate() {
   const away = G.st.log.filter((x) => G.since && x.t > G.since);
   const bred = away.filter((x) => x.type === 'birth'), kept = bred.filter((x) => x.kept).length;
   fill($('#g-overnight'), line('', away.filter((x) => x.type === 'search').length + ' searches ran'), line('k', away.filter((x) => x.type === 'level').length + ' levels kept · re-run'), line('', bred.length + ' bred · ' + kept + ' kept'), line('r', away.filter((x) => x.type === 'search' && !x.kept).length + ' searches refused'));
-  drawPlot(held);
+  await drawPlot(held);
 }
 /** what the painter is handed: the verified holdings, the consented wires between them, the levels — nothing else */
-function holdingsOf(held, snapshot = false) {
+/** what the estate holds besides cards: the app tools this key holds, and each DIGI kitted with nodes as a swarm of its cards */
+async function worldOf(held) {
+  const ids = new Set(held.map((h) => h.id)), items = new Map(), swarms = [];
+  for (const { v } of await heldItems()) { const id = v.body.sha.slice(0, 16); if (!items.has(id)) items.set(id, { id, form: 'app', tier: v.body.tier }); }
+  for (const h of held) {
+    const k = await kitOf(h.v);
+    const members = k.ok ? [h.id, ...k.lo.nodes.map((n) => n.card).filter((c) => ids.has(c))] : [];
+    if (members.length >= 2) swarms.push({ id: h.id, members });
+  }
+  return { items: [...items.values()], swarms };
+}
+/** what the painter is handed: the verified holdings, the consented wires between them, the levels, the tools and kits —
+ *  drawn as only the districts DIGI holds (scorer, tools, swarm), so no district on the plot is fenced off as not yet open */
+function holdingsOf(held, snapshot = false, world = { items: [], swarms: [] }) {
   const since = G.since, fresh = (id) => !!(since && G.st.log.some((e) => e.id === id && e.t > since && (e.type === 'card' || e.type === 'birth' || e.type === 'minted')));
   const ids = new Set(held.map((h) => h.id)), mineIn = S.mesh ? S.mesh.m.members.filter((m) => m.joined && ids.has(m.card)).map((m) => m.card) : [];
   return { cards: held.map((h) => ({ id: h.id, dataset: h.f.dataset, department: String(h.f.department).slice(0, 16), stage: h.f.stage, rarity: h.f.rarity, generation: h.f.generation, fresh: fresh(h.id) })),
-    wires: mineIn.slice(1).map((id, k) => [mineIn[k], id]), tools: 0, levels: held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0), snapshot };
+    wires: mineIn.slice(1).map((id, k) => [mineIn[k], id]), levels: held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0), snapshot,
+    items: world.items, swarms: world.swarms, districts: ['scorer', 'tools', 'swarm'] };
 }
 const plotTheme = () => (document.documentElement.dataset.ui === 'blockcraft' ? 'blockcraft-v1' : 'synthwave-v1');
-function drawPlot(held) {
-  const c = $('#g-plot'), open = tilesFor(held.length);
-  setK('g-plot-open', 'Scorer district · ' + open + ' tiles open');
-  fill($('#g-plot-rule'), 'The published rule: a district holding n blocks opens 8 + 2n tiles, up to 36 · drawn from your holdings only, by PixelWhisperer’s estate painter');
+async function drawPlot(held) {
+  const c = $('#g-plot'), open = tilesFor(held.length), world = await worldOf(held);
+  setK('g-plot-open', 'Scorer ' + open + ' tiles · tools ' + tilesFor(world.items.length) + ' · swarm ' + tilesFor(world.swarms.length));
+  fill($('#g-plot-rule'), 'The published rule: a district holding n blocks opens 8 + 2n tiles, up to 36 · SCORER holds your cards, TOOLS your app tools, SWARM each DIGI kitted with its nodes · drawn from your holdings only, by PixelWhisperer’s estate painter');
   if (!c) return;
-  const art = paintEstate(holdingsOf(held), plotTheme(), c.width, c.height);
+  const art = paintEstate(holdingsOf(held, false, world), plotTheme(), c.width, c.height);
   if (!art.ok) return fill($('#g-plot-rule'), 'The estate could not be drawn: ' + art.why);
   putRGB(c, art.px, c.width, c.height);
   G.plot = { held: held.length, open };
@@ -441,7 +455,7 @@ async function shareSnapshot() {
   const held = await holdings(), levels = held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0);
   const text = 'My DIGI estate · ' + held.length + ' block' + (held.length === 1 ? '' : 's') + ' · ' + levels + ' level' + (levels === 1 ? '' : 's') + ' re-run · every card re-runs on your device: ' + location.origin + location.pathname;
   // the snapshot is painted afresh, with its title and stats bands, from the holdings alone
-  const snap = el('canvas', { width: 1200, height: 630 }), art = paintEstate(holdingsOf(held, true), plotTheme(), 1200, 630);   // the size a shared link previews at
+  const snap = el('canvas', { width: 1200, height: 630 }), art = paintEstate(holdingsOf(held, true, await worldOf(held)), plotTheme(), 1200, 630);   // the size a shared link previews at
   if (!art.ok) return fill($('#g-snap-out'), el('p', { class: 'g-badt g-small' }, 'The snapshot could not be drawn: ' + art.why));
   putRGB(snap, art.px, 1200, 630);
   const png = pngOfCanvas(snap), file = new File([png], 'digi-estate.png', { type: 'image/png' });

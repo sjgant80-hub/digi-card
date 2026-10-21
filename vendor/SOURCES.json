@@ -107,12 +107,12 @@
   },
   {
    "repo": "sjgant80-hub/pixelwhisperer",
-   "commit": "a90610893fa05dc101bd8ac9c08769ec9278fdea",
+   "commit": "0f90d93bbad606fdd1a729f9f68101a0bfbe4ef8",
    "local": "C:/Users/sjgan/pixelwhisperer",
    "files": {
     "vendor/pixelwhisperer/kards/kardart.mjs": {
      "from": "kards/kardart.mjs",
-     "sha256": "59d6338e22c7547a13123500874537cfd6e931e1726015162e6d9d7942236bcd"
+     "sha256": "c4d33c7dda2b94165973ce07f530ec9c100433eda1b25ff198ef10c6c85acc43"
     },
     "vendor/pixelwhisperer/kards/ui.mjs": {
      "from": "kards/ui.mjs",
@@ -120,7 +120,7 @@
     },
     "vendor/pixelwhisperer/kards/estate.mjs": {
      "from": "kards/estate.mjs",
-     "sha256": "7309155c7689a6dc3f500bde6ba5a4023b3a2fca6e6541965e76c8907cf57806"
+     "sha256": "5136396b09e0db3dd7becad03e13b4bf301c83e3d4f7eb1b3b1bb0ce105a9cea"
     },
     "vendor/pixelwhisperer/kards/arena.mjs": {
      "from": "kards/arena.mjs",

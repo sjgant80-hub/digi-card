@@ -21,6 +21,8 @@ for (const [, h] of html.matchAll(/href="#([a-z0-9-]+)"/g)) if (!ids.has(h) && !
 for (const [, s] of html.matchAll(/data-go="([a-z]+)"/g)) if (!screens.has(s)) problems.push('a dock slot goes to the screen ' + s + ', which the page does not have');
 for (const [name, text] of [['the page', html], ['the scripts', app]]) for (const m of text.matchAll(/.{0,40}\b(coming soon|coming|not built yet|not in yet)\b.{0,40}/gi)) problems.push(name + ' marks something “' + m[1] + '”: ' + m[0].trim().slice(0, 90));
 for (const s of ['ui/mode.js', 'ui/game.js']) if (/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(at(s))) problems.push(s + ' writes markup');
+// the estate painter letters fenced districts COMING in its pixels unless it is told which districts to draw: the game asks for DIGI's
+if (!at('ui/game.js').includes("districts: ['scorer', 'tools', 'swarm']")) problems.push('the estate is not drawn from only the districts DIGI holds, so its picture would letter COMING');
 if (/[£$€]\s?\d|per seat|pricing/i.test(at('ui/game.js'))) problems.push('the game view carries a price');
 if (/[£$€]\s?\d|\/mo\b|per seat|priceCurrency|"@type":\s*"Offer"|pricing/i.test(html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, ''))) problems.push('the page carries a price');
 if (!html.includes('Powered by the Konomi architecture, created by Thomas Frumkin')) problems.push('the Konomi credit is missing');

@@ -60,6 +60,10 @@ function plan(ds, note, wide, shift, lift) {
   return { ds, opens, slots, note, ground, shift, lift };
 }
 const PLAN = plan(DISTRICTS, 'COMING', PLOT, 0, 0), ITEM_PLAN = plan(ITEM_DISTRICTS, '', 18, 18, 6);
+function planOf(ids) {   // only the districts named, where they stand on the full plot, centred by their own extent (all five give ITEM_PLAN)
+  const ds = ITEM_DISTRICTS.filter((d) => ids.indexOf(d.id) >= 0), left = Math.min(...ds.map((d) => d.i[0] - d.k[1])), right = Math.max(...ds.map((d) => d.i[1] - d.k[0]));
+  return plan(ds, '', 18, (left + right) * 3, 6);
+}
 const ITEM_FORMS = FORMS.slice(1), FOR = { app: 'tools', pwa: 'tools', node: 'tools', talker: 'talker', router: 'router' };   // the district each item stands in
 
 /**
@@ -67,14 +71,15 @@ const ITEM_FORMS = FORMS.slice(1), FOR = { app: 'tools', pwa: 'tools', node: 'to
  * holdings: { cards: [{ id, dataset, stage, rarity, generation, department?, fresh? }], wires?: [[idA, idB]], tools?: n, levels?: n, snapshot?: bool }
  *   or, for the full plot, items?: [{ id, form: app | pwa | node | talker | router, tier: prototype | works | proven, fresh? }] and
  *   swarms?: [{ id, members: [card ids] }] in place of tools (TOOLS then counts the apps, pwas and nodes; TALKER the talkers;
- *   ROUTER the routers; SWARM the swarms, each a consented team of 2 to 36 of the player's own cards).
+ *   ROUTER the routers; SWARM the swarms, each a consented team of 2 to 36 of the player's own cards), and districts?: the districts to
+ *   draw, SCORER and any of the rest (only those are drawn, nothing fenced; an item or swarm must stand in one of them).
  * -> { ok: true, h } | { ok: false, why }
  */
 export function checkHoldings(x) {
   try {
     if (typeof x !== 'object' || x === null || Array.isArray(x)) return no('holdings must be an object');
-    const { cards, wires = [], tools = 0, levels = null, snapshot = false, items, swarms } = x;
-    const full = items !== undefined || swarms !== undefined;
+    const { cards, wires = [], tools = 0, levels = null, snapshot = false, items, swarms, districts } = x;
+    const full = items !== undefined || swarms !== undefined || districts !== undefined;
     if (full && Object.prototype.hasOwnProperty.call(x, 'tools')) return no('tools are counted from the items when items or swarms are given');
     if (!Array.isArray(cards) || cards.length > 1000) return no('cards must be an array of at most 1000');
     if (!Array.isArray(wires) || wires.length > 4000) return no('wires must be an array of at most 4000 pairs');
@@ -141,7 +146,15 @@ export function checkHoldings(x) {
     }
     const all = kept.sort().map(([, it]) => it), count = (form) => all.filter((it) => it.form === form).length;
     const teamsInOrder = crews.map((s) => [s.id, s]).sort().map(([, s]) => s);   // by id
-    return { ok: true, h: { ...h, tools: count('app') + count('pwa') + count('node'), talkers: count('talker'), routers: count('router'), items: all, swarms: teamsInOrder } };
+    let drawn = null;   // the districts drawn: all five unless the holdings name them
+    if (districts !== undefined) {
+      if (!Array.isArray(districts) || districts.indexOf('scorer') < 0 || new Set(districts).size !== districts.length || !districts.every((d) => ITEM_DISTRICTS.some((x) => x.id === d))) return no('districts must list scorer and any of tools, talker, swarm and router, each once');
+      drawn = ITEM_DISTRICTS.map((d) => d.id).filter((id) => districts.indexOf(id) >= 0);
+      const astray = all.find((it) => !drawn.includes(FOR[it.form]));
+      if (astray) return no('every item must stand in a district drawn: a ' + astray.form + ' stands in ' + FOR[astray.form]);
+      if (teamsInOrder.length && !drawn.includes('swarm')) return no('swarms stand in swarm, which is not among the districts drawn');
+    }
+    return { ok: true, h: { ...h, tools: count('app') + count('pwa') + count('node'), talkers: count('talker'), routers: count('router'), items: all, swarms: teamsInOrder, districts: drawn } };
   } catch (e) { return no('the holdings could not be read'); }
 }
 
@@ -149,10 +162,12 @@ export function checkHoldings(x) {
 export function estateStats(holdings) {
   const c = checkHoldings(holdings);
   if (!c.ok) return c;
-  const { cards, tools, wires, levels, items, talkers, routers, swarms } = c.h, scorer = tilesFor(cards.length), toolTiles = tilesFor(tools);
+  const { cards, tools, wires, levels, items, talkers, routers, swarms, districts } = c.h, scorer = tilesFor(cards.length), toolTiles = tilesFor(tools);
   if (!items) return { ok: true, blocks: cards.length + tools, cards: cards.length, tools, links: wires.length, levels, tiles: { scorer, tools: toolTiles, total: scorer + toolTiles } };
-  const talker = tilesFor(talkers), swarm = tilesFor(swarms.length), router = tilesFor(routers);
-  return { ok: true, blocks: cards.length + items.length + swarms.length, cards: cards.length, items: items.length, tools, talkers, routers, swarms: swarms.length, links: wires.length, levels, tiles: { scorer, tools: toolTiles, talker, swarm, router, total: scorer + toolTiles + talker + swarm + router } };
+  const each = { scorer, tools: toolTiles, talker: tilesFor(talkers), swarm: tilesFor(swarms.length), router: tilesFor(routers) }, shown = districts || ITEM_DISTRICTS.map((d) => d.id);
+  const tiles = Object.fromEntries(shown.map((d) => [d, each[d]]));   // the districts drawn, and their total
+  tiles.total = shown.reduce((n, d) => n + each[d], 0);
+  return { ok: true, blocks: cards.length + items.length + swarms.length, cards: cards.length, items: items.length, tools, talkers, routers, swarms: swarms.length, links: wires.length, levels, tiles };
 }
 
 // how each theme dresses the plot: background, lettering, wires and the snapshot's bands
@@ -213,19 +228,19 @@ export function paintEstate(holdings, themeId, w, h) {
     if (L.star) for (const n of span(0, 40)) dot(cv, r(lw), r(lh), L.star);
     if (L.cloud) for (const n of span(0, 3)) { const x = r(lw), y = r(div(lh, 3)); rect(cv, x, y, 28, 5, L.cloud); rect(cv, x + 6, y - 4, 14, 4, L.cloud); }
     if (L.confetti) for (const n of span(0, 30)) rect(cv, r(lw), r(lh), 2, 2, L.confetti[r(4)]);
-    const P = H.items ? ITEM_PLAN : PLAN, band = H.snapshot ? 12 : 0, cx = div(lw, 2) - P.shift, oy = div(lh - 128 - 2 * band, 2) + 50 + band - P.lift;
+    const P = H.districts ? planOf(H.districts) : H.items ? ITEM_PLAN : PLAN, band = H.snapshot ? 12 : 0, cx = div(lw, 2) - P.shift, oy = div(lh - 128 - 2 * band, 2) + 50 + band - P.lift;
     const pos = (i, j, kk) => [cx + (i - kk) * 6, oy + (i + kk) * 3 - j * 6];
 
     // what stands where: towers in SCORER; the first plot's tool blocks, or each item in its own district; swarms in SWARM
     const open = new Set(), fresh = new Set(), locked = new Set(), district = (id) => P.ds.find((d) => d.id === id);
     const towers = H.cards.slice(0, 36).map((card, n) => ({ card, i: P.slots.scorer[n][0], kk: P.slots.scorer[n][1] }));
     const kit = H.items || P.slots.tools.slice(0, Math.min(H.tools, 36)).map(() => ({ form: 'tool' })), blocks = [], counts = { tools: H.tools, talker: H.talkers, router: H.routers };
-    for (const where of H.items ? ['tools', 'talker', 'router'] : ['tools']) {
+    for (const where of (H.items ? ['tools', 'talker', 'router'] : ['tools']).filter((id) => P.opens[id])) {
       kit.filter((it) => (FOR[it.form] || 'tools') === where).slice(0, 36).forEach((it, n) => blocks.push({ it, i: P.slots[where][n][0], kk: P.slots[where][n][1], col: BLOCK[it.form] || TOOL[n % 6] }));
       P.opens[where].slice(0, tilesFor(counts[where])).forEach(([i, kk]) => open.add(i * PLOT + kk));
     }
     const byId = new Map(H.cards.map((card) => [card.id, card])), stacks = (H.swarms || []).slice(0, 36).map((sw, n) => ({ sw, i: P.slots.swarm[n][0], kk: P.slots.swarm[n][1], tall: Math.min(4, sw.members.length) }));
-    if (H.swarms) P.opens.swarm.slice(0, tilesFor(H.swarms.length)).forEach(([i, kk]) => open.add(i * PLOT + kk));
+    if (H.swarms && P.opens.swarm) P.opens.swarm.slice(0, tilesFor(H.swarms.length)).forEach(([i, kk]) => open.add(i * PLOT + kk));
     P.opens.scorer.slice(0, tilesFor(H.cards.length)).forEach(([i, kk]) => open.add(i * PLOT + kk));
     for (const t of towers.concat(blocks, stacks)) { open.add(t.i * PLOT + t.kk); if ((t.card || t.it || t.sw).fresh) fresh.add(t.i * PLOT + t.kk); }   // a block always stands on open ground
     for (const d of P.ds.filter((x) => !x.open)) for (const kk of span(d.k[0], d.k[1])) for (const i of span(d.i[0], d.i[1])) locked.add(i * PLOT + kk);
@@ -283,7 +298,7 @@ export function paintEstate(holdings, themeId, w, h) {
       if (!d.open) letters(cv, P.note, px - div(width(P.note), 2), py + 10, L.dim, L.shadow);
     }
     if (H.cards.length > 36) { const more = '+' + (H.cards.length - 36) + ' MORE', px = cx - 48, py = oy + 12; letters(cv, more, px - div(width(more), 2), py, L.text, L.shadow); }
-    for (const [id, n] of H.items ? [['tools', H.tools], ['talker', H.talkers], ['router', H.routers], ['swarm', H.swarms.length]] : []) if (n > 36) {   // past 36 in a district: how many more
+    for (const [id, n] of H.items ? [['tools', H.tools], ['talker', H.talkers], ['router', H.routers], ['swarm', H.swarms.length]].filter(([d]) => P.opens[d]) : []) if (n > 36) {   // past 36 in a district: how many more
       const d = district(id), more = '+' + (n - 36) + ' MORE';
       letters(cv, more, cx + d.label[0] - div(width(more), 2), oy + d.label[1] + 10, L.text, L.shadow);
     }

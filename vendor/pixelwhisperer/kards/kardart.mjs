@@ -33,6 +33,9 @@ export const FORMS = Object.freeze(['scorer', 'app', 'pwa', 'node', 'talker', 'r
 export const TIERS = Object.freeze(['prototype', 'works', 'proven']);
 /** The gear slot each item fills on a scorer card: a node or a router is an ally, an app or a pwa a tool, a talker a voice. */
 export const GEAR = Object.freeze({ app: 'tool', pwa: 'tool', node: 'ally', talker: 'voice', router: 'ally' });
+/** The slot each item fills in the DIGI kit (a node slot holds a card, a router couples like a node, a tool slot holds an app): the words
+ *  an item's face uses when its facts say kit: true. */
+export const KIT_SLOTS = Object.freeze({ app: 'tool', pwa: 'tool', node: 'node', talker: 'voice', router: 'node' });
 const HEXD = '0123456789abcdef';
 const TITLE_CH = " &'.-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const DEPT_CH = '-0123456789abcdefghijklmnopqrstuvwxyz';
@@ -42,8 +45,9 @@ const isId = (s) => typeof s === 'string' && s.length === 16 && only(s, HEXD);
 const whole = (n, max) => Number.isInteger(n) && n >= 0 && n <= max;
 
 /** Are these a card's facts? -> { ok: true, f (the facts, read once, with their dataset and rarity indexes) } | { ok: false, why }. Total.
- *  An item (facts.form one of app, pwa, node, talker, router) has { form, id, name, source, tier, spdx? } instead (an app's id: the
- *  first 16 hex of the sha it was proven at; spdx: its licence id); no form, or 'scorer', is a scorer. */
+ *  An item (facts.form one of app, pwa, node, talker, router) has { form, id, name, source, tier, spdx?, kit? } instead (an app's id: the
+ *  first 16 hex of the sha it was proven at; spdx: its licence id; kit: true names its slot in the DIGI kit's words); no form, or
+ *  'scorer', is a scorer. */
 export function checkFacts(x) {
   try { return readFacts(x); } catch (e) { return no('the facts could not be read'); }
 }
@@ -66,7 +70,7 @@ function readFacts(x) {
   return { ok: true, f: { id, title, dataset, department, stage, rarity, generation, parents: kin, di, ri } };
 }
 function readItem(x) {
-  const { form, id, name, source, tier, spdx = '' } = x;
+  const { form, id, name, source, tier, spdx = '', kit = false } = x;
   if (FORMS.indexOf(form) < 1) return no('form must be one of ' + FORMS.join(', '));
   if (!isId(id)) return no('id must be 16 lowercase hex characters');
   if (typeof name !== 'string' || name.length > 24 || !only(name, TITLE_CH)) return no('name must be at most 24 characters from A-Z a-z 0-9 space & . - and the apostrophe');
@@ -74,7 +78,8 @@ function readItem(x) {
   const ri = TIERS.indexOf(tier);
   if (ri < 0) return no('tier must be one of ' + TIERS.join(', '));
   if (typeof spdx !== 'string' || spdx.length > 16 || !only(spdx, SRC_CH)) return no('spdx must be at most 16 characters from A-Z a-z 0-9 . and -');
-  return { ok: true, f: { form, id, name, source, tier, spdx, ri } };
+  if (typeof kit !== 'boolean') return no('kit must be true or false');
+  return { ok: true, f: { form, id, name, source, tier, spdx, kit, ri } };
 }
 const dim = (n) => Number.isInteger(n) && n >= 64 && n <= 1024;
 
@@ -356,8 +361,9 @@ function itemChrome(cv, f, look) {   // an item's panel: what it is, its verifie
   label(cv, tier, 176 - tw(tier), 183, p.hi, u.shadow);
   for (const i of span(0, 3)) blit(cv, STAR, 150 + i * 9, 193, i <= f.ri ? p.hi : p.lo);
   label(cv, 'FROM', 12, 205, p.mid, u.shadow); label(cv, f.source, 42, 205, u.text, u.shadow);
-  const slot = GEAR[f.form].toUpperCase() + ' SLOT';   // the slot it fits; beside it, when it says, its licence
-  if (f.spdx) { label(cv, f.spdx, 12, 216, u.text, u.shadow); label(cv, slot, 176 - tw(slot), 216, p.mid, u.shadow); } else label(cv, 'FITS THE ' + slot, 12, 216, u.text, u.shadow);
+  const named = f.kit ? KIT_SLOTS[f.form] : GEAR[f.form], slot = named.toUpperCase() + ' SLOT';   // the slot it fits, in the kit's words when it says kit; beside it, its licence
+  const fits = f.kit ? (named === 'voice' ? slot : 'FITS A ' + slot) : 'FITS THE ' + slot;
+  if (f.spdx) { label(cv, f.spdx, 12, 216, u.text, u.shadow); label(cv, slot, 176 - tw(slot), 216, p.mid, u.shadow); } else label(cv, fits, 12, 216, u.text, u.shadow);
   rect(cv, 12, 226, 164, 1, u.rule);
   let x = 12;   // the tier ladder: each tier the item has reached is lit, with a chevron on to the next
   TIERS.forEach((t, i) => {
