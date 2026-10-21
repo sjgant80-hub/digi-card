@@ -1,0 +1,2243 @@
+{
+ "kind": "digi-card.organ-4.record",
+ "v": 1,
+ "pairs": 125,
+ "same": {
+  "pairs": 75,
+  "born": 26,
+  "overOnTest": 12
+ },
+ "cross": {
+  "pairs": 50,
+  "born": 40,
+  "overOnTest": 40
+ },
+ "rows": [
+  {
+   "kind": "same",
+   "a": 2,
+   "b": 17,
+   "domains": [
+    "telco-customer",
+    "telco-customer"
+   ],
+   "born": true,
+   "tries": 6,
+   "gate": 667008,
+   "parentsGate": [
+    635362,
+    666736
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 630563,
+   "parentsTest": [
+    634365,
+    630528
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 32,
+   "b": 47,
+   "domains": [
+    "telco-customer",
+    "telco-customer"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (661666 against 671495, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 62,
+   "b": 77,
+   "domains": [
+    "telco-customer",
+    "telco-customer"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (666736 against 677340, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 92,
+   "b": 107,
+   "domains": [
+    "telco-customer",
+    "telco-customer"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 658849,
+   "parentsGate": [
+    653491,
+    645464
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 594693,
+   "parentsTest": [
+    621592,
+    628448
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 122,
+   "b": 137,
+   "domains": [
+    "telco-customer",
+    "telco-customer"
+   ],
+   "born": true,
+   "tries": 8,
+   "gate": 664337,
+   "parentsGate": [
+    664198,
+    661938
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 629316,
+   "parentsTest": [
+    624211,
+    628105
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 3,
+   "b": 18,
+   "domains": [
+    "telco-services",
+    "telco-services"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (762223 against 762223, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 33,
+   "b": 48,
+   "domains": [
+    "telco-services",
+    "telco-services"
+   ],
+   "born": true,
+   "tries": 11,
+   "gate": 751168,
+   "parentsGate": [
+    750219,
+    706468
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 745552,
+   "parentsTest": [
+    774245,
+    736685
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 63,
+   "b": 78,
+   "domains": [
+    "telco-services",
+    "telco-services"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (738924 against 768921, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 93,
+   "b": 108,
+   "domains": [
+    "telco-services",
+    "telco-services"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (760392 against 763629, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 123,
+   "b": 138,
+   "domains": [
+    "telco-services",
+    "telco-services"
+   ],
+   "born": true,
+   "tries": 10,
+   "gate": 726883,
+   "parentsGate": [
+    724978,
+    712258
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 740959,
+   "parentsTest": [
+    754003,
+    732003
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 4,
+   "b": 19,
+   "domains": [
+    "telco-account",
+    "telco-account"
+   ],
+   "born": true,
+   "tries": 12,
+   "gate": 807015,
+   "parentsGate": [
+    803935,
+    802698
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 797617,
+   "parentsTest": [
+    810195,
+    796357
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 34,
+   "b": 49,
+   "domains": [
+    "telco-account",
+    "telco-account"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (809309 against 818213, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 64,
+   "b": 79,
+   "domains": [
+    "telco-account",
+    "telco-account"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (795048 against 800684, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 94,
+   "b": 109,
+   "domains": [
+    "telco-account",
+    "telco-account"
+   ],
+   "born": true,
+   "tries": 2,
+   "gate": 805773,
+   "parentsGate": [
+    805750,
+    801357
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 802238,
+   "parentsTest": [
+    810336,
+    800829
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 124,
+   "b": 139,
+   "domains": [
+    "telco-account",
+    "telco-account"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (799228 against 807949, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 5,
+   "b": 20,
+   "domains": [
+    "shop-browsing",
+    "shop-browsing"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (661155 against 665976, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 35,
+   "b": 50,
+   "domains": [
+    "shop-browsing",
+    "shop-browsing"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (659417 against 659417, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 65,
+   "b": 80,
+   "domains": [
+    "shop-browsing",
+    "shop-browsing"
+   ],
+   "born": true,
+   "tries": 10,
+   "gate": 662467,
+   "parentsGate": [
+    658150,
+    654464
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 671462,
+   "parentsTest": [
+    655712,
+    652508
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 95,
+   "b": 110,
+   "domains": [
+    "shop-browsing",
+    "shop-browsing"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (677576 against 677697, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 125,
+   "b": 140,
+   "domains": [
+    "shop-browsing",
+    "shop-browsing"
+   ],
+   "born": true,
+   "tries": 3,
+   "gate": 659313,
+   "parentsGate": [
+    651237,
+    651005
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 673125,
+   "parentsTest": [
+    651130,
+    645553
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 6,
+   "b": 21,
+   "domains": [
+    "shop-analytics",
+    "shop-analytics"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (915097 against 915097, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 36,
+   "b": 51,
+   "domains": [
+    "shop-analytics",
+    "shop-analytics"
+   ],
+   "born": true,
+   "tries": 11,
+   "gate": 919734,
+   "parentsGate": [
+    919491,
+    910843
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 802388,
+   "parentsTest": [
+    803229,
+    817208
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 66,
+   "b": 81,
+   "domains": [
+    "shop-analytics",
+    "shop-analytics"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (919304 against 921634, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 96,
+   "b": 111,
+   "domains": [
+    "shop-analytics",
+    "shop-analytics"
+   ],
+   "born": true,
+   "tries": 8,
+   "gate": 917509,
+   "parentsGate": [
+    916936,
+    910476
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 821861,
+   "parentsTest": [
+    820562,
+    818408
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 126,
+   "b": 141,
+   "domains": [
+    "shop-analytics",
+    "shop-analytics"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (919460 against 921600, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 7,
+   "b": 22,
+   "domains": [
+    "shop-context",
+    "shop-context"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (624790 against 625557, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 37,
+   "b": 52,
+   "domains": [
+    "shop-context",
+    "shop-context"
+   ],
+   "born": true,
+   "tries": 2,
+   "gate": 638701,
+   "parentsGate": [
+    626370,
+    615244
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 568378,
+   "parentsTest": [
+    569788,
+    568362
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 67,
+   "b": 82,
+   "domains": [
+    "shop-context",
+    "shop-context"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 638623,
+   "parentsGate": [
+    601174,
+    606087
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 552854,
+   "parentsTest": [
+    539234,
+    568400
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 97,
+   "b": 112,
+   "domains": [
+    "shop-context",
+    "shop-context"
+   ],
+   "born": true,
+   "tries": 12,
+   "gate": 620299,
+   "parentsGate": [
+    604154,
+    614243
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 573011,
+   "parentsTest": [
+    572798,
+    574281
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 127,
+   "b": 142,
+   "domains": [
+    "shop-context",
+    "shop-context"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (618358 against 621386, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 8,
+   "b": 23,
+   "domains": [
+    "bank-profile",
+    "bank-profile"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (623447 against 623447, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 38,
+   "b": 53,
+   "domains": [
+    "bank-profile",
+    "bank-profile"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (606207 against 608820, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 68,
+   "b": 83,
+   "domains": [
+    "bank-profile",
+    "bank-profile"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 607167,
+   "parentsGate": [
+    604003,
+    605703
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 617122,
+   "parentsTest": [
+    613316,
+    618383
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 98,
+   "b": 113,
+   "domains": [
+    "bank-profile",
+    "bank-profile"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (614431 against 616843, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 128,
+   "b": 143,
+   "domains": [
+    "bank-profile",
+    "bank-profile"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 613460,
+   "parentsGate": [
+    609959,
+    601529
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 621628,
+   "parentsTest": [
+    605124,
+    619031
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 9,
+   "b": 24,
+   "domains": [
+    "bank-campaign",
+    "bank-campaign"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (669259 against 679336, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 39,
+   "b": 54,
+   "domains": [
+    "bank-campaign",
+    "bank-campaign"
+   ],
+   "born": true,
+   "tries": 3,
+   "gate": 695845,
+   "parentsGate": [
+    677024,
+    686854
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 696942,
+   "parentsTest": [
+    690686,
+    692113
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 69,
+   "b": 84,
+   "domains": [
+    "bank-campaign",
+    "bank-campaign"
+   ],
+   "born": true,
+   "tries": 2,
+   "gate": 697471,
+   "parentsGate": [
+    674853,
+    680656
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 704475,
+   "parentsTest": [
+    690570,
+    688340
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 99,
+   "b": 114,
+   "domains": [
+    "bank-campaign",
+    "bank-campaign"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 673300,
+   "parentsGate": [
+    668917,
+    664853
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 688057,
+   "parentsTest": [
+    687759,
+    681469
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 129,
+   "b": 144,
+   "domains": [
+    "bank-campaign",
+    "bank-campaign"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (672582 against 678797, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 10,
+   "b": 25,
+   "domains": [
+    "bank-economy",
+    "bank-economy"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (764779 against 768659, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 40,
+   "b": 55,
+   "domains": [
+    "bank-economy",
+    "bank-economy"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (765952 against 766008, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 70,
+   "b": 85,
+   "domains": [
+    "bank-economy",
+    "bank-economy"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (766514 against 766514, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 100,
+   "b": 115,
+   "domains": [
+    "bank-economy",
+    "bank-economy"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (764180 against 770582, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 130,
+   "b": 145,
+   "domains": [
+    "bank-economy",
+    "bank-economy"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (755221 against 766214, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 11,
+   "b": 26,
+   "domains": [
+    "adult-person",
+    "adult-person"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (805444 against 807334, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 41,
+   "b": 56,
+   "domains": [
+    "adult-person",
+    "adult-person"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (803560 against 806426, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 71,
+   "b": 86,
+   "domains": [
+    "adult-person",
+    "adult-person"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 808208,
+   "parentsGate": [
+    803370,
+    807504
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 807477,
+   "parentsTest": [
+    801801,
+    807008
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 101,
+   "b": 116,
+   "domains": [
+    "adult-person",
+    "adult-person"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (806462 against 806462, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 131,
+   "b": 146,
+   "domains": [
+    "adult-person",
+    "adult-person"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (806690 against 806690, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 12,
+   "b": 27,
+   "domains": [
+    "adult-work",
+    "adult-work"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (752582 against 754365, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 42,
+   "b": 57,
+   "domains": [
+    "adult-work",
+    "adult-work"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (746416 against 752015, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 72,
+   "b": 87,
+   "domains": [
+    "adult-work",
+    "adult-work"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (757899 against 757899, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 102,
+   "b": 117,
+   "domains": [
+    "adult-work",
+    "adult-work"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (747481 against 748373, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 132,
+   "b": 147,
+   "domains": [
+    "adult-work",
+    "adult-work"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (760475 against 763939, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 13,
+   "b": 28,
+   "domains": [
+    "adult-tax",
+    "adult-tax"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (632076 against 632076, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 43,
+   "b": 58,
+   "domains": [
+    "adult-tax",
+    "adult-tax"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (630004 against 632076, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 73,
+   "b": 88,
+   "domains": [
+    "adult-tax",
+    "adult-tax"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (632076 against 632076, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 103,
+   "b": 118,
+   "domains": [
+    "adult-tax",
+    "adult-tax"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (632076 against 632076, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 133,
+   "b": 148,
+   "domains": [
+    "adult-tax",
+    "adult-tax"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (627933 against 630004, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 14,
+   "b": 29,
+   "domains": [
+    "credit-customer",
+    "credit-customer"
+   ],
+   "born": true,
+   "tries": 4,
+   "gate": 634632,
+   "parentsGate": [
+    626170,
+    632844
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 607247,
+   "parentsTest": [
+    603085,
+    605328
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 44,
+   "b": 59,
+   "domains": [
+    "credit-customer",
+    "credit-customer"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (637281 against 638369, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 74,
+   "b": 89,
+   "domains": [
+    "credit-customer",
+    "credit-customer"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (634180 against 634180, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 104,
+   "b": 119,
+   "domains": [
+    "credit-customer",
+    "credit-customer"
+   ],
+   "born": true,
+   "tries": 7,
+   "gate": 637868,
+   "parentsGate": [
+    631508,
+    636438
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 601988,
+   "parentsTest": [
+    608182,
+    608505
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 134,
+   "b": 149,
+   "domains": [
+    "credit-customer",
+    "credit-customer"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 636498,
+   "parentsGate": [
+    631580,
+    627366
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 605359,
+   "parentsTest": [
+    607072,
+    601061
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 15,
+   "b": 30,
+   "domains": [
+    "credit-collections",
+    "credit-collections"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (734254 against 734254, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 45,
+   "b": 60,
+   "domains": [
+    "credit-collections",
+    "credit-collections"
+   ],
+   "born": true,
+   "tries": 4,
+   "gate": 736824,
+   "parentsGate": [
+    733650,
+    735770
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 733394,
+   "parentsTest": [
+    732771,
+    733030
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 75,
+   "b": 90,
+   "domains": [
+    "credit-collections",
+    "credit-collections"
+   ],
+   "born": true,
+   "tries": 2,
+   "gate": 735214,
+   "parentsGate": [
+    733095,
+    732578
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 735578,
+   "parentsTest": [
+    733290,
+    731224
+   ]
+  },
+  {
+   "kind": "same",
+   "a": 105,
+   "b": 120,
+   "domains": [
+    "credit-collections",
+    "credit-collections"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (732859 against 738587, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 135,
+   "b": 150,
+   "domains": [
+    "credit-collections",
+    "credit-collections"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (729977 against 730110, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 16,
+   "b": 31,
+   "domains": [
+    "credit-payments",
+    "credit-payments"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (640640 against 644278, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 46,
+   "b": 61,
+   "domains": [
+    "credit-payments",
+    "credit-payments"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (631596 against 634641, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 76,
+   "b": 91,
+   "domains": [
+    "credit-payments",
+    "credit-payments"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (642363 against 646128, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 106,
+   "b": 121,
+   "domains": [
+    "credit-payments",
+    "credit-payments"
+   ],
+   "born": false,
+   "tries": 12,
+   "why": "no child of theirs beat both parents on GATE (647659 against 647659, 12 tried)"
+  },
+  {
+   "kind": "same",
+   "a": 136,
+   "b": 151,
+   "domains": [
+    "credit-payments",
+    "credit-payments"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 642076,
+   "parentsGate": [
+    631954,
+    640737
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 641692,
+   "parentsTest": [
+    640436,
+    642216
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 152,
+   "b": 153,
+   "domains": [
+    "telco-customer",
+    "telco-services"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 773501,
+   "parentsGate": [
+    666890,
+    753838
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 771726,
+   "parentsTest": [
+    630682,
+    767992
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 167,
+   "b": 168,
+   "domains": [
+    "telco-customer",
+    "telco-services"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 736040,
+   "parentsGate": [
+    656198,
+    698292
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 730186,
+   "parentsTest": [
+    610692,
+    712647
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 182,
+   "b": 183,
+   "domains": [
+    "telco-customer",
+    "telco-services"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 760556,
+   "parentsGate": [
+    661394,
+    739801
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 757538,
+   "parentsTest": [
+    628035,
+    751952
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 197,
+   "b": 198,
+   "domains": [
+    "telco-customer",
+    "telco-services"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 766099,
+   "parentsGate": [
+    670191,
+    739610
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 766628,
+   "parentsTest": [
+    624731,
+    760737
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 212,
+   "b": 213,
+   "domains": [
+    "telco-customer",
+    "telco-services"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 783800,
+   "parentsGate": [
+    656545,
+    766658
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 784472,
+   "parentsTest": [
+    636712,
+    779227
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 153,
+   "b": 154,
+   "domains": [
+    "telco-services",
+    "telco-account"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 816439,
+   "parentsGate": [
+    753838,
+    809467
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 819135,
+   "parentsTest": [
+    767992,
+    805231
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 168,
+   "b": 169,
+   "domains": [
+    "telco-services",
+    "telco-account"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 798138,
+   "parentsGate": [
+    698292,
+    792916
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 816132,
+   "parentsTest": [
+    712647,
+    801379
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 183,
+   "b": 184,
+   "domains": [
+    "telco-services",
+    "telco-account"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 813103,
+   "parentsGate": [
+    739801,
+    795376
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 821269,
+   "parentsTest": [
+    751952,
+    797415
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 198,
+   "b": 199,
+   "domains": [
+    "telco-services",
+    "telco-account"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 790653,
+   "parentsGate": [
+    739610,
+    780793
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 802457,
+   "parentsTest": [
+    760737,
+    785338
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 213,
+   "b": 214,
+   "domains": [
+    "telco-services",
+    "telco-account"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 827188,
+   "parentsGate": [
+    766658,
+    816566
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 831669,
+   "parentsTest": [
+    779227,
+    814576
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 155,
+   "b": 156,
+   "domains": [
+    "shop-browsing",
+    "shop-analytics"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (911560 against 913879, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 170,
+   "b": 171,
+   "domains": [
+    "shop-browsing",
+    "shop-analytics"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (904015 against 906926, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 185,
+   "b": 186,
+   "domains": [
+    "shop-browsing",
+    "shop-analytics"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (909079 against 913542, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 200,
+   "b": 201,
+   "domains": [
+    "shop-browsing",
+    "shop-analytics"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (910120 against 913939, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 215,
+   "b": 216,
+   "domains": [
+    "shop-browsing",
+    "shop-analytics"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (913937 against 917462, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 156,
+   "b": 157,
+   "domains": [
+    "shop-analytics",
+    "shop-context"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 919024,
+   "parentsGate": [
+    913879,
+    643312
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 830560,
+   "parentsTest": [
+    819946,
+    573851
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 171,
+   "b": 172,
+   "domains": [
+    "shop-analytics",
+    "shop-context"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 908120,
+   "parentsGate": [
+    906926,
+    638247
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 830653,
+   "parentsTest": [
+    822503,
+    585070
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 186,
+   "b": 187,
+   "domains": [
+    "shop-analytics",
+    "shop-context"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 914227,
+   "parentsGate": [
+    913542,
+    608096
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 823960,
+   "parentsTest": [
+    818804,
+    546983
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 201,
+   "b": 202,
+   "domains": [
+    "shop-analytics",
+    "shop-context"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (910373 against 913939, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 216,
+   "b": 217,
+   "domains": [
+    "shop-analytics",
+    "shop-context"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (917408 against 917462, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 158,
+   "b": 159,
+   "domains": [
+    "bank-profile",
+    "bank-campaign"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (686919 against 693087, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 173,
+   "b": 174,
+   "domains": [
+    "bank-profile",
+    "bank-campaign"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 706698,
+   "parentsGate": [
+    616476,
+    686790
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 718529,
+   "parentsTest": [
+    623065,
+    694781
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 188,
+   "b": 189,
+   "domains": [
+    "bank-profile",
+    "bank-campaign"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 683342,
+   "parentsGate": [
+    613288,
+    665152
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 704342,
+   "parentsTest": [
+    610139,
+    685860
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 203,
+   "b": 204,
+   "domains": [
+    "bank-profile",
+    "bank-campaign"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 697612,
+   "parentsGate": [
+    603794,
+    684784
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 704398,
+   "parentsTest": [
+    607421,
+    691493
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 218,
+   "b": 219,
+   "domains": [
+    "bank-profile",
+    "bank-campaign"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (674090 against 675410, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 159,
+   "b": 160,
+   "domains": [
+    "bank-campaign",
+    "bank-economy"
+   ],
+   "born": false,
+   "tries": 1,
+   "why": "no child of theirs beat both parents on GATE (764479 against 765187, 1 tried)"
+  },
+  {
+   "kind": "cross",
+   "a": 174,
+   "b": 175,
+   "domains": [
+    "bank-campaign",
+    "bank-economy"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 764886,
+   "parentsGate": [
+    686790,
+    754488
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 763081,
+   "parentsTest": [
+    694781,
+    750259
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 189,
+   "b": 190,
+   "domains": [
+    "bank-campaign",
+    "bank-economy"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 760374,
+   "parentsGate": [
+    665152,
+    758863
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 760563,
+   "parentsTest": [
+    685860,
+    759004
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 204,
+   "b": 205,
+   "domains": [
+    "bank-campaign",
+    "bank-economy"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 773673,
+   "parentsGate": [
+    684784,
+    758099
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 774500,
+   "parentsTest": [
+    691493,
+    757803
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 219,
+   "b": 220,
+   "domains": [
+    "bank-campaign",
+    "bank-economy"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 764768,
+   "parentsGate": [
+    675410,
+    759654
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 766559,
+   "parentsTest": [
+    686987,
+    755730
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 161,
+   "b": 162,
+   "domains": [
+    "adult-person",
+    "adult-work"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 862715,
+   "parentsGate": [
+    803550,
+    740689
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 858389,
+   "parentsTest": [
+    799208,
+    738756
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 176,
+   "b": 177,
+   "domains": [
+    "adult-person",
+    "adult-work"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 867049,
+   "parentsGate": [
+    805407,
+    748376
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 865646,
+   "parentsTest": [
+    803908,
+    748522
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 191,
+   "b": 192,
+   "domains": [
+    "adult-person",
+    "adult-work"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 865705,
+   "parentsGate": [
+    803445,
+    754363
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 865238,
+   "parentsTest": [
+    801284,
+    753099
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 206,
+   "b": 207,
+   "domains": [
+    "adult-person",
+    "adult-work"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 863687,
+   "parentsGate": [
+    809860,
+    751843
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 862515,
+   "parentsTest": [
+    809232,
+    747992
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 221,
+   "b": 222,
+   "domains": [
+    "adult-person",
+    "adult-work"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 869682,
+   "parentsGate": [
+    805857,
+    758301
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 866042,
+   "parentsTest": [
+    802837,
+    754845
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 162,
+   "b": 163,
+   "domains": [
+    "adult-work",
+    "adult-tax"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 783979,
+   "parentsGate": [
+    740689,
+    632076
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 779836,
+   "parentsTest": [
+    738756,
+    626439
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 177,
+   "b": 178,
+   "domains": [
+    "adult-work",
+    "adult-tax"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 789078,
+   "parentsGate": [
+    748376,
+    632076
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 785030,
+   "parentsTest": [
+    748522,
+    626439
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 192,
+   "b": 193,
+   "domains": [
+    "adult-work",
+    "adult-tax"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 793539,
+   "parentsGate": [
+    754363,
+    632076
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 789392,
+   "parentsTest": [
+    753099,
+    626439
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 207,
+   "b": 208,
+   "domains": [
+    "adult-work",
+    "adult-tax"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 795498,
+   "parentsGate": [
+    751843,
+    627980
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 790761,
+   "parentsTest": [
+    747992,
+    624781
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 222,
+   "b": 223,
+   "domains": [
+    "adult-work",
+    "adult-tax"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 788356,
+   "parentsGate": [
+    758301,
+    619127
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 786608,
+   "parentsTest": [
+    754845,
+    619189
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 164,
+   "b": 165,
+   "domains": [
+    "credit-customer",
+    "credit-collections"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 750099,
+   "parentsGate": [
+    629398,
+    732577
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 741733,
+   "parentsTest": [
+    608207,
+    729631
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 179,
+   "b": 180,
+   "domains": [
+    "credit-customer",
+    "credit-collections"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 753596,
+   "parentsGate": [
+    631941,
+    731507
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 743117,
+   "parentsTest": [
+    602468,
+    729812
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 194,
+   "b": 195,
+   "domains": [
+    "credit-customer",
+    "credit-collections"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 759229,
+   "parentsGate": [
+    630282,
+    737770
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 746072,
+   "parentsTest": [
+    604848,
+    734176
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 209,
+   "b": 210,
+   "domains": [
+    "credit-customer",
+    "credit-collections"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 758996,
+   "parentsGate": [
+    637488,
+    736446
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 741652,
+   "parentsTest": [
+    604121,
+    734841
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 224,
+   "b": 225,
+   "domains": [
+    "credit-customer",
+    "credit-collections"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 756915,
+   "parentsGate": [
+    637433,
+    736446
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 744736,
+   "parentsTest": [
+    609461,
+    734841
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 165,
+   "b": 166,
+   "domains": [
+    "credit-collections",
+    "credit-payments"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 749526,
+   "parentsGate": [
+    732577,
+    633649
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 751947,
+   "parentsTest": [
+    729631,
+    626333
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 180,
+   "b": 181,
+   "domains": [
+    "credit-collections",
+    "credit-payments"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 742219,
+   "parentsGate": [
+    731507,
+    634830
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 752660,
+   "parentsTest": [
+    729812,
+    635757
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 195,
+   "b": 196,
+   "domains": [
+    "credit-collections",
+    "credit-payments"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 746520,
+   "parentsGate": [
+    737770,
+    646194
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 747167,
+   "parentsTest": [
+    734176,
+    638946
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 210,
+   "b": 211,
+   "domains": [
+    "credit-collections",
+    "credit-payments"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 750623,
+   "parentsGate": [
+    736446,
+    632969
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 759165,
+   "parentsTest": [
+    734841,
+    636297
+   ]
+  },
+  {
+   "kind": "cross",
+   "a": 225,
+   "b": 226,
+   "domains": [
+    "credit-collections",
+    "credit-payments"
+   ],
+   "born": true,
+   "tries": 1,
+   "gate": 749388,
+   "parentsGate": [
+    736446,
+    638834
+   ],
+   "check": true,
+   "lineage": true,
+   "test": 756400,
+   "parentsTest": [
+    734841,
+    632414
+   ]
+  }
+ ]
+}

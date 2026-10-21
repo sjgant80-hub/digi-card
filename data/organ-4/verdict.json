@@ -1,0 +1,50 @@
+{
+ "kind": "digi-card.organ-4.verdict",
+ "v": 1,
+ "prereg": "de85eab789adaafa",
+ "record": "201c5638c606d48d",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every child born beats both parents on GATE, re-run by birthCheck on the ground.",
+   "pass": true,
+   "saw": "66 of 66 children beat both parents on GATE when re-run"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every child names both parents in its seal, is sealed by its breeder, carries the higher of their bars, and is issued at generation one.",
+   "pass": true,
+   "saw": "66 of 66 carry both parents, their breeder, the higher bar and generation one"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every pair that bore no child says why with the numbers: the best child seen against the parent it had to beat, and how many crossings were tried.",
+   "pass": true,
+   "saw": "59 pairs bore none, each saying why with its numbers"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Within a department, at least 50% of children born score above both parents on TEST.",
+   "pass": false,
+   "saw": "12 of 26 same-department children above both parents on TEST"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Across departments, at least 80% of children born score above both parents on TEST.",
+   "pass": true,
+   "saw": "40 of 40 cross-department children above both parents on TEST"
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "At least 30% of same-department pairs bear a child within 12 crossings.",
+   "pass": true,
+   "saw": "26 of 75 same-department pairs bore a child"
+  }
+ ]
+}
