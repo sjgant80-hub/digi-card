@@ -103,7 +103,7 @@ const INFO = {
 function infoFor(key) {
   if (!INFO[key]) return [];
   const p = el('p', { class: 'g-info', hidden: true }, INFO[key]);
-  const b = el('button', { type: 'button', class: 'g-i', 'aria-expanded': 'false', 'aria-label': 'What is this?', onclick: () => { p.hidden = !p.hidden; b.setAttribute('aria-expanded', String(!p.hidden)); } }, 'i');
+  const b = el('button', { type: 'button', class: 'g-i', 'aria-expanded': 'false', 'aria-label': 'What is this?', title: 'What is this? One plain sentence', onclick: () => { p.hidden = !p.hidden; b.setAttribute('aria-expanded', String(!p.hidden)); } }, 'i');
   return [b, p];
 }
 function wireInfo() {
@@ -375,7 +375,7 @@ function renderTicker() {
     if (d.events[0] && d.events[0].generation > 0) births++;
   }
   const refused = G.st.refused + G.st.births.refused;
-  fill($('#g-ticker'), line('k', 'Levels, each re-checked · ' + levels), line('r', 'Forged or broken cards turned away · ' + refused), line('', 'Births kept · ' + births), line('', 'Gives · ' + gives.toLocaleString()), line('y', 'Issued · ' + issued.toLocaleString()),
+  fill($('#g-ticker'), line('k', 'Levels, each re-checked · ' + levels), line('r', 'Forged or broken cards turned away · ' + refused), line('', 'Child cards born · ' + births), line('', 'Cards handed from key to key · ' + gives.toLocaleString()), line('y', 'Genesis cards issued · ' + issued.toLocaleString()),
     line('x', S.manifest.total.toLocaleString() + ' genesis cards · the rules for making them were fixed before the first one was made'), line('x', 'Log head ' + S.manifest.log.head.slice(0, 8) + '…' + S.manifest.log.head.slice(-4)));
 }
 function renderSkins(v, d) {
@@ -752,6 +752,7 @@ async function renderRaids() {
     const raidArt = { dataset: b.set, department: b.domain.slice(b.set.length + 1), best: r.best, attempts: Math.min(99999, r.strikes) };
     if ((r.fallen && !loot[b.domain]) || !paintOn(pic, paintRaid(r.fallen ? { ...raidArt, loot: loot[b.domain] } : raidArt, plotTheme(), 240, 160))) pic.hidden = true;
     return el('div', { class: 'g-boss' + (r.fallen ? ' down' : '') }, pic, el('h3', {}, b.domain.replace('-', ' ')),
+      el('p', { class: 'g-small g-dim' }, 'The ' + b.domain.slice(b.set.length + 1) + ' records of ' + (SETS[b.set] ? SETS[b.set].title.toLowerCase() : b.set) + ' · the question: ' + (SETS[b.set] ? SETS[b.set].outcome : 'yes or no') + '? · no mind of these columns alone has answered it well enough yet'),
       pic.hidden ? el('div', { class: 'g-hp', role: 'img', 'aria-label': 'Health ' + six(r.hp) + ' from the bar' }, el('i', { style: 'width:' + Math.min(100, Math.round((r.hp / 100000) * 100)) + '%' })) : null,
       el('p', { class: 'g-small' }, r.fallen ? 'Fallen after ' + r.kill.after + ' strike' + (r.kill.after === 1 ? '' : 's') + ' · ' + six(r.kill.gate) + ' by ' + (r.kill.by === S.me.pub ? 'you' : api.short(r.kill.by)) : 'Best so far ' + six(r.best) + ' of the 0.600000 it needs to fall · ' + six(r.hp) + ' to go'),
       el('p', { class: 'g-small g-dim' }, 'Genesis tried ' + b.searched + ' · raid strikes ' + r.strikes + ' (' + mine + ' yours) · ' + Object.keys(r.strikers).length + ' striker' + (Object.keys(r.strikers).length === 1 ? '' : 's')),

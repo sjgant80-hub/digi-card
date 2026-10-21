@@ -224,7 +224,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <h2 id="base-h" class="sr">Base</h2>
   <div class="g-grid g-3">
     <div class="g-col">
-      <div class="g-panel"><h3 data-info="opslog">Ops log</h3><p class="g-dim g-small">While you were away</p><ul class="g-lines" id="g-away"></ul></div>
+      <div class="g-panel"><h3 data-info="opslog">Ops log</h3><p class="g-dim g-small">While you were away · press any <b>i</b> on a screen for one plain sentence about the word beside it</p><ul class="g-lines" id="g-away"></ul></div>
       <div class="g-panel"><h3 data-info="evals">Eval runs <span class="g-tag ok">free</span></h3><div id="g-evals-mini"></div></div>
       <div class="g-panel"><h3 data-info="registry">Registry <span class="g-tag ok">read live</span></h3><ul class="g-lines" id="g-ticker"></ul></div>
     </div>
@@ -243,10 +243,10 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     </div>
     <div class="g-col">
       <div class="g-panel"><h3 data-info="forms">Forms</h3><div class="g-forms">
-        <a class="g-form on" href="#cards">Alone<small>one mind · live</small></a>
-        <a class="g-form on" href="#kit">Kitted<small>your nodes · live</small></a>
-        <a class="g-form on" href="#mesh">Mesh<small>many owners · live</small></a>
-        <a class="g-form on" href="#raids">Party<small>a raid · live</small></a></div></div>
+        <a class="g-form on" href="#cards">Alone<small>the card’s own rules · live</small></a>
+        <a class="g-form on" href="#kit">Kitted<small>with your other cards · live</small></a>
+        <a class="g-form on" href="#mesh">Mesh<small>cards of many owners · live</small></a>
+        <a class="g-form on" href="#raids">Party<small>a raid, together · live</small></a></div></div>
       <div class="g-panel"><h3 data-info="mint">Mint station <span class="g-tag ok">free</span></h3>
         <a class="g-line k" href="#mint">Mint a DIGI from your table <small>live</small></a>
         <a class="g-line k" href="#kit">Mint a node for your DIGI <small>live</small></a>
@@ -317,7 +317,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         <canvas id="g-ar-duelart" width="480" height="320" role="img" aria-label="The duel, drawn" hidden></canvas>
         <div class="g-batch" id="g-ar-batch" aria-label="The batch, case by case"></div>
         <div id="g-ar-result" aria-live="polite"></div>
-        <div class="g-row g-centre-row"><button class="g-btn hot big" id="g-ar-fight" type="button">Fight</button><button class="g-btn" id="g-ar-rerun" type="button" disabled>Rerun it</button><button class="g-btn" id="g-ar-receipt" type="button" disabled>Save the receipt</button></div></div>
+        <div class="g-row g-centre-row"><button class="g-btn hot big" id="g-ar-fight" type="button">Fight</button><button class="g-btn" id="g-ar-rerun" type="button" disabled aria-describedby="g-ar-buttons-help">Rerun it</button><button class="g-btn" id="g-ar-receipt" type="button" disabled aria-describedby="g-ar-buttons-help">Save the receipt</button></div>
+        <p class="g-small g-dim" id="g-ar-buttons-help">Rerun it fights the very same duel again from its receipt, to show the same numbers come back · Save the receipt keeps the duel’s record as a file anyone can re-run</p></div>
       <div class="g-panel" style="width:100%"><h3 data-info="ladder">Ladder <small>from the duels on this device</small></h3><ol class="g-lines" id="g-ar-ladder"></ol></div>
     </div>
     <div class="g-col">
