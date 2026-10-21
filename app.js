@@ -248,6 +248,36 @@ async function actLevel() {
 }
 const mindDomains = (v) => v.genome.organs.map((o) => o.split(' ')[2]);
 
+// ── work overnight: while the page is open, every card you own keeps searching for a level, one search at a time ─────
+let working = false;
+async function workOvernight() {
+  const out = $('#work-out'), btn = $('#work-toggle');
+  if (working) { working = false; btn.textContent = 'Work overnight'; return; }
+  working = true; btn.textContent = 'Stop working';
+  let searches = 0, levels = 0;
+  const tried = new Map();
+  while (working) {
+    const ids = mine();
+    if (!ids.length) { say(out, 'You hold no cards to work.'); break; }
+    for (const id of ids) {
+      if (!working) break;
+      const d = lifeOf(id), v = await verify(d), own = ownSetOf(v), set = setOf(v);
+      if (!set && !own) continue;
+      const k = tried.get(v.head) || 0, seed = seedsFor(v.head, k + 1)[k];
+      tried.set(v.head, k + 1);
+      say(out, 'Working: search ' + (searches + 1) + ' (card #' + String(v.serial).padStart(4, '0') + ', seed ' + seed + ') · ' + levels + ' level' + (levels === 1 ? '' : 's') + ' earned so far. Leave this page open; stop any time.');
+      const r = await work_({ op: 'level', set, own: own ? { text: S.own.get(own).text, opts: S.own.get(own).opts } : null, dossier: d, domain: mindDomains(v)[0], seed });
+      searches++;
+      if (r.ok) {
+        const next = await addReceipt(d, S.me, r.receipt);
+        if (next.ok && (await keep(next.dossier)).ok) { levels++; await renderWallet(); if (S.sel === id) await select(id); }
+      }
+    }
+  }
+  say(out, 'Stopped after ' + searches + ' search' + (searches === 1 ? '' : 'es') + ': ' + levels + ' level' + (levels === 1 ? '' : 's') + ' earned, each re-run here before it was recorded.', levels ? 'ok' : '');
+  working = false; btn.textContent = 'Work overnight';
+}
+
 async function actBreed() {
   const out = $('#out-breed'), { v } = await current(), pid = $('#breed-partner').value;
   if (!pid) return say(out, 'Breeding needs two of your cards that live on the same ground.', 'bad');
@@ -565,7 +595,7 @@ function wire() {
   on('#card-me', 'click', cardMe); on('#card-me-2', 'click', cardMe);
   on('#act-grow', 'click', actGrow); on('#act-ask', 'click', () => actAsk(false)); on('#ask-own', 'click', () => actAsk(true));
   on('#act-level', 'click', actLevel); on('#act-breed', 'click', actBreed); on('#act-send', 'click', actSend); on('#act-skin', 'click', actSkin);
-  on('#act-download', 'click', actDownload); on('#act-verify', 'click', actVerify);
+  on('#act-download', 'click', actDownload); on('#act-verify', 'click', actVerify); on('#work-toggle', 'click', workOvernight);
   on('#open-file', 'change', (e) => openFile(e.target.files[0]));
   const zone = $('#open-zone');
   if (zone) { zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('on'); }); zone.addEventListener('dragleave', () => zone.classList.remove('on')); zone.addEventListener('drop', (e) => { e.preventDefault(); zone.classList.remove('on'); openFile(e.dataTransfer.files[0]); }); }
