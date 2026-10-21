@@ -1,0 +1,8 @@
+{
+  "name": "digi-card",
+  "version": "0.1.0",
+  "description": "The DIGI Card: a sealed PNG card that is a living, ownable, tradeable intelligence.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": { "test": "node --test test/*.test.mjs", "witness": "node witness-all.mjs" }
+}

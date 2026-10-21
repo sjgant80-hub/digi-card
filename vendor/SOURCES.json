@@ -1,0 +1,135 @@
+{
+ "kind": "digi-card.vendor-sources",
+ "note": "every vendored file, its source repository, the commit it was taken from, and its SHA-256",
+ "sources": [
+  {
+   "repo": "sjgant80-hub/dex-frontier",
+   "commit": "6846e9a6dc6c575f715d73468294e22bef95c571",
+   "local": "C:/Users/sjgan/dex-frontier",
+   "files": {
+    "vendor/dex-frontier/src/cogrow.mjs": {
+     "from": "src/cogrow.mjs",
+     "sha256": "baad678dca9b0076ace9cbf4c30c47d5972e0084d0ce40a1a3e2db600fcef1a2"
+    },
+    "vendor/dex-frontier/src/compose.mjs": {
+     "from": "src/compose.mjs",
+     "sha256": "1e244b5f9f1b442c609a84f98b77093d52dd4f36a00593fa7af78b3aee3a3b89"
+    },
+    "vendor/dex-frontier/src/deep.mjs": {
+     "from": "src/deep.mjs",
+     "sha256": "b9743d941d9574255213cbdc3db6692c43e5650e4270c48888c141ff10a8edd1"
+    },
+    "vendor/dex-frontier/src/fresh.mjs": {
+     "from": "src/fresh.mjs",
+     "sha256": "280d702d33bb691776d795292c3cedcab09013972f027d34db0b0c408056fe1c"
+    },
+    "vendor/dex-frontier/src/fresh2.mjs": {
+     "from": "src/fresh2.mjs",
+     "sha256": "87811bb14b93698d17fe569def653496ddb13ec5d58548923947321d945a45e5"
+    },
+    "vendor/dex-frontier/src/node.mjs": {
+     "from": "src/node.mjs",
+     "sha256": "9c0eb1965d1c0fb7d4c8a97608767b5188bd132621152ad4b621d53d6d6261b8"
+    },
+    "vendor/dex-frontier/src/population.mjs": {
+     "from": "src/population.mjs",
+     "sha256": "8302c38454730f3dd2e4a63831dc8bc61919bb3c0d2e1e144f007b0bb53487ed"
+    },
+    "vendor/dex-frontier/src/scale.mjs": {
+     "from": "src/scale.mjs",
+     "sha256": "3c1a520512000332e311504a228b390d709dbdcd34e6deae4936d820c22fa627"
+    },
+    "vendor/dex-frontier/src/select.mjs": {
+     "from": "src/select.mjs",
+     "sha256": "ac739da0cccd80198fe7b6f6575a651afb53da5c3d5ec5bad833b8e6bfd3edd4"
+    },
+    "vendor/dex-frontier/src/silos.mjs": {
+     "from": "src/silos.mjs",
+     "sha256": "2de9959bacfdd2c9a4b771226cd1ae1521fc1175211704ea60fcb0815c534894"
+    },
+    "vendor/dex-frontier/src/spread.mjs": {
+     "from": "src/spread.mjs",
+     "sha256": "f7fc06ad7ed72a63bd3365e6c13ec48ad456e177b0f81702f6f42af4d52f0d8a"
+    },
+    "vendor/dex-frontier/src/stats.mjs": {
+     "from": "src/stats.mjs",
+     "sha256": "688e483063a2327d7b6afb9e196dca48c690ff5d33875783fdeb4c3acd293b38"
+    },
+    "vendor/dex-frontier/src/wisp.mjs": {
+     "from": "src/wisp.mjs",
+     "sha256": "771278ff8b8718f03f364b8cce5920991bbaa9a9be83ce2452bcfb200ba0278a"
+    },
+    "vendor/dex-frontier/vendor/living-seed/src/baseline.mjs": {
+     "from": "vendor/living-seed/src/baseline.mjs",
+     "sha256": "b4f7ddb958edfa19ef2d33e33173aab41146437195b7e89e1f7c60021d23ad4c"
+    },
+    "vendor/dex-frontier/vendor/living-seed/src/breed.mjs": {
+     "from": "vendor/living-seed/src/breed.mjs",
+     "sha256": "5f53746eacc0ad74e5679d19eb961522a29c5a44cc18bc10c02815c000179316"
+    },
+    "vendor/dex-frontier/vendor/living-seed/src/card.mjs": {
+     "from": "vendor/living-seed/src/card.mjs",
+     "sha256": "60e2380c6544feb03bf4e3dedc3e0ffebc2e4915c026ac6b5d1827592398efdd"
+    },
+    "vendor/dex-frontier/vendor/living-seed/src/gate.mjs": {
+     "from": "vendor/living-seed/src/gate.mjs",
+     "sha256": "57ec603bfb328b93e32a18552f96407eb6c4b2b79d5f25f3be79bac8e71e43be"
+    },
+    "vendor/dex-frontier/vendor/living-seed/src/genome.mjs": {
+     "from": "vendor/living-seed/src/genome.mjs",
+     "sha256": "45feb26823b80647b2b50a8ea395ad3b7abbae1f3cf0a9b793a14d1d41b6bb25"
+    },
+    "vendor/dex-frontier/vendor/living-seed/src/germinate.mjs": {
+     "from": "vendor/living-seed/src/germinate.mjs",
+     "sha256": "9ea0b23879a211c87c7a6fa2ad2ea7a7b49c6743631382d62d6e919c8ae1c520"
+    },
+    "vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs": {
+     "from": "vendor/living-seed/vendor/keys/canon.mjs",
+     "sha256": "6ebe4f961ff0a2ce8693de89193921c8b5372c4e08d4941361212dd4cba29d21"
+    },
+    "vendor/dex-frontier/vendor/living-seed/vendor/keys/keys.mjs": {
+     "from": "vendor/living-seed/vendor/keys/keys.mjs",
+     "sha256": "636969fdaaac7eab1868c6670cc7a85da1c22d65498f25e8a2ce5ad3487113e0"
+    },
+    "vendor/dex-frontier/vendor/living-seed/vendor/seed-library/domains.mjs": {
+     "from": "vendor/living-seed/vendor/seed-library/domains.mjs",
+     "sha256": "a51c66547194e5c997490e23615011c3a45dec23b7ff06adde9002a770c459e2"
+    },
+    "vendor/dex-frontier/vendor/living-seed/vendor/seed-library/seedlib.mjs": {
+     "from": "vendor/living-seed/vendor/seed-library/seedlib.mjs",
+     "sha256": "f1904ed31b48794ac3454453d5853e799509dcdf8b8695ffea8bcedfd6f60e72"
+    },
+    "vendor/dex-frontier/vendor/living-seed/vendor/seed-library/sha256.mjs": {
+     "from": "vendor/living-seed/vendor/seed-library/sha256.mjs",
+     "sha256": "8ebd4260e8b79fbdf9824ecbe6d6cde621cc003f1d358255101c01bb26763233"
+    }
+   }
+  },
+  {
+   "repo": "sjgant80-hub/living-seed",
+   "commit": "f641429393cc2f26eac3c8b54d364735bbaacabe",
+   "local": "C:/Users/sjgan/living-seed",
+   "files": {
+    "vendor/dex-frontier/vendor/living-seed/src/immune.mjs": {
+     "from": "src/immune.mjs",
+     "sha256": "b2dd1ed0bf28bf683abbb3faea443c015ae483290fed8947a60aa0d05ae0032a"
+    }
+   }
+  },
+  {
+   "repo": "sjgant80-hub/spore-card",
+   "commit": "f6df5d82eca86c6783671c3bf0a9fa417532704b",
+   "local": "C:/Users/sjgan/spore-card",
+   "files": {
+    "vendor/spore-card/spore-card.mjs": {
+     "from": "spore-card.mjs",
+     "sha256": "ac301adc825a9bb8b2b9f75b9fe01885d8e47a35c9b240e3f4cead8d7f3b08b4"
+    },
+    "vendor/spore-card/spore-card-image.mjs": {
+     "from": "spore-card-image.mjs",
+     "sha256": "525f3e5fdd726a583018ef8153811f537ad3375251a92a5883f0e8a3318853bb"
+    }
+   }
+  }
+ ]
+}

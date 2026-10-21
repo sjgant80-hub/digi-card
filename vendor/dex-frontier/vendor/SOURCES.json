@@ -1,0 +1,17 @@
+{
+ "source": "sjgant80-hub/living-seed",
+ "commit": "f641429393cc2f26eac3c8b54d364735bbaacabe",
+ "files": {
+  "vendor/living-seed/src/baseline.mjs": "b4f7ddb958edfa19ef2d33e33173aab41146437195b7e89e1f7c60021d23ad4c",
+  "vendor/living-seed/src/breed.mjs": "5f53746eacc0ad74e5679d19eb961522a29c5a44cc18bc10c02815c000179316",
+  "vendor/living-seed/src/card.mjs": "60e2380c6544feb03bf4e3dedc3e0ffebc2e4915c026ac6b5d1827592398efdd",
+  "vendor/living-seed/src/gate.mjs": "57ec603bfb328b93e32a18552f96407eb6c4b2b79d5f25f3be79bac8e71e43be",
+  "vendor/living-seed/src/genome.mjs": "45feb26823b80647b2b50a8ea395ad3b7abbae1f3cf0a9b793a14d1d41b6bb25",
+  "vendor/living-seed/src/germinate.mjs": "9ea0b23879a211c87c7a6fa2ad2ea7a7b49c6743631382d62d6e919c8ae1c520",
+  "vendor/living-seed/vendor/keys/canon.mjs": "6ebe4f961ff0a2ce8693de89193921c8b5372c4e08d4941361212dd4cba29d21",
+  "vendor/living-seed/vendor/keys/keys.mjs": "636969fdaaac7eab1868c6670cc7a85da1c22d65498f25e8a2ce5ad3487113e0",
+  "vendor/living-seed/vendor/seed-library/domains.mjs": "a51c66547194e5c997490e23615011c3a45dec23b7ff06adde9002a770c459e2",
+  "vendor/living-seed/vendor/seed-library/seedlib.mjs": "f1904ed31b48794ac3454453d5853e799509dcdf8b8695ffea8bcedfd6f60e72",
+  "vendor/living-seed/vendor/seed-library/sha256.mjs": "8ebd4260e8b79fbdf9824ecbe6d6cde621cc003f1d358255101c01bb26763233"
+ }
+}

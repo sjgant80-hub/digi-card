@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.json text eol=lf
+*.mjs text eol=lf
+*.html text eol=lf
+data/bank-additional-full.csv -text
+data/adult.data -text
+data/adult.test -text
+data/*.xls -text
+data/IDS_mapping.csv -text
+data/diabetic_data.csv -text
