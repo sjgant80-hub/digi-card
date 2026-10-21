@@ -35,4 +35,7 @@ if (isMain) {
   }
   mkdirSync(new URL('../docs/', import.meta.url), { recursive: true });
   writeFileSync(new URL('../docs/posts.json', import.meta.url), JSON.stringify({ kind: 'digi-card.posts', v: 1, note: 'drafted and claim-gated by tools/posts.mjs; a person publishes them', posts: out }, null, 1) + '\n');
+  // the same posts, ready to paste: each passed the claim gate just now, with what it rests on
+  writeFileSync(new URL('../docs/posts.md', import.meta.url), ['# The drop’s posts', '', 'Each post below passed the claim gate when `node tools/posts.mjs` last ran: every claim re-ran, every number in it is one a claim gave back, and it carries the page. Re-run it before you post. Posting is a person’s act.', '',
+    ...out.flatMap((p, k) => ['## Post ' + (k + 1), '', '> ' + p.text, '', 'Rests on: ' + p.claims.map((c) => c.kind + (c.serial ? ' #' + pad(c.serial) : '') + (c.set ? ' (' + c.set + ')' : '')).join(', ') + ' · vouched numbers: ' + p.vouched.join(', '), ''])].join('\n'));
 }

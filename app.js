@@ -118,15 +118,15 @@ function renderMe() {
 
 // ── the drop: fetched, then replayed from nothing with the decoder #0001 names ──────────────────────────────────────
 async function loadDrop(note) {
-  const [m, log] = await Promise.all([fetch('drop/manifest.json').then((r) => r.json()), fetch('drop/log.json').then((r) => r.json())]);
+  const [m, log, pub] = await Promise.all([fetch('drop/manifest.json').then((r) => r.json()), fetch('drop/log.json').then((r) => r.json()), fetch('registry/log.json').then((r) => (r.ok ? r.json() : [])).catch(() => [])]);
   S.manifest = m;
   note('checking decoder v1: ' + Object.keys(m.decoder.files).length + ' files…');
   const files = {};
   for (const p of Object.keys(m.decoder.files)) files[p] = await digest(new Uint8Array(await (await fetch('decoder/v1/' + p)).arrayBuffer()));
   S.decoder = decoderHash(files);
   S.glog = log.slice(0, m.first.receipt.cards);
-  note('replaying the drop: ' + log.length + ' cards, every seal and signature…');
-  const t0 = performance.now(), r = await replay(log, { rerun: rerunAny });
+  note('replaying the drop: ' + log.length + ' cards' + (pub.length ? ' and ' + pub.length + ' public give(s)' : '') + ', every seal and signature…');
+  const t0 = performance.now(), r = await replay([...log, ...pub], { rerun: rerunAny });
   if (!r.ok) throw new Error('the drop does not replay: ' + r.why);
   S.reg = r.reg;
   return { ms: Math.round(performance.now() - t0), n: log.length, decoderOk: S.decoder === m.decoder.hash };
@@ -584,6 +584,8 @@ async function renderProof() {
   const rows = [];
   for (let k = 1; k <= 8; k++) {
     const v = await fetch('data/organ-' + k + '/verdict.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    const pre = v && (await fetch('data/organ-' + k + '/prereg.json').then((r) => (r.ok ? r.json() : null)).catch(() => null));
+    if (pre) rows.push(el('tr', {}, el('td', { class: 'num' }, 'organ ' + k), el('td', { colspan: '3' }, el('b', {}, pre.organ), pre.disclosure ? el('div', { class: 'note' }, pre.disclosure) : null)));
     if (v) for (const x of v.verdicts) rows.push(el('tr', {}, el('td', { class: 'num' }, k + ' · ' + x.id), el('td', {}, x.claim), el('td', {}, el('span', { class: 'chip ' + (x.pass ? 'pass' : x.kind === 'prediction' ? 'pred' : 'fail') }, x.pass ? 'held' : x.kind === 'prediction' ? 'failed — kept' : 'FAILED')), el('td', { class: 'dim' }, x.saw)));
   }
   if (rows.length) clear($('#proof-rows'), rows);

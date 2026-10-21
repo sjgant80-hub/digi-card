@@ -194,7 +194,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <li><b>Press “Card me”.</b> A genesis card is signed to your key (made in this browser on your first visit; back it up with “Back up my wallet”). It appears in your <a href="#wallet">wallet</a>.</li>
     <li><b>Press “Grow it”.</b> The page fetches that card’s real dataset from this site (its size is shown), checks it is the published bytes, and grows the card’s mind on it — on your device, offline. You see its GATE score beside the one the drop declared: they match to the millionth.</li>
     <li><b>Press “Ask it”.</b> It is handed a real case from TEST, which it has never seen, and answers yes or no with the rules that fired — or abstains. You also see what really happened.</li>
-    <li><b>Press “Level up”.</b> It runs up to three searches for a better mind (each takes some seconds: a search is real work). If one beats it by 0.002 on GATE, the receipt is signed into the card, re-run here before it is recorded, and its face shows the new stage.</li>
+    <li><b>Press “Level up”.</b> It runs up to three searches for a better mind, in the background (a search is real work: seconds on the telecom set, a minute or more on the larger ones). If one beats it by 0.002 on GATE, the receipt is signed into the card, re-run here before it is recorded, and its face shows the new stage.</li>
     <li><b>Breed.</b> Press “Card me” until you hold two cards of one business, then breed them. A child is sealed only if it beats both parents; most pairings try many crossings, and some produce nothing — that is the gate working.</li>
     <li><b>Hand it on.</b> Paste a friend’s key into “Send” and you get a new PNG that is theirs. They open it in <a href="#open">Open a card</a>, and everything is checked again on their device.</li>
     <li><b>Put cards to work together</b> in <a href="#mesh">the mesh</a>, or <b>grow your own</b> from <a href="#own">your own table</a>. Then <a href="#drop">re-run the whole drop</a> from decoder #0001.</li>
@@ -283,6 +283,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   </div>
   <h3>The genesis, department by department</h3>
   <div class="tw" id="drop-depts"></div>
+  <h3>“Card me”, for real</h3>
+  <p>On this page the maker’s key is the public demo key, so “Card me” signs the give here. In the real drop the key-holder signs it: <code>node tools/card-me.mjs --key … --to &lt;your key&gt;</code> hands you the next genesis card, appends the give to the public registry log (<code>registry/log.json</code>, replayed by this page after the drop and by CI on every change), and gives you the card’s PNG. Your key is under <a href="#wallet">Wallet → Your key</a>.</p>
   <h3>What the drop may say in public</h3>
   <p>The drop is spread by Grok and by people. Every post it makes passes the <b>claim gate</b> first: it may claim only what a card can prove — verified, owned, grown, offline, levels, births, mesh shares, the drop itself — and every number in a post must be one a claim just re-ran. It never says a DIGI is self-aware, conscious or alive, never promises anything, and never mentions a price. Each post carries this page so anyone can re-run it.</p>
   <div id="posts"></div>

@@ -25,6 +25,20 @@ node tools/genesis.mjs --searches  # every search behind the drop (cached in dro
 node tools/genesis.mjs --mint      # the drop itself (--key <file> to seal it with your own maker key)
 ```
 
+## Wire up the drop (Grok, "card me")
+
+The drop's key-holder hands a genesis card to a claimant's key (their page shows it under Wallet → Your key):
+
+```
+node tools/card-me.mjs --key <maker key file> --to <their 64-hex key>
+node tools/posts.mjs               # the drop's posts, claim-gated, ready to paste: docs/posts.md
+node tools/overnight.mjs wallet.json   # level an owner's cards nightly on their own machine
+```
+
+`card-me` signs the give, appends it to `registry/log.json` (commit it: CI replays it, and every visitor's page
+replays it after the drop), writes the claimant's card to `out/`, and prints a claim-gated reply. Nothing is posted
+or sent by the tools: a person does that.
+
 ## What is where
 
 | | |

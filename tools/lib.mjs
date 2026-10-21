@@ -1,7 +1,7 @@
 // tools/lib.mjs — what the organ measurements share: the grounds from disk (checked to the byte), the drop replayed from
 // nothing, demo owners from public phrases, TEST scoring (only the sealed measurements read TEST), the network trap, and
 // a pool of search workers.
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { Worker } from 'node:worker_threads';
 import { cpus } from 'node:os';
 import { SETS, openSet, viewOf } from '../src/data.mjs';
@@ -32,12 +32,12 @@ export const setOfDomain = (d) => d.split('-')[0];
 
 /** the drop: manifest, log, and the registry it replays to, with #0001's receipt re-run against decoder v1 */
 export async function drop() {
-  const m = json('drop/manifest.json'), log = json('drop/log.json');
+  const m = json('drop/manifest.json'), log = json('drop/log.json'), pub = existsSync(at('registry/log.json')) ? json('registry/log.json') : [];   // the public registry continues the genesis chain
   const files = Object.fromEntries(Object.keys(m.decoder.files).map((p) => [p, createHash('sha256').update(readFileSync(at('decoder/v1/' + p))).digest('hex')]));
   const decoder = decoderHash(files), glog = log.slice(0, m.first.receipt.cards);
-  const r = await replay(log, { rerun: (rc) => checkDrop(rc, { decoder, log: glog, maker: m.maker }) });
+  const r = await replay([...log, ...pub], { rerun: (rc) => checkDrop(rc, { decoder, log: glog, maker: m.maker }) });
   if (!r.ok) throw new Error('the drop does not replay: ' + r.why);
-  return { m, log, glog, reg: r.reg, decoder, files };
+  return { m, log, pub, glog, reg: r.reg, decoder, files };
 }
 
 /** demo owners: keys from public phrases, so every signature in a measurement can be reproduced */
