@@ -503,8 +503,10 @@ async function renderDrop(stats) {
   setK('first-bytes', utf8(encode(first)).length.toLocaleString()); setK('capacity', CAPACITY.toLocaleString()); setK('first-events', String(first.events.length));
   setK('drop-status', stats.decoderOk ? 'replayed here from nothing in ' + stats.ms + ' ms: every card checks, and the decoder this page runs hashes to the one #0001 names' : 'the decoder files here do not hash to the one #0001 names');
   setK('demo', m.demo ? 'This drop is sealed with the public DEMO maker key (its phrase is in src/drop.mjs), so anyone can reproduce every seal. The real drop is sealed by its owner’s own key; nothing else changes.' : 'Sealed by the drop owner’s own key.');
-  clear($('#drop-depts'), el('table', {}, el('thead', {}, el('tr', {}, ['Department', 'Cards', 'Median GATE', 'Best GATE'].map((h) => el('th', {}, h)))),
-    el('tbody', {}, Object.entries(per).map(([d, gs]) => el('tr', {}, el('td', {}, d), el('td', { class: 'num' }, String(gs.length)), el('td', { class: 'num' }, auc(med(gs))), el('td', { class: 'num' }, auc(Math.max(...gs))))))));
+  // distinct scores: every card's rule shape is its own, but a department of few columns leaves a search little room, so
+  // many shapes can rank the cases identically (adult-tax reads only capital gain and loss) — the table says how many
+  clear($('#drop-depts'), el('table', {}, el('thead', {}, el('tr', {}, ['Department', 'Cards', 'Distinct GATE scores', 'Median GATE', 'Best GATE'].map((h) => el('th', {}, h)))),
+    el('tbody', {}, Object.entries(per).map(([d, gs]) => el('tr', {}, el('td', {}, d), el('td', { class: 'num' }, String(gs.length)), el('td', { class: 'num' }, String(new Set(gs).size)), el('td', { class: 'num' }, auc(med(gs))), el('td', { class: 'num' }, auc(Math.max(...gs))))))));
 }
 async function rerunDrop() {
   const out = $('#drop-out');
