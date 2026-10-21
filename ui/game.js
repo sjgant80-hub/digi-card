@@ -1289,7 +1289,7 @@ async function renderOrgans() {
     return { k, name: p ? p.organ : 'organ ' + k, blind: !(p && p.disclosure), held: v ? v.verdicts.filter((x) => x.pass).length : 0, all: v ? v.verdicts.length : 0 };
   }));
   const held = organs.reduce((n, o) => n + o.held, 0), all = organs.reduce((n, o) => n + o.all, 0);
-  fill($('#g-organs'), organs.map((o) => line(o.held === o.all ? 'k' : 'y', o.k + ' · ' + String(o.name).split(/[:—]/)[0].trim().slice(0, 28) + (o.blind ? '' : ' · not blind'), el('small', {}, o.held + '/' + o.all))), line('m', held + ' of ' + all + ' claims held', el('small', {}, (all - held) + ' failed · each claim written before it was tested · the failures stay on show')));
+  fill($('#g-organs'), organs.map((o) => line(o.held === o.all ? 'k' : 'y', o.k + ' · ' + String(o.name).split(/[:—]/)[0].trim().slice(0, 28) + (o.blind ? '' : ' · not blind'), el('small', {}, o.held + '/' + o.all))), line('m', held + ' of ' + all + ' claims held', el('small', {}, (all - held) + ' failed · kept on show')));
 }
 async function find() {
   const q = ($('#g-find').value || '').trim().toLowerCase(), out = $('#g-find-out');
