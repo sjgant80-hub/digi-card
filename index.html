@@ -251,7 +251,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         <a class="g-line k" href="#mint">Mint a DIGI from your table <small>live</small></a>
         <a class="g-line k" href="#kit">Mint a node for your DIGI <small>live</small></a>
         <a class="g-line k" href="#kit">Mint an app tool <small>live · the estate’s proven apps</small></a>
-        <p class="g-dim g-small">The gate decides · a failed mint mints nothing</p></div>
+        <p class="g-dim g-small">Only a mind that scores 0.6 or better on cases it never saw becomes a card · a mint that falls short makes nothing and costs nothing</p></div>
       <div class="g-panel"><h3 data-info="skins">Skin packs <small>PixelWhisperer</small></h3><div class="g-skins" id="g-skins"></div><p class="g-dim g-small" id="g-skin-note"></p></div>
     </div>
   </div>
@@ -285,7 +285,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     </div>
     <div class="g-col g-centre">
       <div class="g-panel" style="width:100%"><h3 data-info="nodes">Node slots <small id="g-kit-nslots"></small></h3><div class="g-slots" id="g-kit-nodes"></div></div>
-      <div class="g-panel" style="width:100%"><h3 data-info="tools">Tool slots <small>2</small></h3><div class="g-slots" id="g-kit-tools"></div><p class="g-small g-dim">A tool rides with your DIGI and opens from here. It never changes a score: the arena and the raids score minds.</p></div>
+      <div class="g-panel" style="width:100%"><h3 data-info="tools">Tool slots <small>2</small></h3><div class="g-slots" id="g-kit-tools"></div><p class="g-small g-dim">A tool is an app your DIGI carries for you: press Open to use it. It never changes a score — duels and raids are won by the card’s mind (its rules), not by its tools.</p></div>
       <div class="g-panel" style="width:100%"><h3 data-info="kitted">Measured here</h3><div id="g-kit-measure" aria-live="polite"><p class="g-dim g-small">Put a node in a slot and press Measure: the kitted mind is scored here, out of fold on GATE, with each slot’s worth.</p></div>
         <div class="g-row g-centre-row"><button class="g-btn cy" id="g-kit-measure-go" type="button">Measure</button><button class="g-btn hot big" id="g-kit-equip" type="button">Equip this kit</button></div><div id="g-kit-out" aria-live="polite"></div></div>
     </div>
@@ -313,7 +313,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         <div class="g-cardcol"><div class="g-ring" id="g-ar-a-ring"><canvas class="g-card2" id="g-ar-a" width="384" height="576" role="img" aria-label="Your fighter"></canvas></div></div><p class="g-small" id="g-ar-a-line"></p></div>
     </div>
     <div class="g-col g-centre">
-      <div class="g-panel" style="width:100%"><h3>The fight</h3><p class="g-small g-dim" id="g-ar-rule">64 cases from the GATE rows both minds were proven on, drawn from both owners’ signatures · the better ranking wins</p>
+      <div class="g-panel" style="width:100%"><h3>The fight</h3><p class="g-small g-dim" id="g-ar-rule">Each card’s mind — its few readable rules — ranks 64 real cases from the set both cards were tested on. Both players’ signatures pick the cases, so neither chooses them. The card that ranks them better wins; nothing is staked.</p>
         <canvas id="g-ar-duelart" width="480" height="320" role="img" aria-label="The duel, drawn" hidden></canvas>
         <div class="g-batch" id="g-ar-batch" aria-label="The batch, case by case"></div>
         <div id="g-ar-result" aria-live="polite"></div>
@@ -341,7 +341,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 <section id="raids-s" class="g-only g-screen" data-screen="raids" aria-labelledby="raids-h">
   <nav class="g-subnav" aria-label="Play"><a href="#arena">Arena</a><a href="#raids" aria-current="page">Raids</a><a href="#evals">Evals</a></nav>
   <div class="g-row"><h2 id="raids-h" class="g-h" data-info="raids">Raids</h2><span class="g-sp"></span><button class="g-btn" id="g-rd-share" type="button">Copy my strikes</button><button class="g-btn" id="g-rd-import" type="button">Add a friend’s strikes</button></div>
-  <p class="g-small g-dim">Each boss is a department where no genesis search reached the bar. Strike it: one search, from a seed your key fixes, signed by you. The best strike so far is its health; when a strike clears 0.6, the boss falls and you seal the first card of that department.</p>
+  <p class="g-small g-dim">Each boss is one part of a business that no card has cracked: when the drop was made, no search found a mind there scoring 0.6 (the score a card must reach to exist — 0.5 is a coin toss). Strike it: your device runs one search for a mind, from a starting number your key fixes, and signs the result. The best strike so far sets its health. Score 0.6 or more and the boss falls — and you seal the first card of that department, with you as its maker.</p>
   <textarea id="g-rd-code" rows="3" aria-label="Strikes, pasted or copied" placeholder="a friend’s strikes, pasted here" hidden></textarea>
   <div id="g-rd-out" aria-live="polite"></div>
   <div class="g-bosses" id="g-rd-bosses"></div>
@@ -545,12 +545,13 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="g-grid g-3">
     <div class="g-panel"><h3 data-info="drop">The drop <span class="g-tag cy">from the record</span></h3><dl class="g-stats" id="g-drop-stats"></dl><button class="g-btn cy big" id="g-rerun" type="button">Rerun the drop</button><p class="g-dim g-small">Re-checks every genesis seal here · <span id="g-rerun-out" aria-live="polite"></span></p></div>
     <div class="g-col">
-      <div class="g-panel"><h3 data-info="life">Life · <span id="g-life-name">your card</span></h3><div class="g-tw"><table class="g-table" id="g-life"><thead><tr><th>n</th><th>type</th><th>signer</th><th>prev</th><th>hash</th></tr></thead><tbody></tbody></table></div><p class="g-dim g-small">No price column · nothing here is for sale</p><div id="g-find-out" aria-live="polite"></div></div>
+      <div class="g-panel"><h3 data-info="life">Life · <span id="g-life-name">your card</span></h3><div class="g-tw"><table class="g-table" id="g-life"><thead><tr><th>n</th><th>type</th><th>signer</th><th>prev</th><th>hash</th></tr></thead><tbody></tbody></table></div><p class="g-dim g-small">Nothing here is for sale, so there is no price anywhere</p><div id="g-find-out" aria-live="polite"></div></div>
       <div class="g-panel"><h3 data-info="verify">Verify on this device</h3><ol class="g-chain" id="g-chain"></ol><button class="g-btn cy big" id="g-verify" type="button">Verify on this device</button><p class="g-dim g-small" id="g-verify-ms"></p></div>
     </div>
     <div class="g-panel"><h3 data-info="organs">Organs <small>sealed before measured</small></h3><ul class="g-lines" id="g-organs"></ul><p class="g-dim g-small">Git proves each was sealed first · every rule is below</p></div>
   </div>
   <div class="g-panel"><h3 data-info="record">Your record <small>the estate’s contribution ledger · internal units, not money</small></h3>
+    <p class="g-small g-dim">A list of everything you made (cards, nodes, app tools) and every share your parties measured, kept in the same form as the estate’s contribution ledger, so anyone can check it and two copies merge without counting anything twice.</p>
     <div id="g-rec-stats"></div>
     <div class="g-row"><button class="g-btn hot" id="g-rec-go" type="button">Bring my record up to date</button><button class="g-btn cy" id="g-rec-replay" type="button">Replay it here</button><button class="g-btn" id="g-rec-save" type="button">Save my record</button></div>
     <div id="g-rec-out" aria-live="polite"></div></div>

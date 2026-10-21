@@ -352,7 +352,7 @@ async function renderBase() {
 }
 function nextThing() {
   if (!api.mine().length) return 'card me';
-  if (!S.keySaved) return 'save your key file';
+  if (!S.keySaved) return 'save your key file — it is what makes your cards yours; lose it and you lose them';
   if (S.storedKey) return 'remove your key from this browser (Cards)';
   if (!G.grown.size) return 'boot your card';
   if (G.st.evals.day !== today() || G.st.evals.n < 3) return 'eval a test case';
@@ -375,7 +375,7 @@ function renderTicker() {
     if (d.events[0] && d.events[0].generation > 0) births++;
   }
   const refused = G.st.refused + G.st.births.refused;
-  fill($('#g-ticker'), line('k', 'Levels re-run · ' + levels), line('r', 'Refused here · ' + refused), line('', 'Births kept · ' + births), line('', 'Gives · ' + gives.toLocaleString()), line('y', 'Issued · ' + issued.toLocaleString()),
+  fill($('#g-ticker'), line('k', 'Levels, each re-checked · ' + levels), line('r', 'Refused here · ' + refused), line('', 'Births kept · ' + births), line('', 'Gives · ' + gives.toLocaleString()), line('y', 'Issued · ' + issued.toLocaleString()),
     line('x', 'Genesis ' + S.manifest.total.toLocaleString() + ' · rules sealed before the first search'), line('x', 'Log head ' + S.manifest.log.head.slice(0, 8) + '…' + S.manifest.log.head.slice(-4)));
 }
 function renderSkins(v, d) {
@@ -387,7 +387,7 @@ function renderSkins(v, d) {
     if (art.ok) { const x = c.getContext('2d'), img = x.createImageData(384, 560); for (let i = 0, j = 0; i < art.px.length; i += 3, j += 4) { img.data[j] = art.px[i]; img.data[j + 1] = art.px[i + 1]; img.data[j + 2] = art.px[i + 2]; img.data[j + 3] = 255; } x.putImageData(img, 0, 0); }
     return el('button', { type: 'button', 'aria-pressed': String(theme === v.theme), 'aria-label': 'Wear the ' + theme + ' skin', disabled: !mine || theme === v.theme, onclick: async () => { await api.select(v.id); await api.actSkin(theme); renderBase(); } }, c, theme.replace(/-v\d+$/, ''));
   }));
-  fill($('#g-skin-note'), mine ? 'A skin is a signed event of its life · the mind does not change' : 'Only its owner can change its skin');
+  fill($('#g-skin-note'), mine ? 'A skin changes only the picture; the mind does not change · the change is signed into the card' : 'Only its owner can change its skin');
   void d;
 }
 
@@ -402,7 +402,7 @@ async function renderEstate() {
   const levels = held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0);
   const born = held.filter((h) => h.v.generation > 0).length;
   const links = S.mesh ? S.mesh.m.fielded.filter((x) => x.owner === S.me.pub).length : 0;
-  fill($('#g-estate-stats'), [['Blocks', held.length], ['Levels re-run', levels], ['Births kept', born], ['Births refused', G.st.births.refused], ['Mesh links', links]].flatMap(([k, n]) => [el('dt', {}, k), el('dd', {}, String(n))]));
+  fill($('#g-estate-stats'), [['Blocks', held.length], ['Levels, re-checked', levels], ['Births kept', born], ['Births refused', G.st.births.refused], ['Mesh links', links]].flatMap(([k, n]) => [el('dt', {}, k), el('dd', {}, String(n))]));
   const sets = {};
   for (const h of held) sets[h.f.dataset] = (sets[h.f.dataset] || 0) + 1;
   const kits = held.filter((h) => (G.st.loadouts || {})[h.id]).length, tools = (await heldItems()).length, felled = Object.keys(G.st.loot || {}).length;
@@ -688,7 +688,7 @@ async function arenaRerun() {
 }
 function renderLadder() {
   const r = ratings(G.st.duels || []), rows = Object.entries(r.ratings || {}).sort((a, b) => b[1] - a[1]).slice(0, 10);
-  fill($('#g-ar-ladder'), rows.length ? rows.map(([id, pts]) => line(api.mine().includes(id) ? 'k' : '', '#' + pad4((S.reg.cards[id] || {}).serial || 0) + ' ' + ((S.manifest.cards.find((c) => c.card === id) || {}).domain || id.slice(0, 8)), el('small', {}, pts + ' · ' + (r.played[id] || 0) + ' duels'))) : line('x', 'No rated duels on this device yet'));
+  fill($('#g-ar-ladder'), rows.length ? rows.map(([id, pts]) => line(api.mine().includes(id) ? 'k' : '', '#' + pad4((S.reg.cards[id] || {}).serial || 0) + ' ' + ((S.manifest.cards.find((c) => c.card === id) || {}).domain || id.slice(0, 8)), el('small', {}, pts + ' · ' + (r.played[id] || 0) + ' duels'))) : line('x', 'No duels between two players here yet · a duel between two different players moves both ratings'));
 }
 // a friend: the challenge (or the answer) travels as text, with the card's whole life, so their device holds what it fights
 const enc = (o) => btoa(unescape(encodeURIComponent(JSON.stringify(o))));
@@ -1288,7 +1288,7 @@ async function renderOrgans() {
     return { k, name: p ? p.organ : 'organ ' + k, blind: !(p && p.disclosure), held: v ? v.verdicts.filter((x) => x.pass).length : 0, all: v ? v.verdicts.length : 0 };
   }));
   const held = organs.reduce((n, o) => n + o.held, 0), all = organs.reduce((n, o) => n + o.all, 0);
-  fill($('#g-organs'), organs.map((o) => line(o.held === o.all ? 'k' : 'y', o.k + ' · ' + String(o.name).split(/[:—]/)[0].trim().slice(0, 28) + (o.blind ? '' : ' · not blind'), el('small', {}, o.held + '/' + o.all))), line('m', 'Held ' + held + ' of ' + all, el('small', {}, (all - held) + ' failed · kept on show')));
+  fill($('#g-organs'), organs.map((o) => line(o.held === o.all ? 'k' : 'y', o.k + ' · ' + String(o.name).split(/[:—]/)[0].trim().slice(0, 28) + (o.blind ? '' : ' · not blind'), el('small', {}, o.held + '/' + o.all))), line('m', held + ' of ' + all + ' claims held', el('small', {}, (all - held) + ' failed · each claim written before it was tested · the failures stay on show')));
 }
 async function find() {
   const q = ($('#g-find').value || '').trim().toLowerCase(), out = $('#g-find-out');
