@@ -174,6 +174,7 @@ async function select(id) {
     : e.type === 'give' ? 'to ' + (e.to === S.me.pub ? 'you' : short(e.to)) : e.type === 'skin' ? 'face → ' + e.theme
     : e.receipt.kind === 'level' ? 'level: ' + e.receipt.domain + ' ' + auc(e.receipt.before) + ' → ' + auc(e.receipt.after) + ' on GATE' : e.receipt.kind + ' receipt', el('span', { class: 'dim mono' }, ' · ' + short(hashOf(e)))))));
   for (const o of ['grow', 'ask', 'level', 'breed', 'send', 'verify', 'skin']) clear($('#out-' + o));
+  clear($('#ask-fields')); $('#ask-own').hidden = true; $('#send-to').value = '';
   const partners = [];
   for (const x of mine()) if (x !== id && setOf(await verify(lifeOf(x))) === setOf(v)) partners.push(x);
   clear($('#breed-partner'), partners.length ? partners.map((p) => el('option', { value: p }, '#' + String(S.reg.cards[p].serial).padStart(4, '0') + ' · ' + p.slice(0, 8))) : el('option', { value: '' }, 'no other card of yours on this ground'));
@@ -249,18 +250,19 @@ async function actLevel() {
 const mindDomains = (v) => v.genome.organs.map((o) => o.split(' ')[2]);
 
 // ── work overnight: while the page is open, every card you own keeps searching for a level, one search at a time ─────
-let working = false;
+let working = false, runs = 0;
 async function workOvernight() {
   const out = $('#work-out'), btn = $('#work-toggle');
-  if (working) { working = false; btn.textContent = 'Work overnight'; return; }
+  if (working) { working = false; btn.disabled = true; btn.textContent = 'Stopping after this search…'; return; }
   working = true; btn.textContent = 'Stop working';
+  const run = ++runs;   // one loop at a time: a loop that is no longer the current run stops at its next step
   let searches = 0, levels = 0;
   const tried = new Map();
-  while (working) {
+  while (working && run === runs) {
     const ids = mine();
     if (!ids.length) { say(out, 'You hold no cards to work.'); break; }
     for (const id of ids) {
-      if (!working) break;
+      if (!working || run !== runs) break;
       const d = lifeOf(id), v = await verify(d), own = ownSetOf(v), set = setOf(v);
       if (!set && !own) continue;
       const k = tried.get(v.head) || 0, seed = seedsFor(v.head, k + 1)[k];
@@ -275,7 +277,7 @@ async function workOvernight() {
     }
   }
   say(out, 'Stopped after ' + searches + ' search' + (searches === 1 ? '' : 'es') + ': ' + levels + ' level' + (levels === 1 ? '' : 's') + ' earned, each re-run here before it was recorded.', levels ? 'ok' : '');
-  working = false; btn.textContent = 'Work overnight';
+  working = false; btn.disabled = false; btn.textContent = 'Work overnight';
 }
 
 async function actBreed() {
@@ -285,7 +287,7 @@ async function actBreed() {
     const vp = await verify(lifeOf(pid)), g = await groundFor(v, (t) => say(out, t));
     say(out, 'Crossing their minds, up to 12 times, looking for a child that beats both on GATE…'); await wait();
     const r = await breed(v, vp, g, S.me, { seed: 1 + v.receipts.length + vp.receipts.length });
-    if (!r.born) return clear(out, el('div', { class: 'status' }, 'No child: ' + r.why + '. A child is never a promise — it is what grew.'));
+    if (!r.born) return clear(out, el('div', { class: 'status' }, 'No child: ' + r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) + '. A child is never a promise — it is what grew: it must beat both parents on GATE.'));
     const serial = nextSerial(), child = await issue(r.genome, S.me, { serial, to: S.me.pub, theme: themeOf(serial), generation: Math.max(v.generation, vp.generation) + 1 });
     const kept = await keep(child.dossier);
     if (!kept.ok) return say(out, kept.why, 'bad');
@@ -307,8 +309,8 @@ async function actSend() {
   if (!kept.ok) return say(out, kept.why, 'bad');
   const png = await cardOf(r.dossier, paint);
   download(png.png, 'digi-' + String(v.serial).padStart(4, '0') + '-' + v.id + '.png');
+  await select(S.sel);   // the panel stays: it now shows the new owner, and the confirmation below
   await renderWallet();
-  $('#detail').hidden = true;
   say(out, 'Given to ' + short(to) + '. The card you downloaded is now theirs: send it to them. This device recorded the give first, so any other give of this card from the same life is a double sale and is refused here.', 'ok');
 }
 
