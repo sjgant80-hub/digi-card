@@ -152,7 +152,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere.</p>
       <div class="pills">
         <span class="pill hot"><span data-k="drop-total">…</span> genesis cards · decoder #0001</span>
-        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">9 organs, sealed before measured</a></span>
+        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">10 organs, sealed before measured</a></span>
         <span class="pill ok">records never leave your device</span>
         <span class="pill">MIT — no licence fee</span>
       </div>
@@ -286,7 +286,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="g-col g-centre">
       <div class="g-panel" style="width:100%"><h3 data-info="nodes">Node slots <small id="g-kit-nslots"></small></h3><div class="g-slots" id="g-kit-nodes"></div></div>
       <div class="g-panel" style="width:100%"><h3 data-info="tools">Tool slots <small>2</small></h3><div class="g-slots" id="g-kit-tools"></div><p class="g-small g-dim">A tool is an app your DIGI carries for you: press Open to use it. It never changes a score — duels and raids are won by the card’s mind (its rules), not by its tools.</p></div>
-      <div class="g-panel" style="width:100%"><h3 data-info="kitted">Measured here</h3><div id="g-kit-measure" aria-live="polite"><p class="g-dim g-small">Put a node in a slot and press Measure: the kitted mind is scored here, out of fold on GATE, with each slot’s worth.</p></div>
+      <div class="g-panel" style="width:100%"><h3 data-info="kitted">Measured here</h3><div id="g-kit-measure" aria-live="polite"><p class="g-dim g-small">Put a node in a slot and press Measure: your DIGI and its nodes are scored here together, on real cases they were tested on (each quarter of them scored by weights learned on the other three, so no case grades itself), and each slot shows what it adds.</p></div>
         <div class="g-row g-centre-row"><button class="g-btn cy" id="g-kit-measure-go" type="button">Measure</button><button class="g-btn hot big" id="g-kit-equip" type="button">Equip this kit</button></div><div id="g-kit-out" aria-live="polite"></div></div>
     </div>
     <div class="g-col">
@@ -324,7 +324,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="g-col">
       <div class="g-panel"><h3>Opponent</h3>
         <div class="g-tabs" role="tablist" aria-label="Who to fight"><button role="tab" type="button" id="g-ar-t-drop" aria-selected="true">The drop</button><button role="tab" type="button" id="g-ar-t-mine" aria-selected="false">Your cards</button><button role="tab" type="button" id="g-ar-t-friend" aria-selected="false">A friend</button></div>
-        <div id="g-ar-p-drop"><label class="g-small">Drop card <select id="g-ar-foe" aria-label="The drop card to fight"></select></label><p class="g-small g-dim">The drop’s maker accepts here with its public demo key, as it hands out cards here · rated</p></div>
+        <div id="g-ar-p-drop"><label class="g-small">Drop card <select id="g-ar-foe" aria-label="The drop card to fight"></select></label><p class="g-small g-dim">The drop is the 1,000 cards made at the start; their maker’s public demo key accepts your challenge here, as it hands cards out here · the duel is rated</p></div>
         <div id="g-ar-p-mine" hidden><label class="g-small">Your card <select id="g-ar-own" aria-label="Your other card to fight"></select></label><p class="g-small g-dim">Practice: one owner on both sides is never rated</p></div>
         <div id="g-ar-p-friend" hidden>
           <p class="g-small">1 · Copy your challenge and send it. 2 · They paste it, fight, and send back their answer. 3 · Paste their answer: your device fights the very same duel.</p>
@@ -347,7 +347,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div id="g-rd-out" aria-live="polite"></div>
   <div class="g-bosses" id="g-rd-bosses"></div>
   <div class="g-row"><h2 class="g-h" data-info="worldboss">World bosses</h2><small class="g-dim">a whole business, for a party</small></div>
-  <p class="g-small g-dim">Each business’s bar is the best score any lone genesis search reached on it, plus 0.010. Strike it with your own cards of that business — kit them out first — and the cards friends send you. Each card joins only by its owner’s signed consent for this raid, and only if it measurably adds. The record names every member and its share.</p>
+  <p class="g-small g-dim">A world boss is a whole business. To fell it, a party must score 0.010 better than the best any single search managed there when the drop was made — more than any card of the drop reached. Strike it with your own cards of that business — kit them out first — and the cards friends send you. Each card joins only by its owner’s signed consent for this raid, and only if it measurably adds. The record names every member and its share.</p>
   <textarea id="g-pt-code" rows="3" aria-label="A party code, pasted or copied" placeholder="a friend’s party code, pasted here" hidden></textarea>
   <div id="g-pt-out" aria-live="polite"></div>
   <div class="g-bosses" id="g-pt-bosses"></div>
@@ -779,7 +779,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <h3>12 · The arena and the raids</h3>
     <p>A duel is agreed by both owners: a challenge and an acceptance, each signed for a card as it stands and the hash of its loadout. The batch is 64 GATE rows ordered by the hash of both signed records, so neither side chooses it; each kitted mind is weighed on the GATE rows outside the batch and scored on it; the higher AUC wins; the receipt re-runs. A raid boss is a department of the drop’s admission record that no genesis search took past the bar; a strike is one search from a seed the striker’s key and number fix, carried with the mind it found, re-checked in milliseconds. A world boss is a whole business at its best lone genesis search plus 0.010; a party strike is a mesh of consenting owners’ cards, and its receipt names each fielded card, its owner and its share in millionths. Nothing is staked.</p>
     <h3>13 · What was measured</h3>
-    <p>Nine organs, each sealed before it was measured, are in <a href="#proof">Proof</a>, with every rule’s verdict read live from the committed records — the ones that failed included. Not everything held. One example: the shop’s TEST cases are its holiday months, and its minds rank them less well than the months they were judged on — the shop-context department’s median TEST AUC fell under the 0.6 bar its cards cleared on GATE. That result is kept as sealed, not tuned away.</p>
+    <p>Ten organs, each sealed before it was measured, are in <a href="#proof">Proof</a>, with every rule’s verdict read live from the committed records — the ones that failed included. Not everything held. One example: the shop’s TEST cases are its holiday months, and its minds rank them less well than the months they were judged on — the shop-context department’s median TEST AUC fell under the 0.6 bar its cards cleared on GATE. That result is kept as sealed, not tuned away.</p>
     <h3>14 · Limits</h3>
     <p>The minds are small by design: readable, fast and provable, not the most accurate models one could fit; pooled gradient-boosted trees beat them in dex-frontier’s measurements. A level is adopted on GATE, and how it holds on TEST is measured, not assumed. The registry’s keeper decides only the order of arrivals. The drop on this page is sealed with a public demo key; the real drop is sealed by its owner’s own key.</p>
     <h3>15 · Credits</h3>

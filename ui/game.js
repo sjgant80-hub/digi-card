@@ -1284,7 +1284,7 @@ async function verifyChain() {
 }
 let organs = null;
 async function renderOrgans() {
-  organs ||= await Promise.all([1, 2, 3, 4, 5, 6, 7, 8, 9].map(async (k) => {
+  organs ||= await Promise.all([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(async (k) => {
     const [v, p] = await Promise.all(['verdict', 'prereg'].map((f) => fetch('data/organ-' + k + '/' + f + '.json').then((r) => (r.ok ? r.json() : null)).catch(() => null)));
     return { k, name: p ? p.organ : 'organ ' + k, blind: !(p && p.disclosure), held: v ? v.verdicts.filter((x) => x.pass).length : 0, all: v ? v.verdicts.length : 0 };
   }));

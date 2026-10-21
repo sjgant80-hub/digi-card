@@ -41,8 +41,8 @@ minted as a signed item, handed on by signed gives; it moves no score, and the p
 
 ## What was proven
 
-Nine organs, each sealed before it was measured (git proves the order: `node tools/order.mjs --organ k`), judged by
-their sealed rules alone — **47 of 51 sealed rules held; 4 failed predictions are kept; no property failed.**
+Ten organs, each sealed before it was measured (git proves the order: `node tools/order.mjs --organ k`), judged by
+their sealed rules alone — **57 of 61 sealed rules held; 4 failed predictions are kept; no property failed.**
 
 | Organ | Result |
 |---|---|
@@ -55,8 +55,9 @@ their sealed rules alone — **47 of 51 sealed rules held; 4 failed predictions 
 | 7 · the drop | decoder #0001 re-runs the genesis; 5/5 posts pass the claim gate, 12/12 overreaching drafts refused; 100/100 card-me claims work |
 | 8 · scale | the mesh climbs as each department joins, in 5/5 businesses; a 10,000-entry registry replays identically in 36.8 s |
 | 9 · the arena | 1,000/1,000 duels re-run to the same receipt; every batch 64 distinct GATE rows, no TEST row read; 240/240 forgeries refused; ratings replay and their total is conserved; the duel winner had the higher TEST AUC in 78.4% of decided pairs; 26.3% of duels were upsets — **failed:** the median duel took 278 ms, over the 250 predicted (measured while a local language model ran on the same laptop) |
+| 10 · the kit and the party | 100/100 kits measure the same twice, every slot's worth exact; 300/300 kit duels re-run; 240/240 forgeries refused; 55/55 party strikes re-run with shares a million; a tool never moved a score; 337/337 app items verify, 1,685/1,685 forged bodies refused · on TEST: 88 of 88 kits that lifted GATE also lifted TEST, the median TEST lift 89% of GATE's; kitted DIGIs won 81.9% of decided duels against their own department's cards alone (48.9% alone); 3 of 5 world bosses fell to a best-card party (telco, adult, credit); 25 of 26 clearing parties held within 0.03 on TEST |
 
-Every kernel is witness CLEAN (469/469 mutants killed) and CI re-proves all of it on every push.
+Every kernel is witness CLEAN (716/716 mutants killed on GitHub's runner) and CI re-proves all of it on every push.
 
 ## Run it
 
@@ -108,7 +109,7 @@ or sent by the tools: a person does that.
 | `src/earn.mjs` | the record: a player's releases and measured party shares as entries of the estate's contribution ledger |
 | `vendor/mint-an-app/` | mint-an-app's records of the estate's apps (which are mintable, their tier, commit and CI run), byte for byte |
 | `vendor/kcc-mesh/` | the contribution ledger and its DIGI gate, byte for byte |
-| `data/organ-*/` | nine organs: sealed claims, records, verdicts |
+| `data/organ-*/` | ten organs: sealed claims, records, verdicts |
 | `drop/` | the manifest, the genesis log, every search |
 | `decoder/v1/` | the exact files that read a card, frozen at the drop |
 
