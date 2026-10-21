@@ -361,7 +361,7 @@ function nextThing() {
 }
 function renderEvalsMini() {
   const n = G.st.evals.day === today() ? G.st.evals.n : 0;
-  fill($('#g-evals-mini'), el('a', { class: 'g-line m', href: '#evals' }, 'Eval 3 test cases', el('small', {}, Math.min(n, 3) + ' of 3')),
+  fill($('#g-evals-mini'), el('a', { class: 'g-line m', href: '#evals' }, 'Ask your card about 3 real cases', el('small', {}, Math.min(n, 3) + ' of 3')),
     el('div', { class: 'g-bar' }, el('i', { style: 'width:' + Math.round((Math.min(n, 3) / 3) * 100) + '%;background:#7dff8a' })),
     MISSIONS.map((m) => el('a', { class: 'g-line ' + (G.st.done[m.key] ? 'k' : 'y'), href: m.href }, (G.st.done[m.key] ? '✓ ' : 'Mission · ') + m.name)));
 }
@@ -375,8 +375,8 @@ function renderTicker() {
     if (d.events[0] && d.events[0].generation > 0) births++;
   }
   const refused = G.st.refused + G.st.births.refused;
-  fill($('#g-ticker'), line('k', 'Levels, each re-checked · ' + levels), line('r', 'Refused here · ' + refused), line('', 'Births kept · ' + births), line('', 'Gives · ' + gives.toLocaleString()), line('y', 'Issued · ' + issued.toLocaleString()),
-    line('x', 'Genesis ' + S.manifest.total.toLocaleString() + ' · rules sealed before the first search'), line('x', 'Log head ' + S.manifest.log.head.slice(0, 8) + '…' + S.manifest.log.head.slice(-4)));
+  fill($('#g-ticker'), line('k', 'Levels, each re-checked · ' + levels), line('r', 'Forged or broken cards turned away · ' + refused), line('', 'Births kept · ' + births), line('', 'Gives · ' + gives.toLocaleString()), line('y', 'Issued · ' + issued.toLocaleString()),
+    line('x', S.manifest.total.toLocaleString() + ' genesis cards · the rules for making them were fixed before the first one was made'), line('x', 'Log head ' + S.manifest.log.head.slice(0, 8) + '…' + S.manifest.log.head.slice(-4)));
 }
 function renderSkins(v, d) {
   const box = $('#g-skins');
@@ -556,13 +556,13 @@ function renderLab() {
 }
 
 // ── eval runs ────────────────────────────────────────────────────────────────────────────────────────────────────────
-const MISSIONS = [{ key: 'drop', name: 'Rerun the drop', href: '#proof' }, { key: 'own', name: 'Mint a card from your table', href: '#mint' }, { key: 'breed', name: 'Breed a child that beats both', href: '#cards' }];
+const MISSIONS = [{ key: 'drop', name: 'Re-check all 1,000 genesis cards on this device', href: '#proof' }, { key: 'own', name: 'Make a card from your own spreadsheet', href: '#mint' }, { key: 'breed', name: 'Breed a child card that beats both its parents', href: '#cards' }];
 const TITLES_EARNED = { evals3: 'Band reader', drop: 'Decoder', own: 'Maker', breed: 'Breeder' };
 function renderEvals() {
   const n = G.st.evals.day === today() ? G.st.evals.n : 0, id = featured(), v = id && S.reg.cards[id];
-  fill($('#g-today'), el('div', { class: 'g-line m' }, 'Eval 3 test cases', el('small', {}, Math.min(n, 3) + ' of 3')), el('div', { class: 'g-bar' }, el('i', { style: 'width:' + Math.round((Math.min(n, 3) / 3) * 100) + '%;background:#7dff8a' })),
+  fill($('#g-today'), el('div', { class: 'g-line m' }, 'Ask your card about 3 real cases', el('small', {}, Math.min(n, 3) + ' of 3')), el('div', { class: 'g-bar' }, el('i', { style: 'width:' + Math.round((Math.min(n, 3) / 3) * 100) + '%;background:#7dff8a' })),
     el('p', { class: 'g-small g-dim' }, v ? 'On #' + pad4(v.serial) + ' · change the card in Cards' : 'Card me first'));
-  fill($('#g-missions'), [...MISSIONS, { key: 'evals3', name: 'Eval 3 test cases in a day', href: '#evals' }].map((m) => line(G.st.done[m.key] ? 'k' : 'y', el('a', { href: m.href }, (G.st.done[m.key] ? '✓ ' : '') + m.name), G.st.done[m.key] ? el('small', {}, 'title · ' + TITLES_EARNED[m.key]) : null)));
+  fill($('#g-missions'), [...MISSIONS, { key: 'evals3', name: 'Ask your card about 3 real cases in a day', href: '#evals' }].map((m) => line(G.st.done[m.key] ? 'k' : 'y', el('a', { href: m.href }, (G.st.done[m.key] ? '✓ ' : '') + m.name), G.st.done[m.key] ? el('small', {}, 'title · ' + TITLES_EARNED[m.key]) : null)));
   $('#g-eval-run').disabled = !id;
 }
 async function runEval() {
@@ -753,7 +753,7 @@ async function renderRaids() {
     if ((r.fallen && !loot[b.domain]) || !paintOn(pic, paintRaid(r.fallen ? { ...raidArt, loot: loot[b.domain] } : raidArt, plotTheme(), 240, 160))) pic.hidden = true;
     return el('div', { class: 'g-boss' + (r.fallen ? ' down' : '') }, pic, el('h3', {}, b.domain.replace('-', ' ')),
       pic.hidden ? el('div', { class: 'g-hp', role: 'img', 'aria-label': 'Health ' + six(r.hp) + ' from the bar' }, el('i', { style: 'width:' + Math.min(100, Math.round((r.hp / 100000) * 100)) + '%' })) : null,
-      el('p', { class: 'g-small' }, r.fallen ? 'Fallen after ' + r.kill.after + ' strike' + (r.kill.after === 1 ? '' : 's') + ' · ' + six(r.kill.gate) + ' by ' + (r.kill.by === S.me.pub ? 'you' : api.short(r.kill.by)) : 'Best ' + six(r.best) + ' · the bar 0.600000 · ' + six(r.hp) + ' to go'),
+      el('p', { class: 'g-small' }, r.fallen ? 'Fallen after ' + r.kill.after + ' strike' + (r.kill.after === 1 ? '' : 's') + ' · ' + six(r.kill.gate) + ' by ' + (r.kill.by === S.me.pub ? 'you' : api.short(r.kill.by)) : 'Best so far ' + six(r.best) + ' of the 0.600000 it needs to fall · ' + six(r.hp) + ' to go'),
       el('p', { class: 'g-small g-dim' }, 'Genesis tried ' + b.searched + ' · raid strikes ' + r.strikes + ' (' + mine + ' yours) · ' + Object.keys(r.strikers).length + ' striker' + (Object.keys(r.strikers).length === 1 ? '' : 's')),
       el('div', { class: 'g-row' }, go, r.fallen && r.kill.by === S.me.pub && !G.st.loot?.[b.domain] ? el('button', { type: 'button', class: 'g-btn gold', onclick: () => raidLoot(b) }, 'Seal the loot') : null,
         G.st.loot?.[b.domain] ? el('a', { class: 'g-btn', href: '#cards' }, 'Your ' + b.domain.split('-')[1] + ' card') : null));
@@ -1035,8 +1035,8 @@ async function renderKitApps() {
   if (!rec) { fill(n); return fill(box, line('r', 'The estate’s app records did not load.')); }
   const q = String($('#g-kit-q').value || '').trim().toLowerCase(), desc = (b) => String((rec.rows.get(b.app) || {}).desc || '');
   const all = [...rec.apps.values()].filter((b) => b.tier === KIT.tier && (!q || b.app.toLowerCase().includes(q) || desc(b).toLowerCase().includes(q))), shown = all.slice(0, 20);
-  fill(box, shown.length ? shown.map((b) => line('', el('span', {}, el('b', {}, b.app), el('small', { class: 'g-dim' }, ' ' + desc(b).slice(0, 80))), el('button', { type: 'button', class: 'g-btn', onclick: () => appMint(b.app) }, 'Mint it'))) : line('x', 'No ' + KIT.tier + ' app matches that'));
-  fill(n, all.length.toLocaleString() + ' ' + KIT.tier + ' app' + (all.length === 1 ? '' : 's') + (all.length > shown.length ? ' · the first ' + shown.length + ' shown: narrow the search' : '') + ' · each passed its own CI on GitHub’s machines at the commit it names (mint-an-app’s records) · minting is free');
+  fill(box, shown.length ? shown.map((b) => line('', el('span', {}, el('b', {}, b.app), el('small', { class: 'g-dim' }, ' ' + desc(b).slice(0, 80))), el('button', { type: 'button', class: 'g-btn', onclick: () => appMint(b.app), 'aria-label': 'Mint ' + b.app + ' as a tool' }, 'Mint this tool'))) : line('x', 'No ' + KIT.tier + ' app matches that'));
+  fill(n, all.length.toLocaleString() + ' ' + KIT.tier + ' app' + (all.length === 1 ? '' : 's') + (all.length > shown.length ? ' · showing ' + shown.length + ': type a name or a word to find one' : '') + ' · each passed its own CI on GitHub’s machines at the commit it names (mint-an-app’s records) · minting is free');
 }
 async function appMint(name) {
   const rec = await appsLoaded(), out = $('#g-kit-out');
