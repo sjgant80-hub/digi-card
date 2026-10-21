@@ -1,0 +1,89 @@
+{
+ "kind": "digi-card.organ-10.prereg",
+ "v": 1,
+ "organ": "the kit and the party: a DIGI fights with the nodes its owner equips, a party of owners strikes a whole business, and an app tool proves what its run proved",
+ "disclosure": "Not fully blind: before this seal, on 2026-10-21, tools/measure-10.mjs was dry-run on one kit, one kit duel and two parties per business, with every TEST read replaced by 0, to test the tooling. Only its properties were read (all held: kits measured twice the same, 60 of 60 forgeries refused, parties re-run, shares a million, tools changing nothing, items verifying). One forgery’s refusal message printed one kit duel’s two GATE-batch scores: the kitted side’s 0.798864 against the lone card’s 0.652273 — one of the 300 duels Q3 predicts on. No gate, clear or TEST number of any party, and no TEST number of any kit, was read.",
+ "population": "the five businesses whose drop has cards in two or more departments (hospital has none, so no kit and no party there): 20 seeded kits per business — a genesis card as the DIGI and one or two genesis cards of other departments as its nodes, all handed to one demo owner — each kit in three kit duels against another genesis card of the DIGI’s own department fielded alone, and the DIGI alone against the same card in three more; twelve kinds of forgery on the first 20 kits (240); per business a full party of its best genesis card per department, each held by its own demo owner, and 10 seeded parties of a random card per department; every one of the 337 mintable apps as an item, and five forged bodies of each (1,685)",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every kit measured twice gives the very same numbers, every slot’s worth is the kitted GATE AUC with it less without it, and every one of the 300 kit duels re-runs from its receipt to the very same receipt."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "All 240 forgeries are refused: a loadout signed by a stranger, a loadout for the card before a give, a node handed on since it was equipped, a node another key holds, a node of another business, more nodes than the slots, the same node twice, a challenge naming another kit, an edited duel score, a flipped winner, a side fielding nodes with no loadout, and a tool another key holds."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every party strike re-runs to the very same receipt, its fielded members’ shares sum to exactly 1,000,000, and its bar is the world boss’s: the best lone genesis search on that business plus 0.010."
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "A tool never moves a score: in every duel a kit carrying a tool fights, its AUC on the batch is exactly that of the same nodes with no tool."
+  },
+  {
+   "id": "P5",
+   "kind": "property",
+   "claim": "Every one of the 337 app items verifies against mint-an-app’s records, handed on once it still verifies, and every one of the 1,685 forged bodies (another commit, run, tier, licence or page) is refused."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Of the kits whose nodes lift the DIGI by at least 0.005 on GATE (out of fold), at least 80% also lift it on TEST, the kit coupled on GATE and judged on cases nothing here selects on."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Across all kits, the median lift on TEST is at least 0.8 of the median lift on GATE: the kit is not mostly fitted to the cases that chose it."
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "In at least 70% of the decided kit duels, the kitted DIGI beats the card of its own department that fights alone."
+  },
+  {
+   "id": "Q4",
+   "kind": "prediction",
+   "claim": "At least 3 of the 5 world bosses fall to the full party of their business’s best genesis cards."
+  },
+  {
+   "id": "Q5",
+   "kind": "prediction",
+   "claim": "Of all the parties that clear their world boss on GATE, at least 80% score within 0.03 of their GATE AUC on TEST."
+  }
+ ],
+ "judgedBy": "tools/judge-10.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "3c239143bdfa5e0b499ada224335947c6a68a8b86eef5bf9ca5fd77eab9304b8",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "afe6dee22dbf4dab7e7568cfa873613e36ddf72623f773cd547ae460f2c378b0",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "365c85488da57e9b378caa22f0ad109b3bee553cc7958c516f7f6326e1e45171",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "src/kit.mjs": "dee8b6cd5040317fd4fb79f962b2073b1d0b3cc493b8a86bf2e745f0a6e7be68",
+  "src/item.mjs": "271623f5805c44950feeaa02602a3e26c6527bb7ea645317b872710023dea13d",
+  "src/raid.mjs": "923678b0f5aeeb3ae0cc82c9ca0d3d68e4b2e19d8dbe67cbe6f520ab06bcccdd",
+  "src/arena.mjs": "cd9f19b0856a1a1b6f6fc9143462c4f09c9593a1ef4e6bd1119609e1cd5cae0d",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "drop/admission.json": "f6205cc55755f398f9722a9483f56467b9bf17b5b0cba2b61701b52400e7ac8f",
+  "vendor/mint-an-app/catalogue-data.json": "960a5abc576c834e3f4c5bfb2e30871c6ae70505f59f6fc52dabf6f24604933c",
+  "vendor/mint-an-app/mint-data.json": "ee2fb7b0d40d4668b861a4f0d082d5ecc50944bcef41b132b7abcc97f499baa4",
+  "tools/measure-10.mjs": "b3008cc708bd68dd3020ab566c4dd34ef7d437ba6a00594b39a68866dcae9cef",
+  "tools/judge-10.mjs": "c6974313a2b4e5a66ca68c4ce5a71121e0897d54e5c61ccf4e8979cc7d4d910a",
+  "tools/seal-10.mjs": "8b0da01c866826fe196fd5439c3fba6a8de9a7278ceccb3fbf3931b992ecac5b"
+ }
+}
