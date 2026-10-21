@@ -253,7 +253,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="row"><button id="mesh-ask">Ask the mesh a TEST case</button><label>Cases in a job <input id="mesh-cases" type="number" min="1" max="1000000" value="1000" /></label><button id="mesh-job">Do a job and credit the owners</button></div>
   <div id="mesh-ask-out" aria-live="polite"></div>
   <div id="mesh-ledger" aria-live="polite"></div>
-  <p class="dim" style="font-size:13px">In this demo the genesis cards still belong to the drop’s maker, whose key is public, so the page can sign their consents; your own cards consent with your key.</p>
+  <p class="dim" style="font-size:13px">In this demo, each business’s three best genesis cards per department are handed, for the mesh only, to their own demo owners (keys from public phrases, so anyone can reproduce every consent and every credit); your own cards of that business join too, consenting with your key. Organ 6 measures this very mesh on TEST.</p>
 </section>
 
 <section id="own" aria-labelledby="own-h">
@@ -377,7 +377,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <h3 id="cost">The cost case, computed</h3>
   <p>Score a business’s cases three ways, over three years. Every price is read from <code>data/prices.lock.json</code> (copied from the estate’s price registry, each entry with its source and the day it was checked); the milliseconds per case are measured live in this browser on the real records.</p>
   <div class="row"><label>Business <select id="cost-set"><option value="credit">Credit card clients</option><option value="telco">Telecom customers</option><option value="shop">Online shop sessions</option><option value="bank">Bank marketing calls</option><option value="adult">Census adults</option></select></label>
-    <label>Cases a month <input id="cost-cases" type="number" min="1" value="30000" /></label><label>Minutes per case by hand <input id="cost-minutes" type="number" min="0.1" step="0.1" value="1" /></label><button class="go" id="cost-run">Compute</button></div>
+    <label>Cases a month <input id="cost-cases" type="number" min="1" value="30000" /></label><label>Minutes per case by hand <input id="cost-minutes" type="number" min="0.1" step="0.1" value="1" /></label>
+    <label>Rented model <select id="cost-model"><option value="">the cheapest in the lock</option><option value="gpt-5-nano">gpt-5-nano</option><option value="gpt-5-mini">gpt-5-mini</option><option value="gemini-3.1-flash-lite">Gemini 3.1 Flash-Lite</option><option value="claude-haiku-4.5">Claude Haiku 4.5</option><option value="claude-sonnet-5">Claude Sonnet 5</option></select></label><button class="go" id="cost-run">Compute</button></div>
   <div id="cost-out" aria-live="polite"></div>
   <h3>Security, data protection and audit</h3>
   <ul>

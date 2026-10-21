@@ -3,7 +3,7 @@
 // slow searches run the same kernels in worker.js. Nothing is mocked and nothing is sent anywhere: the only network this
 // page uses is fetching its own files (the drop, the data, the decoder) from the site it came from.
 //
-// What is kept on this device (IndexedDB, this browser only): your key, the cards you hold, the lives you have signed or
+// What is kept on this device (IndexedDB, this browser only): your key, the cards you hold, your own tables, the lives you have signed or
 // received since the drop, and which levels this device has already re-run. Clear the site's data and they are gone —
 // back up your key (Wallet → Back up my key) if a card matters to you.
 import { cardOf, readCard, bandOf, W, H, BAND, CAPACITY } from './src/card.mjs';
@@ -188,7 +188,7 @@ async function actGrow() {
     const t0 = performance.now(), g = await groundFor(v, (t) => say(out, t)), m = mindOf(v, g), ms = Math.round(performance.now() - t0);
     const declared = S.manifest && (S.manifest.cards.find((c) => c.card === v.id) || (S.manifest.first.card === v.id ? S.manifest.first : null));
     clear(out, el('div', { class: 'status ' + (m.gate !== null ? 'ok' : 'bad') }, m.gate !== null
-      ? 'Grown here, offline, in ' + ms + ' ms: GATE AUC ' + auc(m.gate) + ' on ' + g.ds.gateRows.length.toLocaleString() + ' cases it never grew on' + (declared && v.receipts.length === 0 ? (declared.gate === m.gate ? ' — exactly the ' + auc(declared.gate) + ' the drop declared.' : ' — the drop declared ' + auc(declared.gate) + ': this does not match.') : '.')
+      ? 'Grown here, offline, in ' + ms + ' ms: GATE AUC ' + (m.gate / 1e6).toFixed(6) + ' on ' + g.ds.gateRows.length.toLocaleString() + ' cases it never grew on' + (declared && v.receipts.filter((r) => r.kind === 'level').length === 0 ? (declared.gate === m.gate ? ' — exactly the ' + (declared.gate / 1e6).toFixed(6) + ' the drop declared, to the millionth.' : ' — the drop declared ' + (declared.gate / 1e6).toFixed(6) + ': this does not match.') : '.')
       : 'Its mind did not clear its bar on this ground: it abstains, always.'),
       m.organs.map((o) => el('div', { class: 'answer' }, el('b', {}, o.domain), ' ', el('span', { class: 'chip ' + o.state }, o.state), o.gate != null ? ' GATE ' + auc(o.gate) : ' ' + (o.why || ''),
         o.body ? el('ul', { class: 'rules' }, o.body.rules.map((r) => el('li', {}, r.feat + ' ' + r.op + ' ' + r.v + '  →  ' + (r.w > 0 ? '+' : '') + r.w))) : null,
@@ -361,23 +361,31 @@ async function buildMesh() {
   try {
     const g = await groundOf(set, (t) => say(out, t));
     say(out, 'Gathering cards and their owners’ consents…'); await wait();
-    const name = 'mesh-' + set, cands = [];
+    // each genesis card is handed, for this mesh only (nothing is recorded), to its own demo owner from a public phrase —
+    // the same owners organ 6 measures and the drop's post re-runs, so all three give the same numbers
+    const name = 'post-' + set, cands = [];
+    S.demoOwners = new Map();
+    let k = 0;
     for (const dom of departments(g)) {
-      const top = (S.manifest.cards || []).filter((c) => c.domain === dom && S.reg.cards[c.card] && S.reg.cards[c.card].owner === S.maker.pub).sort((a, b) => b.gate - a.gate).slice(0, 2);
-      for (const c of top) { const v = await verify(lifeOf(c.card)); cands.push({ v, consent: (await consent(S.maker, v, name)).consent }); }
+      const top = (S.manifest.cards || []).filter((c) => c.domain === dom && S.reg.cards[c.card] && S.reg.cards[c.card].owner === S.maker.pub).sort((a, b) => b.gate - a.gate || a.serial - b.serial).slice(0, 3);
+      for (const c of top) {
+        const n = k++, o = await fromSeed(sha256Bytes(utf8('digi-card/organs/owner/mesh-' + set + '-' + n))), v = await verify((await give(lifeOf(c.card), S.maker, o.pub)).dossier);
+        S.demoOwners.set(o.pub, 'owner ' + (n + 1) + ' (demo)');
+        cands.push({ v, consent: (await consent(o, v, name)).consent });
+      }
     }
     for (const id of mine()) { const v = await verify(lifeOf(id)); if (setOf(v) === set) cands.push({ v, consent: (await consent(S.me, v, name)).consent }); }
     say(out, 'Assembling ' + cands.length + ' candidates: each must answer here and lead a coin on GATE…'); await wait();
     const m = await assemble(name, cands, g);
     if (!m.ok) return say(out, m.why, 'bad');
-    S.mesh = { m, g, set }; S.ledger = (await load('ledger-' + set)) || [];
+    S.mesh = { m, g, set }; S.ledger = [];
     renderMesh();
   } catch (e) { say(out, String(e.message || e), 'bad'); }
 }
 function renderMesh() {
   const { m } = S.mesh, out = $('#mesh-out');
   const kpi = (v, l) => el('div', { class: 'kpi' }, el('div', { class: 'v' }, v), el('div', { class: 'l' }, l));
-  const who = (o) => (o === S.me.pub ? 'you' : o === S.maker.pub ? 'drop maker' : short(o));
+  const who = (o) => (o === S.me.pub ? 'you' : o === S.maker.pub ? 'drop maker' : (S.demoOwners && S.demoOwners.get(o)) || short(o));
   const rows = m.members.map((x) => el('tr', {},
     el('td', { class: 'num' }, x.card ? x.card.slice(0, 8) : '—'), el('td', { class: 'num' }, who(x.owner)), el('td', {}, x.domains || ''), el('td', { class: 'num' }, auc(x.gate)),
     el('td', {}, x.joined ? el('span', { class: 'chip live' }, 'fielded') : el('span', { class: 'dim' }, x.why)),
@@ -398,13 +406,13 @@ async function meshJob() {
   if (!S.mesh) return;
   const n = Math.max(1, Math.min(1e6, Math.round(Number($('#mesh-cases').value) || 0))), r = work(S.mesh.m, S.ledger, { job: 'job-' + (S.ledger.length + 1), cases: n });
   if (!r.ok) return say($('#mesh-ledger'), r.why, 'bad');
-  S.ledger = r.log; await save('ledger-' + S.mesh.set, S.ledger); renderLedger();
+  S.ledger = r.log; renderLedger();
 }
 function renderLedger() {
   const t = tally(S.ledger, S.mesh.m);
   clear($('#mesh-ledger'), el('p', { class: 'dim' }, S.ledger.length + ' job' + (S.ledger.length === 1 ? '' : 's') + ' in the ledger; replayed from the shares just now: ' + (t.ok ? 'every credit holds.' : t.why)),
     t.ok && Object.keys(t.totals).length ? el('div', { class: 'tw' }, el('table', {}, el('thead', {}, el('tr', {}, el('th', {}, 'Owner'), el('th', {}, 'Credits (cases × share, millionths)'))),
-      el('tbody', {}, Object.entries(t.totals).map(([o, c]) => el('tr', {}, el('td', { class: 'num' }, o === S.me.pub ? 'you' : o === S.maker.pub ? 'drop maker' : short(o)), el('td', { class: 'num' }, c.toLocaleString())))))) : null);
+      el('tbody', {}, Object.entries(t.totals).map(([o, c]) => el('tr', {}, el('td', { class: 'num' }, o === S.me.pub ? 'you' : o === S.maker.pub ? 'drop maker' : (S.demoOwners && S.demoOwners.get(o)) || short(o)), el('td', { class: 'num' }, c.toLocaleString())))))) : null);
 }
 
 // ── your own table ───────────────────────────────────────────────────────────────────────────────────────────────────
@@ -421,8 +429,11 @@ async function ownFile(file) {
 }
 function ownValues() {
   const t = $('#own-target').value, lines = ownText.split(/\r?\n/).filter(Boolean), head = lines[0].split(',').map((c) => c.trim().replace(/^"(.*)"$/, '$1')), j = head.indexOf(t);
-  const vals = [...new Set(lines.slice(1, 2001).map((l) => (l.split(',')[j] || '').trim().replace(/^"(.*)"$/, '$1')))].slice(0, 20);
+  const seen = lines.slice(1, 2001).map((l) => (l.split(',')[j] || '').trim().replace(/^"(.*)"$/, '$1')), vals = [...new Set(seen)].slice(0, 20);
   clear($('#own-positive'), vals.map((x) => el('option', { value: x }, x)));
+  // the likely “yes”: a yes-like word if there is one, else the rarer answer (cases are usually the minority)
+  const yes = vals.find((x) => /^(yes|y|true|1|positive)$/i.test(x)) || vals.slice().sort((a, b) => seen.filter((s) => s === a).length - seen.filter((s) => s === b).length)[0];
+  if (yes !== undefined) $('#own-positive').value = yes;
 }
 async function ownGrow() {
   const out = $('#own-out'), opts = { target: $('#own-target').value, positive: $('#own-positive').value, name: $('#own-name').value.trim() };
@@ -430,6 +441,8 @@ async function ownGrow() {
   if (!g.ok) return say(out, g.why, 'bad');
   const set = 'own-' + g.id.slice(4, 12);
   S.own.set(set, { ...g, text: ownText, opts });
+  const owns = (await load('owns')) || [];   // the table stays on this device: kept in this browser, so its card still grows tomorrow
+  if (!owns.some((o) => o.set === set)) { owns.push({ set, text: ownText, opts }); await save('owns', owns); }
   for (const [k, seed] of seedsFor(g.id, 3).entries()) {
     const t0 = Date.now(), tick = setInterval(() => say(out, 'Searching for a mind on your ' + g.ds.fitRows.length.toLocaleString() + ' FIT rows (try ' + (k + 1) + ' of 3) — ' + Math.round((Date.now() - t0) / 1000) + ' s…'), 500);
     const r = await work_({ op: 'search', own: { text: ownText, opts }, domain: g.ds.name, seed, bar: 0.6 });
@@ -466,8 +479,8 @@ async function renderDrop(stats) {
 async function rerunDrop() {
   const out = $('#drop-out');
   say(out, 'Fetching decoder v1 and the drop log, then replaying every card from nothing…'); await wait();
-  const t0 = performance.now(), r = await checkDrop(lifeOf(S.manifest.first.card).events[1].receipt, { decoder: S.decoder, log: S.glog, maker: S.manifest.maker });
-  say(out, r.ok ? '✓ The drop re-runs: ' + S.glog.length.toLocaleString() + ' cards replayed to head ' + short(S.manifest.log.head) + ', every seal and signature checked, all of one maker; and the decoder here hashes to ' + short(S.decoder) + ', the one #0001 names. (' + Math.round(performance.now() - t0) + ' ms)' : '✗ ' + r.why, r.ok ? 'ok' : 'bad');
+  const receipt = lifeOf(S.manifest.first.card).events[1].receipt, t0 = performance.now(), r = await checkDrop(receipt, { decoder: S.decoder, log: S.glog, maker: S.manifest.maker });
+  say(out, r.ok ? '✓ The drop re-runs: ' + S.glog.length.toLocaleString() + ' cards replayed to head ' + short(receipt.log) + ' (the one #0001 names), every seal and signature checked, all of one maker; and the decoder here hashes to ' + short(S.decoder) + ', the one #0001 names. (' + Math.round(performance.now() - t0) + ' ms)' : '✗ ' + r.why, r.ok ? 'ok' : 'bad');
 }
 async function regrow() {
   const out = $('#regrow-out'), serial = Math.round(Number($('#regrow-serial').value));
@@ -489,12 +502,14 @@ async function costRun() {
     say(out, 'Timing the card on ' + cases.length.toLocaleString() + ' real cases…'); await wait();
     const t0 = performance.now(); for (const x of cases) answer(mind, x); const ms = (performance.now() - t0) / cases.length;
     const ask = 'You are scoring ' + SETS[set].title.toLowerCase() + '. Given this record, answer yes if it ' + SETS[set].outcome + ', otherwise no.\n', text = ask + g.ds.features.map((f) => f + ': ' + cases[0][f]).join('\n');
-    const r = costCase({ cases: Math.max(1, Number($('#cost-cases').value) || 1), minutes: Math.max(0.1, Number($('#cost-minutes').value) || 1), tokensIn: tokensOf(text), tokensOut: 2, ms: Math.max(1e-6, ms) }, lock);
+    const monthly = Math.max(1, Number($('#cost-cases').value) || 1), chosen = $('#cost-model').value || undefined;
+    const r = costCase({ cases: monthly, minutes: Math.max(0.1, Number($('#cost-minutes').value) || 1), tokensIn: tokensOf(text), tokensOut: 2, ms: Math.max(1e-6, ms), model: chosen }, lock);
     if (!r.ok) return say(out, r.why, 'bad');
-    const gbp = (x) => '£' + (x >= 100 ? Math.round(x).toLocaleString('en-GB') : x >= 1 ? x.toFixed(2) : x.toPrecision(2));
-    clear(out, el('div', { class: 'kpis' }, el('div', { class: 'kpi' }, el('div', { class: 'v' }, gbp(r.total.hand)), el('div', { class: 'l' }, 'by hand, 3 years')), el('div', { class: 'kpi' }, el('div', { class: 'v' }, gbp(r.total.rented)), el('div', { class: 'l' }, 'rented (' + r.model.model + '), 3 years')),
-      el('div', { class: 'kpi' }, el('div', { class: 'v' }, gbp(r.total.card)), el('div', { class: 'l' }, 'the DIGI card, 3 years')), el('div', { class: 'kpi' }, el('div', { class: 'v' }, (100 * r.pct.vsRented).toFixed(r.pct.vsRented > 0.9999 ? 4 : 1) + '%'), el('div', { class: 'l' }, 'less than renting'))),
-      el('p', {}, el('b', {}, 'The card: ' + gbp(r.total.card) + ' of electricity against ' + gbp(r.total.rented) + ' of rent and ' + gbp(r.total.hand) + ' of staff time.'), ' Both AI ways take the person’s minute off each case; only the card keeps the records in the building and has no bill that grows with use.'),
+    const gbp = (x) => '£' + (x >= 100 ? Math.round(x).toLocaleString('en-GB') : x >= 1 ? x.toFixed(2) : new Intl.NumberFormat('en-GB', { maximumSignificantDigits: 2 }).format(x));
+    const sent = monthly * 12 * r.years.length, kpi = (v, l) => el('div', { class: 'kpi' }, el('div', { class: 'v' }, v), el('div', { class: 'l' }, l));
+    clear(out, el('div', { class: 'kpis' }, kpi(gbp(r.saving.vsHand), 'staff time taken off, 3 years (either AI way)'), kpi(sent.toLocaleString('en-GB'), 'records sent out of the building by renting'), kpi('0', 'records sent out by the card'), kpi(gbp(r.total.card), 'the card’s electricity, 3 years')),
+      el('p', {}, el('b', {}, 'Either AI way takes ' + gbp(r.saving.vsHand) + ' of staff time off these cases over three years. Renting sends ' + sent.toLocaleString('en-GB') + ' records out of the building and bills ' + gbp(r.total.rented) + ' (' + r.model.model + '); the card sends none and costs ' + gbp(r.total.card) + ' of electricity.'),
+        ' Cheap cloud models are cheap per case — the difference that matters is that every rented answer is a record handed to a processor, and every card answer is not.'),
       el('div', { class: 'tw' }, el('table', {}, el('thead', {}, el('tr', {}, ['', 'Per case', 'Year 1', 'Year 2', 'Year 3'].map((h) => el('th', {}, h)))), el('tbody', {}, ['hand', 'rented', 'card'].map((k) => el('tr', {}, el('td', {}, { hand: 'By hand', rented: 'Rented model', card: 'DIGI card' }[k]), el('td', { class: 'num' }, gbp(r.perCase[k])), r.years.map((y) => el('td', { class: 'num' }, gbp(y[k])))))))),
       el('p', { class: 'dim', style: 'font-size:13px' }, 'Measured here: ' + ms.toFixed(4) + ' ms per case (card #' + String(best.serial).padStart(4, '0') + ', ' + best.domain + '). A case sent to a model: about ' + tokensOf(text) + ' tokens in (the record and the question, at about four characters a token), 2 out. Staff and electricity rise with CPI (' + (r.used.cpi * 100).toFixed(1) + '%); token prices are the provider’s today. Sources: ',
         r.used.sources.map((s, k) => [k ? ', ' : '', el('a', { href: s.source }, s.id), ' (' + s.checked + ')']), '.'));
@@ -567,6 +582,7 @@ async function boot() {
   S.me = await loadMe(); renderMe();
   S.maker = await demoMaker();
   S.checked = new Set((await load('checked')) || []);
+  for (const o of (await load('owns')) || []) { const g = ownGround(o.text, o.opts); if (g.ok) S.own.set(o.set, { ...g, text: o.text, opts: o.opts }); }
   try {
     const stats = await loadDrop((t) => say(status, t));
     await loadTail();
