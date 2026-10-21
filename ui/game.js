@@ -29,6 +29,7 @@ import { UI_ICONS, DATASET_ICONS, identicon as keyFace } from '../vendor/pixelwh
 import { paintEstate, tilesFor } from '../vendor/pixelwhisperer/kards/estate.mjs';
 import { paintSlot } from '../vendor/pixelwhisperer/kards/gear.mjs';
 import { paintDuel } from '../vendor/pixelwhisperer/kards/arena.mjs';
+import { offered, shownDesc, sayOutcome, SHOWN_AS } from '../src/copy.mjs';
 import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 import { crc32, cat, zlibStored } from '../vendor/dex-frontier/vendor/living-seed/src/card.mjs';
@@ -80,23 +81,23 @@ const INFO = {
   give: 'A give hands the card to another key for good. To get it back, they must give it back. Send the same card twice and the second is refused.',
   mesh: 'Cards from one business’s departments answering together. Only scores pass between them, never records. Each card’s share is its measured part of a million.',
   credits: 'Accounting of what your cards measurably added in a mesh. Not money; it cannot be cashed.',
-  estatestats: 'Blocks: cards you hold. Levels re-run: levels your cards earned and this device re-checked. Births: children that beat both parents, and pairings refused. Mesh links: your cards joined, by your consent, in a mesh.',
+  estatestats: 'Blocks: cards you hold. Levels re-run: levels your cards earned and this device re-checked. Fusions: fused cards that beat both parents, and pairs refused. Mesh links: your cards joined, by your consent, in a mesh.',
   legend: 'A cyan wire joins cards of yours working together in a mesh. A green top marks a card new since your last visit. Grey fenced tiles open as you hold more cards: a district holding n cards opens 8 + 2n tiles, up to 36.',
   test: 'The same measure on cases nothing in the build ever grew on or was chosen by: the honest check.',
   abstain: 'When its rules cannot read a case, it says “I don’t know” instead of guessing.',
   lv: 'Levels earned. A level counts only when a new search beats its mind by 0.002 and anyone can re-run it. Rarity follows the level.',
-  gen: 'Generation: 0 for a genesis card; a child is one more than its parents.',
+  gen: 'Generation: 0 for a genesis card; a fused card is one more than its parents.',
   owners: 'How many keys it has passed through. Replay checks its whole signed life.',
   worldboss: 'A whole business, at the best score any lone genesis search reached on it plus 0.010. No card alone has reached it: a party can, of your own cards and friends’ by their owners’ consent. The party’s record names every member card, its owner and its measured share.',
   raids: 'A raid is many players searching one unsolved department, each search signed and re-checkable. The boss’s health is how far the best search so far is from the 0.6 bar. The first strike to clear it fells the boss, and its striker seals the first card of that department — the loot. The best of many tries is luckier than one: the screen always says how many strikes it took.',
   arena: 'Two cards of one business meet on 64 cases both minds were proven on, chosen by both owners’ signatures together. Each side fights as it is kitted: its nodes answer with it, weighed on GATE cases outside the batch; its tools change nothing. The side that ranks the cases better wins. Nothing is staked: a duel moves no card and no credit, and anyone re-runs it from its receipt.',
-  kit: 'Your DIGI’s inventory. Node slots hold your own cards of the same business, which answer with it; tool slots hold app items, which ride with it. Every card has its slots from birth, and levels open more node slots.',
+  kit: 'Your DIGI’s inventory. Node slots hold your own cards of the same business, which answer with it; tool slots hold app items, which ride with it. Every card has its slots from its issue, and levels open more node slots.',
   nodes: 'A node is another card of yours from the same business, for a department your DIGI does not cover. It joins only if it measurably adds: it must answer here, cover something new and beat a coin on GATE.',
   tools: 'A tool is one of the estate’s apps whose own CI passed on GitHub’s machines at the commit it names. It opens from here, and it moves no score.',
   kitted: 'The kitted mind is your DIGI and its nodes coupled into one answer, scored out of fold on GATE. A slot’s worth is the score with it, less the score without it.',
   mintnode: 'Minting a node is one search on a department, from a seed your key fixes, like a raid strike. Only a mind that clears 0.6 on GATE is sealed, with you as its maker.',
   mintapp: 'Minting an app tool signs an item naming that app, its commit and the run that proved it. It is free, and it checks only while the estate’s records list the app exactly so.',
-  record: 'Your record in the estate’s contribution ledger: the release of every card and app tool you made, and the measured share of every card in every party you struck — each recorded only once its proof re-runs here, nothing counted twice. Units are internal contribution units, not money; the switch that would make any allocation live is off.',
+  record: 'Your record in the credits ledger: the release of every card and app tool you made, and the measured share of every card in every party you struck — each recorded only once its proof re-runs here, nothing counted twice. Credits are accounting, not money; the switch that would make any allocation live is off.',
   ladder: 'Ratings from the duels this device has seen, in order, from a published table — the same on every device. Self-play is never rated.',
 };
 /** an "i" button and the sentence it opens, beside the term it explains */
@@ -341,7 +342,7 @@ async function renderBase() {
   const tag = $('#g-feat-tag'); tag.textContent = isGenesis(v) ? 'genesis' : 'gen ' + v.generation; tag.className = 'g-tag ' + (isGenesis(v) ? 'ok' : 'cy');
   fill($('#g-feat-line'), el('span', { class: 'g-dim' }, (SET_NAMES[f.dataset] || 'Your own') + ' · ' + f.department), el('span', { class: 'g-tag cy' }, grown ? 'GATE ' + four(grown.gate) + ' · measured here' : dec && !v.receipts.length ? 'GATE ' + four(dec.gate) + ' · declared' : 'boot to measure'),
     el('span', { class: 'g-tag' }, f.rarity + ' lv' + f.stage), el('span', { class: 'g-tag' + (v.owner === S.me.pub ? ' ok' : '') }, whose(v)));
-  fill($('#g-feat-note'), v.owner === S.me.pub ? '' : 'Not yours: boot it, eval it, verify it — only its owner can train, breed, skin or send it.');
+  fill($('#g-feat-note'), v.owner === S.me.pub ? '' : 'Not yours: boot it, eval it, verify it — only its owner can train, fuse, skin or send it.');
   // ops log: what ran while you were away, then the one next thing
   const since = G.since, away = G.st.log.filter((x) => since && x.t > since);
   const searches = away.filter((x) => x.type === 'search').length, levels = away.filter((x) => x.type === 'level').length, refused = away.filter((x) => x.type === 'refused' || (x.type === 'search' && !x.kept) || (x.type === 'birth' && !x.kept)).length;
@@ -375,7 +376,7 @@ function renderTicker() {
     if (d.events[0] && d.events[0].generation > 0) births++;
   }
   const refused = G.st.refused + G.st.births.refused;
-  fill($('#g-ticker'), line('k', 'Levels, each re-checked · ' + levels), line('r', 'Forged or broken cards turned away · ' + refused), line('', 'Child cards born · ' + births), line('', 'Cards handed from key to key · ' + gives.toLocaleString()), line('y', 'Genesis cards issued · ' + issued.toLocaleString()),
+  fill($('#g-ticker'), line('k', 'Levels, each re-checked · ' + levels), line('r', 'Forged or broken cards turned away · ' + refused), line('', 'Fused cards kept · ' + births), line('', 'Cards handed from key to key · ' + gives.toLocaleString()), line('y', 'Genesis cards issued · ' + issued.toLocaleString()),
     line('x', S.manifest.total.toLocaleString() + ' genesis cards · the rules for making them were fixed before the first one was made'), line('x', 'Log head ' + S.manifest.log.head.slice(0, 8) + '…' + S.manifest.log.head.slice(-4)));
 }
 function renderSkins(v, d) {
@@ -402,14 +403,14 @@ async function renderEstate() {
   const levels = held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0);
   const born = held.filter((h) => h.v.generation > 0).length;
   const links = S.mesh ? S.mesh.m.fielded.filter((x) => x.owner === S.me.pub).length : 0;
-  fill($('#g-estate-stats'), [['Blocks', held.length], ['Levels, re-checked', levels], ['Births kept', born], ['Births refused', G.st.births.refused], ['Mesh links', links]].flatMap(([k, n]) => [el('dt', {}, k), el('dd', {}, String(n))]));
+  fill($('#g-estate-stats'), [['Blocks', held.length], ['Levels, re-checked', levels], ['Fusions kept', born], ['Fusions refused', G.st.births.refused], ['Mesh links', links]].flatMap(([k, n]) => [el('dt', {}, k), el('dd', {}, String(n))]));
   const sets = {};
   for (const h of held) sets[h.f.dataset] = (sets[h.f.dataset] || 0) + 1;
   const kits = held.filter((h) => (G.st.loadouts || {})[h.id]).length, tools = (await heldItems()).length, felled = Object.keys(G.st.loot || {}).length;
   fill($('#g-districts'), line('k', 'Cards', el('small', {}, String(held.length))), line(kits ? 'k' : '', 'Kitted DIGIs', el('small', {}, String(kits))), line(tools ? 'k' : '', 'App tools', el('small', {}, String(tools))), line(links ? 'k' : '', 'Mesh links', el('small', {}, String(links))), line(felled ? 'k' : '', 'Bosses felled', el('small', {}, String(felled))));
   const away = G.st.log.filter((x) => G.since && x.t > G.since);
   const bred = away.filter((x) => x.type === 'birth'), kept = bred.filter((x) => x.kept).length;
-  fill($('#g-overnight'), line('', away.filter((x) => x.type === 'search').length + ' searches ran'), line('k', away.filter((x) => x.type === 'level').length + ' levels kept · re-run'), line('', bred.length + ' bred · ' + kept + ' kept'), line('r', away.filter((x) => x.type === 'search' && !x.kept).length + ' searches refused'));
+  fill($('#g-overnight'), line('', away.filter((x) => x.type === 'search').length + ' searches ran'), line('k', away.filter((x) => x.type === 'level').length + ' levels kept · re-run'), line('', bred.length + ' fused · ' + kept + ' kept'), line('r', away.filter((x) => x.type === 'search' && !x.kept).length + ' searches refused'));
   await drawPlot(held);
 }
 /** what the painter is handed: the verified holdings, the consented wires between them, the levels — nothing else */
@@ -425,19 +426,20 @@ async function worldOf(held) {
   return { items: [...items.values()], swarms };
 }
 /** what the painter is handed: the verified holdings, the consented wires between them, the levels, the tools and kits —
- *  drawn as only the districts DIGI holds (scorer, tools, swarm), so no district on the plot is fenced off as not yet open */
+ *  drawn as only the districts DIGI holds (scorer, tools, swarm), so no district on the plot is fenced off as not yet open,
+ *  and the swarm district lettered KITTED: in DIGI it holds each DIGI kitted with its nodes */
 function holdingsOf(held, snapshot = false, world = { items: [], swarms: [] }) {
   const since = G.since, fresh = (id) => !!(since && G.st.log.some((e) => e.id === id && e.t > since && (e.type === 'card' || e.type === 'birth' || e.type === 'minted')));
   const ids = new Set(held.map((h) => h.id)), mineIn = S.mesh ? S.mesh.m.members.filter((m) => m.joined && ids.has(m.card)).map((m) => m.card) : [];
   return { cards: held.map((h) => ({ id: h.id, dataset: h.f.dataset, department: String(h.f.department).slice(0, 16), stage: h.f.stage, rarity: h.f.rarity, generation: h.f.generation, fresh: fresh(h.id) })),
     wires: mineIn.slice(1).map((id, k) => [mineIn[k], id]), levels: held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0), snapshot,
-    items: world.items, swarms: world.swarms, districts: ['scorer', 'tools', 'swarm'] };
+    items: world.items, swarms: world.swarms, districts: ['scorer', 'tools', 'swarm'], names: { swarm: 'KITTED' } };
 }
 const plotTheme = () => (document.documentElement.dataset.ui === 'blockcraft' ? 'blockcraft-v1' : 'synthwave-v1');
 async function drawPlot(held) {
   const c = $('#g-plot'), open = tilesFor(held.length), world = await worldOf(held);
-  setK('g-plot-open', 'Scorer ' + open + ' tiles · tools ' + tilesFor(world.items.length) + ' · swarm ' + tilesFor(world.swarms.length));
-  fill($('#g-plot-rule'), 'The published rule: a district holding n blocks opens 8 + 2n tiles, up to 36 · SCORER holds your cards, TOOLS your app tools, SWARM each DIGI kitted with its nodes · drawn from your holdings only, by PixelWhisperer’s estate painter');
+  setK('g-plot-open', 'Scorer ' + open + ' tiles · tools ' + tilesFor(world.items.length) + ' · kitted ' + tilesFor(world.swarms.length));
+  fill($('#g-plot-rule'), 'The published rule: a district holding n blocks opens 8 + 2n tiles, up to 36 · SCORER holds your cards, TOOLS your app tools, KITTED each DIGI kitted with its nodes · drawn from your holdings only, by PixelWhisperer’s estate painter');
   if (!c) return;
   const art = paintEstate(holdingsOf(held, false, world), plotTheme(), c.width, c.height);
   if (!art.ok) return fill($('#g-plot-rule'), 'The estate could not be drawn: ' + art.why);
@@ -564,14 +566,14 @@ function renderLab() {
   const lab = $('#g-breedlab'), opts = [...$('#breed-partner').options].filter((o) => o.value);
   lab.querySelectorAll('.g-lab').forEach((n) => n.remove());
   const pick = el('select', { 'aria-label': 'The partner card' }, opts.map((o) => el('option', { value: o.value }, o.textContent)));
-  const go_ = el('button', { type: 'button', class: 'g-btn hot', disabled: !opts.length, onclick: async () => { $('#breed-partner').value = pick.value; go_.disabled = true; await api.actBreed(); go_.disabled = false; renderInspect(); } }, 'Breed');
+  const go_ = el('button', { type: 'button', class: 'g-btn hot', disabled: !opts.length, onclick: async () => { $('#breed-partner').value = pick.value; go_.disabled = true; await api.actBreed(); go_.disabled = false; renderInspect(); } }, 'Fuse');
   lab.append(el('div', { class: 'g-lab g-row' }, opts.length ? [el('span', {}, 'Partner'), pick, go_] : el('span', { class: 'g-dim' }, 'You hold no other card of this business: card me, or mint one.')),
-    el('p', { class: 'g-lab g-small g-dim' }, 'Across departments, 40 of 40 children beat both parents on TEST · within one department only 12 of 26 did (organ 4: a failed prediction, kept)'));
+    el('p', { class: 'g-lab g-small g-dim' }, 'Across departments, 40 of 40 fused cards beat both parents on TEST · within one department only 12 of 26 did (organ 4: a failed prediction, kept)'));
 }
 
 // ── eval runs ────────────────────────────────────────────────────────────────────────────────────────────────────────
-const MISSIONS = [{ key: 'drop', name: 'Re-check all 1,000 genesis cards on this device', href: '#proof' }, { key: 'own', name: 'Make a card from your own spreadsheet', href: '#mint' }, { key: 'breed', name: 'Breed a child card that beats both its parents', href: '#cards' }];
-const TITLES_EARNED = { evals3: 'Band reader', drop: 'Decoder', own: 'Maker', breed: 'Breeder' };
+const MISSIONS = [{ key: 'drop', name: 'Re-check all 1,000 genesis cards on this device', href: '#proof' }, { key: 'own', name: 'Make a card from your own spreadsheet', href: '#mint' }, { key: 'breed', name: 'Fuse two cards into one that beats both its parents', href: '#cards' }];
+const TITLES_EARNED = { evals3: 'Band reader', drop: 'Decoder', own: 'Maker', breed: 'Fuser' };
 function renderEvals() {
   const n = G.st.evals.day === today() ? G.st.evals.n : 0, id = featured(), v = id && S.reg.cards[id];
   fill($('#g-today'), el('div', { class: 'g-line m' }, 'Ask your card about 3 real cases', el('small', {}, Math.min(n, 3) + ' of 3')), el('div', { class: 'g-bar' }, el('i', { style: 'width:' + Math.round((Math.min(n, 3) / 3) * 100) + '%;background:#7dff8a' })),
@@ -659,7 +661,7 @@ async function fightWith(vA, vB, keysA, keysB, nonce) {
 }
 async function arenaFight() {
   const aId = $('#g-ar-mine').value, bId = A.tab === 'drop' ? $('#g-ar-foe').value : $('#g-ar-own').value;
-  if (!aId || !bId) return fill($('#g-ar-result'), el('p', { class: 'g-badt' }, A.tab === 'mine' ? 'You hold no other card of this business: card me, breed or mint one.' : 'Pick a fighter and an opponent.'));
+  if (!aId || !bId) return fill($('#g-ar-result'), el('p', { class: 'g-badt' }, A.tab === 'mine' ? 'You hold no other card of this business: card me, fuse or mint one.' : 'Pick a fighter and an opponent.'));
   const btn = $('#g-ar-fight'); btn.disabled = true; btn.textContent = 'Fighting…';
   try {
     const vA = await verify(api.lifeOf(aId)), vB = await verify(api.lifeOf(bId));
@@ -685,7 +687,8 @@ function showDuel(r, vA, vB) {
     el('p', {}, 'Your mind ' + six(x.a.auc) + ' · theirs ' + six(x.b.auc) + ' (AUC on the batch)'),
     el('p', { class: 'g-small' }, 'Yours fought ' + kitLine(r.sides.a) + ' · theirs ' + kitLine(r.sides.b)),
     el('p', { class: 'g-small g-dim' }, x.self ? 'Practice: one owner on both sides, so no rating moves' : 'Rating ' + (move >= 0 ? '+' : '') + move + ' → ' + (after[vA.id] ?? 1000)),
-    el('p', { class: 'g-small g-dim' }, 'Each side calls yes for its top ' + pos + ' cases (as many yeses as the batch holds) · cyan: only yours called it right · pink: only theirs · grey: both · dark: neither'));
+    el('p', { class: 'g-small g-dim' }, 'Each side calls yes for its top ' + pos + ' cases (as many yeses as the batch holds) · cyan: only yours called it right · pink: only theirs · grey: both · dark: neither'),
+    el('a', { class: 'g-btn hot big g-next', id: 'g-ar-next', href: '#estate' }, 'Next · see your estate'));
   const sideArt = (v, sd, k, rating) => ({ id: v.id, rarity: facts(v).rarity, rating: Math.max(0, Math.min(9999, rating)), title: artText(facts(v).title, 16), kit: sd && sd.loadout && k ? { slots: slotsOf(v).nodes, fielded: Math.min(slotsOf(v).nodes, k.fielded.length - 1) } : null });
   const drawn = paintOn($('#g-ar-duelart'), paintDuel({ left: sideArt(vA, r.sides && r.sides.a, r.kits && r.kits.a, after[vA.id] ?? 1000), right: sideArt(vB, r.sides && r.sides.b, r.kits && r.kits.b, after[vB.id] ?? 1000),
     cases: r.batch.map((row, k) => [(r.scores.a[k] >= lineA) === (r.y[k] === 1) ? 1 : 0, (r.scores.b[k] >= lineB) === (r.y[k] === 1) ? 1 : 0]), result: x.winner === 'a' ? 'left' : x.winner === 'b' ? 'right' : 'draw' }, plotTheme(), 480, 320));
@@ -766,7 +769,7 @@ async function renderRaids() {
     const raidArt = { dataset: b.set, department: b.domain.slice(b.set.length + 1), best: r.best, attempts: Math.min(99999, r.strikes) };
     if ((r.fallen && !loot[b.domain]) || !paintOn(pic, paintRaid(r.fallen ? { ...raidArt, loot: loot[b.domain] } : raidArt, plotTheme(), 240, 160))) pic.hidden = true;
     return el('div', { class: 'g-boss' + (r.fallen ? ' down' : '') }, pic, el('h3', {}, b.domain.replace('-', ' ')),
-      el('p', { class: 'g-small g-dim' }, 'The ' + b.domain.slice(b.set.length + 1) + ' records of ' + (SETS[b.set] ? SETS[b.set].title.toLowerCase() : b.set) + ' · the question: ' + (SETS[b.set] ? SETS[b.set].outcome : 'yes or no') + '? · no mind of these columns alone has answered it well enough yet'),
+      el('p', { class: 'g-small g-dim' }, 'The ' + b.domain.slice(b.set.length + 1) + ' records of ' + (SETS[b.set] ? SETS[b.set].title.toLowerCase() : b.set) + ' · the question: ' + (SETS[b.set] ? sayOutcome(b.set, SETS[b.set].outcome) : 'yes or no') + '? · no mind of these columns alone has answered it well enough yet'),
       pic.hidden ? el('div', { class: 'g-hp', role: 'img', 'aria-label': 'Health ' + six(r.hp) + ' from the bar' }, el('i', { style: 'width:' + Math.min(100, Math.round((r.hp / 100000) * 100)) + '%' })) : null,
       el('p', { class: 'g-small' }, r.fallen ? 'Fallen after ' + r.kill.after + ' strike' + (r.kill.after === 1 ? '' : 's') + ' · ' + six(r.kill.gate) + ' by ' + (r.kill.by === S.me.pub ? 'you' : api.short(r.kill.by)) : 'Best so far ' + six(r.best) + ' of the 0.600000 it needs to fall · ' + six(r.hp) + ' to go'),
       el('p', { class: 'g-small g-dim' }, 'Genesis tried ' + b.searched + ' · raid strikes ' + r.strikes + ' (' + mine + ' yours) · ' + Object.keys(r.strikers).length + ' striker' + (Object.keys(r.strikers).length === 1 ? '' : 's')),
@@ -948,7 +951,7 @@ async function renderKitNodes(v, s) {
     if (id) {
       const m = same.find((x) => x.id === id), w = worth.get(id);
       const shown = w && w.joined ? Math.max(-999999, Math.min(999999, w.contribution)) : 0;
-      out.push(el('div', { class: 'g-kslot full' }, slotArt({ kind: 'node', card: { id: m.id, rarity: m.f.rarity }, worth: shown, joined: w ? w.joined : true }, 'Node slot ' + (i + 1) + ': ' + m.f.title + (w ? (w.joined ? ', worth ' + shown + ' millionths' : ', not joined') : '')), name, el('span', {}, m.f.title + ' #' + pad4(m.v.serial)), el('small', {}, m.f.department + (w ? (w.joined ? ' · worth ' + (w.contribution >= 0 ? '+' : '') + six(w.contribution) : ' · ' + w.why) : ' · measure it to see its worth')),
+      out.push(el('div', { class: 'g-kslot full' }, slotArt({ kind: 'node', card: { id: m.id, rarity: m.f.rarity }, worth: shown, joined: w ? w.joined : true }, 'Node slot ' + (i + 1) + ': ' + m.f.title + (w ? (w.joined ? ', adds ' + shown + ' millionths' : ', not joined') : '')), name, el('span', {}, m.f.title + ' #' + pad4(m.v.serial)), el('small', {}, m.f.department + (w ? (w.joined ? ' · adds ' + (w.contribution >= 0 ? '+' : '') + six(w.contribution) : ' · ' + w.why) : ' · measure it to see what it adds')),
         el('button', { type: 'button', class: 'g-btn', onclick: () => { KIT.nodes.splice(i, 1); KIT.measured = null; renderKit(); } }, 'Take out')));
       continue;
     }
@@ -1028,8 +1031,8 @@ async function kitMeasure() {
   KIT.measured = k; note('kit', { id: v.id, gate: k.gate, lift: k.lift });
   const plus = (m) => (m >= 0 ? '+' : '') + six(m);
   fill(out, el('p', { class: 'g-win ' + (k.lift > 0 ? 'ok' : 'draw') }, 'Kitted ' + six(k.gate)), el('p', {}, 'Alone ' + six(k.alone) + ' · lift ' + plus(k.lift) + ' · out of fold on ' + k.rows.toLocaleString() + ' GATE cases'),
-    el('ul', { class: 'g-lines' }, line('k', 'Your DIGI', el('small', {}, 'worth ' + plus(k.own))), k.slots.map((x, i) => line(x.joined ? 'k' : 'r', 'Node ' + (i + 1) + ' · ' + (x.domains || '–'), el('small', {}, x.joined ? 'worth ' + plus(x.contribution) : x.why)))),
-    el('p', { class: 'g-small g-dim' }, 'Worth: the kitted score with it, less without it. Whether a lift on GATE holds on TEST, cases nothing here was chosen by, is measured by organ 10, not assumed here.'));
+    el('ul', { class: 'g-lines' }, line('k', 'Your DIGI', el('small', {}, 'adds ' + plus(k.own))), k.slots.map((x, i) => line(x.joined ? 'k' : 'r', 'Node ' + (i + 1) + ' · ' + (x.domains || '–'), el('small', {}, x.joined ? 'adds ' + plus(x.contribution) : x.why)))),
+    el('p', { class: 'g-small g-dim' }, 'Adds: the kitted score with it, less the score without it. Whether a lift on GATE holds on TEST, cases nothing here was chosen by, is measured by organ 10, not assumed here.'));
   await renderKitNodes(v, slotsOf(v));
 }
 async function kitEquip() {
@@ -1041,7 +1044,8 @@ async function kitEquip() {
   G.st.loadouts = { ...(G.st.loadouts || {}), [v.id]: r.loadout };
   note('equip', { id: v.id, nodes: nodes.length, tools: tools.length });
   saveState(); bleep('kept');
-  fill(out, el('p', { class: 'g-okt' }, '✓ Equipped · signed by your key for this card and each node as they stand. It fights kitted in the arena now. Give a card away, level it, or move a node, and you equip again.'));
+  fill(out, el('p', { class: 'g-okt' }, '✓ Equipped · signed by your key for this card and each node as they stand. It fights kitted in the arena now. Give a card away, level it, or move a node, and you equip again.'),
+    el('a', { class: 'g-btn hot big g-next', id: 'g-kit-next', href: '#arena' }, 'Next · fight in the arena'));
   renderKit();
 }
 async function renderKitApps() {
@@ -1049,8 +1053,8 @@ async function renderKitApps() {
   for (const t of ['proven', 'works']) $('#g-kit-t-' + t).setAttribute('aria-selected', String(KIT.tier === t));
   if (!rec) { fill(n); return fill(box, line('r', 'The estate’s app records did not load.')); }
   const q = String($('#g-kit-q').value || '').trim().toLowerCase(), desc = (b) => String((rec.rows.get(b.app) || {}).desc || '');
-  const all = [...rec.apps.values()].filter((b) => b.tier === KIT.tier && (!q || b.app.toLowerCase().includes(q) || desc(b).toLowerCase().includes(q))), shown = all.slice(0, 20);
-  fill(box, shown.length ? shown.map((b) => line('', el('span', {}, el('b', {}, b.app), el('small', { class: 'g-dim' }, ' ' + desc(b).slice(0, 80))), el('button', { type: 'button', class: 'g-btn', onclick: () => appMint(b.app), 'aria-label': 'Mint ' + b.app + ' as a tool' }, 'Mint this tool'))) : line('x', 'No ' + KIT.tier + ' app matches that'));
+  const all = [...rec.apps.values()].filter((b) => offered(b.app) && b.tier === KIT.tier && (!q || b.app.toLowerCase().includes(q) || desc(b).toLowerCase().includes(q))), shown = all.slice(0, 20);
+  fill(box, shown.length ? shown.map((b) => line('', el('span', {}, el('b', { 'data-quote': 'sourced' }, b.app), el('small', { class: 'g-dim' }, ' ' + shownDesc(desc(b)).slice(0, 80))), el('button', { type: 'button', class: 'g-btn', onclick: () => appMint(b.app), 'aria-label': 'Mint ' + b.app + ' as a tool' }, 'Mint this tool'))) : line('x', 'No ' + KIT.tier + ' app matches that'));
   fill(n, all.length.toLocaleString() + ' ' + KIT.tier + ' app' + (all.length === 1 ? '' : 's') + (all.length > shown.length ? ' · showing ' + shown.length + ': type a name or a word to find one' : '') + ' · each passed its own CI on GitHub’s machines at the commit it names (mint-an-app’s records) · minting is free');
 }
 async function appMint(name) {
@@ -1133,7 +1137,7 @@ async function partyGo(b) {
     const vOf = new Map(cands.map((c) => [c.v.id, c.v]));
     fill(out, el('p', { class: r.cleared ? 'g-okt' : '' }, (r.cleared ? '★ The world boss falls: the party scored ' : 'The party scored ') + six(r.clear.gate) + ' on GATE against the bar ' + six(b.bar) + ' (its best card alone ' + six(r.best) + ')'),
       el('ul', { class: 'g-lines' }, r.clear.members.map((x) => line('k', '#' + pad4(vOf.get(x.card).serial) + ' ' + facts(vOf.get(x.card)).department, el('small', {}, (x.owner === S.me.pub ? 'yours' : api.short(x.owner)) + ' · share ' + x.share.toLocaleString())))),
-      el('p', { class: 'g-small g-dim' }, 'Shares are parts of a million: each member’s worth to the party, measured by leaving it out · ' + r.clear.members.length + ' fielded, ' + (r.mesh.members.length - r.clear.members.length) + ' on the bench · the receipt re-runs from the cards and the consents'));
+      el('p', { class: 'g-small g-dim' }, 'Shares are parts of a million: what each member adds to the party, measured by leaving it out · ' + r.clear.members.length + ' fielded, ' + (r.mesh.members.length - r.clear.members.length) + ' on the bench · the receipt re-runs from the cards and the consents'));
     bleep(r.cleared ? 'level' : 'refused');
   } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
   finally { P.busy.delete(b.set); renderWorld(); }
@@ -1303,7 +1307,7 @@ async function renderOrgans() {
     return { k, name: p ? p.organ : 'organ ' + k, blind: !(p && p.disclosure), held: v ? v.verdicts.filter((x) => x.pass).length : 0, all: v ? v.verdicts.length : 0 };
   }));
   const held = organs.reduce((n, o) => n + o.held, 0), all = organs.reduce((n, o) => n + o.all, 0);
-  fill($('#g-organs'), organs.map((o) => line(o.held === o.all ? 'k' : 'y', o.k + ' · ' + String(o.name).split(/[:—]/)[0].trim().slice(0, 28) + (o.blind ? '' : ' · not blind'), el('small', {}, o.held + '/' + o.all))), line('m', held + ' of ' + all + ' claims held', el('small', {}, (all - held) + ' failed · kept on show')));
+  fill($('#g-organs'), organs.map((o) => line(o.held === o.all ? 'k' : 'y', o.k + ' · ' + (SHOWN_AS[o.k] ? SHOWN_AS[o.k] + ' (sealed as ‘' + String(o.name).split(/[:—]/)[0].trim() + '’)' : String(o.name).split(/[:—]/)[0].trim().slice(0, 28)) + (o.blind ? '' : ' · not blind'), el('small', {}, o.held + '/' + o.all))), line('m', held + ' of ' + all + ' sealed rules held', el('small', {}, (all - held) + ' failed · kept on show')));
 }
 async function find() {
   const q = ($('#g-find').value || '').trim().toLowerCase(), out = $('#g-find-out');

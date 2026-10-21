@@ -4,14 +4,20 @@
 // to count up to the score the device computed, which must match the one the drop declared. It then visits every screen
 // from the dock, evals a real TEST case, assembles a mesh whose shares must sum to a million, verifies a card on the
 // device, switches to the classic view and back, and lays every screen out at phone width without a sideways scroll.
-// Any console error, uncaught exception or screen left blank fails it. Downloads are denied, so nothing is saved.
+// Any console error, uncaught exception or screen left blank fails it, and so does any word DIGI's copy never uses
+// (src/copy.mjs) in the text a screen shows, read on every screen and after every result. It follows the first visit's
+// one NEXT path — BOOT → KIT → ARENA → ESTATE → GROW YOUR OWN — and searches the Kit for the money side and the ledger's
+// own apps, which it never offers. Downloads are denied, so nothing is saved.
 //   node tools/ui-play.mjs           → UI PLAY OK | UI PLAY BROKEN (exit 1)
 //   CHROME=/path/to/chrome node tools/ui-play.mjs
+//   SHOTS=dir node tools/ui-play.mjs → also saves the first screen, #boot, #kit, #arena, #estate, #proof, #what and #faq
+//                                      at 1280×800 and 390 px wide, with the text each one shows, to dir
 import { spawn } from 'node:child_process';
-import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { copyHits } from '../src/copy.mjs';
 
 const CHROMES = [process.env.CHROME, 'C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
   '/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/usr/bin/chromium', '/usr/bin/chromium-browser', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'].filter(Boolean);
@@ -49,6 +55,22 @@ try {
   const js = async (expression) => { const r = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true }); return r.result && r.result.result ? r.result.result.value : undefined; };
   const until = async (expression, ms, what) => { const t0 = Date.now(); while (Date.now() - t0 < ms) { if (await js(expression)) return true; await sleep(250); } problems.push('timed out: ' + what); return false; };
   const size = (w, h, mobile = false) => send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile });
+  // the words a screen shows, quoted seals and sources read past; any word the copy never uses fails the play
+  const SHOWN = `(() => { const root = document.documentElement.classList.contains('game') ? (document.querySelector('section[data-screen].on') || document.body) : document.body; const q = [...root.querySelectorAll('[data-quote]')].filter((n) => !n.hidden); q.forEach((n) => { n.hidden = true; }); const text = root.innerText; q.forEach((n) => { n.hidden = false; }); return text; })()`;
+  const said = new Set();
+  const scan = async (where) => { for (const h of copyHits(await js(SHOWN))) { const k = where + h.word + h.context; if (!said.has(k)) { said.add(k); problems.push(where + ' says “' + h.word + '”: ' + h.context.slice(0, 110)); } } };
+  const SHOTS = process.env.SHOTS || null;
+  if (SHOTS) mkdirSync(SHOTS, { recursive: true });
+  const shot = async (name) => {
+    if (!SHOTS) return;
+    for (const [w, h, mob, tag] of [[1280, 800, false, '1280'], [390, 844, true, '390']]) {
+      await size(w, h, mob); await sleep(700);
+      const png = await send('Page.captureScreenshot', { format: 'png' });
+      if (png.result && png.result.data) writeFileSync(join(SHOTS, name + '-' + tag + '.png'), Buffer.from(png.result.data, 'base64'));
+    }
+    writeFileSync(join(SHOTS, name + '.txt'), String(await js(SHOWN)));
+    await size(1280, 800); await sleep(300);
+  };
   await send('Page.enable'); await send('Runtime.enable'); await send('Log.enable');
   await send('Browser.setDownloadBehavior', { behavior: 'deny' }).catch(() => {});
   await size(1280, 800);
@@ -56,6 +78,7 @@ try {
   // the first visit: the game view, the first screen, its one button enabled once the drop has replayed here
   if (!(await until(`document.documentElement.classList.contains('game') && document.querySelector('#first-s.on') && !document.querySelector('#g-first-cardme').disabled`, 60000, 'the first screen and its Card me button'))) await done(1);
   seen.push('first visit');
+  await scan('the first screen'); await shot('first');
   await js(`document.querySelector('#g-first-cardme').click()`);
   if (await until(`document.querySelector('#g-boot-say') && document.querySelector('#g-boot-say').textContent.length > 0`, 90000, 'the boot to finish')) {
     const b = await js(`({ steps: [...document.querySelectorAll('#g-boot-steps li')].map((l) => l.className), gate: document.querySelector('#g-boot-gate').textContent, match: document.querySelector('#g-boot-match').textContent, rules: document.querySelectorAll('#g-boot-rules li').length })`);
@@ -63,6 +86,8 @@ try {
     if (!/matches/i.test(b.match) || !b.match.includes(b.gate)) problems.push('the boot score ' + b.gate + ' is not shown as matching the declared one (' + b.match + ')');
     if (!b.rules) problems.push('the boot printed no rules');
     seen.push('boot ' + b.gate + ' matches');
+    await scan('the boot screen'); await shot('boot');
+    (await js(`(() => { const n = document.querySelector('#g-boot-next'); return !!n && n.getAttribute('href') === '#kit' && n.offsetParent !== null; })()`)) ? seen.push('BOOT → NEXT · kit it out') : problems.push('the boot screen shows no NEXT to the kit');
   }
   // every screen from the dock: it shows, it is the only one shown, and it is not empty
   for (const s of ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof']) {
@@ -72,6 +97,7 @@ try {
     if (!r.on.length || r.on.some((x) => x !== s)) problems.push('the dock’s ' + s + ' shows ' + (r.on.join(',') || 'nothing'));
     if (r.current !== s) problems.push('the dock does not mark ' + s + ' as the current screen');
     if (r.text < 80) problems.push('the ' + s + ' screen is nearly empty');
+    await scan('the ' + s + ' screen');
   }
   seen.push('8 screens from the dock');
   // the "i" taps: every one opens a plain sentence, and closes it again
@@ -85,6 +111,7 @@ try {
   if (await until(`document.querySelector('#g-eval-out h3')`, 30000, 'an eval')) {
     const e = await js(`document.querySelector('#g-eval-out').innerText`);
     if (!/What really happened|Abstained/.test(e)) problems.push('the eval does not say what really happened');
+    await scan('an eval');
     seen.push('an eval of a real TEST case');
   }
   // the arena: a rated duel against a drop card, its result shown, then re-fought to the very same receipt
@@ -93,12 +120,14 @@ try {
     await js(`document.querySelector('#g-ar-fight').click()`);
     if (await until(`/You win|They win|A draw|Refused/.test(document.querySelector('#g-ar-result').textContent)`, 60000, 'a duel')) {
       const res = await js(`document.querySelector('#g-ar-result').innerText`), blocks = await js(`document.querySelectorAll('#g-ar-batch i').length`);
+      (await js(`(() => { const n = document.querySelector('#g-ar-result #g-ar-next'); return !!n && n.getAttribute('href') === '#estate'; })()`)) ? seen.push('ARENA → NEXT · see your estate') : problems.push('the duel’s result shows no NEXT to the estate');
       if (/Refused/.test(res)) problems.push('the duel was refused: ' + res.slice(0, 120));
       else if (blocks !== 64) problems.push('the duel showed ' + blocks + ' cases, not 64');
       else {
         await js(`document.querySelector('#g-ar-rerun').click()`);
         if (await until(`/Re-fought here|✗/.test(document.querySelector('#g-ar-result').textContent)`, 30000, 'the duel re-fought'))
           (await js(`/Re-fought here: the very same receipt/.test(document.querySelector('#g-ar-result').textContent)`)) ? seen.push('a rated duel, re-fought to the same receipt') : problems.push('the duel did not re-fight to the same receipt');
+        await scan('a duel');
       }
     }
   }
@@ -109,12 +138,21 @@ try {
     if (await until(`/on GATE|could not|did not check/.test(document.querySelector('#g-rd-out').textContent)`, 240000, 'a raid strike')) {
       const out = await js(`document.querySelector('#g-rd-out').textContent`);
       /re-checked here/.test(out) ? seen.push('a raid strike, signed and re-checked') : problems.push('the raid strike: ' + out.slice(0, 120));
+      await scan('a raid strike');
     }
   }
   // the kit: a node minted by a real search (searching again while one falls under the bar), an app tool minted from the
   // records, the kitted mind measured, the loadout signed, then a kitted duel fought and re-fought to the same receipt
   await js(`location.hash = '#kit'`);
   if (await until(`document.querySelector('#g-kit-card') && document.querySelector('#g-kit-card').value && [...document.querySelectorAll('#g-kit-depts button')].length > 0 && document.querySelectorAll('#g-kit-apps button').length > 0`, 60000, 'the kit screen, its departments and its apps')) {
+    for (const q of ['kcc', 'agora', 'fallherd']) {
+      await js(`(() => { const i = document.querySelector('#g-kit-q'); i.value = '${q}'; i.dispatchEvent(new Event('input')); })()`); await sleep(300);
+      const listed = await js(`[...document.querySelectorAll('#g-kit-apps b')].map((b) => b.textContent)`);
+      if (listed.length) problems.push('the Kit offers ' + listed.slice(0, 5).join(', ') + ' for “' + q + '”');
+    }
+    await js(`(() => { const i = document.querySelector('#g-kit-q'); i.value = ''; i.dispatchEvent(new Event('input')); })()`); await sleep(300);
+    if (await js(`document.querySelectorAll('#g-kit-apps button').length > 0`)) seen.push('the Kit offers no kcc, agora or fallherd app');
+    else problems.push('the Kit lists no app once its search is cleared');
     let minted = false;
     for (let t = 0; t < 5 && !minted; t++) {
       await js(`document.querySelector('#g-kit-depts button:not([disabled])').click()`);
@@ -130,17 +168,20 @@ try {
       await js(`document.querySelector('#g-kit-measure-go').click()`);
       if (await until(`/Kitted \\d\\.\\d{6}/.test(document.querySelector('#g-kit-measure').textContent)`, 60000, 'the kit measured')) {
         const m = await js(`document.querySelector('#g-kit-measure').innerText`);
-        /Node 1 · \w+-\w+[\s\S]*worth [+-]\d/.test(m) ? seen.push('the kit measured, every slot with its worth') : problems.push('the kit measure shows no slot worth: ' + m.slice(0, 160));
+        /Node 1 · \w+-\w+[\s\S]*adds [+-]\d/.test(m) ? seen.push('the kit measured, every slot with what it adds') : problems.push('the kit measure shows no slot adding: ' + m.slice(0, 160));
+        await scan('the kit, measured'); await shot('kit');
       }
       await js(`document.querySelector('#g-kit-equip').click()`);
       if (await until(`/Equipped|Refused/.test(document.querySelector('#g-kit-out').textContent)`, 30000, 'the kit equipped')) {
         if (!(await js(`/Equipped/.test(document.querySelector('#g-kit-out').textContent)`))) problems.push('equip: ' + (await js(`document.querySelector('#g-kit-out').textContent`)).slice(0, 120));
         else {
+          (await js(`(() => { const n = document.querySelector('#g-kit-out #g-kit-next'); return !!n && n.getAttribute('href') === '#arena'; })()`)) ? seen.push('KIT → NEXT · fight in the arena') : problems.push('the kit, equipped, shows no NEXT to the arena');
           await js(`location.hash = '#arena'`);
           if (await until(`/kitted · 1 node, 1 tool/.test(document.querySelector('#g-ar-a-line').textContent)`, 30000, 'the fighter shown kitted')) {
             await js(`document.querySelector('#g-ar-result').textContent = ''; document.querySelector('#g-ar-fight').click()`);
             if (await until(`/You win|They win|A draw|Refused/.test(document.querySelector('#g-ar-result').textContent)`, 60000, 'a kitted duel')) {
               const res = await js(`document.querySelector('#g-ar-result').innerText`);
+              await scan('a kitted duel'); await shot('arena');
               if (!/Yours fought kitted · 1 node, 1 tool/.test(res)) problems.push('the kitted duel: ' + res.slice(0, 160));
               else {
                 await js(`document.querySelector('#g-ar-rerun').click()`);
@@ -153,12 +194,14 @@ try {
       }
     } else if (!problems.length) problems.push('five node searches and none cleared the bar');
   }
-  // the estate, drawn from only what DIGI holds: with the tool and the kit above, its TOOLS and SWARM districts open
+  // the estate, drawn from only what DIGI holds: with the tool and the kit above, its TOOLS and KITTED districts open
   await js(`location.hash = '#estate'`);
   if (await until(`/Scorer \\d+ tiles/.test(document.querySelector('[data-k="g-plot-open"]').textContent)`, 30000, 'the estate drawn')) {
     const plot = await js(`document.querySelector('[data-k="g-plot-open"]').textContent + ' | ' + document.querySelector('#g-plot-rule').textContent`);
-    if (/could not be drawn/.test(plot) || !/tools 10 · swarm 10/.test(plot)) problems.push('the estate: ' + plot.slice(0, 160));
+    if (/could not be drawn/.test(plot) || !/tools 10 · kitted 10/.test(plot)) problems.push('the estate: ' + plot.slice(0, 160));
     else seen.push('the estate drawn from what DIGI holds, its tool and its kit in their districts');
+    await scan('the estate'); await shot('estate');
+    (await js(`(() => { const n = document.querySelector('#g-estate-next'); return !!n && n.getAttribute('href') === '#mint' && n.offsetParent !== null; })()`)) ? seen.push('ESTATE → NEXT · grow your own') : problems.push('the estate shows no NEXT to grow your own');
   }
   // a world boss: the player's own telco cards strike it as a party, and strike again to the very same receipt
   await js(`location.hash = '#raids'`);
@@ -166,6 +209,7 @@ try {
     await js(`[...document.querySelectorAll('#g-pt-bosses .g-boss')].find((b) => /Telecom/.test(b.querySelector('h3').textContent)).querySelector('button').click()`);
     if (await until(`/party scored|could not strike/.test(document.querySelector('#g-pt-out').textContent)`, 120000, 'a party strike')) {
       const out = await js(`document.querySelector('#g-pt-out').innerText`);
+      await scan('a party strike');
       if (!/party scored \d\.\d{6} on GATE against the bar \d\.\d{6}/.test(out) || !/share [\d,]+/.test(out)) problems.push('the party strike: ' + out.slice(0, 160));
       else {
         await js(`[...document.querySelectorAll('#g-pt-bosses .g-boss')].find((b) => /Telecom/.test(b.querySelector('h3').textContent)).querySelector('button.cy').click()`);
@@ -181,6 +225,7 @@ try {
     if (await until(`/new entr|✗|Error/.test(document.querySelector('#g-rec-out').textContent)`, 120000, 'the record brought up to date')) {
       const st = await js(`document.querySelector('#g-rec-stats').innerText`), out = await js(`document.querySelector('#g-rec-out').innerText`);
       const rel = Number((/Releases\s+(\d+)/.exec(st) || [])[1] || 0), val = Number((/Values measured\s+(\d+)/.exec(st) || [])[1] || 0);
+      await scan('the record');
       if (!/✓/.test(out) || rel < 3 || val < 1 || !/switch\s+off/i.test(st)) problems.push('the record: ' + (out + ' | ' + st).replace(/\s+/g, ' ').slice(0, 200));
       else {
         await js(`document.querySelector('#g-rec-replay').click()`);
@@ -196,6 +241,7 @@ try {
     const shares = await js(`[...document.querySelectorAll('#g-meshslots .g-slot b')].map((b) => Number(b.textContent.replace(/[^0-9]/g, '')))`);
     const sum = shares.reduce((a, b) => a + b, 0);
     if (sum !== 1000000) problems.push('the mesh shares sum to ' + sum + ', not 1,000,000');
+    await scan('a mesh');
     seen.push('mesh of ' + shares.length + ', shares sum to 1,000,000');
   }
   // the proof explorer: the card verified on this device
@@ -205,10 +251,13 @@ try {
     const v = await js(`document.querySelector('#g-verify-ms').textContent`);
     if (!/Every check passed/.test(v)) problems.push('verify on this device: ' + v);
     else seen.push('verified on the device');
+    await scan('the proof explorer, verified'); await shot('proof');
   }
   // the classic view and back
   await js(`document.querySelector('#g-classic').click()`); await sleep(400);
   if (await js(`document.documentElement.classList.contains('game')`)) problems.push('Classic view did not leave the game view');
+  await scan('the classic view');
+  for (const s of ['what', 'faq']) { await js(`document.getElementById('${s}').scrollIntoView()`); await sleep(300); await shot(s); }
   await js(`document.querySelector('#g-back').click()`); await sleep(600);
   if (!(await js(`document.documentElement.classList.contains('game') && !!document.querySelector('section[data-screen].on')`))) problems.push('Back to the game view did not return to a screen');
   else seen.push('classic view and back');

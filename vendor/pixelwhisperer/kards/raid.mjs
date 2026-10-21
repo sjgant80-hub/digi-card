@@ -152,7 +152,9 @@ const LOOKS = {
   'blockcraft-v1': { sky: [0x070b2a, 0x2f47a4], floor: 0x5a5a62, line: 0x46464e, text: 0xffffff, shadow: 0x14141a, dim: 0xb8bcc8, bar: 0xe8302a, barBack: 0x2a1a1a, frame: 0xd8dce4, gold: 0xffd84a, star: 0xe8ecff },
   'lcd-v1': { sky: [0x555555, 0x555555], floor: 0xaaaaaa, line: 0x000000, text: 0xffffff, shadow: 0x000000, dim: 0xaaaaaa, bar: 0xffffff, barBack: 0x000000, frame: 0xffffff, gold: 0xffffff, star: 0xaaaaaa, lcd: [0x0f1210, 0x4a5048, 0x9aa095, 0xd8dccf] },
   'memphis-v1': { sky: [0x7a4bff, 0x7a4bff], floor: 0x1b1740, line: 0xff4fa3, text: 0xffffff, shadow: 0x111111, dim: 0xffe14a, bar: 0xff4fa3, barBack: 0x1b1740, frame: 0x111111, gold: 0xffe14a, confetti: [0x111111, 0xffffff, 0xff4fa3, 0xffe14a] },
+  'blueprint-v1': { sky: [0x0e3b78, 0x0e3b78], floor: 0x0b2f60, line: 0x3468b0, text: 0xeef5ff, shadow: 0x061a38, dim: 0x9cc3f0, bar: 0xff7a5a, barBack: 0x061a38, frame: 0xeef5ff, gold: 0xfff35a, grid: [0x1c4f92, 0x3468b0], ramp: [0x0e3b78, 0x3468b0, 0x9cc3f0, 0xeef5ff] },
 };
+const inked = (L, c) => (L.ramp ? L.ramp[(((c >> 16) & 255) * 77 + ((c >> 8) & 255) * 150 + (c & 255) * 29) >> 14] : c);   // a drawing inks every colour in one of four blues, by brightness
 const BAY = [0, 128, 32, 160, 192, 64, 224, 96, 48, 176, 16, 144, 240, 112, 208, 80];
 const W = 240, FLOOR = 110;
 const fmt = (n) => div(n, 1000000) + '.' + String(10000 + div(n % 1000000, 100)).slice(1);   // millionths as 0.0000
@@ -169,6 +171,7 @@ function backdrop(cv, L, fw, lh, oy, seed) {
   const fl = oy + FLOOR;
   rect(cv, 0, 0, fw, oy, L.sky[0]);
   for (const y of span(0, FLOOR)) rect(cv, 0, oy + y, fw, 1, mix(L.sky[0], L.sky[1], div(y * 256, FLOOR)));
+  if (L.grid) { for (const x of span(4, fw, 8)) rect(cv, x, 0, 1, oy + FLOOR, (x - 4) % 40 ? L.grid[0] : L.grid[1]); for (const y of span(4, oy + FLOOR, 8)) rect(cv, 0, y, fw, 1, (y - 4) % 40 ? L.grid[0] : L.grid[1]); }   // grid paper
   for (const x0 of span(0, fw, W)) {
     const r = rng(seed[0], seed[1]);
     if (L.star) for (const n of span(0, 48)) dot(cv, x0 + r(W), oy + r(FLOOR - 4), L.star);
@@ -196,7 +199,7 @@ export function paintRaid(raid, themeId, w, h) {
     const cv = { cw: full.cw, d: full.d.subarray(oy * full.cw + n * W) };   // the raid, 240 x 160, drawn in the middle on the same pixels
     const hp = bossHealth(Q.best), boss = BOSSES[ART.indexOf(B)];
     if (!Q.loot) {   // the boss stands: the sprite at 3 px a cell, its name, its health and what it is the distance to
-      for (const n of span(0, 1024)) if (B.g[n]) rect(cv, 72 + (n % 32) * 3, 14 + div(n, 32) * 3, 3, 3, B.col[B.g[n]]);
+      for (const n of span(0, 1024)) if (B.g[n]) rect(cv, 72 + (n % 32) * 3, 14 + div(n, 32) * 3, 3, 3, inked(L, B.col[B.g[n]]));
       centred(cv, B.name, 120, 2, L.text, L.shadow);
       const fill = div(Math.min(hp, 100000) * 158, 100000);
       rect(cv, 40, 116, 160, 10, L.frame); rect(cv, 41, 117, 158, 8, L.barBack); rect(cv, 41, 117, fill, 8, L.bar); rect(cv, 41, 117, fill, 2, mix(L.bar, 0xffffff, 110));
@@ -207,14 +210,14 @@ export function paintRaid(raid, themeId, w, h) {
     } else {   // the boss falls: broken into bands that slip and sink, darker as they go; beside it, the loot
       for (const n of span(0, 1024)) if (B.g[n]) {
         const band = div(div(n, 32), 4), slip = (band % 2 ? 1 : -1) * (2 + band) * 2;
-        rect(cv, 24 + (n % 32) * 3 + slip, 16 + div(n, 32) * 3 + band, 3, 3, mul(B.col[B.g[n]], 200 - band * 12));
+        rect(cv, 24 + (n % 32) * 3 + slip, 16 + div(n, 32) * 3 + band, 3, 3, inked(L, mul(B.col[B.g[n]], 200 - band * 12)));
       }
-      for (const n of span(0, 14)) { const x = 18 + r(108), y = FLOOR - 4 + r(6); rect(cv, x, y, 3, 3, B.col[2 + r(4)]); }   // shards on the floor
+      for (const n of span(0, 14)) { const x = 18 + r(108), y = FLOOR - 4 + r(6); rect(cv, x, y, 3, 3, inked(L, B.col[2 + r(4)])); }   // shards on the floor
       rect(cv, 0, 2, W, 20, mul(L.gold, 120)); rect(cv, 0, 2, W, 1, L.gold); rect(cv, 0, 21, W, 1, L.gold);
       centred(cv, 'BOSS FALLS', 120, 4, L.gold, 0x000000, 2);
       const p = RAR[Q.loot.ri], fr = creatureFront(Q.loot.id), x0 = 152, y0 = 32;   // the loot: the first card of its department
       rect(cv, x0, y0, 52, 72, p.lo); rect(cv, x0 + 2, y0 + 2, 48, 68, p.mid); rect(cv, x0 + 4, y0 + 4, 44, 64, 0x0e0420);
-      for (const q of span(0, 126)) if (fr.px[q * 4 + 3]) rect(cv, x0 + 8 + (q % 9) * 4, y0 + 8 + div(q, 9) * 4, 4, 4, (fr.px[q * 4] << 16) | (fr.px[q * 4 + 1] << 8) | fr.px[q * 4 + 2]);
+      for (const q of span(0, 126)) if (fr.px[q * 4 + 3]) rect(cv, x0 + 8 + (q % 9) * 4, y0 + 8 + div(q, 9) * 4, 4, 4, inked(L, (fr.px[q * 4] << 16) | (fr.px[q * 4 + 1] << 8) | fr.px[q * 4 + 2]));
       for (const [dx, dy] of [[-3, 6], [55, 20], [-4, 50], [54, 60]]) { rect(cv, x0 + dx, y0 + dy, 3, 1, L.gold); rect(cv, x0 + dx + 1, y0 + dy - 1, 1, 3, L.gold); }   // it glints
       centred(cv, 'LOOT', x0 + 26, y0 - 9, L.gold, L.shadow);
       if (Q.loot.title) centred(cv, Q.loot.title, 120, 120, L.text, L.shadow);

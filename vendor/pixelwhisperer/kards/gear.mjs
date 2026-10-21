@@ -68,7 +68,9 @@ const LOOKS = {
   'blockcraft-v1': { bg: 0x3c3c46, well: 0x1c1c22, text: 0xffffff, shadow: 0x14141a, dim: 0x9a9aa8, good: 0x86ff92, bad: 0xff7a8a, off: 0x6e6e78, ink: 'hi' },
   'lcd-v1': { bg: 0x555555, well: 0x000000, text: 0xffffff, shadow: 0x000000, dim: 0xaaaaaa, good: 0xffffff, bad: 0xaaaaaa, off: 0xaaaaaa, ink: 'hi', lcd: [0x0f1210, 0x4a5048, 0x9aa095, 0xd8dccf] },
   'memphis-v1': { bg: 0xfff1d6, well: 0x1b1740, text: 0x111111, shadow: 0xffffff, dim: 0x5a5a64, good: 0x16a34a, bad: 0xdc2626, off: 0x9aa3b2, ink: 'lo' },
+  'blueprint-v1': { bg: 0x0e3b78, well: 0x061a38, text: 0xeef5ff, shadow: 0x061a38, dim: 0x9cc3f0, good: 0x7ff0ff, bad: 0xff7a5a, off: 0x3468b0, ink: 'hi', ramp: [0x0e3b78, 0x3468b0, 0x9cc3f0, 0xeef5ff] },
 };
+const inked = (L, c) => (L.ramp ? L.ramp[(((c >> 16) & 255) * 77 + ((c >> 8) & 255) * 150 + (c & 255) * 29) >> 14] : c);   // a drawing inks every colour in one of four blues, by brightness
 const BAY = [0, 128, 32, 160, 192, 64, 224, 96, 48, 176, 16, 144, 240, 112, 208, 80];
 const TW = 56, TH = 64, TIER_WORD = { prototype: 'PROTO', works: 'WORKS', proven: 'PROVEN' };
 
@@ -100,7 +102,7 @@ export function paintSlot(slot, themeId, w, h) {
     rect(cv, 12, 15, 32, 34, L.well);   // the well a portrait sits in
     if (held) {
       const fr = S.card ? creatureFront(S.card.id) : itemFront('app', S.item.id), dim = S.card && !S.joined;
-      for (const q of span(0, 126)) if (fr.px[q * 4 + 3]) { const col = (fr.px[q * 4] << 16) | (fr.px[q * 4 + 1] << 8) | fr.px[q * 4 + 2]; rect(cv, 19 + (q % 9) * 2, 18 + div(q, 9) * 2, 2, 2, dim ? mul(col, 110) : col); }
+      for (const q of span(0, 126)) if (fr.px[q * 4 + 3]) { const col = (fr.px[q * 4] << 16) | (fr.px[q * 4 + 1] << 8) | fr.px[q * 4 + 2]; rect(cv, 19 + (q % 9) * 2, 18 + div(q, 9) * 2, 2, 2, inked(L, dim ? mul(col, 110) : col)); }
       if (dim) for (const n of span(0, 16)) for (const q of span(0, 34)) if ((q + n * 4) % 8 === 0) dot(cv, 12 + n * 2, 15 + q, L.off);   // not joined: hatched over
       const word = S.card ? (S.joined ? worthText(S.worth) : 'UNJOINED') : TIER_WORD[S.item.tier], tone = S.card ? (!S.joined ? L.dim : S.worth > 0 ? L.good : S.worth < 0 ? L.bad : L.dim) : p[L.ink];
       centred(cv, word, 52, tone, L.shadow);

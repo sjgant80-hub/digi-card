@@ -80,7 +80,7 @@ html.game .g-top { display: flex; }
 .g-menu-list > *:hover { background: var(--g-plate); } .g-menu-list b { color: var(--g-gold); font-weight: 400; }
 .g-dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; justify-content: center; gap: 6px; padding: 6px 8px; background: var(--g-panel); border-top: 4px solid var(--g-rule); }
 html.game .g-dock { display: flex; }
-.g-dock a { position: relative; display: flex; align-items: center; justify-content: center; width: 112px; height: 52px; background: var(--g-plate); border: 2px solid var(--g-rule); color: var(--g-ink); text-decoration: none; font-size: 18px; }
+.g-dock a { position: relative; display: flex; align-items: center; justify-content: center; min-width: 112px; padding: 0 10px; height: 52px; background: var(--g-plate); border: 2px solid var(--g-rule); color: var(--g-ink); text-decoration: none; font-size: 18px; }
 .g-dock a .n { position: absolute; left: 4px; top: 2px; font-size: 12px; color: var(--g-gold); }
 .g-dock a { gap: 6px; } .g-icon { image-rendering: pixelated; flex: none; } .g-dock a .g-icon { width: 32px; height: 32px; }
 .g-dsets .g-icon { width: 32px; height: 32px; }
@@ -268,7 +268,7 @@ html.game footer.g-foot { border-top: 4px solid var(--g-rule); color: var(--g-di
   .g-grid.g-boot { grid-template-columns: 416px minmax(0, 1fr); } .g-grid.g-boot > :nth-child(3) { grid-column: 1 / -1; }
   .g-grid.g-3 > :nth-child(2), .g-grid.g-estate > .g-plotbox { grid-column: 1 / -1; order: -1; }
   .g-collection { grid-template-columns: 220px minmax(0, 1fr); } .g-collection .g-gaps { grid-column: 1 / -1; }
-  .g-dock a { width: 96px; }
+  .g-dock a { min-width: 0; width: 96px; padding: 0; height: 60px; flex-direction: column; gap: 2px; font-size: 11px; }
 }
 @media (max-width: 760px) {
   html.game body { font-size: 16px; }

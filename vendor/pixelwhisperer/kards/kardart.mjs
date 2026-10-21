@@ -558,6 +558,41 @@ function memphisScene(cv, f, sp, look) {
   for (const i of span(0, Math.max(0, f.ri - 1) * 2)) { const x = r(WW - 12) + 6, y = r(60) + 6; R(x - 2, y, 5, 1, 0x111111); R(x, y - 2, 1, 5, 0x111111); D(x, y, 0xffffff); }   // sparkles for the rare
 }
 
+// -- blueprint-v1: an engineering drawing. Grid paper; the creature (or item) ruled voxel by voxel, hatched in a tint of its own
+// colours and outlined in white; its size in dimension lines; a title block; and its rarity in pencil, a highlighter from epic and
+// a red APPROVED stamp for the legendary. --
+const BLUE = { paper: 0x0e3b78, grid: 0x1c4f92, major: 0x3468b0, line: 0xeef5ff, pale: 0x9cc3f0, mid: 0x5d93d8, ink: 0x061a38 };
+const BP_RAR = [[0xc0c8d4, 0x8a96a8, 0x46546a], [0x86f0a0, 0x3cc46a, 0x1a6f3a], [0x8fd0ff, 0x4a9ae8, 0x1f4f98], [0xd8a0ff, 0xa05ae6, 0x5a2a8e], [0xffd84a, 0xe8a832, 0x8a6214]];   // the rarity in coloured pencil, as every theme reads it: grey, green, blue, purple, gold
+const UI_BP = { bg: 0x0b2f60, plate: 0x123f7c, panel: 0x0f3870, chip: 0x0b2f60, text: 0xeef5ff, shadow: 0x061a38, light: 0x6a9ad8, dark: 0x061a38, rule: 0x3468b0, ink: 0x061a38 };
+const blueprintLook = (f) => ({ ui: UI_BP, p: { label: RAR[f.ri].label, hi: BP_RAR[f.ri][0], mid: BP_RAR[f.ri][1], lo: BP_RAR[f.ri][2], spark: 0xfff6c0 }, body: BLOCK_BODY, acc: BLOCK_ACC, dcol: DCOL });
+function blueprintScene(cv, f, sp, look) {
+  const R = (x, y, w, h, c) => rect(cv, WX + x, WY + y, w, h, c), T = (s, x, y, c) => text(cv, s, WX + x, WY + y, c);
+  R(0, 0, WW, WH, BLUE.paper);
+  for (const x of span(4, WW, 8)) R(x, 0, 1, WH, (x - 4) % 40 ? BLUE.grid : BLUE.major);   // grid paper: a line every 8, a heavier one every 40
+  for (const y of span(4, WH, 8)) R(0, y, WW, 1, (y - 4) % 40 ? BLUE.grid : BLUE.major);
+  R(120, 124, 52, 24, BLUE.paper); bevel(cv, WX + 120, WY + 124, 52, 24, BLUE.line, BLUE.line); R(120, 135, 52, 1, BLUE.mid);   // the title block
+  T('DWG ' + f.id.slice(0, 4).toUpperCase(), 124, 127, BLUE.line); T('SCALE 8', 124, 138, BLUE.pale);
+  const cc = classColors(look.body, look.acc, BLUE.ink, sp.g);
+  const px = frontSprite(sp, (c, z, i, j, x, y) => {
+    if (c > 5) return c === 6 ? BLUE.ink : BLUE.line;   // eyes and mouth: inked, or left white
+    if (i === 0 || j === 0) return BLUE.mid;           // every voxel ruled
+    return (x + y) % (c > 2 ? 3 : 4) ? mix(BLUE.paper, cc[c], 70) : mix(cc[c], 0xffffff, 90);   // hatched in its own colour, closer on the accents
+  });
+  for (const j of span(2, SH - 2)) for (const i of span(2, SW - 2)) if (!solidAt(px, i, j) && nearAt(px, NEAR1, i, j)) R(48 + i, 22 + j, 1, 1, BLUE.line);   // the outline
+  for (const j of span(0, SH)) for (const i of span(0, SW)) if (solidAt(px, i, j)) R(48 + i, 22 + j, 1, 1, px[j * SW + i] & 0xffffff);
+  const cols = span(0, SW).filter((i) => span(0, SH).some((j) => solidAt(px, i, j))), rows = span(0, SH).filter((j) => span(0, SW).some((i) => solidAt(px, i, j)));
+  const x0 = 48 + cols[0], x1 = 48 + cols[cols.length - 1], y0 = 22 + rows[0], y1 = 22 + rows[rows.length - 1], wv = String(div(cols.length, 8)), hv = String(div(rows.length, 8));
+  R(x0, y0 - 6, x1 - x0 + 1, 1, BLUE.pale); R(x0, y0 - 9, 1, 6, BLUE.pale); R(x1, y0 - 9, 1, 6, BLUE.pale);   // its width, above it
+  for (const [x, d] of [[x0 + 1, 1], [x1 - 1, -1]]) { R(x + d, y0 - 7, 1, 3, BLUE.pale); R(x + 2 * d, y0 - 8, 1, 5, BLUE.pale); }
+  R(x0 + div(x1 - x0, 2) - div(tw(wv) + 4, 2), y0 - 12, tw(wv) + 4, 9, BLUE.paper); T(wv, x0 + div(x1 - x0, 2) - div(tw(wv), 2), y0 - 11, BLUE.line);
+  R(x0 - 7, y0, 1, y1 - y0 + 1, BLUE.pale); R(x0 - 10, y0, 6, 1, BLUE.pale); R(x0 - 10, y1, 6, 1, BLUE.pale);   // its height, beside it
+  for (const [y, d] of [[y0 + 1, 1], [y1 - 1, -1]]) { R(x0 - 8, y + d, 3, 1, BLUE.pale); R(x0 - 9, y + 2 * d, 5, 1, BLUE.pale); }
+  T(hv, x0 - 11 - tw(hv), y0 + div(y1 - y0, 2) - 3, BLUE.line);
+  if (f.ri >= 3) R(4, 4, 34, 11, mix(BLUE.paper, 0xfff35a, 180));   // epic and legendary: the figure highlighted
+  T('FIG 1', 8, 6, f.ri >= 3 ? BLUE.ink : BLUE.line);
+  if (f.ri === 4) { bevel(cv, WX + 118, WY + 4, 54, 15, 0xe8483a, 0xe8483a); bevel(cv, WX + 119, WY + 5, 52, 13, 0xe8483a, 0xe8483a); T('APPROVED', 121, 7, 0xff7a5a); }   // the legendary: stamped
+}
+
 // a theme's look for a card: its interface colours, rarity palette, creature palettes and dataset colours. A theme that says nothing uses the shared rarity palette.
 const plainLook = (f, th) => ({ ui: th.ui, p: RAR[f.ri], body: th.body, acc: th.acc, dcol: DCOL });   // (the shared rarity palette, grey, green, blue, purple, gold)
 /** Every published theme, by versioned id. APPEND ONLY: a published theme is never changed (a redesign is a new id). */
@@ -566,6 +601,7 @@ export const THEMES = Object.freeze({
   'blockcraft-v1': Object.freeze({ id: 'blockcraft-v1', name: 'Blockcraft', blurb: 'A blocky voxel creature on a grass island, drawn in isometric blocks.', ui: Object.freeze(UI_B), body: BLOCK_BODY, acc: BLOCK_ACC, scene: blockScene }),
   'lcd-v1': Object.freeze({ id: 'lcd-v1', name: 'Pocket LCD', blurb: 'A four-shade handheld screen: the creature dithered onto a brick battlefield, in the ramp of its rarity.', look: lcdLook, scene: lcdScene }),
   'memphis-v1': Object.freeze({ id: 'memphis-v1', name: 'Memphis Pop', blurb: 'Eighties pop: flat colour, confetti, a checker floor, a heavy outline and a hard shadow.', look: memphisLook, scene: memphisScene }),
+  'blueprint-v1': Object.freeze({ id: 'blueprint-v1', name: 'Blueprint', blurb: 'An engineering drawing: the creature ruled voxel by voxel on grid paper, with its dimensions, a title block and its rarity in pencil.', look: blueprintLook, scene: blueprintScene }),
 });
 
 /** The drawing kit, shared with the estate painter so both draw with one set of primitives: a padded integer canvas, rects,

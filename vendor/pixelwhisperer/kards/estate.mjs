@@ -20,6 +20,17 @@ const no = (why) => ({ ok: false, why });
 const HEX = '0123456789abcdef', DEPT = '-0123456789abcdefghijklmnopqrstuvwxyz';
 const isId = (s) => typeof s === 'string' && s.length === 16 && Array.from(s).every((c) => HEX.indexOf(c) >= 0);
 const whole = (n, max) => Number.isInteger(n) && n >= 0 && n <= max;
+const NAME_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ';
+function lettering(names, shown) {   // a player's own names for the districts drawn: nothing to add, { names } in the plot's order, or a refusal
+  if (names === undefined) return { ok: true, add: {} };
+  if (typeof names !== 'object' || names === null || Array.isArray(names)) return no('names must be an object of district ids to names');
+  for (const [id, s] of Object.entries(names)) {
+    if (!shown.includes(id)) return no('names letter the districts drawn: ' + id + ' is not one of ' + shown.join(', '));
+    if (typeof s !== 'string' || s.length < 1 || s.length > 8) return no('a district name is 1 to 8 characters');
+    if (!Array.from(s).every((ch) => NAME_CHARS.includes(ch)) || s[0] === ' ' || s[s.length - 1] === ' ') return no('a district name is written in A-Z, 0-9 and spaces, and starts and ends with a letter or a digit');
+  }
+  return { ok: true, add: { names: Object.fromEntries(shown.filter((id) => Object.prototype.hasOwnProperty.call(names, id)).map((id) => [id, names[id]])) } };
+}
 
 /** The plot is PLOT x PLOT tiles. */
 export const PLOT = 12;
@@ -73,12 +84,14 @@ const ITEM_FORMS = FORMS.slice(1), FOR = { app: 'tools', pwa: 'tools', node: 'to
  *   swarms?: [{ id, members: [card ids] }] in place of tools (TOOLS then counts the apps, pwas and nodes; TALKER the talkers;
  *   ROUTER the routers; SWARM the swarms, each a consented team of 2 to 36 of the player's own cards), and districts?: the districts to
  *   draw, SCORER and any of the rest (only those are drawn, nothing fenced; an item or swarm must stand in one of them).
+ *   On any plot, names?: { <a district drawn>: 1-8 of A-Z 0-9 and space } letters that district with the player's own name in
+ *   place of its own (DIGI's KITTED is { swarm: 'KITTED' }); nothing else moves, and without it nothing changes.
  * -> { ok: true, h } | { ok: false, why }
  */
 export function checkHoldings(x) {
   try {
     if (typeof x !== 'object' || x === null || Array.isArray(x)) return no('holdings must be an object');
-    const { cards, wires = [], tools = 0, levels = null, snapshot = false, items, swarms, districts } = x;
+    const { cards, wires = [], tools = 0, levels = null, snapshot = false, items, swarms, districts, names } = x;
     const full = items !== undefined || swarms !== undefined || districts !== undefined;
     if (full && Object.prototype.hasOwnProperty.call(x, 'tools')) return no('tools are counted from the items when items or swarms are given');
     if (!Array.isArray(cards) || cards.length > 1000) return no('cards must be an array of at most 1000');
@@ -116,7 +129,7 @@ export function checkHoldings(x) {
     const order = held.map((card) => [String(9 - card.ri) + String(199 - card.stage) + card.id, card]).sort();   // rarest and highest first: they take the tiles nearest the centre
     links.sort();
     const h = { cards: order.map(([, card]) => card), wires: links, tools, levels, snapshot };
-    if (!full) return { ok: true, h };
+    if (!full) { const n = lettering(names, DISTRICTS.map((d) => d.id)); return n.ok ? { ok: true, h: { ...h, ...n.add } } : n; }
     const list = items === undefined ? [] : items, teams = swarms === undefined ? [] : swarms, cardIds = new Set(ids);
     if (!Array.isArray(list) || list.length > 1000) return no('items must be an array of at most 1000');
     if (!Array.isArray(teams) || teams.length > 100) return no('swarms must be an array of at most 100');
@@ -154,7 +167,9 @@ export function checkHoldings(x) {
       if (astray) return no('every item must stand in a district drawn: a ' + astray.form + ' stands in ' + FOR[astray.form]);
       if (teamsInOrder.length && !drawn.includes('swarm')) return no('swarms stand in swarm, which is not among the districts drawn');
     }
-    return { ok: true, h: { ...h, tools: count('app') + count('pwa') + count('node'), talkers: count('talker'), routers: count('router'), items: all, swarms: teamsInOrder, districts: drawn } };
+    const n = lettering(names, drawn || ITEM_DISTRICTS.map((d) => d.id));
+    if (!n.ok) return n;
+    return { ok: true, h: { ...h, tools: count('app') + count('pwa') + count('node'), talkers: count('talker'), routers: count('router'), items: all, swarms: teamsInOrder, districts: drawn, ...n.add } };
   } catch (e) { return no('the holdings could not be read'); }
 }
 
@@ -176,6 +191,7 @@ const LOOKS = {
   'blockcraft-v1': { bg: 0x6fb4ff, cloud: 0xffffff, text: 0xffffff, shadow: 0x14141a, dim: 0xd8dce4, wire: 0x2be8ff, band: 0x32323a, bandText: 0xffffff },
   'lcd-v1': { bg: 0x6fb4ff, cloud: 0xffffff, text: 0xffffff, shadow: 0x14141a, dim: 0xd8dce4, wire: 0x2be8ff, band: 0x32323a, bandText: 0xffffff, lcd: [0x0f1210, 0x4a5048, 0x9aa095, 0xd8dccf] },
   'memphis-v1': { bg: 0xffe14a, confetti: [0x111111, 0xffffff, 0xff4fa3, 0x2d9cff], text: 0x111111, shadow: 0xffffff, dim: 0x5a5a64, wire: 0x2be8ff, band: 0xfff1d6, bandText: 0x111111 },
+  'blueprint-v1': { bg: 0x0e3b78, grid: [0x1c4f92, 0x3468b0], text: 0xeef5ff, shadow: 0x061a38, dim: 0x9cc3f0, wire: 0x7ff0ff, band: 0x0b2f60, bandText: 0xeef5ff, ramp: [0x0e3b78, 0x3468b0, 0x9cc3f0, 0xeef5ff] },
 };
 const BAY = [0, 128, 32, 160, 192, 64, 224, 96, 48, 176, 16, 144, 240, 112, 208, 80];
 const TOOL = [0x4ad6e0, 0x4a7ee8, 0xd060c8, 0x9ad84a, 0xf0c84a, 0xff8a4a];   // tool blocks, in turn
@@ -228,6 +244,7 @@ export function paintEstate(holdings, themeId, w, h) {
     if (L.star) for (const n of span(0, 40)) dot(cv, r(lw), r(lh), L.star);
     if (L.cloud) for (const n of span(0, 3)) { const x = r(lw), y = r(div(lh, 3)); rect(cv, x, y, 28, 5, L.cloud); rect(cv, x + 6, y - 4, 14, 4, L.cloud); }
     if (L.confetti) for (const n of span(0, 30)) rect(cv, r(lw), r(lh), 2, 2, L.confetti[r(4)]);
+    if (L.grid) { for (const x of span(4, lw, 8)) rect(cv, x, 0, 1, lh, (x - 4) % 40 ? L.grid[0] : L.grid[1]); for (const y of span(4, lh, 8)) rect(cv, 0, y, lw, 1, (y - 4) % 40 ? L.grid[0] : L.grid[1]); }   // grid paper
     const P = H.districts ? planOf(H.districts) : H.items ? ITEM_PLAN : PLAN, band = H.snapshot ? 12 : 0, cx = div(lw, 2) - P.shift, oy = div(lh - 128 - 2 * band, 2) + 50 + band - P.lift;
     const pos = (i, j, kk) => [cx + (i - kk) * 6, oy + (i + kk) * 3 - j * 6];
 
@@ -291,10 +308,10 @@ export function paintEstate(holdings, themeId, w, h) {
       if (t.card.fresh) { rect(cv, x0 + 4, y0 - 5, 3, 1, 0xffffff); rect(cv, x0 + 5, y0 - 6, 1, 3, 0xffffff); }   // a new child sparkles
     }
 
-    // district names, lettered over the ground like signage; on the first plot the fenced ones say they are coming
+    // district names (or the player's own), lettered over the ground like signage; on the first plot the fenced ones say they are coming
     for (const d of P.ds) {
-      const px = cx + d.label[0], py = oy + d.label[1];
-      letters(cv, d.name, px - div(width(d.name), 2), py, d.open ? L.text : L.dim, L.shadow);
+      const px = cx + d.label[0], py = oy + d.label[1], name = (H.names && H.names[d.id]) || d.name;
+      letters(cv, name, px - div(width(name), 2), py, d.open ? L.text : L.dim, L.shadow);
       if (!d.open) letters(cv, P.note, px - div(width(P.note), 2), py + 10, L.dim, L.shadow);
     }
     if (H.cards.length > 36) { const more = '+' + (H.cards.length - 36) + ' MORE', px = cx - 48, py = oy + 12; letters(cv, more, px - div(width(more), 2), py, L.text, L.shadow); }
@@ -312,6 +329,7 @@ export function paintEstate(holdings, themeId, w, h) {
       const line = parts.reduce((acc, part) => (acc === null ? part : width(acc + ' \u00b7 ' + part) <= lw - 8 ? acc + ' \u00b7 ' + part : acc), null);   // whole items only, as many as fit
       letters(cv, fit(line), 4, lh - band + 2, L.bandText, L.band);
     }
+    if (L.ramp) for (const y of span(0, lh)) for (const x of span(0, lw)) { const q = at(cv, x, y); dot(cv, x, y, L.ramp[(((q >> 16) & 255) * 77 + ((q >> 8) & 255) * 150 + (q & 255) * 29) >> 14]); }   // a drawing: four blues, by brightness
     if (L.lcd) for (const y of span(0, lh)) for (const x of span(0, lw)) {   // the pocket screen: four shades, ordered dither
       const q = at(cv, x, y), v = (((q >> 16) & 255) * 77 + ((q >> 8) & 255) * 150 + (q & 255) * 29) >> 8, s3 = v * 3;
       dot(cv, x, y, L.lcd[(s3 >> 8) + ((s3 & 255) > BAY[((y & 3) << 2) + (x & 3)] ? 1 : 0)]);

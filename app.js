@@ -15,6 +15,7 @@ import { issue, give, addReceipt, reskin, verify, facts, encode } from './src/do
 import { empty, record, replay, standing, dossierOf, hashOf } from './src/registry.mjs';
 import { SETS, openSet, viewOf, departments, ownGround, digest } from './src/data.mjs';
 import { mindOf, answer, caseAt, rerun as rerunLevel, seedsFor, organOf, MARGIN } from './src/mind.mjs';
+import { sayOutcome, SHOWN_AS } from './src/copy.mjs';
 import { breed, birthCheck } from './src/breed.mjs';
 import { consent, assemble, ask, work, tally } from './src/mesh.mjs';
 import { gate as claimGate, PAGE } from './src/claims.mjs';
@@ -172,7 +173,7 @@ async function renderWallet() {
   const ids = mine(), grid = $('#wallet-grid');
   setK('held', String(ids.length));
   clear(grid);
-  if (!ids.length) { grid.append(el('p', { class: 'dim' }, 'No cards yet. Press “Card me” for a genesis card, open a card someone sent you, or grow one from your own table.')); return; }
+  if (!ids.length) { grid.append(el('p', { class: 'dim' }, 'No cards yet. Press “Card me” for a genesis card, open one someone sent you in the Inbox, or grow one from your own table.')); return; }
   for (const id of ids) {
     const c = el('canvas', { class: 'thumb', width: W, height: H, 'aria-hidden': 'true' });
     const b = el('button', { class: 'cardbtn' + (S.sel === id ? ' on' : ''), onclick: () => select(id) }, c, el('span', {}, '#' + String(S.reg.cards[id].serial).padStart(4, '0') + ' · ' + id.slice(0, 6)));
@@ -241,7 +242,7 @@ async function actAsk(own) {
     clear($('#ask-fields'), feats.map((f) => el('label', {}, f, el('input', { name: f, type: 'number', step: 'any', value: x[f] ?? '' }))));
     $('#ask-own').hidden = !feats.length;
     clear(out, a.verdict === 'VERIFIED'
-      ? el('div', { class: 'answer' }, el('div', { class: 'v' }, a.label ? 'YES — ' + (SETS[setOf(v)] ? SETS[setOf(v)].outcome : 'the case') : 'NO'), el('div', {}, 'score ' + a.score + ' against its operating point ' + a.threshold),
+      ? el('div', { class: 'answer' }, el('div', { class: 'v' }, a.label ? 'YES — ' + (SETS[setOf(v)] ? sayOutcome(setOf(v), SETS[setOf(v)].outcome) : 'the case') : 'NO'), el('div', {}, 'score ' + a.score + ' against its operating point ' + a.threshold),
         el('ul', { class: 'rules' }, a.fired.length ? a.fired.map((r) => el('li', {}, r.feat + ' ' + r.op + ' ' + r.v + ' fired: ' + (r.w > 0 ? '+' : '') + r.w)) : el('li', {}, 'no rule fired')),
         truth !== null ? el('div', { class: truth === a.label ? 'ok-t' : 'bad-t' }, 'TEST case #' + row + ' (one it never grew or was judged on): what really happened was ' + (truth ? 'yes' : 'no') + (truth === a.label ? ' — it was right.' : ' — it was wrong on this one. Its GATE AUC says how often it ranks such cases well.')) : null)
       : el('div', { class: 'answer' }, el('div', { class: 'v' }, 'ABSTAIN'), el('div', {}, a.why)));
@@ -326,20 +327,20 @@ async function workOvernight() {
 
 async function actBreed() {
   const out = $('#out-breed'), { v } = await current(), pid = $('#breed-partner').value;
-  if (!pid) return say(out, 'Breeding needs two of your cards that live on the same ground.', 'bad');
+  if (!pid) return say(out, 'Fusing needs two of your cards that live on the same ground.', 'bad');
   try {
     const vp = await verify(lifeOf(pid)), g = await groundFor(v, (t) => say(out, t));
-    say(out, 'Crossing their minds, up to 12 times, looking for a child that beats both on GATE…'); await wait();
+    say(out, 'Fusing their minds, up to 12 times, looking for a fused card that beats both on GATE…'); await wait();
     const r = await breed(v, vp, g, S.me, { seed: 1 + v.receipts.length + vp.receipts.length });
-    if (!r.born) { emit('birth', { kept: false, a: v.id, b: vp.id, tries: r.tries, why: r.why }); return clear(out, el('div', { class: 'status' }, 'No child: ' + r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) + '. A child is never a promise — it is what grew: it must beat both parents on GATE.')); }
+    if (!r.born) { emit('birth', { kept: false, a: v.id, b: vp.id, tries: r.tries, why: r.why }); return clear(out, el('div', { class: 'status' }, 'No fused card: ' + r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) + '. A fused card is never a promise — it is what grew: it must beat both parents on GATE.')); }
     const serial = nextSerial(), child = await issue(r.genome, S.me, { serial, to: S.me.pub, theme: themeOf(serial), generation: Math.max(v.generation, vp.generation) + 1 });
     const kept = await keep(child.dossier);
     if (!kept.ok) return say(out, kept.why, 'bad');
     const vc = await verify(child.dossier), bc = birthCheck(vc, v, vp, g);
     emit('birth', { kept: true, id: vc.id, a: v.id, b: vp.id, gate: r.gate, parents: r.parents, tries: r.tries });
     await renderWallet();
-    clear(out, el('div', { class: 'status ok' }, 'BORN: GATE ' + auc(r.gate) + ', beating both parents (' + auc(r.parents[0]) + ', ' + auc(r.parents[1]) + ') after ' + r.tries + ' crossing' + (r.tries > 1 ? 's' : '') + '. Re-run here: ' + (bc.ok ? 'it holds.' : bc.why)),
-      el('button', { onclick: () => select(vc.id) }, 'Open the child'));
+    clear(out, el('div', { class: 'status ok' }, 'FUSED: GATE ' + auc(r.gate) + ', beating both parents (' + auc(r.parents[0]) + ', ' + auc(r.parents[1]) + ') after ' + r.tries + (r.tries > 1 ? ' tries' : ' try') + '. Re-run here: ' + (bc.ok ? 'it holds.' : bc.why)),
+      el('button', { onclick: () => select(vc.id) }, 'Open the fused card'));
   } catch (e) { say(out, String(e.message || e), 'bad'); }
 }
 const nextSerial = () => 1 + Object.values(S.reg.cards).filter((c) => c.maker === S.me.pub).reduce((m, c) => Math.max(m, c.serial), 0);
@@ -415,7 +416,7 @@ async function openFile(file) {
   if (s.standing === 'forked') lines.push(['Its life parts from the one recorded here at event ' + s.at + ': the first recorded wins, so this is not the card’s life (a double sale)', false]);
   else if (s.standing === 'behind') lines.push(['This device holds a later life of this card: the copy you opened is out of date', false]);
   else { rec = await keep(r.dossier); lines.push([rec.ok ? (rec.outcome === 'already recorded' ? 'This device already holds exactly this life' : 'Recorded here: ' + (rec.outcome === 'recorded' ? 'a card this device had not seen' : 'the events it has grown since')) : 'It could not be recorded: ' + rec.why, rec.ok]); }
-  clear(out, el('div', { class: 'status ' + (r.owner === S.me.pub ? 'ok' : '') }, r.owner === S.me.pub ? 'It is yours: ' + f.title + ', serial #' + String(r.v.serial).padStart(4, '0') + ', stage ' + f.stage + '. It is in your wallet.' : 'It checks. Its owner is ' + short(r.owner) + (r.owner === S.manifest?.maker ? ' (the drop’s maker)' : '') + ', not you.'),
+  clear(out, el('div', { class: 'status ' + (r.owner === S.me.pub ? 'ok' : '') }, r.owner === S.me.pub ? 'It is yours: ' + f.title + ', serial #' + String(r.v.serial).padStart(4, '0') + ', stage ' + f.stage + '. It is in your collection.' : 'It checks. Its owner is ' + short(r.owner) + (r.owner === S.manifest?.maker ? ' (the drop’s maker)' : '') + ', not you.'),
     el('ul', { class: 'checks' }, lines.map(([t, ok]) => el('li', { class: ok ? 'ok-t' : 'bad-t' }, (ok ? '✓ ' : '✗ ') + t))));
   emit('opened', { ok: true, id: r.id, mine: r.owner === S.me.pub, standing: s.standing });
   await renderWallet();
@@ -548,7 +549,7 @@ async function ownGrow() {
       if (!kept.ok) return say(out, kept.why, 'bad');
       await renderWallet(); await select(kept.entry ? kept.entry.card : sealed.id);
       emit('minted', { ok: true, id: kept.entry ? kept.entry.card : sealed.id, gate: r.gate });
-      return say(out, 'Your DIGI is born: GATE AUC ' + auc(r.gate) + ' on ' + g.ds.gateRows.length.toLocaleString() + ' of your rows it never grew on. You are its maker and its owner. Measurements it read: ' + g.used.join(', ') + (g.left.length ? '. Left out (not numbers): ' + g.left.join(', ') : '') + '.', 'ok');
+      return say(out, 'Your DIGI is grown: GATE AUC ' + auc(r.gate) + ' on ' + g.ds.gateRows.length.toLocaleString() + ' of your rows it never grew on. You are its maker and its owner. Measurements it read: ' + g.used.join(', ') + (g.left.length ? '. Left out (not numbers): ' + g.left.join(', ') : '') + '.', 'ok');
     }
     say(out, 'Try ' + (k + 1) + ': ' + (r.ok ? 'the mind it found scores ' + auc(r.gate) + ' on GATE, under the 0.6 bar' : r.why));
   }
@@ -628,7 +629,7 @@ async function renderPrices() {
   const lock = await fetch('data/prices.lock.json').then((r) => r.json()).catch(() => null);
   if (!lock) return;
   const what = (e) => (e.kind === 'api' ? e.provider + ' ' + e.model + ': $' + e.inPerM + ' in / $' + e.outPerM + ' out per million tokens' : e.id === 'uk-national-living-wage' ? 'UK National Living Wage: £' + e.value + ' an hour' : e.id === 'desnz-electricity-nondomestic' ? 'UK non-domestic electricity: ' + e.pencePerKwh + 'p a kWh' : e.id === 'intel-i7-1255u-power' ? e.chip + ': ' + e.wattsLow + ' W base power' : e.id === 'fx-gbp-usd' ? 'Pounds per dollar: ' + e.gbpPerUsd : e.id === 'ons-cpi' ? 'UK CPI, 12 months: ' + (e.value * 100).toFixed(1) + '%' : e.id);
-  clear($('#cost-prices'), el('details', {}, el('summary', {}, 'Every price this case reads, with its source (' + lock.entries.length + ', from ' + lock.registry + ', pulled ' + lock.pulled + ')'),
+  clear($('#cost-prices'), el('details', { 'data-quote': 'sourced' }, el('summary', {}, 'Every price this case reads, with its source (' + lock.entries.length + ', from ' + lock.registry + ', pulled ' + lock.pulled + ')'),
     el('ul', {}, lock.entries.map((e) => el('li', {}, what(e) + ' — ', el('a', { href: e.source }, 'source'), ' (checked ' + e.checked + ')')))));
 }
 
@@ -668,8 +669,8 @@ async function renderTraces() {
   const l = r3 && r3.levels.find((x) => x.testAfter > x.testBefore);
   if (l) items.push(el('li', {}, el('b', {}, 'A level. '), 'Genesis card #' + pad4(l.serial) + ' (' + l.domain + ') ran the search its life named (seed ' + l.seed + '): GATE ' + (l.before / 1e6).toFixed(6) + ' → ' + (l.after / 1e6).toFixed(6) + '. Signed in, re-run exactly and deeply, five forged copies of the receipt refused; on TEST, which it never saw, ' + (l.testBefore / 1e6).toFixed(3) + ' → ' + (l.testAfter / 1e6).toFixed(3) + '.'));
   const b = r4 && r4.rows.find((x) => x.born && x.kind === 'cross');
-  if (b) items.push(el('li', {}, el('b', {}, 'A birth. '), 'Cards #' + pad4(b.a) + ' (' + b.domains[0] + ', GATE ' + three(b.parentsGate[0]) + ') and #' + pad4(b.b) + ' (' + b.domains[1] + ', GATE ' + three(b.parentsGate[1]) + ') bred a child carrying both minds: GATE ' + three(b.gate) + ', beating both; on TEST ' + three(b.test) + ' against ' + three(b.parentsTest[0]) + ' and ' + three(b.parentsTest[1]) + '.'));
-  if (r5 && r5.forkWhy && r5.forkWhy[0]) items.push(el('li', {}, el('b', {}, 'A double sale. '), 'An owner signed one life of a card to two buyers; both chains checked on their own. The registry recorded the first and refused the second: “' + r5.forkWhy[0] + '” — ' + r5.doubleRefused + ' of ' + r5.doubles + ' such attempts refused in organ 5.'));
+  if (b) items.push(el('li', {}, el('b', {}, 'A fusion. '), 'Cards #' + pad4(b.a) + ' (' + b.domains[0] + ', GATE ' + three(b.parentsGate[0]) + ') and #' + pad4(b.b) + ' (' + b.domains[1] + ', GATE ' + three(b.parentsGate[1]) + ') fused into a card carrying both minds: GATE ' + three(b.gate) + ', beating both; on TEST ' + three(b.test) + ' against ' + three(b.parentsTest[0]) + ' and ' + three(b.parentsTest[1]) + '.'));
+  if (r5 && r5.forkWhy && r5.forkWhy[0]) items.push(el('li', {}, el('b', {}, 'A double give. '), 'An owner signed one life of a card to two receivers; both chains checked on their own. The registry recorded the first and refused the second: “', el('span', { 'data-quote': 'sealed' }, r5.forkWhy[0]), '” — ' + r5.doubleRefused + ' of ' + r5.doubles + ' such attempts refused in organ 5.'));
   if (items.length) clear($('#traces'), el('ul', {}, items));
 }
 
@@ -679,8 +680,8 @@ async function renderProof() {
   for (let k = 1; k <= 10; k++) {
     const v = await fetch('data/organ-' + k + '/verdict.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
     const pre = v && (await fetch('data/organ-' + k + '/prereg.json').then((r) => (r.ok ? r.json() : null)).catch(() => null));
-    if (pre) rows.push(el('tr', {}, el('td', { class: 'num' }, 'organ ' + k), el('td', { colspan: '3' }, el('b', {}, pre.organ), pre.disclosure ? el('div', { class: 'note' }, pre.disclosure) : null)));
-    if (v) for (const x of v.verdicts) rows.push(el('tr', {}, el('td', { class: 'num' }, k + ' · ' + x.id), el('td', {}, x.claim), el('td', {}, el('span', { class: 'chip ' + (x.pass ? 'pass' : x.kind === 'prediction' ? 'pred' : 'fail') }, x.pass ? 'held' : x.kind === 'prediction' ? 'failed — kept' : 'FAILED')), el('td', { class: 'dim' }, x.saw)));
+    if (pre) rows.push(el('tr', {}, el('td', { class: 'num' }, 'organ ' + k), el('td', { colspan: '3' }, SHOWN_AS[k] ? el('b', {}, SHOWN_AS[k] + ' · sealed as: ') : null, el('b', { 'data-quote': 'sealed' }, pre.organ), pre.disclosure ? el('div', { class: 'note' }, pre.disclosure) : null)));
+    if (v) for (const x of v.verdicts) rows.push(el('tr', {}, el('td', { class: 'num' }, k + ' · ' + x.id), el('td', { 'data-quote': 'sealed' }, x.claim), el('td', {}, el('span', { class: 'chip ' + (x.pass ? 'pass' : x.kind === 'prediction' ? 'pred' : 'fail') }, x.pass ? 'held' : x.kind === 'prediction' ? 'failed — kept' : 'FAILED')), el('td', { class: 'dim', 'data-quote': 'sealed' }, x.saw)));
   }
   if (rows.length) clear($('#proof-rows'), rows);
   const all = rows.length ? [...document.querySelectorAll('#proof-rows .chip')].map((c) => c.textContent) : [];
@@ -717,7 +718,7 @@ function wire() {
       await renderWallet();
       emit('key', { restored: true, cards: back });
       say($('#key-out'), 'Restored: you are ' + short(k.pub) + ' again' + (back ? ', with ' + back + ' card(s) recorded here' : '') + '.', 'ok');
-    } catch (err) { say($('#key-out'), 'That is not a DIGI wallet file: ' + (/does not match/.test(String(err && err.message)) ? err.message : 'the key in it could not be read') + '. Use the file “Save my key file” saved.', 'bad'); }
+    } catch (err) { say($('#key-out'), 'That is not a DIGI key file: ' + (/does not match/.test(String(err && err.message)) ? err.message : 'the key in it could not be read') + '. Use the file “Save my key file” saved.', 'bad'); }
   });
   on('#theme-toggle', 'click', () => { const r = document.documentElement, t = r.dataset.theme === 'light' ? 'dark' : 'light'; r.dataset.theme = t; try { localStorage.setItem('digi-theme', t); } catch {} });
 }

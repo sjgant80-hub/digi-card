@@ -75,7 +75,9 @@ const LOOKS = {
   'blockcraft-v1': { sky: [0x56a0fa, 0xc6e6ff], floor: 0x5fb83a, line: 0x4f9e30, panel: 0x32323a, edge: 0x9a9aa8, text: 0xffffff, shadow: 0x14141a, left: 0x3c8cff, right: 0xff5a3c, tie: 0x9a9aa8, empty: 0x54545e, miss: 0x6a2a24, win: [0xffffff, null], cloud: 0xffffff },
   'lcd-v1': { sky: [0xaaaaaa, 0xaaaaaa], floor: 0x555555, line: 0x000000, panel: 0x000000, edge: 0x555555, text: 0xffffff, shadow: 0x000000, left: 0xffffff, right: 0x555555, tie: 0xaaaaaa, empty: 0x555555, miss: 0x000000, win: [0x000000, 0xaaaaaa], cloud: 0xffffff, lcd: [0x0f1210, 0x4a5048, 0x9aa095, 0xd8dccf] },
   'memphis-v1': { sky: [0xffe14a, 0xffe14a], floor: 0xffffff, line: 0x111111, panel: 0x1b1740, edge: 0xff4fa3, text: 0x111111, shadow: 0xffffff, left: 0x2d9cff, right: 0xff4fa3, tie: 0xd7dbe4, empty: 0x3a3466, miss: 0x5a1a3a, win: [0xffffff, null], confetti: [0x111111, 0xffffff, 0xff4fa3, 0x2d9cff] },
+  'blueprint-v1': { sky: [0x0e3b78, 0x0e3b78], floor: 0x0b2f60, line: 0x3468b0, panel: 0x061a38, edge: 0x5d93d8, text: 0xeef5ff, shadow: 0x061a38, left: 0x7ff0ff, right: 0xfff35a, tie: 0x9cc3f0, empty: 0x1c4f92, miss: 0xff7a5a, win: [0x061a38, 0x9cc3f0], grid: [0x1c4f92, 0x3468b0], ramp: [0x0e3b78, 0x3468b0, 0x9cc3f0, 0xeef5ff] },
 };
+const inked = (L, c) => (L.ramp ? L.ramp[(((c >> 16) & 255) * 77 + ((c >> 8) & 255) * 150 + (c & 255) * 29) >> 14] : c);   // a drawing inks every colour in one of four blues, by brightness
 const BAY = [0, 128, 32, 160, 192, 64, 224, 96, 48, 176, 16, 144, 240, 112, 208, 80];
 const W = 240, FLOOR = 100, PANEL = 108, S = 5;   // the arena is 240 wide; the creatures stand on the floor at 5 px per voxel, the scoreboard below
 
@@ -95,6 +97,7 @@ function backdrop(cv, L, fw, lh, oy, ax, seed) {
   const fl = oy + FLOOR, pn = oy + PANEL;
   rect(cv, 0, 0, fw, oy, L.sky[0]);
   for (const y of span(0, FLOOR)) rect(cv, 0, oy + y, fw, 1, mix(L.sky[0], L.sky[1], div(y * 256, FLOOR)));
+  if (L.grid) { for (const x of span(4, fw, 8)) rect(cv, x, 0, 1, oy + FLOOR, (x - 4) % 40 ? L.grid[0] : L.grid[1]); for (const y of span(4, oy + FLOOR, 8)) rect(cv, 0, y, fw, 1, (y - 4) % 40 ? L.grid[0] : L.grid[1]); }   // grid paper
   for (const x0 of span(0, fw, W)) {   // the sky's decoration, clear of the names above
     const r = rng(seed[0], seed[1]);
     if (L.star) for (const n of span(0, 40)) dot(cv, x0 + r(W), oy + 26 + r(FLOOR - 40), L.star);
@@ -110,11 +113,11 @@ function backdrop(cv, L, fw, lh, oy, ax, seed) {
   rect(cv, 0, pn, fw, lh - pn, L.panel); rect(cv, 0, pn, fw, 1, L.edge);   // the scoreboard's band
 }
 
-function fighter(cv, s, x0, faceLeft, dimmed) {   // the creature in profile, on its rarity's platform
+function fighter(cv, s, x0, faceLeft, dimmed, L) {   // the creature in profile, on its rarity's platform
   const p = RAR[s.ri], fr = creatureSide(s.id);
   rect(cv, x0 - 6, FLOOR, 7 * S + 12, 3, p.hi); rect(cv, x0 - 6, FLOOR + 3, 7 * S + 12, 2, p.lo);
   for (const q of span(0, 98)) if (fr.px[q * 4 + 3]) {
-    const col = (fr.px[q * 4] << 16) | (fr.px[q * 4 + 1] << 8) | fr.px[q * 4 + 2], x = q % 7;
+    const col = inked(L, (fr.px[q * 4] << 16) | (fr.px[q * 4 + 1] << 8) | fr.px[q * 4 + 2]), x = q % 7;
     rect(cv, x0 + (faceLeft ? 6 - x : x) * S, FLOOR - 14 * S + div(q, 7) * S, S, S, dimmed ? mul(col, 140) : col);
   }
 }
@@ -148,8 +151,8 @@ export function paintDuel(duel, themeId, w, h) {
     backdrop(full, L, FW, lh, oy, n * W, [D.left.rating * 10000 + D.right.rating, D.cases.length * 31 + D.decided]);
     const cv = { cw: full.cw, d: full.d.subarray(oy * full.cw + n * W) };   // the arena itself, 240 x 160, drawn in the middle on the same pixels
     const done = D.cases.slice(0, D.decided), won = (x) => D.result === x;
-    fighter(cv, D.left, 28, false, won('right') || won('refused'));   // the loser, or both when the duel is refused, dimmed; a draw dims neither
-    fighter(cv, D.right, 177, true, won('left') || won('refused'));
+    fighter(cv, D.left, 28, false, won('right') || won('refused'), L);   // the loser, or both when the duel is refused, dimmed; a draw dims neither
+    fighter(cv, D.right, 177, true, won('left') || won('refused'), L);
     badge(cv, D.left, 45, L); badge(cv, D.right, 194, L);
 
     const sc = { left: done.filter(([a, b]) => a > b).length, right: done.filter(([a, b]) => b > a).length };   // the middle: the tally and where the duel stands
