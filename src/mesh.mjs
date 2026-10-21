@@ -53,7 +53,7 @@ export async function consentOk(c, v, mesh) {
 
 /** out-of-fold AUC of the non-negative coupling of these columns, or a coin's 0.5 with no columns */
 const nonNegative = { name: 'non-negative', learn: (cols, y) => { const c = coupleNonNegative(cols, y); return { predict: (s) => coupled(c, s) }; } };
-const oof = (cols, y) => (cols.length ? oofAuc(nonNegative, cols, y) : 0.5);   // dex-frontier's out-of-fold judge, four folds
+export const oof = (cols, y) => (cols.length ? oofAuc(nonNegative, cols, y) : 0.5);   // dex-frontier's out-of-fold judge, four folds
 
 /** shares of the positive contributions, in millionths, summing to exactly a million (largest remainder, then order) */
 export function sharesOf(contributions) {
