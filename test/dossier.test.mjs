@@ -21,7 +21,7 @@ test('issue → give → receipt → skin: the owner moves with each give, and e
   assert.ok(v.ok, v.why);
   assert.deepEqual([v.owner, v.maker, v.serial, v.theme, v.gives, v.receipts.length], [alice.pub, maker.pub, 7, 'synthwave-v1', 0, 0]);
   const b = await give(a.dossier, alice, bob.pub); assert.ok(b.ok, b.why);
-  const c = await addReceipt(b.dossier, bob, { kind: 'grow', before: 700000, after: 720000 }); assert.ok(c.ok, c.why);
+  const c = await addReceipt(b.dossier, bob, { kind: 'level', before: 700000, after: 720000 }); assert.ok(c.ok, c.why);
   const d = await reskin(c.dossier, bob, 'blockcraft-v1'); assert.ok(d.ok, d.why);
   v = await verify(d.dossier);
   assert.deepEqual([v.owner, v.gives, v.receipts.length, v.theme], [bob.pub, 1, 1, 'blockcraft-v1']);
@@ -89,7 +89,9 @@ test('every forgery is refused: a changed field, a dropped or reordered event, a
   assert.equal(decode(JSON.stringify({ events: c.events, genome: c.genome, v: 1, x: 1 })).why, 'not a dossier');
   assert.equal(decode(JSON.stringify({ v: 1, events: c.events, genome: c.genome })).why, 'the dossier is not in its one byte form');
   for (const junk of [5, null, 'not json', '[]', '{"v":1}', 'x'.repeat(18000)]) assert.equal(decode(junk).why, 'not a dossier');
-  assert.equal(decode('x'.repeat(18001)).why, 'a dossier is at most 18000 characters');
+  assert.equal(decode('x'.repeat(18001)).why, 'a dossier is at most 18000 bytes');
+  assert.equal(decode('€'.repeat(6000)).why, 'not a dossier', 'six thousand euro signs are 18000 bytes');
+  assert.equal(decode('€'.repeat(6001)).why, 'a dossier is at most 18000 bytes', 'the bound is bytes, not characters');
 });
 
 test('the values a record must hold: serial, owner key, theme id, generation, receipt shape', async () => {
@@ -125,11 +127,14 @@ test('a card’s life is bounded: at most MAX_EVENTS events, and the band’s by
   assert.equal((await verify({ ...d, events: [...d.events, d.events[1]] })).why, 'a card’s life is at most 40 events');
   const big = (await issue(g, maker, { serial: 1, to: alice.pub, theme: 'synthwave-v1' })).dossier;
   assert.equal((await addReceipt(big, alice, { pad: 'x'.repeat(18000) })).why, 'the card’s life no longer fits its band: carry it on to a fresh card');
-  const room = 18000 - encode((await addReceipt(big, alice, { pad: '' })).dossier).length;
+  const room = 18000 - utf8(encode((await addReceipt(big, alice, { pad: '' })).dossier)).length;
   const full = await addReceipt(big, alice, { pad: 'x'.repeat(room) });
-  assert.ok(full.ok, full.why); assert.equal(encode(full.dossier).length, 18000, 'exactly the band’s bytes still fits');
+  assert.ok(full.ok, full.why); assert.equal(utf8(encode(full.dossier)).length, 18000, 'exactly the band’s bytes still fits');
   assert.equal((await addReceipt(big, alice, { pad: 'x'.repeat(room + 1) })).why, 'the card’s life no longer fits its band: carry it on to a fresh card');
   assert.equal(decode(encode(full.dossier)).ok, true, 'and still decodes');
+  const euros = Math.floor(room / 3);
+  assert.ok((await addReceipt(big, alice, { pad: '€'.repeat(euros) })).ok, 'a three-byte character counts three');
+  assert.equal((await addReceipt(big, alice, { pad: '€'.repeat(euros + 1) })).why, 'the card’s life no longer fits its band: carry it on to a fresh card');
 });
 
 test('facts: the dataset and department from the genome’s organ, rarity by stage, a child’s parents and generation', async () => {
@@ -145,7 +150,17 @@ test('facts: the dataset and department from the genome’s organ, rarity by sta
   const cv = await verify((await issue(child, maker, { serial: 9, to: alice.pub, theme: 'blockcraft-v1', generation: 2 })).dossier);
   assert.deepEqual(facts(cv), { id: cv.id, title: 'Telco Account', dataset: 'telco', department: 'account', stage: 0, rarity: 'common', generation: 2, parents: [p1, p2] });
   let d = (await issue(child, maker, { serial: 9, to: alice.pub, theme: 'blockcraft-v1' })).dossier;
-  for (let k = 0; k < 12; k++) d = (await addReceipt(d, alice, { n: k })).dossier;
+  for (let k = 0; k < 12; k++) d = (await addReceipt(d, alice, { kind: 'level', n: k })).dossier;
+  for (const other of [{ kind: 'drop', n: 1 }, { kind: 'levels', n: 2 }, { n: 3 }, { kind: 'Level' }]) d = (await addReceipt(d, alice, other)).dossier;
   const f = facts(await verify(d));
-  assert.deepEqual([f.stage, f.rarity], [12, 'legendary']);
+  assert.deepEqual([f.stage, f.rarity], [12, 'legendary'], 'only levels count toward the stage');
+  const two = async (domains) => (await seal({ name: 'two-departments', parents: [p1], gate: { auc: 0.6 }, organs: domains.map((dm) => encodeSeed(makeSeed({ domain: dm, seed: 1, grow: { population: 40, elites: 8, generations: 30 } }))) }, maker)).text;
+  const across = facts(await verify((await issue(await two(['credit-customer', 'credit-payments']), maker, { serial: 4, to: alice.pub, theme: 'synthwave-v1', generation: 1 })).dossier));
+  assert.deepEqual([across.dataset, across.department, across.title], ['credit', 'customer+payment', 'Two Departments'], 'a child of two departments shows both');
+  const mixed = facts(await verify((await issue(await two(['credit-customer', 'telco-account']), maker, { serial: 5, to: alice.pub, theme: 'synthwave-v1' })).dossier));
+  assert.deepEqual([mixed.dataset, mixed.department], ['custom', 'credit-customer'], 'two datasets: custom, cut at sixteen');
+  const trail = facts(await verify((await issue(await two(['credit-customer', 'credit-x']), maker, { serial: 6, to: alice.pub, theme: 'synthwave-v1' })).dossier));
+  assert.deepEqual([trail.dataset, trail.department], ['credit', 'customer+x']);
+  const cut = facts(await verify((await issue(await two(['credit-abcdefghijklmno', 'credit-x']), maker, { serial: 7, to: alice.pub, theme: 'synthwave-v1' })).dossier));
+  assert.equal(cut.department, 'abcdefghijklmno', 'a join cut at sixteen drops its dangling plus');
 });

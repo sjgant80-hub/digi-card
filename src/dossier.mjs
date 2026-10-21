@@ -25,7 +25,7 @@ import { canonical, utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendo
 
 export const TAG = 'digi.v1';
 export const MAX_EVENTS = 40;           // a card's life fits its band; a longer one moves to a fresh card
-export const MAX_BYTES = 18000;         // the dossier's canonical text, at most (the card's band holds 18,427 bytes)
+export const MAX_BYTES = 18000;         // the dossier's canonical text in UTF-8 bytes, at most (the card's band holds 18,426)
 export const DATASETS = ['telco', 'shop', 'bank', 'adult', 'hospital', 'credit'];
 export const RARITY = [[10, 'legendary'], [6, 'epic'], [3, 'rare'], [1, 'uncommon'], [0, 'common']];   // by stage, highest first
 
@@ -34,6 +34,7 @@ const PUB = /^[0-9a-f]{64}$/, SIG = /^[0-9a-f]{128}$/, THEME = /^[a-z][a-z0-9]{1
 const exactly = (x, keys) => Object.prototype.toString.call(x) === '[object Object]' && Object.keys(x).sort().join() === keys.join();
 const KEYS = { issue: ['by', 'card', 'generation', 'prev', 'serial', 'sig', 'theme', 'to', 'type'], give: ['by', 'card', 'k', 'prev', 'sig', 'to', 'type'], receipt: ['by', 'card', 'k', 'prev', 'receipt', 'sig', 'type'], skin: ['by', 'card', 'k', 'prev', 'sig', 'theme', 'type'] };
 const no = (why) => ({ ok: false, why });
+const bytesOf = (text) => utf8(text).length;   // what the band carries is bytes, and € is three of them
 const hashOf = (event) => sha256Hex(canonical(event));
 const unsigned = (event) => Object.fromEntries(Object.entries(event).filter(([k]) => k !== 'sig'));
 
@@ -52,7 +53,7 @@ export const encode = (dossier) => canonical(dossier);
 /** read a dossier's text: it must parse, have exactly the dossier's shape, and be its own canonical form */
 export function decode(text) {
   if (typeof text !== 'string') return no('not a dossier');
-  if (text.length > MAX_BYTES) return no('a dossier is at most ' + MAX_BYTES + ' characters');
+  if (bytesOf(text) > MAX_BYTES) return no('a dossier is at most ' + MAX_BYTES + ' bytes');
   let d;
   try { d = JSON.parse(text); } catch { return no('not a dossier'); }
   if (!exactly(d, ['events', 'genome', 'v'])) return no('not a dossier');
@@ -97,7 +98,7 @@ async function append(dossier, ownerKeys, fields) {
   const bad = check(all);
   if (bad) return no(bad);
   const next = { ...dossier, events: [...dossier.events, await signed(all, ownerKeys)] };
-  return encode(next).length > MAX_BYTES ? no('the card’s life no longer fits its band: carry it on to a fresh card') : { ok: true, dossier: next };
+  return bytesOf(encode(next)) > MAX_BYTES ? no('the card’s life no longer fits its band: carry it on to a fresh card') : { ok: true, dossier: next };
 }
 export const give = (dossier, ownerKeys, to) => append(dossier, ownerKeys, { type: 'give', to });
 export const addReceipt = (dossier, ownerKeys, receipt) => append(dossier, ownerKeys, { type: 'receipt', receipt });
@@ -143,12 +144,16 @@ export async function verify(dossier, opts = {}) {
   } catch { return no('not a dossier'); }
 }
 
-/** what the card's face shows, read from a checked dossier: the art engine draws exactly these facts */
+/**
+ * What the card's face shows, read from a checked dossier: the art engine draws exactly these facts. The dataset and
+ * department come from its mind's departments (a child bred across departments shows them joined, customer+payments);
+ * the stage is its levels — receipts of kind 'level' only, each one re-run before any registry records it.
+ */
 export function facts(v) {
-  const domain = decodeSeed(v.genome.organs[0], { guard: false }), d = domain.ok ? domain.seed.domain : v.genome.name;
-  const [head, ...rest] = String(d).split('-'), dataset = DATASETS.includes(head) && rest.length ? head : 'custom';
-  const department = (dataset === 'custom' ? String(d) : rest.join('-')).slice(0, 16).replace(/-+$/, '');
+  const domains = v.genome.organs.map((o) => { const d = decodeSeed(o, { guard: false }); return d.ok ? d.seed.domain : v.genome.name; });
+  const head = domains[0].split('-')[0], dataset = DATASETS.includes(head) && domains.every((d) => d.startsWith(head + '-')) ? head : 'custom';
+  const department = (dataset === 'custom' ? domains : domains.map((d) => d.slice(head.length + 1))).join('+').slice(0, 16).replace(/[-+]+$/, '');
   const title = v.genome.name.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').slice(0, 24).trim();
-  const stage = Math.min(99, v.receipts.length);
+  const stage = Math.min(99, v.receipts.filter((r) => r.kind === 'level').length);
   return { id: v.id, title, dataset, department, stage, rarity: rarityOf(stage), generation: v.generation, parents: v.genome.parents.slice() };
 }
