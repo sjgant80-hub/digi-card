@@ -1,0 +1,6103 @@
+{
+ "kind": "digi-card.organ-2.record",
+ "v": 1,
+ "cards": 1000,
+ "declared": 1000,
+ "offline": {
+  "ran": 1000,
+  "touched": 0
+ },
+ "deep": {
+  "tried": 50,
+  "same": 50
+ },
+ "changedBytes": {
+  "telco": "data/telco-churn.csv is not the published bytes",
+  "shop": "data/online_shoppers_intention.csv is not the published bytes",
+  "bank": "data/bank-additional-full.csv is not the published bytes",
+  "adult": "data/adult.data is not the published bytes",
+  "hospital": "data/diabetic_data.csv is not the published bytes",
+  "credit": "data/credit-default.csv is not the published bytes"
+ },
+ "aboveCoin": 1000,
+ "medianDrop": 2267,
+ "departments": {
+  "shop-analytics": {
+   "cards": 68,
+   "medianGate": 917922,
+   "medianTest": 816447
+  },
+  "telco-customer": {
+   "cards": 67,
+   "medianGate": 661938,
+   "medianTest": 628105
+  },
+  "telco-services": {
+   "cards": 67,
+   "medianGate": 744209,
+   "medianTest": 759605
+  },
+  "telco-account": {
+   "cards": 67,
+   "medianGate": 806577,
+   "medianTest": 806020
+  },
+  "shop-browsing": {
+   "cards": 67,
+   "medianGate": 663151,
+   "medianTest": 673090
+  },
+  "shop-context": {
+   "cards": 67,
+   "medianGate": 614308,
+   "medianTest": 567471
+  },
+  "bank-profile": {
+   "cards": 67,
+   "medianGate": 610630,
+   "medianTest": 618368
+  },
+  "bank-campaign": {
+   "cards": 67,
+   "medianGate": 680513,
+   "medianTest": 693805
+  },
+  "bank-economy": {
+   "cards": 67,
+   "medianGate": 762022,
+   "medianTest": 759827
+  },
+  "adult-person": {
+   "cards": 66,
+   "medianGate": 806483,
+   "medianTest": 804714
+  },
+  "adult-work": {
+   "cards": 66,
+   "medianGate": 750376,
+   "medianTest": 750109
+  },
+  "adult-tax": {
+   "cards": 66,
+   "medianGate": 632076,
+   "medianTest": 626439
+  },
+  "credit-customer": {
+   "cards": 66,
+   "medianGate": 632844,
+   "medianTest": 606787
+  },
+  "credit-collections": {
+   "cards": 66,
+   "medianGate": 732578,
+   "medianTest": 733290
+  },
+  "credit-payments": {
+   "cards": 66,
+   "medianGate": 641439,
+   "medianTest": 636611
+  }
+ },
+ "rows": [
+  {
+   "serial": 1,
+   "domain": "shop-analytics",
+   "gate": 922680,
+   "test": 821831
+  },
+  {
+   "serial": 2,
+   "domain": "telco-customer",
+   "gate": 635362,
+   "test": 634365
+  },
+  {
+   "serial": 3,
+   "domain": "telco-services",
+   "gate": 762223,
+   "test": 773212
+  },
+  {
+   "serial": 4,
+   "domain": "telco-account",
+   "gate": 803935,
+   "test": 810195
+  },
+  {
+   "serial": 5,
+   "domain": "shop-browsing",
+   "gate": 665976,
+   "test": 682792
+  },
+  {
+   "serial": 6,
+   "domain": "shop-analytics",
+   "gate": 910852,
+   "test": 830826
+  },
+  {
+   "serial": 7,
+   "domain": "shop-context",
+   "gate": 625557,
+   "test": 580464
+  },
+  {
+   "serial": 8,
+   "domain": "bank-profile",
+   "gate": 623447,
+   "test": 629202
+  },
+  {
+   "serial": 9,
+   "domain": "bank-campaign",
+   "gate": 667961,
+   "test": 684269
+  },
+  {
+   "serial": 10,
+   "domain": "bank-economy",
+   "gate": 768659,
+   "test": 767611
+  },
+  {
+   "serial": 11,
+   "domain": "adult-person",
+   "gate": 805444,
+   "test": 804418
+  },
+  {
+   "serial": 12,
+   "domain": "adult-work",
+   "gate": 752582,
+   "test": 751536
+  },
+  {
+   "serial": 13,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 14,
+   "domain": "credit-customer",
+   "gate": 626170,
+   "test": 603085
+  },
+  {
+   "serial": 15,
+   "domain": "credit-collections",
+   "gate": 734254,
+   "test": 732910
+  },
+  {
+   "serial": 16,
+   "domain": "credit-payments",
+   "gate": 638048,
+   "test": 637529
+  },
+  {
+   "serial": 17,
+   "domain": "telco-customer",
+   "gate": 666736,
+   "test": 630528
+  },
+  {
+   "serial": 18,
+   "domain": "telco-services",
+   "gate": 744209,
+   "test": 759605
+  },
+  {
+   "serial": 19,
+   "domain": "telco-account",
+   "gate": 802698,
+   "test": 796357
+  },
+  {
+   "serial": 20,
+   "domain": "shop-browsing",
+   "gate": 659582,
+   "test": 675754
+  },
+  {
+   "serial": 21,
+   "domain": "shop-analytics",
+   "gate": 915097,
+   "test": 817205
+  },
+  {
+   "serial": 22,
+   "domain": "shop-context",
+   "gate": 609005,
+   "test": 570262
+  },
+  {
+   "serial": 23,
+   "domain": "bank-profile",
+   "gate": 600094,
+   "test": 607226
+  },
+  {
+   "serial": 24,
+   "domain": "bank-campaign",
+   "gate": 679336,
+   "test": 702247
+  },
+  {
+   "serial": 25,
+   "domain": "bank-economy",
+   "gate": 754161,
+   "test": 753194
+  },
+  {
+   "serial": 26,
+   "domain": "adult-person",
+   "gate": 807334,
+   "test": 806506
+  },
+  {
+   "serial": 27,
+   "domain": "adult-work",
+   "gate": 754365,
+   "test": 753314
+  },
+  {
+   "serial": 28,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 29,
+   "domain": "credit-customer",
+   "gate": 632844,
+   "test": 605328
+  },
+  {
+   "serial": 30,
+   "domain": "credit-collections",
+   "gate": 728018,
+   "test": 726772
+  },
+  {
+   "serial": 31,
+   "domain": "credit-payments",
+   "gate": 644278,
+   "test": 642161
+  },
+  {
+   "serial": 32,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 33,
+   "domain": "telco-services",
+   "gate": 750219,
+   "test": 774245
+  },
+  {
+   "serial": 34,
+   "domain": "telco-account",
+   "gate": 797940,
+   "test": 804020
+  },
+  {
+   "serial": 35,
+   "domain": "shop-browsing",
+   "gate": 658605,
+   "test": 676751
+  },
+  {
+   "serial": 36,
+   "domain": "shop-analytics",
+   "gate": 919491,
+   "test": 803229
+  },
+  {
+   "serial": 37,
+   "domain": "shop-context",
+   "gate": 626370,
+   "test": 569788
+  },
+  {
+   "serial": 38,
+   "domain": "bank-profile",
+   "gate": 603422,
+   "test": 621942
+  },
+  {
+   "serial": 39,
+   "domain": "bank-campaign",
+   "gate": 677024,
+   "test": 690686
+  },
+  {
+   "serial": 40,
+   "domain": "bank-economy",
+   "gate": 766008,
+   "test": 765814
+  },
+  {
+   "serial": 41,
+   "domain": "adult-person",
+   "gate": 806426,
+   "test": 804999
+  },
+  {
+   "serial": 42,
+   "domain": "adult-work",
+   "gate": 752015,
+   "test": 746904
+  },
+  {
+   "serial": 43,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 44,
+   "domain": "credit-customer",
+   "gate": 638369,
+   "test": 607403
+  },
+  {
+   "serial": 45,
+   "domain": "credit-collections",
+   "gate": 733650,
+   "test": 732771
+  },
+  {
+   "serial": 46,
+   "domain": "credit-payments",
+   "gate": 634081,
+   "test": 630310
+  },
+  {
+   "serial": 47,
+   "domain": "telco-customer",
+   "gate": 671495,
+   "test": 622117
+  },
+  {
+   "serial": 48,
+   "domain": "telco-services",
+   "gate": 706468,
+   "test": 736685
+  },
+  {
+   "serial": 49,
+   "domain": "telco-account",
+   "gate": 818213,
+   "test": 813959
+  },
+  {
+   "serial": 50,
+   "domain": "shop-browsing",
+   "gate": 659417,
+   "test": 681665
+  },
+  {
+   "serial": 51,
+   "domain": "shop-analytics",
+   "gate": 910843,
+   "test": 817208
+  },
+  {
+   "serial": 52,
+   "domain": "shop-context",
+   "gate": 615244,
+   "test": 568362
+  },
+  {
+   "serial": 53,
+   "domain": "bank-profile",
+   "gate": 608820,
+   "test": 619189
+  },
+  {
+   "serial": 54,
+   "domain": "bank-campaign",
+   "gate": 686854,
+   "test": 692113
+  },
+  {
+   "serial": 55,
+   "domain": "bank-economy",
+   "gate": 764367,
+   "test": 764593
+  },
+  {
+   "serial": 56,
+   "domain": "adult-person",
+   "gate": 799171,
+   "test": 799106
+  },
+  {
+   "serial": 57,
+   "domain": "adult-work",
+   "gate": 747901,
+   "test": 746432
+  },
+  {
+   "serial": 58,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 59,
+   "domain": "credit-customer",
+   "gate": 632293,
+   "test": 607131
+  },
+  {
+   "serial": 60,
+   "domain": "credit-collections",
+   "gate": 735770,
+   "test": 733030
+  },
+  {
+   "serial": 61,
+   "domain": "credit-payments",
+   "gate": 634641,
+   "test": 633750
+  },
+  {
+   "serial": 62,
+   "domain": "telco-customer",
+   "gate": 677340,
+   "test": 624748
+  },
+  {
+   "serial": 63,
+   "domain": "telco-services",
+   "gate": 734994,
+   "test": 759011
+  },
+  {
+   "serial": 64,
+   "domain": "telco-account",
+   "gate": 800684,
+   "test": 803360
+  },
+  {
+   "serial": 65,
+   "domain": "shop-browsing",
+   "gate": 658150,
+   "test": 655712
+  },
+  {
+   "serial": 66,
+   "domain": "shop-analytics",
+   "gate": 921634,
+   "test": 809408
+  },
+  {
+   "serial": 67,
+   "domain": "shop-context",
+   "gate": 601174,
+   "test": 539234
+  },
+  {
+   "serial": 68,
+   "domain": "bank-profile",
+   "gate": 604003,
+   "test": 613316
+  },
+  {
+   "serial": 69,
+   "domain": "bank-campaign",
+   "gate": 674853,
+   "test": 690570
+  },
+  {
+   "serial": 70,
+   "domain": "bank-economy",
+   "gate": 766514,
+   "test": 762854
+  },
+  {
+   "serial": 71,
+   "domain": "adult-person",
+   "gate": 803370,
+   "test": 801801
+  },
+  {
+   "serial": 72,
+   "domain": "adult-work",
+   "gate": 757899,
+   "test": 753382
+  },
+  {
+   "serial": 73,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 74,
+   "domain": "credit-customer",
+   "gate": 634180,
+   "test": 601780
+  },
+  {
+   "serial": 75,
+   "domain": "credit-collections",
+   "gate": 733095,
+   "test": 733290
+  },
+  {
+   "serial": 76,
+   "domain": "credit-payments",
+   "gate": 640473,
+   "test": 639898
+  },
+  {
+   "serial": 77,
+   "domain": "telco-customer",
+   "gate": 675182,
+   "test": 624136
+  },
+  {
+   "serial": 78,
+   "domain": "telco-services",
+   "gate": 768921,
+   "test": 781829
+  },
+  {
+   "serial": 79,
+   "domain": "telco-account",
+   "gate": 795001,
+   "test": 778624
+  },
+  {
+   "serial": 80,
+   "domain": "shop-browsing",
+   "gate": 654464,
+   "test": 652508
+  },
+  {
+   "serial": 81,
+   "domain": "shop-analytics",
+   "gate": 909048,
+   "test": 823935
+  },
+  {
+   "serial": 82,
+   "domain": "shop-context",
+   "gate": 606087,
+   "test": 568400
+  },
+  {
+   "serial": 83,
+   "domain": "bank-profile",
+   "gate": 605703,
+   "test": 618383
+  },
+  {
+   "serial": 84,
+   "domain": "bank-campaign",
+   "gate": 680656,
+   "test": 688340
+  },
+  {
+   "serial": 85,
+   "domain": "bank-economy",
+   "gate": 758459,
+   "test": 759827
+  },
+  {
+   "serial": 86,
+   "domain": "adult-person",
+   "gate": 807504,
+   "test": 807008
+  },
+  {
+   "serial": 87,
+   "domain": "adult-work",
+   "gate": 749872,
+   "test": 746033
+  },
+  {
+   "serial": 88,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 89,
+   "domain": "credit-customer",
+   "gate": 631836,
+   "test": 611858
+  },
+  {
+   "serial": 90,
+   "domain": "credit-collections",
+   "gate": 732578,
+   "test": 731224
+  },
+  {
+   "serial": 91,
+   "domain": "credit-payments",
+   "gate": 646128,
+   "test": 631284
+  },
+  {
+   "serial": 92,
+   "domain": "telco-customer",
+   "gate": 653491,
+   "test": 621592
+  },
+  {
+   "serial": 93,
+   "domain": "telco-services",
+   "gate": 761843,
+   "test": 779603
+  },
+  {
+   "serial": 94,
+   "domain": "telco-account",
+   "gate": 805750,
+   "test": 810336
+  },
+  {
+   "serial": 95,
+   "domain": "shop-browsing",
+   "gate": 670946,
+   "test": 687760
+  },
+  {
+   "serial": 96,
+   "domain": "shop-analytics",
+   "gate": 916936,
+   "test": 820562
+  },
+  {
+   "serial": 97,
+   "domain": "shop-context",
+   "gate": 604154,
+   "test": 572798
+  },
+  {
+   "serial": 98,
+   "domain": "bank-profile",
+   "gate": 614431,
+   "test": 617999
+  },
+  {
+   "serial": 99,
+   "domain": "bank-campaign",
+   "gate": 668917,
+   "test": 687759
+  },
+  {
+   "serial": 100,
+   "domain": "bank-economy",
+   "gate": 761581,
+   "test": 761906
+  },
+  {
+   "serial": 101,
+   "domain": "adult-person",
+   "gate": 806462,
+   "test": 804714
+  },
+  {
+   "serial": 102,
+   "domain": "adult-work",
+   "gate": 748373,
+   "test": 746750
+  },
+  {
+   "serial": 103,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 104,
+   "domain": "credit-customer",
+   "gate": 631508,
+   "test": 608182
+  },
+  {
+   "serial": 105,
+   "domain": "credit-collections",
+   "gate": 731957,
+   "test": 729439
+  },
+  {
+   "serial": 106,
+   "domain": "credit-payments",
+   "gate": 647659,
+   "test": 636346
+  },
+  {
+   "serial": 107,
+   "domain": "telco-customer",
+   "gate": 645464,
+   "test": 628448
+  },
+  {
+   "serial": 108,
+   "domain": "telco-services",
+   "gate": 763629,
+   "test": 762509
+  },
+  {
+   "serial": 109,
+   "domain": "telco-account",
+   "gate": 801357,
+   "test": 800829
+  },
+  {
+   "serial": 110,
+   "domain": "shop-browsing",
+   "gate": 677697,
+   "test": 677061
+  },
+  {
+   "serial": 111,
+   "domain": "shop-analytics",
+   "gate": 910476,
+   "test": 818408
+  },
+  {
+   "serial": 112,
+   "domain": "shop-context",
+   "gate": 614243,
+   "test": 574281
+  },
+  {
+   "serial": 113,
+   "domain": "bank-profile",
+   "gate": 616843,
+   "test": 627294
+  },
+  {
+   "serial": 114,
+   "domain": "bank-campaign",
+   "gate": 664853,
+   "test": 681469
+  },
+  {
+   "serial": 115,
+   "domain": "bank-economy",
+   "gate": 770582,
+   "test": 767169
+  },
+  {
+   "serial": 116,
+   "domain": "adult-person",
+   "gate": 803225,
+   "test": 803062
+  },
+  {
+   "serial": 117,
+   "domain": "adult-work",
+   "gate": 747826,
+   "test": 746529
+  },
+  {
+   "serial": 118,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 119,
+   "domain": "credit-customer",
+   "gate": 636438,
+   "test": 608505
+  },
+  {
+   "serial": 120,
+   "domain": "credit-collections",
+   "gate": 738587,
+   "test": 736076
+  },
+  {
+   "serial": 121,
+   "domain": "credit-payments",
+   "gate": 635934,
+   "test": 639363
+  },
+  {
+   "serial": 122,
+   "domain": "telco-customer",
+   "gate": 664198,
+   "test": 624211
+  },
+  {
+   "serial": 123,
+   "domain": "telco-services",
+   "gate": 724978,
+   "test": 754003
+  },
+  {
+   "serial": 124,
+   "domain": "telco-account",
+   "gate": 806708,
+   "test": 813554
+  },
+  {
+   "serial": 125,
+   "domain": "shop-browsing",
+   "gate": 651237,
+   "test": 651130
+  },
+  {
+   "serial": 126,
+   "domain": "shop-analytics",
+   "gate": 921600,
+   "test": 810334
+  },
+  {
+   "serial": 127,
+   "domain": "shop-context",
+   "gate": 606191,
+   "test": 561640
+  },
+  {
+   "serial": 128,
+   "domain": "bank-profile",
+   "gate": 609959,
+   "test": 605124
+  },
+  {
+   "serial": 129,
+   "domain": "bank-campaign",
+   "gate": 671778,
+   "test": 683144
+  },
+  {
+   "serial": 130,
+   "domain": "bank-economy",
+   "gate": 766214,
+   "test": 753240
+  },
+  {
+   "serial": 131,
+   "domain": "adult-person",
+   "gate": 806690,
+   "test": 804339
+  },
+  {
+   "serial": 132,
+   "domain": "adult-work",
+   "gate": 751775,
+   "test": 747677
+  },
+  {
+   "serial": 133,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 134,
+   "domain": "credit-customer",
+   "gate": 631580,
+   "test": 607072
+  },
+  {
+   "serial": 135,
+   "domain": "credit-collections",
+   "gate": 729977,
+   "test": 730689
+  },
+  {
+   "serial": 136,
+   "domain": "credit-payments",
+   "gate": 631954,
+   "test": 640436
+  },
+  {
+   "serial": 137,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 138,
+   "domain": "telco-services",
+   "gate": 712258,
+   "test": 732003
+  },
+  {
+   "serial": 139,
+   "domain": "telco-account",
+   "gate": 807949,
+   "test": 801148
+  },
+  {
+   "serial": 140,
+   "domain": "shop-browsing",
+   "gate": 651005,
+   "test": 645553
+  },
+  {
+   "serial": 141,
+   "domain": "shop-analytics",
+   "gate": 915529,
+   "test": 821741
+  },
+  {
+   "serial": 142,
+   "domain": "shop-context",
+   "gate": 621386,
+   "test": 580333
+  },
+  {
+   "serial": 143,
+   "domain": "bank-profile",
+   "gate": 601529,
+   "test": 619031
+  },
+  {
+   "serial": 144,
+   "domain": "bank-campaign",
+   "gate": 678797,
+   "test": 690444
+  },
+  {
+   "serial": 145,
+   "domain": "bank-economy",
+   "gate": 755078,
+   "test": 753914
+  },
+  {
+   "serial": 146,
+   "domain": "adult-person",
+   "gate": 806480,
+   "test": 804695
+  },
+  {
+   "serial": 147,
+   "domain": "adult-work",
+   "gate": 763939,
+   "test": 765929
+  },
+  {
+   "serial": 148,
+   "domain": "adult-tax",
+   "gate": 630004,
+   "test": 624185
+  },
+  {
+   "serial": 149,
+   "domain": "credit-customer",
+   "gate": 627366,
+   "test": 601061
+  },
+  {
+   "serial": 150,
+   "domain": "credit-collections",
+   "gate": 730110,
+   "test": 737855
+  },
+  {
+   "serial": 151,
+   "domain": "credit-payments",
+   "gate": 640737,
+   "test": 642216
+  },
+  {
+   "serial": 152,
+   "domain": "telco-customer",
+   "gate": 666890,
+   "test": 630682
+  },
+  {
+   "serial": 153,
+   "domain": "telco-services",
+   "gate": 753838,
+   "test": 767992
+  },
+  {
+   "serial": 154,
+   "domain": "telco-account",
+   "gate": 809467,
+   "test": 805231
+  },
+  {
+   "serial": 155,
+   "domain": "shop-browsing",
+   "gate": 656764,
+   "test": 675961
+  },
+  {
+   "serial": 156,
+   "domain": "shop-analytics",
+   "gate": 913879,
+   "test": 819946
+  },
+  {
+   "serial": 157,
+   "domain": "shop-context",
+   "gate": 643312,
+   "test": 573851
+  },
+  {
+   "serial": 158,
+   "domain": "bank-profile",
+   "gate": 611624,
+   "test": 622684
+  },
+  {
+   "serial": 159,
+   "domain": "bank-campaign",
+   "gate": 693087,
+   "test": 699306
+  },
+  {
+   "serial": 160,
+   "domain": "bank-economy",
+   "gate": 765187,
+   "test": 767099
+  },
+  {
+   "serial": 161,
+   "domain": "adult-person",
+   "gate": 803550,
+   "test": 799208
+  },
+  {
+   "serial": 162,
+   "domain": "adult-work",
+   "gate": 740689,
+   "test": 738756
+  },
+  {
+   "serial": 163,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 164,
+   "domain": "credit-customer",
+   "gate": 629398,
+   "test": 608207
+  },
+  {
+   "serial": 165,
+   "domain": "credit-collections",
+   "gate": 732577,
+   "test": 729631
+  },
+  {
+   "serial": 166,
+   "domain": "credit-payments",
+   "gate": 633649,
+   "test": 626333
+  },
+  {
+   "serial": 167,
+   "domain": "telco-customer",
+   "gate": 656198,
+   "test": 610692
+  },
+  {
+   "serial": 168,
+   "domain": "telco-services",
+   "gate": 698292,
+   "test": 712647
+  },
+  {
+   "serial": 169,
+   "domain": "telco-account",
+   "gate": 792916,
+   "test": 801379
+  },
+  {
+   "serial": 170,
+   "domain": "shop-browsing",
+   "gate": 670004,
+   "test": 679444
+  },
+  {
+   "serial": 171,
+   "domain": "shop-analytics",
+   "gate": 906926,
+   "test": 822503
+  },
+  {
+   "serial": 172,
+   "domain": "shop-context",
+   "gate": 638247,
+   "test": 585070
+  },
+  {
+   "serial": 173,
+   "domain": "bank-profile",
+   "gate": 616476,
+   "test": 623065
+  },
+  {
+   "serial": 174,
+   "domain": "bank-campaign",
+   "gate": 686790,
+   "test": 694781
+  },
+  {
+   "serial": 175,
+   "domain": "bank-economy",
+   "gate": 754488,
+   "test": 750259
+  },
+  {
+   "serial": 176,
+   "domain": "adult-person",
+   "gate": 805407,
+   "test": 803908
+  },
+  {
+   "serial": 177,
+   "domain": "adult-work",
+   "gate": 748376,
+   "test": 748522
+  },
+  {
+   "serial": 178,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 179,
+   "domain": "credit-customer",
+   "gate": 631941,
+   "test": 602468
+  },
+  {
+   "serial": 180,
+   "domain": "credit-collections",
+   "gate": 731507,
+   "test": 729812
+  },
+  {
+   "serial": 181,
+   "domain": "credit-payments",
+   "gate": 634830,
+   "test": 635757
+  },
+  {
+   "serial": 182,
+   "domain": "telco-customer",
+   "gate": 661394,
+   "test": 628035
+  },
+  {
+   "serial": 183,
+   "domain": "telco-services",
+   "gate": 739801,
+   "test": 751952
+  },
+  {
+   "serial": 184,
+   "domain": "telco-account",
+   "gate": 795376,
+   "test": 797415
+  },
+  {
+   "serial": 185,
+   "domain": "shop-browsing",
+   "gate": 665387,
+   "test": 674085
+  },
+  {
+   "serial": 186,
+   "domain": "shop-analytics",
+   "gate": 913542,
+   "test": 818804
+  },
+  {
+   "serial": 187,
+   "domain": "shop-context",
+   "gate": 608096,
+   "test": 546983
+  },
+  {
+   "serial": 188,
+   "domain": "bank-profile",
+   "gate": 613288,
+   "test": 610139
+  },
+  {
+   "serial": 189,
+   "domain": "bank-campaign",
+   "gate": 665152,
+   "test": 685860
+  },
+  {
+   "serial": 190,
+   "domain": "bank-economy",
+   "gate": 758863,
+   "test": 759004
+  },
+  {
+   "serial": 191,
+   "domain": "adult-person",
+   "gate": 803445,
+   "test": 801284
+  },
+  {
+   "serial": 192,
+   "domain": "adult-work",
+   "gate": 754363,
+   "test": 753099
+  },
+  {
+   "serial": 193,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 194,
+   "domain": "credit-customer",
+   "gate": 630282,
+   "test": 604848
+  },
+  {
+   "serial": 195,
+   "domain": "credit-collections",
+   "gate": 737770,
+   "test": 734176
+  },
+  {
+   "serial": 196,
+   "domain": "credit-payments",
+   "gate": 646194,
+   "test": 638946
+  },
+  {
+   "serial": 197,
+   "domain": "telco-customer",
+   "gate": 670191,
+   "test": 624731
+  },
+  {
+   "serial": 198,
+   "domain": "telco-services",
+   "gate": 739610,
+   "test": 760737
+  },
+  {
+   "serial": 199,
+   "domain": "telco-account",
+   "gate": 780793,
+   "test": 785338
+  },
+  {
+   "serial": 200,
+   "domain": "shop-browsing",
+   "gate": 676502,
+   "test": 674729
+  },
+  {
+   "serial": 201,
+   "domain": "shop-analytics",
+   "gate": 913939,
+   "test": 825512
+  },
+  {
+   "serial": 202,
+   "domain": "shop-context",
+   "gate": 601306,
+   "test": 569443
+  },
+  {
+   "serial": 203,
+   "domain": "bank-profile",
+   "gate": 603794,
+   "test": 607421
+  },
+  {
+   "serial": 204,
+   "domain": "bank-campaign",
+   "gate": 684784,
+   "test": 691493
+  },
+  {
+   "serial": 205,
+   "domain": "bank-economy",
+   "gate": 758099,
+   "test": 757803
+  },
+  {
+   "serial": 206,
+   "domain": "adult-person",
+   "gate": 809860,
+   "test": 809232
+  },
+  {
+   "serial": 207,
+   "domain": "adult-work",
+   "gate": 751843,
+   "test": 747992
+  },
+  {
+   "serial": 208,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 209,
+   "domain": "credit-customer",
+   "gate": 637488,
+   "test": 604121
+  },
+  {
+   "serial": 210,
+   "domain": "credit-collections",
+   "gate": 736446,
+   "test": 734841
+  },
+  {
+   "serial": 211,
+   "domain": "credit-payments",
+   "gate": 632969,
+   "test": 636297
+  },
+  {
+   "serial": 212,
+   "domain": "telco-customer",
+   "gate": 656545,
+   "test": 636712
+  },
+  {
+   "serial": 213,
+   "domain": "telco-services",
+   "gate": 766658,
+   "test": 779227
+  },
+  {
+   "serial": 214,
+   "domain": "telco-account",
+   "gate": 816566,
+   "test": 814576
+  },
+  {
+   "serial": 215,
+   "domain": "shop-browsing",
+   "gate": 670331,
+   "test": 633229
+  },
+  {
+   "serial": 216,
+   "domain": "shop-analytics",
+   "gate": 917462,
+   "test": 822556
+  },
+  {
+   "serial": 217,
+   "domain": "shop-context",
+   "gate": 619548,
+   "test": 557912
+  },
+  {
+   "serial": 218,
+   "domain": "bank-profile",
+   "gate": 610630,
+   "test": 618493
+  },
+  {
+   "serial": 219,
+   "domain": "bank-campaign",
+   "gate": 675410,
+   "test": 686987
+  },
+  {
+   "serial": 220,
+   "domain": "bank-economy",
+   "gate": 759654,
+   "test": 755730
+  },
+  {
+   "serial": 221,
+   "domain": "adult-person",
+   "gate": 805857,
+   "test": 802837
+  },
+  {
+   "serial": 222,
+   "domain": "adult-work",
+   "gate": 758301,
+   "test": 754845
+  },
+  {
+   "serial": 223,
+   "domain": "adult-tax",
+   "gate": 619127,
+   "test": 619189
+  },
+  {
+   "serial": 224,
+   "domain": "credit-customer",
+   "gate": 637433,
+   "test": 609461
+  },
+  {
+   "serial": 225,
+   "domain": "credit-collections",
+   "gate": 736446,
+   "test": 734841
+  },
+  {
+   "serial": 226,
+   "domain": "credit-payments",
+   "gate": 638834,
+   "test": 632414
+  },
+  {
+   "serial": 227,
+   "domain": "telco-customer",
+   "gate": 666685,
+   "test": 630750
+  },
+  {
+   "serial": 228,
+   "domain": "telco-services",
+   "gate": 756445,
+   "test": 766913
+  },
+  {
+   "serial": 229,
+   "domain": "telco-account",
+   "gate": 807096,
+   "test": 801385
+  },
+  {
+   "serial": 230,
+   "domain": "shop-browsing",
+   "gate": 645462,
+   "test": 662021
+  },
+  {
+   "serial": 231,
+   "domain": "shop-analytics",
+   "gate": 918629,
+   "test": 814140
+  },
+  {
+   "serial": 232,
+   "domain": "shop-context",
+   "gate": 651182,
+   "test": 583802
+  },
+  {
+   "serial": 233,
+   "domain": "bank-profile",
+   "gate": 602587,
+   "test": 618419
+  },
+  {
+   "serial": 234,
+   "domain": "bank-campaign",
+   "gate": 715795,
+   "test": 715065
+  },
+  {
+   "serial": 235,
+   "domain": "bank-economy",
+   "gate": 767851,
+   "test": 764513
+  },
+  {
+   "serial": 236,
+   "domain": "adult-person",
+   "gate": 806483,
+   "test": 805359
+  },
+  {
+   "serial": 237,
+   "domain": "adult-work",
+   "gate": 748077,
+   "test": 752822
+  },
+  {
+   "serial": 238,
+   "domain": "adult-tax",
+   "gate": 619127,
+   "test": 619189
+  },
+  {
+   "serial": 239,
+   "domain": "credit-customer",
+   "gate": 630638,
+   "test": 602812
+  },
+  {
+   "serial": 240,
+   "domain": "credit-collections",
+   "gate": 729094,
+   "test": 737964
+  },
+  {
+   "serial": 241,
+   "domain": "credit-payments",
+   "gate": 635986,
+   "test": 630926
+  },
+  {
+   "serial": 242,
+   "domain": "telco-customer",
+   "gate": 661394,
+   "test": 628035
+  },
+  {
+   "serial": 243,
+   "domain": "telco-services",
+   "gate": 676319,
+   "test": 705701
+  },
+  {
+   "serial": 244,
+   "domain": "telco-account",
+   "gate": 805974,
+   "test": 804320
+  },
+  {
+   "serial": 245,
+   "domain": "shop-browsing",
+   "gate": 663593,
+   "test": 675646
+  },
+  {
+   "serial": 246,
+   "domain": "shop-analytics",
+   "gate": 918097,
+   "test": 821525
+  },
+  {
+   "serial": 247,
+   "domain": "shop-context",
+   "gate": 602056,
+   "test": 572764
+  },
+  {
+   "serial": 248,
+   "domain": "bank-profile",
+   "gate": 604477,
+   "test": 618368
+  },
+  {
+   "serial": 249,
+   "domain": "bank-campaign",
+   "gate": 683064,
+   "test": 686028
+  },
+  {
+   "serial": 250,
+   "domain": "bank-economy",
+   "gate": 764381,
+   "test": 761647
+  },
+  {
+   "serial": 251,
+   "domain": "adult-person",
+   "gate": 807943,
+   "test": 809205
+  },
+  {
+   "serial": 252,
+   "domain": "adult-work",
+   "gate": 749846,
+   "test": 753334
+  },
+  {
+   "serial": 253,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 254,
+   "domain": "credit-customer",
+   "gate": 630956,
+   "test": 609488
+  },
+  {
+   "serial": 255,
+   "domain": "credit-collections",
+   "gate": 729963,
+   "test": 737496
+  },
+  {
+   "serial": 256,
+   "domain": "credit-payments",
+   "gate": 644175,
+   "test": 642028
+  },
+  {
+   "serial": 257,
+   "domain": "telco-customer",
+   "gate": 661666,
+   "test": 628070
+  },
+  {
+   "serial": 258,
+   "domain": "telco-services",
+   "gate": 722044,
+   "test": 754629
+  },
+  {
+   "serial": 259,
+   "domain": "telco-account",
+   "gate": 808968,
+   "test": 802529
+  },
+  {
+   "serial": 260,
+   "domain": "shop-browsing",
+   "gate": 651225,
+   "test": 652430
+  },
+  {
+   "serial": 261,
+   "domain": "shop-analytics",
+   "gate": 920041,
+   "test": 802221
+  },
+  {
+   "serial": 262,
+   "domain": "shop-context",
+   "gate": 607472,
+   "test": 571261
+  },
+  {
+   "serial": 263,
+   "domain": "bank-profile",
+   "gate": 606814,
+   "test": 604294
+  },
+  {
+   "serial": 264,
+   "domain": "bank-campaign",
+   "gate": 675506,
+   "test": 693361
+  },
+  {
+   "serial": 265,
+   "domain": "bank-economy",
+   "gate": 759805,
+   "test": 759869
+  },
+  {
+   "serial": 266,
+   "domain": "adult-person",
+   "gate": 813871,
+   "test": 813681
+  },
+  {
+   "serial": 267,
+   "domain": "adult-work",
+   "gate": 758902,
+   "test": 756275
+  },
+  {
+   "serial": 268,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 269,
+   "domain": "credit-customer",
+   "gate": 632576,
+   "test": 605115
+  },
+  {
+   "serial": 270,
+   "domain": "credit-collections",
+   "gate": 741515,
+   "test": 738436
+  },
+  {
+   "serial": 271,
+   "domain": "credit-payments",
+   "gate": 641439,
+   "test": 633263
+  },
+  {
+   "serial": 272,
+   "domain": "telco-customer",
+   "gate": 657746,
+   "test": 622923
+  },
+  {
+   "serial": 273,
+   "domain": "telco-services",
+   "gate": 764511,
+   "test": 776405
+  },
+  {
+   "serial": 274,
+   "domain": "telco-account",
+   "gate": 802254,
+   "test": 799135
+  },
+  {
+   "serial": 275,
+   "domain": "shop-browsing",
+   "gate": 653195,
+   "test": 587931
+  },
+  {
+   "serial": 276,
+   "domain": "shop-analytics",
+   "gate": 911427,
+   "test": 823807
+  },
+  {
+   "serial": 277,
+   "domain": "shop-context",
+   "gate": 600525,
+   "test": 543446
+  },
+  {
+   "serial": 278,
+   "domain": "bank-profile",
+   "gate": 616954,
+   "test": 631378
+  },
+  {
+   "serial": 279,
+   "domain": "bank-campaign",
+   "gate": 700349,
+   "test": 705328
+  },
+  {
+   "serial": 280,
+   "domain": "bank-economy",
+   "gate": 763653,
+   "test": 756386
+  },
+  {
+   "serial": 281,
+   "domain": "adult-person",
+   "gate": 811396,
+   "test": 807406
+  },
+  {
+   "serial": 282,
+   "domain": "adult-work",
+   "gate": 735899,
+   "test": 733977
+  },
+  {
+   "serial": 283,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 284,
+   "domain": "credit-customer",
+   "gate": 628846,
+   "test": 607690
+  },
+  {
+   "serial": 285,
+   "domain": "credit-collections",
+   "gate": 735011,
+   "test": 734042
+  },
+  {
+   "serial": 286,
+   "domain": "credit-payments",
+   "gate": 638369,
+   "test": 636611
+  },
+  {
+   "serial": 287,
+   "domain": "telco-customer",
+   "gate": 655906,
+   "test": 622212
+  },
+  {
+   "serial": 288,
+   "domain": "telco-services",
+   "gate": 764413,
+   "test": 766955
+  },
+  {
+   "serial": 289,
+   "domain": "telco-account",
+   "gate": 802730,
+   "test": 811689
+  },
+  {
+   "serial": 290,
+   "domain": "shop-browsing",
+   "gate": 663254,
+   "test": 653471
+  },
+  {
+   "serial": 291,
+   "domain": "shop-analytics",
+   "gate": 921500,
+   "test": 809262
+  },
+  {
+   "serial": 292,
+   "domain": "shop-context",
+   "gate": 607128,
+   "test": 568710
+  },
+  {
+   "serial": 293,
+   "domain": "bank-profile",
+   "gate": 605835,
+   "test": 612600
+  },
+  {
+   "serial": 294,
+   "domain": "bank-campaign",
+   "gate": 689803,
+   "test": 706173
+  },
+  {
+   "serial": 295,
+   "domain": "bank-economy",
+   "gate": 769916,
+   "test": 763599
+  },
+  {
+   "serial": 296,
+   "domain": "adult-person",
+   "gate": 804535,
+   "test": 802545
+  },
+  {
+   "serial": 297,
+   "domain": "adult-work",
+   "gate": 754288,
+   "test": 751273
+  },
+  {
+   "serial": 298,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 299,
+   "domain": "credit-customer",
+   "gate": 632614,
+   "test": 612172
+  },
+  {
+   "serial": 300,
+   "domain": "credit-collections",
+   "gate": 740187,
+   "test": 738543
+  },
+  {
+   "serial": 301,
+   "domain": "credit-payments",
+   "gate": 644107,
+   "test": 635427
+  },
+  {
+   "serial": 302,
+   "domain": "telco-customer",
+   "gate": 666736,
+   "test": 630528
+  },
+  {
+   "serial": 303,
+   "domain": "telco-services",
+   "gate": 692133,
+   "test": 693517
+  },
+  {
+   "serial": 304,
+   "domain": "telco-account",
+   "gate": 805924,
+   "test": 803077
+  },
+  {
+   "serial": 305,
+   "domain": "shop-browsing",
+   "gate": 661607,
+   "test": 668069
+  },
+  {
+   "serial": 306,
+   "domain": "shop-analytics",
+   "gate": 918428,
+   "test": 822999
+  },
+  {
+   "serial": 307,
+   "domain": "shop-context",
+   "gate": 637511,
+   "test": 557387
+  },
+  {
+   "serial": 308,
+   "domain": "bank-profile",
+   "gate": 608530,
+   "test": 615104
+  },
+  {
+   "serial": 309,
+   "domain": "bank-campaign",
+   "gate": 685464,
+   "test": 703698
+  },
+  {
+   "serial": 310,
+   "domain": "bank-economy",
+   "gate": 758183,
+   "test": 757020
+  },
+  {
+   "serial": 311,
+   "domain": "adult-person",
+   "gate": 807820,
+   "test": 805023
+  },
+  {
+   "serial": 312,
+   "domain": "adult-work",
+   "gate": 749019,
+   "test": 750312
+  },
+  {
+   "serial": 313,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 314,
+   "domain": "credit-customer",
+   "gate": 636074,
+   "test": 606787
+  },
+  {
+   "serial": 315,
+   "domain": "credit-collections",
+   "gate": 728277,
+   "test": 730213
+  },
+  {
+   "serial": 316,
+   "domain": "credit-payments",
+   "gate": 643837,
+   "test": 638851
+  },
+  {
+   "serial": 317,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 318,
+   "domain": "telco-services",
+   "gate": 746963,
+   "test": 764799
+  },
+  {
+   "serial": 319,
+   "domain": "telco-account",
+   "gate": 800510,
+   "test": 800743
+  },
+  {
+   "serial": 320,
+   "domain": "shop-browsing",
+   "gate": 678065,
+   "test": 661997
+  },
+  {
+   "serial": 321,
+   "domain": "shop-analytics",
+   "gate": 919384,
+   "test": 806099
+  },
+  {
+   "serial": 322,
+   "domain": "shop-context",
+   "gate": 638762,
+   "test": 555646
+  },
+  {
+   "serial": 323,
+   "domain": "bank-profile",
+   "gate": 624171,
+   "test": 631734
+  },
+  {
+   "serial": 324,
+   "domain": "bank-campaign",
+   "gate": 672170,
+   "test": 693270
+  },
+  {
+   "serial": 325,
+   "domain": "bank-economy",
+   "gate": 758854,
+   "test": 757674
+  },
+  {
+   "serial": 326,
+   "domain": "adult-person",
+   "gate": 807949,
+   "test": 807520
+  },
+  {
+   "serial": 327,
+   "domain": "adult-work",
+   "gate": 739955,
+   "test": 738228
+  },
+  {
+   "serial": 328,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 329,
+   "domain": "credit-customer",
+   "gate": 635088,
+   "test": 612049
+  },
+  {
+   "serial": 330,
+   "domain": "credit-collections",
+   "gate": 735851,
+   "test": 735199
+  },
+  {
+   "serial": 331,
+   "domain": "credit-payments",
+   "gate": 647689,
+   "test": 638654
+  },
+  {
+   "serial": 332,
+   "domain": "telco-customer",
+   "gate": 666685,
+   "test": 630750
+  },
+  {
+   "serial": 333,
+   "domain": "telco-services",
+   "gate": 770463,
+   "test": 775095
+  },
+  {
+   "serial": 334,
+   "domain": "telco-account",
+   "gate": 808992,
+   "test": 805787
+  },
+  {
+   "serial": 335,
+   "domain": "shop-browsing",
+   "gate": 664254,
+   "test": 673670
+  },
+  {
+   "serial": 336,
+   "domain": "shop-analytics",
+   "gate": 920328,
+   "test": 821168
+  },
+  {
+   "serial": 337,
+   "domain": "shop-context",
+   "gate": 609002,
+   "test": 582475
+  },
+  {
+   "serial": 338,
+   "domain": "bank-profile",
+   "gate": 614530,
+   "test": 626014
+  },
+  {
+   "serial": 339,
+   "domain": "bank-campaign",
+   "gate": 694216,
+   "test": 693932
+  },
+  {
+   "serial": 340,
+   "domain": "bank-economy",
+   "gate": 751806,
+   "test": 750485
+  },
+  {
+   "serial": 341,
+   "domain": "adult-person",
+   "gate": 803459,
+   "test": 801841
+  },
+  {
+   "serial": 342,
+   "domain": "adult-work",
+   "gate": 740784,
+   "test": 742786
+  },
+  {
+   "serial": 343,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 344,
+   "domain": "credit-customer",
+   "gate": 631030,
+   "test": 600448
+  },
+  {
+   "serial": 345,
+   "domain": "credit-collections",
+   "gate": 733366,
+   "test": 733577
+  },
+  {
+   "serial": 346,
+   "domain": "credit-payments",
+   "gate": 639871,
+   "test": 633885
+  },
+  {
+   "serial": 347,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 348,
+   "domain": "telco-services",
+   "gate": 777880,
+   "test": 785851
+  },
+  {
+   "serial": 349,
+   "domain": "telco-account",
+   "gate": 805525,
+   "test": 799818
+  },
+  {
+   "serial": 350,
+   "domain": "shop-browsing",
+   "gate": 653147,
+   "test": 667721
+  },
+  {
+   "serial": 351,
+   "domain": "shop-analytics",
+   "gate": 916707,
+   "test": 802796
+  },
+  {
+   "serial": 352,
+   "domain": "shop-context",
+   "gate": 617640,
+   "test": 546299
+  },
+  {
+   "serial": 353,
+   "domain": "bank-profile",
+   "gate": 615932,
+   "test": 630788
+  },
+  {
+   "serial": 354,
+   "domain": "bank-campaign",
+   "gate": 673385,
+   "test": 695791
+  },
+  {
+   "serial": 355,
+   "domain": "bank-economy",
+   "gate": 762508,
+   "test": 764878
+  },
+  {
+   "serial": 356,
+   "domain": "adult-person",
+   "gate": 809262,
+   "test": 809254
+  },
+  {
+   "serial": 357,
+   "domain": "adult-work",
+   "gate": 752651,
+   "test": 750882
+  },
+  {
+   "serial": 358,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 359,
+   "domain": "credit-customer",
+   "gate": 637893,
+   "test": 613090
+  },
+  {
+   "serial": 360,
+   "domain": "credit-collections",
+   "gate": 724360,
+   "test": 722939
+  },
+  {
+   "serial": 361,
+   "domain": "credit-payments",
+   "gate": 634421,
+   "test": 635096
+  },
+  {
+   "serial": 362,
+   "domain": "telco-customer",
+   "gate": 667008,
+   "test": 630563
+  },
+  {
+   "serial": 363,
+   "domain": "telco-services",
+   "gate": 746328,
+   "test": 764851
+  },
+  {
+   "serial": 364,
+   "domain": "telco-account",
+   "gate": 818203,
+   "test": 819109
+  },
+  {
+   "serial": 365,
+   "domain": "shop-browsing",
+   "gate": 654777,
+   "test": 673090
+  },
+  {
+   "serial": 366,
+   "domain": "shop-analytics",
+   "gate": 903251,
+   "test": 824410
+  },
+  {
+   "serial": 367,
+   "domain": "shop-context",
+   "gate": 610967,
+   "test": 578625
+  },
+  {
+   "serial": 368,
+   "domain": "bank-profile",
+   "gate": 617786,
+   "test": 624250
+  },
+  {
+   "serial": 369,
+   "domain": "bank-campaign",
+   "gate": 677828,
+   "test": 697012
+  },
+  {
+   "serial": 370,
+   "domain": "bank-economy",
+   "gate": 760515,
+   "test": 761411
+  },
+  {
+   "serial": 371,
+   "domain": "adult-person",
+   "gate": 800772,
+   "test": 799518
+  },
+  {
+   "serial": 372,
+   "domain": "adult-work",
+   "gate": 752592,
+   "test": 751365
+  },
+  {
+   "serial": 373,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 374,
+   "domain": "credit-customer",
+   "gate": 627158,
+   "test": 605309
+  },
+  {
+   "serial": 375,
+   "domain": "credit-collections",
+   "gate": 732808,
+   "test": 731157
+  },
+  {
+   "serial": 376,
+   "domain": "credit-payments",
+   "gate": 643245,
+   "test": 628883
+  },
+  {
+   "serial": 377,
+   "domain": "telco-customer",
+   "gate": 669561,
+   "test": 623895
+  },
+  {
+   "serial": 378,
+   "domain": "telco-services",
+   "gate": 766902,
+   "test": 780702
+  },
+  {
+   "serial": 379,
+   "domain": "telco-account",
+   "gate": 820043,
+   "test": 818715
+  },
+  {
+   "serial": 380,
+   "domain": "shop-browsing",
+   "gate": 658728,
+   "test": 667600
+  },
+  {
+   "serial": 381,
+   "domain": "shop-analytics",
+   "gate": 918725,
+   "test": 820200
+  },
+  {
+   "serial": 382,
+   "domain": "shop-context",
+   "gate": 611080,
+   "test": 541232
+  },
+  {
+   "serial": 383,
+   "domain": "bank-profile",
+   "gate": 612963,
+   "test": 624410
+  },
+  {
+   "serial": 384,
+   "domain": "bank-campaign",
+   "gate": 678288,
+   "test": 687528
+  },
+  {
+   "serial": 385,
+   "domain": "bank-economy",
+   "gate": 746183,
+   "test": 745772
+  },
+  {
+   "serial": 386,
+   "domain": "adult-person",
+   "gate": 781504,
+   "test": 779622
+  },
+  {
+   "serial": 387,
+   "domain": "adult-work",
+   "gate": 748638,
+   "test": 745137
+  },
+  {
+   "serial": 388,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 389,
+   "domain": "credit-customer",
+   "gate": 633546,
+   "test": 613130
+  },
+  {
+   "serial": 390,
+   "domain": "credit-collections",
+   "gate": 729323,
+   "test": 727564
+  },
+  {
+   "serial": 391,
+   "domain": "credit-payments",
+   "gate": 640716,
+   "test": 632933
+  },
+  {
+   "serial": 392,
+   "domain": "telco-customer",
+   "gate": 646367,
+   "test": 628603
+  },
+  {
+   "serial": 393,
+   "domain": "telco-services",
+   "gate": 735956,
+   "test": 745749
+  },
+  {
+   "serial": 394,
+   "domain": "telco-account",
+   "gate": 814937,
+   "test": 815556
+  },
+  {
+   "serial": 395,
+   "domain": "shop-browsing",
+   "gate": 672110,
+   "test": 663031
+  },
+  {
+   "serial": 396,
+   "domain": "shop-analytics",
+   "gate": 904045,
+   "test": 779407
+  },
+  {
+   "serial": 397,
+   "domain": "shop-context",
+   "gate": 602652,
+   "test": 534723
+  },
+  {
+   "serial": 398,
+   "domain": "bank-profile",
+   "gate": 601427,
+   "test": 607274
+  },
+  {
+   "serial": 399,
+   "domain": "bank-campaign",
+   "gate": 681993,
+   "test": 701529
+  },
+  {
+   "serial": 400,
+   "domain": "bank-economy",
+   "gate": 751135,
+   "test": 750663
+  },
+  {
+   "serial": 401,
+   "domain": "adult-person",
+   "gate": 808144,
+   "test": 805997
+  },
+  {
+   "serial": 402,
+   "domain": "adult-work",
+   "gate": 751248,
+   "test": 749497
+  },
+  {
+   "serial": 403,
+   "domain": "adult-tax",
+   "gate": 619127,
+   "test": 619189
+  },
+  {
+   "serial": 404,
+   "domain": "credit-customer",
+   "gate": 632787,
+   "test": 602894
+  },
+  {
+   "serial": 405,
+   "domain": "credit-collections",
+   "gate": 720304,
+   "test": 729964
+  },
+  {
+   "serial": 406,
+   "domain": "credit-payments",
+   "gate": 627877,
+   "test": 631570
+  },
+  {
+   "serial": 407,
+   "domain": "telco-customer",
+   "gate": 666173,
+   "test": 619897
+  },
+  {
+   "serial": 408,
+   "domain": "telco-services",
+   "gate": 717862,
+   "test": 746946
+  },
+  {
+   "serial": 409,
+   "domain": "telco-account",
+   "gate": 801843,
+   "test": 811652
+  },
+  {
+   "serial": 410,
+   "domain": "shop-browsing",
+   "gate": 642651,
+   "test": 669667
+  },
+  {
+   "serial": 411,
+   "domain": "shop-analytics",
+   "gate": 918279,
+   "test": 814736
+  },
+  {
+   "serial": 412,
+   "domain": "shop-context",
+   "gate": 629758,
+   "test": 550092
+  },
+  {
+   "serial": 413,
+   "domain": "bank-profile",
+   "gate": 602040,
+   "test": 611696
+  },
+  {
+   "serial": 414,
+   "domain": "bank-campaign",
+   "gate": 685870,
+   "test": 696284
+  },
+  {
+   "serial": 415,
+   "domain": "bank-economy",
+   "gate": 766231,
+   "test": 762018
+  },
+  {
+   "serial": 416,
+   "domain": "adult-person",
+   "gate": 809460,
+   "test": 806845
+  },
+  {
+   "serial": 417,
+   "domain": "adult-work",
+   "gate": 752553,
+   "test": 751889
+  },
+  {
+   "serial": 418,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 419,
+   "domain": "credit-customer",
+   "gate": 626852,
+   "test": 600673
+  },
+  {
+   "serial": 420,
+   "domain": "credit-collections",
+   "gate": 729411,
+   "test": 729592
+  },
+  {
+   "serial": 421,
+   "domain": "credit-payments",
+   "gate": 636024,
+   "test": 631648
+  },
+  {
+   "serial": 422,
+   "domain": "telco-customer",
+   "gate": 666736,
+   "test": 630528
+  },
+  {
+   "serial": 423,
+   "domain": "telco-services",
+   "gate": 706273,
+   "test": 743564
+  },
+  {
+   "serial": 424,
+   "domain": "telco-account",
+   "gate": 814949,
+   "test": 813842
+  },
+  {
+   "serial": 425,
+   "domain": "shop-browsing",
+   "gate": 665291,
+   "test": 671462
+  },
+  {
+   "serial": 426,
+   "domain": "shop-analytics",
+   "gate": 917922,
+   "test": 816447
+  },
+  {
+   "serial": 427,
+   "domain": "shop-context",
+   "gate": 607342,
+   "test": 542995
+  },
+  {
+   "serial": 428,
+   "domain": "bank-profile",
+   "gate": 604509,
+   "test": 613092
+  },
+  {
+   "serial": 429,
+   "domain": "bank-campaign",
+   "gate": 675576,
+   "test": 692649
+  },
+  {
+   "serial": 430,
+   "domain": "bank-economy",
+   "gate": 764616,
+   "test": 757858
+  },
+  {
+   "serial": 431,
+   "domain": "adult-person",
+   "gate": 805444,
+   "test": 804418
+  },
+  {
+   "serial": 432,
+   "domain": "adult-work",
+   "gate": 755812,
+   "test": 751572
+  },
+  {
+   "serial": 433,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 434,
+   "domain": "credit-customer",
+   "gate": 635402,
+   "test": 604376
+  },
+  {
+   "serial": 435,
+   "domain": "credit-collections",
+   "gate": 731311,
+   "test": 729899
+  },
+  {
+   "serial": 436,
+   "domain": "credit-payments",
+   "gate": 640910,
+   "test": 644795
+  },
+  {
+   "serial": 437,
+   "domain": "telco-customer",
+   "gate": 661666,
+   "test": 628070
+  },
+  {
+   "serial": 438,
+   "domain": "telco-services",
+   "gate": 775777,
+   "test": 781479
+  },
+  {
+   "serial": 439,
+   "domain": "telco-account",
+   "gate": 804384,
+   "test": 804021
+  },
+  {
+   "serial": 440,
+   "domain": "shop-browsing",
+   "gate": 664863,
+   "test": 681084
+  },
+  {
+   "serial": 441,
+   "domain": "shop-analytics",
+   "gate": 916793,
+   "test": 820936
+  },
+  {
+   "serial": 442,
+   "domain": "shop-context",
+   "gate": 603576,
+   "test": 577601
+  },
+  {
+   "serial": 443,
+   "domain": "bank-profile",
+   "gate": 606428,
+   "test": 606177
+  },
+  {
+   "serial": 444,
+   "domain": "bank-campaign",
+   "gate": 671271,
+   "test": 688912
+  },
+  {
+   "serial": 445,
+   "domain": "bank-economy",
+   "gate": 760740,
+   "test": 758704
+  },
+  {
+   "serial": 446,
+   "domain": "adult-person",
+   "gate": 806779,
+   "test": 807104
+  },
+  {
+   "serial": 447,
+   "domain": "adult-work",
+   "gate": 745628,
+   "test": 740442
+  },
+  {
+   "serial": 448,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 449,
+   "domain": "credit-customer",
+   "gate": 632930,
+   "test": 608043
+  },
+  {
+   "serial": 450,
+   "domain": "credit-collections",
+   "gate": 731209,
+   "test": 729317
+  },
+  {
+   "serial": 451,
+   "domain": "credit-payments",
+   "gate": 647865,
+   "test": 636100
+  },
+  {
+   "serial": 452,
+   "domain": "telco-customer",
+   "gate": 666736,
+   "test": 630528
+  },
+  {
+   "serial": 453,
+   "domain": "telco-services",
+   "gate": 738027,
+   "test": 755760
+  },
+  {
+   "serial": 454,
+   "domain": "telco-account",
+   "gate": 797567,
+   "test": 813980
+  },
+  {
+   "serial": 455,
+   "domain": "shop-browsing",
+   "gate": 657918,
+   "test": 677586
+  },
+  {
+   "serial": 456,
+   "domain": "shop-analytics",
+   "gate": 906117,
+   "test": 824524
+  },
+  {
+   "serial": 457,
+   "domain": "shop-context",
+   "gate": 613122,
+   "test": 553947
+  },
+  {
+   "serial": 458,
+   "domain": "bank-profile",
+   "gate": 607584,
+   "test": 607924
+  },
+  {
+   "serial": 459,
+   "domain": "bank-campaign",
+   "gate": 678954,
+   "test": 698144
+  },
+  {
+   "serial": 460,
+   "domain": "bank-economy",
+   "gate": 762022,
+   "test": 760616
+  },
+  {
+   "serial": 461,
+   "domain": "adult-person",
+   "gate": 807908,
+   "test": 805939
+  },
+  {
+   "serial": 462,
+   "domain": "adult-work",
+   "gate": 749346,
+   "test": 745552
+  },
+  {
+   "serial": 463,
+   "domain": "adult-tax",
+   "gate": 619127,
+   "test": 619189
+  },
+  {
+   "serial": 464,
+   "domain": "credit-customer",
+   "gate": 632429,
+   "test": 608477
+  },
+  {
+   "serial": 465,
+   "domain": "credit-collections",
+   "gate": 729306,
+   "test": 740829
+  },
+  {
+   "serial": 466,
+   "domain": "credit-payments",
+   "gate": 638214,
+   "test": 639211
+  },
+  {
+   "serial": 467,
+   "domain": "telco-customer",
+   "gate": 661394,
+   "test": 628035
+  },
+  {
+   "serial": 468,
+   "domain": "telco-services",
+   "gate": 774072,
+   "test": 784362
+  },
+  {
+   "serial": 469,
+   "domain": "telco-account",
+   "gate": 796506,
+   "test": 810155
+  },
+  {
+   "serial": 470,
+   "domain": "shop-browsing",
+   "gate": 678032,
+   "test": 659846
+  },
+  {
+   "serial": 471,
+   "domain": "shop-analytics",
+   "gate": 920175,
+   "test": 815907
+  },
+  {
+   "serial": 472,
+   "domain": "shop-context",
+   "gate": 618552,
+   "test": 561262
+  },
+  {
+   "serial": 473,
+   "domain": "bank-profile",
+   "gate": 600623,
+   "test": 609008
+  },
+  {
+   "serial": 474,
+   "domain": "bank-campaign",
+   "gate": 700287,
+   "test": 709335
+  },
+  {
+   "serial": 475,
+   "domain": "bank-economy",
+   "gate": 762236,
+   "test": 756617
+  },
+  {
+   "serial": 476,
+   "domain": "adult-person",
+   "gate": 805915,
+   "test": 803762
+  },
+  {
+   "serial": 477,
+   "domain": "adult-work",
+   "gate": 748342,
+   "test": 750449
+  },
+  {
+   "serial": 478,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 479,
+   "domain": "credit-customer",
+   "gate": 632429,
+   "test": 608477
+  },
+  {
+   "serial": 480,
+   "domain": "credit-collections",
+   "gate": 732141,
+   "test": 729406
+  },
+  {
+   "serial": 481,
+   "domain": "credit-payments",
+   "gate": 641790,
+   "test": 632374
+  },
+  {
+   "serial": 482,
+   "domain": "telco-customer",
+   "gate": 661394,
+   "test": 628035
+  },
+  {
+   "serial": 483,
+   "domain": "telco-services",
+   "gate": 754745,
+   "test": 770749
+  },
+  {
+   "serial": 484,
+   "domain": "telco-account",
+   "gate": 797062,
+   "test": 807967
+  },
+  {
+   "serial": 485,
+   "domain": "shop-browsing",
+   "gate": 662846,
+   "test": 677016
+  },
+  {
+   "serial": 486,
+   "domain": "shop-analytics",
+   "gate": 921371,
+   "test": 813682
+  },
+  {
+   "serial": 487,
+   "domain": "shop-context",
+   "gate": 623980,
+   "test": 569152
+  },
+  {
+   "serial": 488,
+   "domain": "bank-profile",
+   "gate": 623097,
+   "test": 619382
+  },
+  {
+   "serial": 489,
+   "domain": "bank-campaign",
+   "gate": 680781,
+   "test": 694423
+  },
+  {
+   "serial": 490,
+   "domain": "bank-economy",
+   "gate": 765261,
+   "test": 762189
+  },
+  {
+   "serial": 491,
+   "domain": "adult-person",
+   "gate": 811923,
+   "test": 809235
+  },
+  {
+   "serial": 492,
+   "domain": "adult-work",
+   "gate": 750341,
+   "test": 748156
+  },
+  {
+   "serial": 493,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 494,
+   "domain": "credit-customer",
+   "gate": 633229,
+   "test": 607528
+  },
+  {
+   "serial": 495,
+   "domain": "credit-collections",
+   "gate": 730273,
+   "test": 738915
+  },
+  {
+   "serial": 496,
+   "domain": "credit-payments",
+   "gate": 639596,
+   "test": 634431
+  },
+  {
+   "serial": 497,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 498,
+   "domain": "telco-services",
+   "gate": 764002,
+   "test": 779706
+  },
+  {
+   "serial": 499,
+   "domain": "telco-account",
+   "gate": 814525,
+   "test": 819492
+  },
+  {
+   "serial": 500,
+   "domain": "shop-browsing",
+   "gate": 662389,
+   "test": 666658
+  },
+  {
+   "serial": 501,
+   "domain": "shop-analytics",
+   "gate": 917315,
+   "test": 816338
+  },
+  {
+   "serial": 502,
+   "domain": "shop-context",
+   "gate": 613917,
+   "test": 568616
+  },
+  {
+   "serial": 503,
+   "domain": "bank-profile",
+   "gate": 611644,
+   "test": 613560
+  },
+  {
+   "serial": 504,
+   "domain": "bank-campaign",
+   "gate": 684405,
+   "test": 696656
+  },
+  {
+   "serial": 505,
+   "domain": "bank-economy",
+   "gate": 755423,
+   "test": 753905
+  },
+  {
+   "serial": 506,
+   "domain": "adult-person",
+   "gate": 803642,
+   "test": 801845
+  },
+  {
+   "serial": 507,
+   "domain": "adult-work",
+   "gate": 746834,
+   "test": 743268
+  },
+  {
+   "serial": 508,
+   "domain": "adult-tax",
+   "gate": 619127,
+   "test": 619189
+  },
+  {
+   "serial": 509,
+   "domain": "credit-customer",
+   "gate": 635986,
+   "test": 606766
+  },
+  {
+   "serial": 510,
+   "domain": "credit-collections",
+   "gate": 731184,
+   "test": 730104
+  },
+  {
+   "serial": 511,
+   "domain": "credit-payments",
+   "gate": 642245,
+   "test": 639651
+  },
+  {
+   "serial": 512,
+   "domain": "telco-customer",
+   "gate": 666685,
+   "test": 630750
+  },
+  {
+   "serial": 513,
+   "domain": "telco-services",
+   "gate": 708566,
+   "test": 743821
+  },
+  {
+   "serial": 514,
+   "domain": "telco-account",
+   "gate": 794757,
+   "test": 791600
+  },
+  {
+   "serial": 515,
+   "domain": "shop-browsing",
+   "gate": 653431,
+   "test": 666299
+  },
+  {
+   "serial": 516,
+   "domain": "shop-analytics",
+   "gate": 915829,
+   "test": 800716
+  },
+  {
+   "serial": 517,
+   "domain": "shop-context",
+   "gate": 634438,
+   "test": 541319
+  },
+  {
+   "serial": 518,
+   "domain": "bank-profile",
+   "gate": 612808,
+   "test": 626285
+  },
+  {
+   "serial": 519,
+   "domain": "bank-campaign",
+   "gate": 679629,
+   "test": 698780
+  },
+  {
+   "serial": 520,
+   "domain": "bank-economy",
+   "gate": 771923,
+   "test": 767295
+  },
+  {
+   "serial": 521,
+   "domain": "adult-person",
+   "gate": 807581,
+   "test": 804333
+  },
+  {
+   "serial": 522,
+   "domain": "adult-work",
+   "gate": 745923,
+   "test": 744037
+  },
+  {
+   "serial": 523,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 524,
+   "domain": "credit-customer",
+   "gate": 633995,
+   "test": 613516
+  },
+  {
+   "serial": 525,
+   "domain": "credit-collections",
+   "gate": 736973,
+   "test": 730247
+  },
+  {
+   "serial": 526,
+   "domain": "credit-payments",
+   "gate": 646971,
+   "test": 639944
+  },
+  {
+   "serial": 527,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 528,
+   "domain": "telco-services",
+   "gate": 728694,
+   "test": 757591
+  },
+  {
+   "serial": 529,
+   "domain": "telco-account",
+   "gate": 813157,
+   "test": 812006
+  },
+  {
+   "serial": 530,
+   "domain": "shop-browsing",
+   "gate": 671840,
+   "test": 678794
+  },
+  {
+   "serial": 531,
+   "domain": "shop-analytics",
+   "gate": 919170,
+   "test": 802327
+  },
+  {
+   "serial": 532,
+   "domain": "shop-context",
+   "gate": 604912,
+   "test": 573474
+  },
+  {
+   "serial": 533,
+   "domain": "bank-profile",
+   "gate": 622437,
+   "test": 633322
+  },
+  {
+   "serial": 534,
+   "domain": "bank-campaign",
+   "gate": 690296,
+   "test": 695760
+  },
+  {
+   "serial": 535,
+   "domain": "bank-economy",
+   "gate": 767189,
+   "test": 766919
+  },
+  {
+   "serial": 536,
+   "domain": "adult-person",
+   "gate": 806450,
+   "test": 805358
+  },
+  {
+   "serial": 537,
+   "domain": "adult-work",
+   "gate": 743444,
+   "test": 746103
+  },
+  {
+   "serial": 538,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 539,
+   "domain": "credit-customer",
+   "gate": 627814,
+   "test": 599586
+  },
+  {
+   "serial": 540,
+   "domain": "credit-collections",
+   "gate": 733435,
+   "test": 735196
+  },
+  {
+   "serial": 541,
+   "domain": "credit-payments",
+   "gate": 638634,
+   "test": 636217
+  },
+  {
+   "serial": 542,
+   "domain": "telco-customer",
+   "gate": 667280,
+   "test": 630598
+  },
+  {
+   "serial": 543,
+   "domain": "telco-services",
+   "gate": 764413,
+   "test": 766955
+  },
+  {
+   "serial": 544,
+   "domain": "telco-account",
+   "gate": 809487,
+   "test": 811942
+  },
+  {
+   "serial": 545,
+   "domain": "shop-browsing",
+   "gate": 674145,
+   "test": 673593
+  },
+  {
+   "serial": 546,
+   "domain": "shop-analytics",
+   "gate": 919895,
+   "test": 814758
+  },
+  {
+   "serial": 547,
+   "domain": "shop-context",
+   "gate": 621624,
+   "test": 544044
+  },
+  {
+   "serial": 548,
+   "domain": "bank-profile",
+   "gate": 609857,
+   "test": 624515
+  },
+  {
+   "serial": 549,
+   "domain": "bank-campaign",
+   "gate": 700267,
+   "test": 703682
+  },
+  {
+   "serial": 550,
+   "domain": "bank-economy",
+   "gate": 763044,
+   "test": 763667
+  },
+  {
+   "serial": 551,
+   "domain": "adult-person",
+   "gate": 808154,
+   "test": 806793
+  },
+  {
+   "serial": 552,
+   "domain": "adult-work",
+   "gate": 742971,
+   "test": 742030
+  },
+  {
+   "serial": 553,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 554,
+   "domain": "credit-customer",
+   "gate": 628419,
+   "test": 608562
+  },
+  {
+   "serial": 555,
+   "domain": "credit-collections",
+   "gate": 735490,
+   "test": 737610
+  },
+  {
+   "serial": 556,
+   "domain": "credit-payments",
+   "gate": 644245,
+   "test": 638439
+  },
+  {
+   "serial": 557,
+   "domain": "telco-customer",
+   "gate": 651292,
+   "test": 633952
+  },
+  {
+   "serial": 558,
+   "domain": "telco-services",
+   "gate": 771401,
+   "test": 773230
+  },
+  {
+   "serial": 559,
+   "domain": "telco-account",
+   "gate": 803587,
+   "test": 806020
+  },
+  {
+   "serial": 560,
+   "domain": "shop-browsing",
+   "gate": 670519,
+   "test": 676178
+  },
+  {
+   "serial": 561,
+   "domain": "shop-analytics",
+   "gate": 919780,
+   "test": 814402
+  },
+  {
+   "serial": 562,
+   "domain": "shop-context",
+   "gate": 629833,
+   "test": 562746
+  },
+  {
+   "serial": 563,
+   "domain": "bank-profile",
+   "gate": 628018,
+   "test": 627443
+  },
+  {
+   "serial": 564,
+   "domain": "bank-campaign",
+   "gate": 663002,
+   "test": 684941
+  },
+  {
+   "serial": 565,
+   "domain": "bank-economy",
+   "gate": 767856,
+   "test": 761212
+  },
+  {
+   "serial": 566,
+   "domain": "adult-person",
+   "gate": 811368,
+   "test": 810670
+  },
+  {
+   "serial": 567,
+   "domain": "adult-work",
+   "gate": 755416,
+   "test": 751880
+  },
+  {
+   "serial": 568,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 569,
+   "domain": "credit-customer",
+   "gate": 639185,
+   "test": 612429
+  },
+  {
+   "serial": 570,
+   "domain": "credit-collections",
+   "gate": 728890,
+   "test": 727341
+  },
+  {
+   "serial": 571,
+   "domain": "credit-payments",
+   "gate": 644055,
+   "test": 641847
+  },
+  {
+   "serial": 572,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 573,
+   "domain": "telco-services",
+   "gate": 734026,
+   "test": 752942
+  },
+  {
+   "serial": 574,
+   "domain": "telco-account",
+   "gate": 807255,
+   "test": 807027
+  },
+  {
+   "serial": 575,
+   "domain": "shop-browsing",
+   "gate": 664913,
+   "test": 672707
+  },
+  {
+   "serial": 576,
+   "domain": "shop-analytics",
+   "gate": 915282,
+   "test": 811135
+  },
+  {
+   "serial": 577,
+   "domain": "shop-context",
+   "gate": 606891,
+   "test": 526474
+  },
+  {
+   "serial": 578,
+   "domain": "bank-profile",
+   "gate": 608247,
+   "test": 603913
+  },
+  {
+   "serial": 579,
+   "domain": "bank-campaign",
+   "gate": 685175,
+   "test": 701832
+  },
+  {
+   "serial": 580,
+   "domain": "bank-economy",
+   "gate": 765764,
+   "test": 762187
+  },
+  {
+   "serial": 581,
+   "domain": "adult-person",
+   "gate": 809157,
+   "test": 805747
+  },
+  {
+   "serial": 582,
+   "domain": "adult-work",
+   "gate": 755006,
+   "test": 754769
+  },
+  {
+   "serial": 583,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 584,
+   "domain": "credit-customer",
+   "gate": 633790,
+   "test": 608348
+  },
+  {
+   "serial": 585,
+   "domain": "credit-collections",
+   "gate": 735575,
+   "test": 734058
+  },
+  {
+   "serial": 586,
+   "domain": "credit-payments",
+   "gate": 639413,
+   "test": 628544
+  },
+  {
+   "serial": 587,
+   "domain": "telco-customer",
+   "gate": 667280,
+   "test": 630598
+  },
+  {
+   "serial": 588,
+   "domain": "telco-services",
+   "gate": 773352,
+   "test": 773141
+  },
+  {
+   "serial": 589,
+   "domain": "telco-account",
+   "gate": 807170,
+   "test": 812156
+  },
+  {
+   "serial": 590,
+   "domain": "shop-browsing",
+   "gate": 649179,
+   "test": 644856
+  },
+  {
+   "serial": 591,
+   "domain": "shop-analytics",
+   "gate": 919383,
+   "test": 818786
+  },
+  {
+   "serial": 592,
+   "domain": "shop-context",
+   "gate": 618818,
+   "test": 561912
+  },
+  {
+   "serial": 593,
+   "domain": "bank-profile",
+   "gate": 612450,
+   "test": 610502
+  },
+  {
+   "serial": 594,
+   "domain": "bank-campaign",
+   "gate": 672244,
+   "test": 687970
+  },
+  {
+   "serial": 595,
+   "domain": "bank-economy",
+   "gate": 768154,
+   "test": 766186
+  },
+  {
+   "serial": 596,
+   "domain": "adult-person",
+   "gate": 803333,
+   "test": 803984
+  },
+  {
+   "serial": 597,
+   "domain": "adult-work",
+   "gate": 751222,
+   "test": 751065
+  },
+  {
+   "serial": 598,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 599,
+   "domain": "credit-customer",
+   "gate": 630519,
+   "test": 609009
+  },
+  {
+   "serial": 600,
+   "domain": "credit-collections",
+   "gate": 736396,
+   "test": 734145
+  },
+  {
+   "serial": 601,
+   "domain": "credit-payments",
+   "gate": 644740,
+   "test": 644597
+  },
+  {
+   "serial": 602,
+   "domain": "telco-customer",
+   "gate": 646367,
+   "test": 628603
+  },
+  {
+   "serial": 603,
+   "domain": "telco-services",
+   "gate": 762047,
+   "test": 779223
+  },
+  {
+   "serial": 604,
+   "domain": "telco-account",
+   "gate": 805932,
+   "test": 809878
+  },
+  {
+   "serial": 605,
+   "domain": "shop-browsing",
+   "gate": 669247,
+   "test": 682862
+  },
+  {
+   "serial": 606,
+   "domain": "shop-analytics",
+   "gate": 917262,
+   "test": 816753
+  },
+  {
+   "serial": 607,
+   "domain": "shop-context",
+   "gate": 628508,
+   "test": 579018
+  },
+  {
+   "serial": 608,
+   "domain": "bank-profile",
+   "gate": 605364,
+   "test": 612035
+  },
+  {
+   "serial": 609,
+   "domain": "bank-campaign",
+   "gate": 679713,
+   "test": 695450
+  },
+  {
+   "serial": 610,
+   "domain": "bank-economy",
+   "gate": 764960,
+   "test": 767336
+  },
+  {
+   "serial": 611,
+   "domain": "adult-person",
+   "gate": 811222,
+   "test": 810121
+  },
+  {
+   "serial": 612,
+   "domain": "adult-work",
+   "gate": 758198,
+   "test": 753137
+  },
+  {
+   "serial": 613,
+   "domain": "adult-tax",
+   "gate": 625909,
+   "test": 622527
+  },
+  {
+   "serial": 614,
+   "domain": "credit-customer",
+   "gate": 637823,
+   "test": 607076
+  },
+  {
+   "serial": 615,
+   "domain": "credit-collections",
+   "gate": 732799,
+   "test": 737462
+  },
+  {
+   "serial": 616,
+   "domain": "credit-payments",
+   "gate": 645780,
+   "test": 637564
+  },
+  {
+   "serial": 617,
+   "domain": "telco-customer",
+   "gate": 641778,
+   "test": 626194
+  },
+  {
+   "serial": 618,
+   "domain": "telco-services",
+   "gate": 769247,
+   "test": 777713
+  },
+  {
+   "serial": 619,
+   "domain": "telco-account",
+   "gate": 808471,
+   "test": 809306
+  },
+  {
+   "serial": 620,
+   "domain": "shop-browsing",
+   "gate": 665920,
+   "test": 683074
+  },
+  {
+   "serial": 621,
+   "domain": "shop-analytics",
+   "gate": 918930,
+   "test": 810076
+  },
+  {
+   "serial": 622,
+   "domain": "shop-context",
+   "gate": 619177,
+   "test": 552458
+  },
+  {
+   "serial": 623,
+   "domain": "bank-profile",
+   "gate": 614632,
+   "test": 609307
+  },
+  {
+   "serial": 624,
+   "domain": "bank-campaign",
+   "gate": 704034,
+   "test": 704296
+  },
+  {
+   "serial": 625,
+   "domain": "bank-economy",
+   "gate": 761231,
+   "test": 760881
+  },
+  {
+   "serial": 626,
+   "domain": "adult-person",
+   "gate": 806292,
+   "test": 802491
+  },
+  {
+   "serial": 627,
+   "domain": "adult-work",
+   "gate": 760108,
+   "test": 761825
+  },
+  {
+   "serial": 628,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 629,
+   "domain": "credit-customer",
+   "gate": 634038,
+   "test": 604454
+  },
+  {
+   "serial": 630,
+   "domain": "credit-collections",
+   "gate": 734318,
+   "test": 742455
+  },
+  {
+   "serial": 631,
+   "domain": "credit-payments",
+   "gate": 641648,
+   "test": 637657
+  },
+  {
+   "serial": 632,
+   "domain": "telco-customer",
+   "gate": 671477,
+   "test": 621713
+  },
+  {
+   "serial": 633,
+   "domain": "telco-services",
+   "gate": 707584,
+   "test": 724774
+  },
+  {
+   "serial": 634,
+   "domain": "telco-account",
+   "gate": 802561,
+   "test": 796917
+  },
+  {
+   "serial": 635,
+   "domain": "shop-browsing",
+   "gate": 659665,
+   "test": 671878
+  },
+  {
+   "serial": 636,
+   "domain": "shop-analytics",
+   "gate": 921133,
+   "test": 807535
+  },
+  {
+   "serial": 637,
+   "domain": "shop-context",
+   "gate": 609315,
+   "test": 567603
+  },
+  {
+   "serial": 638,
+   "domain": "bank-profile",
+   "gate": 610871,
+   "test": 616780
+  },
+  {
+   "serial": 639,
+   "domain": "bank-campaign",
+   "gate": 679039,
+   "test": 691398
+  },
+  {
+   "serial": 640,
+   "domain": "bank-economy",
+   "gate": 762414,
+   "test": 762367
+  },
+  {
+   "serial": 641,
+   "domain": "adult-person",
+   "gate": 808026,
+   "test": 807392
+  },
+  {
+   "serial": 642,
+   "domain": "adult-work",
+   "gate": 755138,
+   "test": 757021
+  },
+  {
+   "serial": 643,
+   "domain": "adult-tax",
+   "gate": 619127,
+   "test": 619189
+  },
+  {
+   "serial": 644,
+   "domain": "credit-customer",
+   "gate": 635562,
+   "test": 604407
+  },
+  {
+   "serial": 645,
+   "domain": "credit-collections",
+   "gate": 730565,
+   "test": 735812
+  },
+  {
+   "serial": 646,
+   "domain": "credit-payments",
+   "gate": 634657,
+   "test": 638499
+  },
+  {
+   "serial": 647,
+   "domain": "telco-customer",
+   "gate": 646059,
+   "test": 628296
+  },
+  {
+   "serial": 648,
+   "domain": "telco-services",
+   "gate": 737920,
+   "test": 754168
+  },
+  {
+   "serial": 649,
+   "domain": "telco-account",
+   "gate": 812303,
+   "test": 809409
+  },
+  {
+   "serial": 650,
+   "domain": "shop-browsing",
+   "gate": 669393,
+   "test": 677173
+  },
+  {
+   "serial": 651,
+   "domain": "shop-analytics",
+   "gate": 916367,
+   "test": 821830
+  },
+  {
+   "serial": 652,
+   "domain": "shop-context",
+   "gate": 610820,
+   "test": 583426
+  },
+  {
+   "serial": 653,
+   "domain": "bank-profile",
+   "gate": 603194,
+   "test": 598692
+  },
+  {
+   "serial": 654,
+   "domain": "bank-campaign",
+   "gate": 677309,
+   "test": 687783
+  },
+  {
+   "serial": 655,
+   "domain": "bank-economy",
+   "gate": 769287,
+   "test": 768705
+  },
+  {
+   "serial": 656,
+   "domain": "adult-person",
+   "gate": 806435,
+   "test": 803924
+  },
+  {
+   "serial": 657,
+   "domain": "adult-work",
+   "gate": 738479,
+   "test": 738427
+  },
+  {
+   "serial": 658,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 659,
+   "domain": "credit-customer",
+   "gate": 631834,
+   "test": 607179
+  },
+  {
+   "serial": 660,
+   "domain": "credit-collections",
+   "gate": 736304,
+   "test": 733715
+  },
+  {
+   "serial": 661,
+   "domain": "credit-payments",
+   "gate": 628824,
+   "test": 622021
+  },
+  {
+   "serial": 662,
+   "domain": "telco-customer",
+   "gate": 672077,
+   "test": 622489
+  },
+  {
+   "serial": 663,
+   "domain": "telco-services",
+   "gate": 720227,
+   "test": 749530
+  },
+  {
+   "serial": 664,
+   "domain": "telco-account",
+   "gate": 810428,
+   "test": 807060
+  },
+  {
+   "serial": 665,
+   "domain": "shop-browsing",
+   "gate": 662690,
+   "test": 662770
+  },
+  {
+   "serial": 666,
+   "domain": "shop-analytics",
+   "gate": 915508,
+   "test": 816453
+  },
+  {
+   "serial": 667,
+   "domain": "shop-context",
+   "gate": 638758,
+   "test": 574894
+  },
+  {
+   "serial": 668,
+   "domain": "bank-profile",
+   "gate": 607674,
+   "test": 612113
+  },
+  {
+   "serial": 669,
+   "domain": "bank-campaign",
+   "gate": 709507,
+   "test": 711709
+  },
+  {
+   "serial": 670,
+   "domain": "bank-economy",
+   "gate": 752395,
+   "test": 751817
+  },
+  {
+   "serial": 671,
+   "domain": "adult-person",
+   "gate": 785353,
+   "test": 782343
+  },
+  {
+   "serial": 672,
+   "domain": "adult-work",
+   "gate": 757441,
+   "test": 756083
+  },
+  {
+   "serial": 673,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 674,
+   "domain": "credit-customer",
+   "gate": 633958,
+   "test": 611218
+  },
+  {
+   "serial": 675,
+   "domain": "credit-collections",
+   "gate": 727817,
+   "test": 731164
+  },
+  {
+   "serial": 676,
+   "domain": "credit-payments",
+   "gate": 640086,
+   "test": 627733
+  },
+  {
+   "serial": 677,
+   "domain": "telco-customer",
+   "gate": 645464,
+   "test": 628448
+  },
+  {
+   "serial": 678,
+   "domain": "telco-services",
+   "gate": 766902,
+   "test": 780702
+  },
+  {
+   "serial": 679,
+   "domain": "telco-account",
+   "gate": 805420,
+   "test": 803598
+  },
+  {
+   "serial": 680,
+   "domain": "shop-browsing",
+   "gate": 671384,
+   "test": 684369
+  },
+  {
+   "serial": 681,
+   "domain": "shop-analytics",
+   "gate": 919154,
+   "test": 812235
+  },
+  {
+   "serial": 682,
+   "domain": "shop-context",
+   "gate": 631786,
+   "test": 558509
+  },
+  {
+   "serial": 683,
+   "domain": "bank-profile",
+   "gate": 615066,
+   "test": 628205
+  },
+  {
+   "serial": 684,
+   "domain": "bank-campaign",
+   "gate": 685425,
+   "test": 696462
+  },
+  {
+   "serial": 685,
+   "domain": "bank-economy",
+   "gate": 757723,
+   "test": 758754
+  },
+  {
+   "serial": 686,
+   "domain": "adult-person",
+   "gate": 804589,
+   "test": 802976
+  },
+  {
+   "serial": 687,
+   "domain": "adult-work",
+   "gate": 756060,
+   "test": 751811
+  },
+  {
+   "serial": 688,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 689,
+   "domain": "credit-customer",
+   "gate": 629238,
+   "test": 600934
+  },
+  {
+   "serial": 690,
+   "domain": "credit-collections",
+   "gate": 732272,
+   "test": 737824
+  },
+  {
+   "serial": 691,
+   "domain": "credit-payments",
+   "gate": 648432,
+   "test": 646479
+  },
+  {
+   "serial": 692,
+   "domain": "telco-customer",
+   "gate": 661394,
+   "test": 628035
+  },
+  {
+   "serial": 693,
+   "domain": "telco-services",
+   "gate": 657028,
+   "test": 658013
+  },
+  {
+   "serial": 694,
+   "domain": "telco-account",
+   "gate": 816056,
+   "test": 801893
+  },
+  {
+   "serial": 695,
+   "domain": "shop-browsing",
+   "gate": 665250,
+   "test": 670210
+  },
+  {
+   "serial": 696,
+   "domain": "shop-analytics",
+   "gate": 914330,
+   "test": 814034
+  },
+  {
+   "serial": 697,
+   "domain": "shop-context",
+   "gate": 605145,
+   "test": 574311
+  },
+  {
+   "serial": 698,
+   "domain": "bank-profile",
+   "gate": 607555,
+   "test": 618808
+  },
+  {
+   "serial": 699,
+   "domain": "bank-campaign",
+   "gate": 678854,
+   "test": 695488
+  },
+  {
+   "serial": 700,
+   "domain": "bank-economy",
+   "gate": 765372,
+   "test": 762566
+  },
+  {
+   "serial": 701,
+   "domain": "adult-person",
+   "gate": 801468,
+   "test": 799613
+  },
+  {
+   "serial": 702,
+   "domain": "adult-work",
+   "gate": 744612,
+   "test": 743268
+  },
+  {
+   "serial": 703,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 704,
+   "domain": "credit-customer",
+   "gate": 635677,
+   "test": 604761
+  },
+  {
+   "serial": 705,
+   "domain": "credit-collections",
+   "gate": 728208,
+   "test": 727577
+  },
+  {
+   "serial": 706,
+   "domain": "credit-payments",
+   "gate": 641850,
+   "test": 638263
+  },
+  {
+   "serial": 707,
+   "domain": "telco-customer",
+   "gate": 667572,
+   "test": 614730
+  },
+  {
+   "serial": 708,
+   "domain": "telco-services",
+   "gate": 768770,
+   "test": 780222
+  },
+  {
+   "serial": 709,
+   "domain": "telco-account",
+   "gate": 804959,
+   "test": 796449
+  },
+  {
+   "serial": 710,
+   "domain": "shop-browsing",
+   "gate": 663151,
+   "test": 682587
+  },
+  {
+   "serial": 711,
+   "domain": "shop-analytics",
+   "gate": 913557,
+   "test": 820132
+  },
+  {
+   "serial": 712,
+   "domain": "shop-context",
+   "gate": 629195,
+   "test": 527032
+  },
+  {
+   "serial": 713,
+   "domain": "bank-profile",
+   "gate": 614907,
+   "test": 623800
+  },
+  {
+   "serial": 714,
+   "domain": "bank-campaign",
+   "gate": 705757,
+   "test": 707199
+  },
+  {
+   "serial": 715,
+   "domain": "bank-economy",
+   "gate": 769784,
+   "test": 767906
+  },
+  {
+   "serial": 716,
+   "domain": "adult-person",
+   "gate": 810811,
+   "test": 810681
+  },
+  {
+   "serial": 717,
+   "domain": "adult-work",
+   "gate": 744488,
+   "test": 741095
+  },
+  {
+   "serial": 718,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 719,
+   "domain": "credit-customer",
+   "gate": 633062,
+   "test": 602349
+  },
+  {
+   "serial": 720,
+   "domain": "credit-collections",
+   "gate": 732163,
+   "test": 738053
+  },
+  {
+   "serial": 721,
+   "domain": "credit-payments",
+   "gate": 643457,
+   "test": 628979
+  },
+  {
+   "serial": 722,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 723,
+   "domain": "telco-services",
+   "gate": 731723,
+   "test": 755806
+  },
+  {
+   "serial": 724,
+   "domain": "telco-account",
+   "gate": 805510,
+   "test": 795699
+  },
+  {
+   "serial": 725,
+   "domain": "shop-browsing",
+   "gate": 622993,
+   "test": 591127
+  },
+  {
+   "serial": 726,
+   "domain": "shop-analytics",
+   "gate": 914242,
+   "test": 819922
+  },
+  {
+   "serial": 727,
+   "domain": "shop-context",
+   "gate": 601679,
+   "test": 550642
+  },
+  {
+   "serial": 728,
+   "domain": "bank-profile",
+   "gate": 611805,
+   "test": 619983
+  },
+  {
+   "serial": 729,
+   "domain": "bank-campaign",
+   "gate": 672156,
+   "test": 682078
+  },
+  {
+   "serial": 730,
+   "domain": "bank-economy",
+   "gate": 761612,
+   "test": 759797
+  },
+  {
+   "serial": 731,
+   "domain": "adult-person",
+   "gate": 804425,
+   "test": 802959
+  },
+  {
+   "serial": 732,
+   "domain": "adult-work",
+   "gate": 752949,
+   "test": 753531
+  },
+  {
+   "serial": 733,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 734,
+   "domain": "credit-customer",
+   "gate": 636462,
+   "test": 606896
+  },
+  {
+   "serial": 735,
+   "domain": "credit-collections",
+   "gate": 731165,
+   "test": 729623
+  },
+  {
+   "serial": 736,
+   "domain": "credit-payments",
+   "gate": 629982,
+   "test": 637021
+  },
+  {
+   "serial": 737,
+   "domain": "telco-customer",
+   "gate": 666685,
+   "test": 630750
+  },
+  {
+   "serial": 738,
+   "domain": "telco-services",
+   "gate": 762223,
+   "test": 773212
+  },
+  {
+   "serial": 739,
+   "domain": "telco-account",
+   "gate": 803641,
+   "test": 794761
+  },
+  {
+   "serial": 740,
+   "domain": "shop-browsing",
+   "gate": 663313,
+   "test": 682059
+  },
+  {
+   "serial": 741,
+   "domain": "shop-analytics",
+   "gate": 921586,
+   "test": 805734
+  },
+  {
+   "serial": 742,
+   "domain": "shop-context",
+   "gate": 631047,
+   "test": 547601
+  },
+  {
+   "serial": 743,
+   "domain": "bank-profile",
+   "gate": 610901,
+   "test": 622494
+  },
+  {
+   "serial": 744,
+   "domain": "bank-campaign",
+   "gate": 680656,
+   "test": 688340
+  },
+  {
+   "serial": 745,
+   "domain": "bank-economy",
+   "gate": 757942,
+   "test": 754562
+  },
+  {
+   "serial": 746,
+   "domain": "adult-person",
+   "gate": 806512,
+   "test": 805122
+  },
+  {
+   "serial": 747,
+   "domain": "adult-work",
+   "gate": 750376,
+   "test": 745581
+  },
+  {
+   "serial": 748,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 749,
+   "domain": "credit-customer",
+   "gate": 634519,
+   "test": 608233
+  },
+  {
+   "serial": 750,
+   "domain": "credit-collections",
+   "gate": 731406,
+   "test": 729817
+  },
+  {
+   "serial": 751,
+   "domain": "credit-payments",
+   "gate": 649673,
+   "test": 644813
+  },
+  {
+   "serial": 752,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 753,
+   "domain": "telco-services",
+   "gate": 744523,
+   "test": 768114
+  },
+  {
+   "serial": 754,
+   "domain": "telco-account",
+   "gate": 799042,
+   "test": 810642
+  },
+  {
+   "serial": 755,
+   "domain": "shop-browsing",
+   "gate": 659703,
+   "test": 683216
+  },
+  {
+   "serial": 756,
+   "domain": "shop-analytics",
+   "gate": 916330,
+   "test": 802936
+  },
+  {
+   "serial": 757,
+   "domain": "shop-context",
+   "gate": 621697,
+   "test": 555479
+  },
+  {
+   "serial": 758,
+   "domain": "bank-profile",
+   "gate": 614255,
+   "test": 622499
+  },
+  {
+   "serial": 759,
+   "domain": "bank-campaign",
+   "gate": 716060,
+   "test": 715809
+  },
+  {
+   "serial": 760,
+   "domain": "bank-economy",
+   "gate": 760560,
+   "test": 756535
+  },
+  {
+   "serial": 761,
+   "domain": "adult-person",
+   "gate": 813644,
+   "test": 814406
+  },
+  {
+   "serial": 762,
+   "domain": "adult-work",
+   "gate": 766144,
+   "test": 767464
+  },
+  {
+   "serial": 763,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 764,
+   "domain": "credit-customer",
+   "gate": 635475,
+   "test": 608174
+  },
+  {
+   "serial": 765,
+   "domain": "credit-collections",
+   "gate": 736774,
+   "test": 734368
+  },
+  {
+   "serial": 766,
+   "domain": "credit-payments",
+   "gate": 646763,
+   "test": 639388
+  },
+  {
+   "serial": 767,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 768,
+   "domain": "telco-services",
+   "gate": 733484,
+   "test": 755538
+  },
+  {
+   "serial": 769,
+   "domain": "telco-account",
+   "gate": 810991,
+   "test": 795292
+  },
+  {
+   "serial": 770,
+   "domain": "shop-browsing",
+   "gate": 668612,
+   "test": 672097
+  },
+  {
+   "serial": 771,
+   "domain": "shop-analytics",
+   "gate": 918910,
+   "test": 816881
+  },
+  {
+   "serial": 772,
+   "domain": "shop-context",
+   "gate": 619485,
+   "test": 574505
+  },
+  {
+   "serial": 773,
+   "domain": "bank-profile",
+   "gate": 612256,
+   "test": 624133
+  },
+  {
+   "serial": 774,
+   "domain": "bank-campaign",
+   "gate": 694999,
+   "test": 707743
+  },
+  {
+   "serial": 775,
+   "domain": "bank-economy",
+   "gate": 764616,
+   "test": 757858
+  },
+  {
+   "serial": 776,
+   "domain": "adult-person",
+   "gate": 802988,
+   "test": 800572
+  },
+  {
+   "serial": 777,
+   "domain": "adult-work",
+   "gate": 749595,
+   "test": 746356
+  },
+  {
+   "serial": 778,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 779,
+   "domain": "credit-customer",
+   "gate": 628516,
+   "test": 604888
+  },
+  {
+   "serial": 780,
+   "domain": "credit-collections",
+   "gate": 732859,
+   "test": 737710
+  },
+  {
+   "serial": 781,
+   "domain": "credit-payments",
+   "gate": 629343,
+   "test": 630266
+  },
+  {
+   "serial": 782,
+   "domain": "telco-customer",
+   "gate": 661394,
+   "test": 628035
+  },
+  {
+   "serial": 783,
+   "domain": "telco-services",
+   "gate": 726801,
+   "test": 730378
+  },
+  {
+   "serial": 784,
+   "domain": "telco-account",
+   "gate": 806704,
+   "test": 798767
+  },
+  {
+   "serial": 785,
+   "domain": "shop-browsing",
+   "gate": 662682,
+   "test": 659824
+  },
+  {
+   "serial": 786,
+   "domain": "shop-analytics",
+   "gate": 913521,
+   "test": 821198
+  },
+  {
+   "serial": 787,
+   "domain": "shop-context",
+   "gate": 627134,
+   "test": 557100
+  },
+  {
+   "serial": 788,
+   "domain": "bank-profile",
+   "gate": 604877,
+   "test": 604000
+  },
+  {
+   "serial": 789,
+   "domain": "bank-campaign",
+   "gate": 680945,
+   "test": 691634
+  },
+  {
+   "serial": 790,
+   "domain": "bank-economy",
+   "gate": 767302,
+   "test": 766398
+  },
+  {
+   "serial": 791,
+   "domain": "adult-person",
+   "gate": 807501,
+   "test": 807113
+  },
+  {
+   "serial": 792,
+   "domain": "adult-work",
+   "gate": 753883,
+   "test": 755088
+  },
+  {
+   "serial": 793,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 794,
+   "domain": "credit-customer",
+   "gate": 631987,
+   "test": 600408
+  },
+  {
+   "serial": 795,
+   "domain": "credit-collections",
+   "gate": 732799,
+   "test": 737462
+  },
+  {
+   "serial": 796,
+   "domain": "credit-payments",
+   "gate": 654596,
+   "test": 641668
+  },
+  {
+   "serial": 797,
+   "domain": "telco-customer",
+   "gate": 664793,
+   "test": 624059
+  },
+  {
+   "serial": 798,
+   "domain": "telco-services",
+   "gate": 722289,
+   "test": 746161
+  },
+  {
+   "serial": 799,
+   "domain": "telco-account",
+   "gate": 806613,
+   "test": 815188
+  },
+  {
+   "serial": 800,
+   "domain": "shop-browsing",
+   "gate": 657845,
+   "test": 664819
+  },
+  {
+   "serial": 801,
+   "domain": "shop-analytics",
+   "gate": 906592,
+   "test": 820195
+  },
+  {
+   "serial": 802,
+   "domain": "shop-context",
+   "gate": 621438,
+   "test": 553896
+  },
+  {
+   "serial": 803,
+   "domain": "bank-profile",
+   "gate": 608844,
+   "test": 603620
+  },
+  {
+   "serial": 804,
+   "domain": "bank-campaign",
+   "gate": 666506,
+   "test": 689393
+  },
+  {
+   "serial": 805,
+   "domain": "bank-economy",
+   "gate": 764388,
+   "test": 759832
+  },
+  {
+   "serial": 806,
+   "domain": "adult-person",
+   "gate": 809942,
+   "test": 808567
+  },
+  {
+   "serial": 807,
+   "domain": "adult-work",
+   "gate": 753151,
+   "test": 750109
+  },
+  {
+   "serial": 808,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 809,
+   "domain": "credit-customer",
+   "gate": 635726,
+   "test": 601137
+  },
+  {
+   "serial": 810,
+   "domain": "credit-collections",
+   "gate": 735799,
+   "test": 742329
+  },
+  {
+   "serial": 811,
+   "domain": "credit-payments",
+   "gate": 633034,
+   "test": 631151
+  },
+  {
+   "serial": 812,
+   "domain": "telco-customer",
+   "gate": 645464,
+   "test": 628448
+  },
+  {
+   "serial": 813,
+   "domain": "telco-services",
+   "gate": 714251,
+   "test": 731247
+  },
+  {
+   "serial": 814,
+   "domain": "telco-account",
+   "gate": 813013,
+   "test": 816160
+  },
+  {
+   "serial": 815,
+   "domain": "shop-browsing",
+   "gate": 670179,
+   "test": 611277
+  },
+  {
+   "serial": 816,
+   "domain": "shop-analytics",
+   "gate": 920149,
+   "test": 803681
+  },
+  {
+   "serial": 817,
+   "domain": "shop-context",
+   "gate": 644955,
+   "test": 568655
+  },
+  {
+   "serial": 818,
+   "domain": "bank-profile",
+   "gate": 602375,
+   "test": 611256
+  },
+  {
+   "serial": 819,
+   "domain": "bank-campaign",
+   "gate": 679831,
+   "test": 693557
+  },
+  {
+   "serial": 820,
+   "domain": "bank-economy",
+   "gate": 756444,
+   "test": 755459
+  },
+  {
+   "serial": 821,
+   "domain": "adult-person",
+   "gate": 806853,
+   "test": 805334
+  },
+  {
+   "serial": 822,
+   "domain": "adult-work",
+   "gate": 753883,
+   "test": 755088
+  },
+  {
+   "serial": 823,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 824,
+   "domain": "credit-customer",
+   "gate": 634952,
+   "test": 605047
+  },
+  {
+   "serial": 825,
+   "domain": "credit-collections",
+   "gate": 736684,
+   "test": 734893
+  },
+  {
+   "serial": 826,
+   "domain": "credit-payments",
+   "gate": 646959,
+   "test": 636549
+  },
+  {
+   "serial": 827,
+   "domain": "telco-customer",
+   "gate": 676787,
+   "test": 624833
+  },
+  {
+   "serial": 828,
+   "domain": "telco-services",
+   "gate": 747639,
+   "test": 765104
+  },
+  {
+   "serial": 829,
+   "domain": "telco-account",
+   "gate": 806577,
+   "test": 796646
+  },
+  {
+   "serial": 830,
+   "domain": "shop-browsing",
+   "gate": 656822,
+   "test": 674074
+  },
+  {
+   "serial": 831,
+   "domain": "shop-analytics",
+   "gate": 916546,
+   "test": 818272
+  },
+  {
+   "serial": 832,
+   "domain": "shop-context",
+   "gate": 612927,
+   "test": 542890
+  },
+  {
+   "serial": 833,
+   "domain": "bank-profile",
+   "gate": 615584,
+   "test": 625914
+  },
+  {
+   "serial": 834,
+   "domain": "bank-campaign",
+   "gate": 680705,
+   "test": 700496
+  },
+  {
+   "serial": 835,
+   "domain": "bank-economy",
+   "gate": 757805,
+   "test": 760418
+  },
+  {
+   "serial": 836,
+   "domain": "adult-person",
+   "gate": 813312,
+   "test": 811932
+  },
+  {
+   "serial": 837,
+   "domain": "adult-work",
+   "gate": 745804,
+   "test": 744221
+  },
+  {
+   "serial": 838,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 839,
+   "domain": "credit-customer",
+   "gate": 631781,
+   "test": 600538
+  },
+  {
+   "serial": 840,
+   "domain": "credit-collections",
+   "gate": 733106,
+   "test": 740774
+  },
+  {
+   "serial": 841,
+   "domain": "credit-payments",
+   "gate": 650150,
+   "test": 634431
+  },
+  {
+   "serial": 842,
+   "domain": "telco-customer",
+   "gate": 661938,
+   "test": 628105
+  },
+  {
+   "serial": 843,
+   "domain": "telco-services",
+   "gate": 674974,
+   "test": 674642
+  },
+  {
+   "serial": 844,
+   "domain": "telco-account",
+   "gate": 820013,
+   "test": 814433
+  },
+  {
+   "serial": 845,
+   "domain": "shop-browsing",
+   "gate": 653041,
+   "test": 676323
+  },
+  {
+   "serial": 846,
+   "domain": "shop-analytics",
+   "gate": 920044,
+   "test": 816038
+  },
+  {
+   "serial": 847,
+   "domain": "shop-context",
+   "gate": 619613,
+   "test": 560530
+  },
+  {
+   "serial": 848,
+   "domain": "bank-profile",
+   "gate": 619000,
+   "test": 612987
+  },
+  {
+   "serial": 849,
+   "domain": "bank-campaign",
+   "gate": 663581,
+   "test": 687086
+  },
+  {
+   "serial": 850,
+   "domain": "bank-economy",
+   "gate": 742531,
+   "test": 745118
+  },
+  {
+   "serial": 851,
+   "domain": "adult-person",
+   "gate": 797424,
+   "test": 793682
+  },
+  {
+   "serial": 852,
+   "domain": "adult-work",
+   "gate": 748488,
+   "test": 745714
+  },
+  {
+   "serial": 853,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 854,
+   "domain": "credit-customer",
+   "gate": 630443,
+   "test": 611313
+  },
+  {
+   "serial": 855,
+   "domain": "credit-collections",
+   "gate": 727393,
+   "test": 739515
+  },
+  {
+   "serial": 856,
+   "domain": "credit-payments",
+   "gate": 646945,
+   "test": 637742
+  },
+  {
+   "serial": 857,
+   "domain": "telco-customer",
+   "gate": 661394,
+   "test": 628035
+  },
+  {
+   "serial": 858,
+   "domain": "telco-services",
+   "gate": 777554,
+   "test": 779075
+  },
+  {
+   "serial": 859,
+   "domain": "telco-account",
+   "gate": 807093,
+   "test": 815144
+  },
+  {
+   "serial": 860,
+   "domain": "shop-browsing",
+   "gate": 644586,
+   "test": 673194
+  },
+  {
+   "serial": 861,
+   "domain": "shop-analytics",
+   "gate": 921500,
+   "test": 809262
+  },
+  {
+   "serial": 862,
+   "domain": "shop-context",
+   "gate": 614308,
+   "test": 569663
+  },
+  {
+   "serial": 863,
+   "domain": "bank-profile",
+   "gate": 600859,
+   "test": 615829
+  },
+  {
+   "serial": 864,
+   "domain": "bank-campaign",
+   "gate": 673157,
+   "test": 688976
+  },
+  {
+   "serial": 865,
+   "domain": "bank-economy",
+   "gate": 761620,
+   "test": 752672
+  },
+  {
+   "serial": 866,
+   "domain": "adult-person",
+   "gate": 806635,
+   "test": 806525
+  },
+  {
+   "serial": 867,
+   "domain": "adult-work",
+   "gate": 746912,
+   "test": 745527
+  },
+  {
+   "serial": 868,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 869,
+   "domain": "credit-customer",
+   "gate": 634899,
+   "test": 605716
+  },
+  {
+   "serial": 870,
+   "domain": "credit-collections",
+   "gate": 735176,
+   "test": 728447
+  },
+  {
+   "serial": 871,
+   "domain": "credit-payments",
+   "gate": 637452,
+   "test": 639778
+  },
+  {
+   "serial": 872,
+   "domain": "telco-customer",
+   "gate": 673920,
+   "test": 623498
+  },
+  {
+   "serial": 873,
+   "domain": "telco-services",
+   "gate": 735956,
+   "test": 745749
+  },
+  {
+   "serial": 874,
+   "domain": "telco-account",
+   "gate": 797785,
+   "test": 797194
+  },
+  {
+   "serial": 875,
+   "domain": "shop-browsing",
+   "gate": 672453,
+   "test": 642436
+  },
+  {
+   "serial": 876,
+   "domain": "shop-analytics",
+   "gate": 918001,
+   "test": 818947
+  },
+  {
+   "serial": 877,
+   "domain": "shop-context",
+   "gate": 601880,
+   "test": 570607
+  },
+  {
+   "serial": 878,
+   "domain": "bank-profile",
+   "gate": 609257,
+   "test": 624519
+  },
+  {
+   "serial": 879,
+   "domain": "bank-campaign",
+   "gate": 683412,
+   "test": 692707
+  },
+  {
+   "serial": 880,
+   "domain": "bank-economy",
+   "gate": 759147,
+   "test": 760803
+  },
+  {
+   "serial": 881,
+   "domain": "adult-person",
+   "gate": 805050,
+   "test": 804596
+  },
+  {
+   "serial": 882,
+   "domain": "adult-work",
+   "gate": 749945,
+   "test": 751180
+  },
+  {
+   "serial": 883,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 884,
+   "domain": "credit-customer",
+   "gate": 637151,
+   "test": 612714
+  },
+  {
+   "serial": 885,
+   "domain": "credit-collections",
+   "gate": 735189,
+   "test": 727500
+  },
+  {
+   "serial": 886,
+   "domain": "credit-payments",
+   "gate": 641310,
+   "test": 643575
+  },
+  {
+   "serial": 887,
+   "domain": "telco-customer",
+   "gate": 666685,
+   "test": 630750
+  },
+  {
+   "serial": 888,
+   "domain": "telco-services",
+   "gate": 731723,
+   "test": 755806
+  },
+  {
+   "serial": 889,
+   "domain": "telco-account",
+   "gate": 789013,
+   "test": 796328
+  },
+  {
+   "serial": 890,
+   "domain": "shop-browsing",
+   "gate": 646520,
+   "test": 652653
+  },
+  {
+   "serial": 891,
+   "domain": "shop-analytics",
+   "gate": 921988,
+   "test": 815040
+  },
+  {
+   "serial": 892,
+   "domain": "shop-context",
+   "gate": 601520,
+   "test": 510213
+  },
+  {
+   "serial": 893,
+   "domain": "bank-profile",
+   "gate": 609196,
+   "test": 613428
+  },
+  {
+   "serial": 894,
+   "domain": "bank-campaign",
+   "gate": 711376,
+   "test": 717367
+  },
+  {
+   "serial": 895,
+   "domain": "bank-economy",
+   "gate": 748599,
+   "test": 748693
+  },
+  {
+   "serial": 896,
+   "domain": "adult-person",
+   "gate": 808727,
+   "test": 805375
+  },
+  {
+   "serial": 897,
+   "domain": "adult-work",
+   "gate": 759563,
+   "test": 755992
+  },
+  {
+   "serial": 898,
+   "domain": "adult-tax",
+   "gate": 627980,
+   "test": 624781
+  },
+  {
+   "serial": 899,
+   "domain": "credit-customer",
+   "gate": 635443,
+   "test": 606317
+  },
+  {
+   "serial": 900,
+   "domain": "credit-collections",
+   "gate": 734503,
+   "test": 731640
+  },
+  {
+   "serial": 901,
+   "domain": "credit-payments",
+   "gate": 650928,
+   "test": 644814
+  },
+  {
+   "serial": 902,
+   "domain": "telco-customer",
+   "gate": 659167,
+   "test": 623088
+  },
+  {
+   "serial": 903,
+   "domain": "telco-services",
+   "gate": 745493,
+   "test": 758649
+  },
+  {
+   "serial": 904,
+   "domain": "telco-account",
+   "gate": 811403,
+   "test": 808390
+  },
+  {
+   "serial": 905,
+   "domain": "shop-browsing",
+   "gate": 663499,
+   "test": 681910
+  },
+  {
+   "serial": 906,
+   "domain": "shop-analytics",
+   "gate": 919170,
+   "test": 802327
+  },
+  {
+   "serial": 907,
+   "domain": "shop-context",
+   "gate": 609692,
+   "test": 567471
+  },
+  {
+   "serial": 908,
+   "domain": "bank-profile",
+   "gate": 607479,
+   "test": 612561
+  },
+  {
+   "serial": 909,
+   "domain": "bank-campaign",
+   "gate": 663670,
+   "test": 679801
+  },
+  {
+   "serial": 910,
+   "domain": "bank-economy",
+   "gate": 760940,
+   "test": 758673
+  },
+  {
+   "serial": 911,
+   "domain": "adult-person",
+   "gate": 807389,
+   "test": 804678
+  },
+  {
+   "serial": 912,
+   "domain": "adult-work",
+   "gate": 747520,
+   "test": 745320
+  },
+  {
+   "serial": 913,
+   "domain": "adult-tax",
+   "gate": 619127,
+   "test": 619189
+  },
+  {
+   "serial": 914,
+   "domain": "credit-customer",
+   "gate": 632614,
+   "test": 612172
+  },
+  {
+   "serial": 915,
+   "domain": "credit-collections",
+   "gate": 728540,
+   "test": 736473
+  },
+  {
+   "serial": 916,
+   "domain": "credit-payments",
+   "gate": 629398,
+   "test": 634631
+  },
+  {
+   "serial": 917,
+   "domain": "telco-customer",
+   "gate": 655566,
+   "test": 622530
+  },
+  {
+   "serial": 918,
+   "domain": "telco-services",
+   "gate": 735819,
+   "test": 756429
+  },
+  {
+   "serial": 919,
+   "domain": "telco-account",
+   "gate": 815191,
+   "test": 821125
+  },
+  {
+   "serial": 920,
+   "domain": "shop-browsing",
+   "gate": 656977,
+   "test": 675550
+  },
+  {
+   "serial": 921,
+   "domain": "shop-analytics",
+   "gate": 919995,
+   "test": 816007
+  },
+  {
+   "serial": 922,
+   "domain": "shop-context",
+   "gate": 605227,
+   "test": 573118
+  },
+  {
+   "serial": 923,
+   "domain": "bank-profile",
+   "gate": 615075,
+   "test": 617676
+  },
+  {
+   "serial": 924,
+   "domain": "bank-campaign",
+   "gate": 699771,
+   "test": 704770
+  },
+  {
+   "serial": 925,
+   "domain": "bank-economy",
+   "gate": 752085,
+   "test": 753172
+  },
+  {
+   "serial": 926,
+   "domain": "adult-person",
+   "gate": 804546,
+   "test": 802861
+  },
+  {
+   "serial": 927,
+   "domain": "adult-work",
+   "gate": 745861,
+   "test": 745469
+  },
+  {
+   "serial": 928,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 929,
+   "domain": "credit-customer",
+   "gate": 637658,
+   "test": 605295
+  },
+  {
+   "serial": 930,
+   "domain": "credit-collections",
+   "gate": 731957,
+   "test": 729439
+  },
+  {
+   "serial": 931,
+   "domain": "credit-payments",
+   "gate": 641920,
+   "test": 634576
+  },
+  {
+   "serial": 932,
+   "domain": "telco-customer",
+   "gate": 654772,
+   "test": 635538
+  },
+  {
+   "serial": 933,
+   "domain": "telco-services",
+   "gate": 717087,
+   "test": 747262
+  },
+  {
+   "serial": 934,
+   "domain": "telco-account",
+   "gate": 817908,
+   "test": 805602
+  },
+  {
+   "serial": 935,
+   "domain": "shop-browsing",
+   "gate": 668798,
+   "test": 679062
+  },
+  {
+   "serial": 936,
+   "domain": "shop-analytics",
+   "gate": 920003,
+   "test": 815882
+  },
+  {
+   "serial": 937,
+   "domain": "shop-context",
+   "gate": 602737,
+   "test": 573452
+  },
+  {
+   "serial": 938,
+   "domain": "bank-profile",
+   "gate": 618537,
+   "test": 628071
+  },
+  {
+   "serial": 939,
+   "domain": "bank-campaign",
+   "gate": 685432,
+   "test": 696757
+  },
+  {
+   "serial": 940,
+   "domain": "bank-economy",
+   "gate": 759107,
+   "test": 754195
+  },
+  {
+   "serial": 941,
+   "domain": "adult-person",
+   "gate": 810683,
+   "test": 806587
+  },
+  {
+   "serial": 942,
+   "domain": "adult-work",
+   "gate": 753716,
+   "test": 751188
+  },
+  {
+   "serial": 943,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 944,
+   "domain": "credit-customer",
+   "gate": 629770,
+   "test": 604940
+  },
+  {
+   "serial": 945,
+   "domain": "credit-collections",
+   "gate": 733067,
+   "test": 737197
+  },
+  {
+   "serial": 946,
+   "domain": "credit-payments",
+   "gate": 645708,
+   "test": 638988
+  },
+  {
+   "serial": 947,
+   "domain": "telco-customer",
+   "gate": 667008,
+   "test": 630563
+  },
+  {
+   "serial": 948,
+   "domain": "telco-services",
+   "gate": 729152,
+   "test": 751958
+  },
+  {
+   "serial": 949,
+   "domain": "telco-account",
+   "gate": 807796,
+   "test": 797431
+  },
+  {
+   "serial": 950,
+   "domain": "shop-browsing",
+   "gate": 679960,
+   "test": 672003
+  },
+  {
+   "serial": 951,
+   "domain": "shop-analytics",
+   "gate": 918225,
+   "test": 821657
+  },
+  {
+   "serial": 952,
+   "domain": "shop-context",
+   "gate": 601471,
+   "test": 544996
+  },
+  {
+   "serial": 953,
+   "domain": "bank-profile",
+   "gate": 609529,
+   "test": 609119
+  },
+  {
+   "serial": 954,
+   "domain": "bank-campaign",
+   "gate": 680656,
+   "test": 688340
+  },
+  {
+   "serial": 955,
+   "domain": "bank-economy",
+   "gate": 765587,
+   "test": 758061
+  },
+  {
+   "serial": 956,
+   "domain": "adult-person",
+   "gate": 806371,
+   "test": 804335
+  },
+  {
+   "serial": 957,
+   "domain": "adult-work",
+   "gate": 754879,
+   "test": 753205
+  },
+  {
+   "serial": 958,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 959,
+   "domain": "credit-customer",
+   "gate": 637894,
+   "test": 606313
+  },
+  {
+   "serial": 960,
+   "domain": "credit-collections",
+   "gate": 730076,
+   "test": 725651
+  },
+  {
+   "serial": 961,
+   "domain": "credit-payments",
+   "gate": 644625,
+   "test": 640697
+  },
+  {
+   "serial": 962,
+   "domain": "telco-customer",
+   "gate": 672823,
+   "test": 622343
+  },
+  {
+   "serial": 963,
+   "domain": "telco-services",
+   "gate": 755590,
+   "test": 772825
+  },
+  {
+   "serial": 964,
+   "domain": "telco-account",
+   "gate": 796357,
+   "test": 811972
+  },
+  {
+   "serial": 965,
+   "domain": "shop-browsing",
+   "gate": 656898,
+   "test": 658709
+  },
+  {
+   "serial": 966,
+   "domain": "shop-analytics",
+   "gate": 915667,
+   "test": 816278
+  },
+  {
+   "serial": 967,
+   "domain": "shop-context",
+   "gate": 616508,
+   "test": 544596
+  },
+  {
+   "serial": 968,
+   "domain": "bank-profile",
+   "gate": 620754,
+   "test": 623694
+  },
+  {
+   "serial": 969,
+   "domain": "bank-campaign",
+   "gate": 668453,
+   "test": 684333
+  },
+  {
+   "serial": 970,
+   "domain": "bank-economy",
+   "gate": 762047,
+   "test": 755389
+  },
+  {
+   "serial": 971,
+   "domain": "adult-person",
+   "gate": 809995,
+   "test": 808836
+  },
+  {
+   "serial": 972,
+   "domain": "adult-work",
+   "gate": 754869,
+   "test": 753488
+  },
+  {
+   "serial": 973,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 974,
+   "domain": "credit-customer",
+   "gate": 635480,
+   "test": 612623
+  },
+  {
+   "serial": 975,
+   "domain": "credit-collections",
+   "gate": 732824,
+   "test": 730193
+  },
+  {
+   "serial": 976,
+   "domain": "credit-payments",
+   "gate": 643745,
+   "test": 635797
+  },
+  {
+   "serial": 977,
+   "domain": "telco-customer",
+   "gate": 677382,
+   "test": 624681
+  },
+  {
+   "serial": 978,
+   "domain": "telco-services",
+   "gate": 771958,
+   "test": 781019
+  },
+  {
+   "serial": 979,
+   "domain": "telco-account",
+   "gate": 810235,
+   "test": 811995
+  },
+  {
+   "serial": 980,
+   "domain": "shop-browsing",
+   "gate": 670452,
+   "test": 688142
+  },
+  {
+   "serial": 981,
+   "domain": "shop-analytics",
+   "gate": 914983,
+   "test": 815278
+  },
+  {
+   "serial": 982,
+   "domain": "shop-context",
+   "gate": 637326,
+   "test": 582291
+  },
+  {
+   "serial": 983,
+   "domain": "bank-profile",
+   "gate": 615055,
+   "test": 612682
+  },
+  {
+   "serial": 984,
+   "domain": "bank-campaign",
+   "gate": 680513,
+   "test": 693805
+  },
+  {
+   "serial": 985,
+   "domain": "bank-economy",
+   "gate": 766231,
+   "test": 762018
+  },
+  {
+   "serial": 986,
+   "domain": "adult-person",
+   "gate": 802538,
+   "test": 800905
+  },
+  {
+   "serial": 987,
+   "domain": "adult-work",
+   "gate": 747282,
+   "test": 745830
+  },
+  {
+   "serial": 988,
+   "domain": "adult-tax",
+   "gate": 632076,
+   "test": 626439
+  },
+  {
+   "serial": 989,
+   "domain": "credit-customer",
+   "gate": 625497,
+   "test": 602548
+  },
+  {
+   "serial": 990,
+   "domain": "credit-collections",
+   "gate": 728949,
+   "test": 730171
+  },
+  {
+   "serial": 991,
+   "domain": "credit-payments",
+   "gate": 646181,
+   "test": 644625
+  },
+  {
+   "serial": 992,
+   "domain": "telco-customer",
+   "gate": 654754,
+   "test": 635134
+  },
+  {
+   "serial": 993,
+   "domain": "telco-services",
+   "gate": 731743,
+   "test": 754293
+  },
+  {
+   "serial": 994,
+   "domain": "telco-account",
+   "gate": 820305,
+   "test": 806558
+  },
+  {
+   "serial": 995,
+   "domain": "shop-browsing",
+   "gate": 664995,
+   "test": 677946
+  },
+  {
+   "serial": 996,
+   "domain": "shop-analytics",
+   "gate": 918124,
+   "test": 819964
+  },
+  {
+   "serial": 997,
+   "domain": "shop-context",
+   "gate": 622767,
+   "test": 554706
+  },
+  {
+   "serial": 998,
+   "domain": "bank-profile",
+   "gate": 624425,
+   "test": 624820
+  },
+  {
+   "serial": 999,
+   "domain": "bank-campaign",
+   "gate": 674911,
+   "test": 695254
+  },
+  {
+   "serial": 1000,
+   "domain": "bank-economy",
+   "gate": 761533,
+   "test": 758751
+  }
+ ]
+}

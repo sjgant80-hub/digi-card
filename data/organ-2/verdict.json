@@ -1,0 +1,57 @@
+{
+ "kind": "digi-card.organ-2.verdict",
+ "v": 1,
+ "prereg": "45d2199801c76b1b",
+ "record": "597c8af93003120f",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every genesis card’s mind, expressed from the recipe it carries on the published bytes, scores exactly the GATE AUC the drop manifest declares, to the millionth.",
+   "pass": true,
+   "saw": "1000 of 1000 minds scored exactly their declared GATE"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every one of those expressions runs with the network trapped and never reaches for it.",
+   "pass": true,
+   "saw": "1000 of 1000 expressed with the network trapped; 0 reached for it"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "On every twentieth genesis card, the search the manifest names, run again from nothing, finds exactly the mind the card carries.",
+   "pass": true,
+   "saw": "50 of 50 searches, re-run from nothing, found the very same mind"
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "For each bundled set, a file with one byte changed is refused before a row of it is read.",
+   "pass": true,
+   "saw": "telco: data/telco-churn.csv is not the published bytes; shop: data/online_shoppers_intention.csv is not the published bytes; bank: data/bank-additional-full.csv is not the published bytes; adult: data/adult.data is not the published bytes; hospital: data/diabetic_data.csv is not the published bytes; credit: data/credit-default.csv is not the published bytes"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "At least 99% of genesis cards score above a coin (AUC > 0.5) on TEST, cases nothing in the build ever fitted or selected on.",
+   "pass": true,
+   "saw": "1000 of 1000 above a coin on TEST"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "The median drop from a genesis card’s GATE AUC to its TEST AUC is at most 0.020 (cards were admitted on GATE, so some drop is expected).",
+   "pass": true,
+   "saw": "median GATE − TEST: 0.002"
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "For every department in the drop, the median TEST AUC of its genesis cards is at least 0.600.",
+   "pass": false,
+   "saw": "shop-analytics 0.816; telco-customer 0.628; telco-services 0.760; telco-account 0.806; shop-browsing 0.673; shop-context 0.567; bank-profile 0.618; bank-campaign 0.694; bank-economy 0.760; adult-person 0.805; adult-work 0.750; adult-tax 0.626; credit-customer 0.607; credit-collections 0.733; credit-payments 0.637"
+  }
+ ]
+}
