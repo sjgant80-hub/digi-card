@@ -5,7 +5,7 @@
 //
 // What is kept on this device (IndexedDB, this browser only): your key, the cards you hold, your own tables, the lives you have signed or
 // received since the drop, and which levels this device has already re-run. Clear the site's data and they are gone —
-// back up your key (Wallet → Back up my key) if a card matters to you.
+// back up your wallet (Wallet → Back up my wallet) if a card matters to you.
 import { cardOf, readCard, bandOf, W, H, BAND, CAPACITY } from './src/card.mjs';
 import { issue, give, addReceipt, reskin, verify, facts, encode } from './src/dossier.mjs';
 import { empty, record, replay, standing, dossierOf, hashOf } from './src/registry.mjs';
@@ -603,8 +603,22 @@ function wire() {
   on('#own-file', 'change', (e) => ownFile(e.target.files[0])); on('#own-target', 'change', ownValues); on('#own-grow', 'click', ownGrow);
   on('#drop-rerun', 'click', rerunDrop); on('#regrow-btn', 'click', regrow); on('#cost-run', 'click', costRun);
   on('#key-copy', 'click', async () => { try { await navigator.clipboard.writeText(S.me.pub); say($('#key-out'), 'Your public key is copied. Give it to anyone who wants to send you a card.', 'ok'); } catch { say($('#key-out'), S.me.pub); } });
-  on('#key-backup', 'click', async () => { const hex = await exportPriv(S.me); download(utf8(JSON.stringify({ kind: 'digi-card.key', pub: S.me.pub, pkcs8: hex })), 'digi-key-' + S.me.pub.slice(0, 8) + '.json'); say($('#key-out'), 'Saved. This file IS your ownership: whoever holds it can sign your cards away. Keep it somewhere safe; never post it.', 'ok'); });
-  on('#key-restore', 'change', async (e) => { try { const j = JSON.parse(await e.target.files[0].text()), k = await importPriv(j.pkcs8); if (k.pub !== j.pub) throw new Error('the file’s key does not match its public half'); S.me = k; await save('me', k); renderMe(); await renderWallet(); say($('#key-out'), 'Restored: you are ' + short(k.pub) + ' again.', 'ok'); } catch (err) { say($('#key-out'), 'Not a key file: ' + (err.message || err), 'bad'); } });
+  on('#key-backup', 'click', async () => {
+    const hex = await exportPriv(S.me), cards = mine().map(lifeOf);
+    download(utf8(JSON.stringify({ kind: 'digi-card.wallet', key: { pub: S.me.pub, pkcs8: hex }, cards })), 'digi-wallet-' + S.me.pub.slice(0, 8) + '.json');
+    say($('#key-out'), 'Saved your key and your ' + cards.length + ' card(s). This file IS your ownership: whoever holds it can sign your cards away. Keep it safe; never post it. (tools/overnight.mjs reads this file to level your cards on your own machine.)', 'ok');
+  });
+  on('#key-restore', 'change', async (e) => {
+    try {
+      const j = JSON.parse(await e.target.files[0].text()), kk = j.key || j, k = await importPriv(kk.pkcs8);
+      if (k.pub !== kk.pub) throw new Error('the file’s key does not match its public half');
+      S.me = k; await save('me', k); renderMe();
+      let back = 0;
+      for (const d of Array.isArray(j.cards) ? j.cards : []) if ((await keep(d)).ok) back++;
+      await renderWallet();
+      say($('#key-out'), 'Restored: you are ' + short(k.pub) + ' again' + (back ? ', with ' + back + ' card(s) recorded here' : '') + '.', 'ok');
+    } catch (err) { say($('#key-out'), 'Not a wallet file: ' + (err.message || err), 'bad'); }
+  });
   on('#theme-toggle', 'click', () => { const r = document.documentElement, t = r.dataset.theme === 'light' ? 'dark' : 'light'; r.dataset.theme = t; try { localStorage.setItem('digi-theme', t); } catch {} });
 }
 

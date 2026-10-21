@@ -191,7 +191,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 <section id="start" aria-labelledby="start-h">
   <h2 id="start-h"><span class="n">01</span>Start here</h2>
   <ol class="steps">
-    <li><b>Press “Card me”.</b> A genesis card is signed to your key (made in this browser on your first visit; back it up in the wallet). It appears in your <a href="#wallet">wallet</a>.</li>
+    <li><b>Press “Card me”.</b> A genesis card is signed to your key (made in this browser on your first visit; back it up with “Back up my wallet”). It appears in your <a href="#wallet">wallet</a>.</li>
     <li><b>Press “Grow it”.</b> The page fetches that card’s real dataset from this site (its size is shown), checks it is the published bytes, and grows the card’s mind on it — on your device, offline. You see its GATE score beside the one the drop declared: they match to the millionth.</li>
     <li><b>Press “Ask it”.</b> It is handed a real case from TEST, which it has never seen, and answers yes or no with the rules that fired — or abstains. You also see what really happened.</li>
     <li><b>Press “Level up”.</b> It runs up to three searches for a better mind (each takes some seconds: a search is real work). If one beats it by 0.002 on GATE, the receipt is signed into the card, re-run here before it is recorded, and its face shows the new stage.</li>
@@ -207,7 +207,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="panel">
     <h3>Your key</h3>
     <p class="mono" style="margin:0"><span data-k="me">…</span></p>
-    <div class="row"><button id="key-copy">Copy my key</button><button id="key-backup">Back up my key</button><label class="btn">Restore a key <input type="file" id="key-restore" accept=".json,application/json" class="sr" /></label><button id="card-me-2" class="primary">Card me</button></div>
+    <div class="row"><button id="key-copy">Copy my key</button><button id="key-backup">Back up my wallet</button><label class="btn">Restore a wallet <input type="file" id="key-restore" accept=".json,application/json" class="sr" /></label><button id="card-me-2" class="primary">Card me</button></div>
     <div id="key-out" aria-live="polite"></div>
     <p class="dim" style="font-size:13px">Your key lives in this browser only. Whoever holds it can sign your cards away; nobody else can — not this site, not its maker. You hold <b data-k="held">0</b> card(s).</p>
   </div>
@@ -402,7 +402,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <h3>Risks, answered straight</h3>
   <dl class="gloss">
     <div><dt>Is a six-rule mind good enough?</dt> <dd>— Each card’s GATE score is shown and re-runs; the organs measure how it holds on TEST. It is a ranking aid that abstains when it does not know, not an oracle. Where a department’s columns do not predict the outcome, no card is minted (the hospital departments did not clear the bar, so the drop has none).</dd></div>
-    <div><dt>What if a key is lost?</dt> <dd>— Its cards can no longer be signed onward. Back the key up (Wallet → Back up my key) and keep it with your other credentials.</dd></div>
+    <div><dt>What if a key is lost?</dt> <dd>— Its cards can no longer be signed onward. Back the wallet up (Wallet → Back up my wallet) and keep it with your other credentials.</dd></div>
     <div><dt>Can a card be sold twice?</dt> <dd>— A card alone cannot prevent it, so the registry does: the first recorded give wins and the second is refused for good.</dd></div>
     <div><dt>Do levels overfit?</dt> <dd>— A level is adopted on GATE; whether it holds on TEST is measured in organ 3, and the result is published either way.</dd></div>
     <div><dt>Who holds the order of the registry?</dt> <dd>— Whoever keeps the log. It cannot forge a single event into a card, and any copy re-runs from nothing; ordering is the one thing it is trusted for.</dd></div>
