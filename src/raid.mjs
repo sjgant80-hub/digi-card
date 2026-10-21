@@ -18,6 +18,7 @@ import { decodeSeed } from '../vendor/dex-frontier/vendor/living-seed/vendor/see
 import { sha256Hex } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/sha256.mjs';
 import { sign, verify as verifySig } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/keys.mjs';
 import { canonical, utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
+import { assemble } from './mesh.mjs';
 
 export const BAR = 600000;
 export const KEYS = ['by', 'data', 'domain', 'found', 'gate', 'k', 'kind', 'recipe', 'sig'];
@@ -104,4 +105,75 @@ export function standing(bosses, strikes) {
 export function lootOf(s) {
   if (!exactly(s, KEYS) || s.kind !== 'strike' || s.gate < BAR) return no('only a strike that cleared the bar carries loot');
   return { ok: true, genome: { name: s.domain, parents: [], gate: { auc: BAR / 1e6 }, organs: [s.recipe] } };
+}
+
+// ── PARTY RAIDS: the world bosses ───────────────────────────────────────────────────────────────────────────────────
+// A world boss is a whole business, at a bar no lone search reached: the best GATE any genesis search on any of its
+// departments found (the drop's own admission record), or the plain bar where none reached even that, plus PARTY_MARGIN.
+// A party strikes it together: each member's owner consents for this raid, for the card as it stands, and the party is
+// assembled exactly as a mesh is (src/mesh.mjs — the join rule, the coupling, the out-of-fold judge, the shares). Its
+// strike is a receipt naming every fielded card as it stands, its owner, its leave-one-out contribution and its share in
+// millionths (a million between them): the record of who did what. The boss falls when a party's GATE clears the bar.
+// Anyone holding the cards and the consents strikes again and must get the very same receipt. Nothing is staked.
+export const PARTY_MARGIN = 10000;
+export const CLEAR = ['bar', 'data', 'gate', 'kind', 'members', 'party', 'set'];
+/** the name every member's owner consents for: one raid per business */
+export const partyOf = (set) => 'raid-' + set;
+
+/** the world bosses of an admission record: each business, its best lone genesis search and the bar a party must clear */
+export function worldBossesOf(admission) {
+  if (!isObj(admission) || !Array.isArray(admission.departments)) return [];
+  const sets = new Map();
+  for (const d of admission.departments) {
+    if (!isObj(d) || typeof d.set !== 'string' || !Array.isArray(d.gates)) continue;
+    const s = sets.get(d.set) || { set: d.set, best: 0, departments: 0 };
+    s.departments++;
+    for (const g of d.gates) if (Number.isSafeInteger(g)) s.best = Math.max(s.best, g);
+    sets.set(d.set, s);
+  }
+  return [...sets.values()].map((s) => ({ ...s, bar: Math.max(BAR, s.best) + PARTY_MARGIN }));
+}
+
+/**
+ * A party strikes a world boss: candidates [{ v, consent }] (consents for partyOf(set)), on the business's ground.
+ * → { ok, clear: { kind: 'clear', party, set, data, bar, gate, members: [{ card, head, owner, contribution, share }] },
+ *     cleared, best (the best fielded card alone), mesh } | a refusal
+ */
+export async function partyStrike(boss, candidates, ground) {
+  try {
+    if (!isObj(boss) || typeof boss.set !== 'string' || !Number.isSafeInteger(boss.bar)) return no('a party strikes a world boss');
+    if (!ground || !ground.ds || ground.set !== boss.set) return no('this is not the ground of ' + String(boss.set).slice(0, 24));
+    const m = await assemble(partyOf(boss.set), candidates, ground);
+    if (!m.ok) return no(m.why);
+    const heads = new Map(candidates.filter((c) => c && c.v && c.v.ok === true).map((c) => [c.v.id, c.v.head]));
+    const members = m.members.filter((x) => x.joined).map((x) => ({ card: x.card, head: heads.get(x.card), owner: x.owner, contribution: x.contribution, share: x.share }));
+    const clear = { kind: 'clear', party: partyOf(boss.set), set: boss.set, data: ground.id, bar: boss.bar, gate: m.gate, members };
+    return { ok: true, clear, cleared: m.gate >= boss.bar, best: m.best, mesh: m };
+  } catch { return no('the party could not strike here'); }
+}
+
+/** strike again from the receipt's cards and consents: the very same receipt, or a refusal naming the difference */
+export async function checkClear(clear, boss, candidates, ground) {
+  if (!exactly(clear, CLEAR) || clear.kind !== 'clear') return no('not a party’s strike');
+  const r = await partyStrike(boss, candidates, ground);
+  if (!r.ok) return no('the party does not strike again: ' + r.why);
+  return canonical(r.clear) === canonical(clear) ? { ok: true } : no('struck again here, the party scores ' + r.clear.gate + ' with ' + r.clear.members.length + ' fielded, not the ' + clear.gate + ' with ' + (Array.isArray(clear.members) ? clear.members.length : 0) + ' its receipt says');
+}
+
+/** the world bosses' standing from party strikes (each counted once): best GATE, health, and the first strike to clear */
+export function worldStanding(bosses, clears) {
+  if (!Array.isArray(bosses) || !Array.isArray(clears)) return no('a standing reads the bosses and the strikes');
+  const out = {}, seen = new Set();
+  for (const b of bosses) out[b.set] = { set: b.set, bar: b.bar, start: b.best, best: b.best, strikes: 0, hp: Math.max(0, b.bar - b.best), fallen: false, first: null };
+  for (const c of clears) {
+    if (!exactly(c, CLEAR) || !out[c.set] || !Number.isSafeInteger(c.gate) || !Array.isArray(c.members)) continue;
+    const id = sha256Hex(canonical(c));
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const r = out[c.set];
+    r.strikes++;
+    r.best = Math.max(r.best, c.gate); r.hp = Math.max(0, r.bar - r.best);
+    if (!r.fallen && c.gate >= r.bar) { r.fallen = true; r.first = { gate: c.gate, members: c.members.length, owners: new Set(c.members.map((x) => x.owner)).size, after: r.strikes }; }
+  }
+  return { ok: true, raids: out };
 }

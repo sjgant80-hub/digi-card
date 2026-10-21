@@ -3,13 +3,14 @@
 // the loot; pooled strikes count once each.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { strikeSeed, bossesOf, strike, check, strikeId, standing, lootOf, BAR, KEYS } from '../src/raid.mjs';
+import { strikeSeed, bossesOf, strike, check, strikeId, standing, lootOf, BAR, KEYS, worldBossesOf, partyStrike, checkClear, worldStanding, partyOf, PARTY_MARGIN, CLEAR } from '../src/raid.mjs';
+import { consent, assemble } from '../src/mesh.mjs';
 import { seedsFor, searchOf, organOf, GROW } from '../src/mind.mjs';
 import { viewOf } from '../src/data.mjs';
 import { sign } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/keys.mjs';
 import { canonical, utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 import { sha256Hex } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/sha256.mjs';
-import { key, toy } from './helpers.mjs';
+import { key, toy, SMALL, cardOn } from './helpers.mjs';
 
 const ground = toy();
 const [alice, bob] = await Promise.all(['alice', 'bob'].map(key));
@@ -112,4 +113,68 @@ test('loot: the first card of a fallen boss’s department, its genome for the s
   assert.equal(lootOf(await resign(bob, B0, { gate: 599999 })).why, 'only a strike that cleared the bar carries loot');
   assert.equal(lootOf({ ...strong, kind: 'level' }).why, 'only a strike that cleared the bar carries loot');
   assert.equal(lootOf(null).why, 'only a strike that cleared the bar carries loot');
+});
+
+// ── party raids ─────────────────────────────────────────────────────────────────────────────────────────────────────
+test('world bosses: each business at its best lone genesis search, or the plain bar, plus the margin a party must clear', () => {
+  const adm = { departments: [...ADMISSION.departments, { set: 'low', domain: 'low-a', gates: [580000, 'x'], admitted: false }, { set: 'low', domain: 'low-b', gates: 'x' }, { set: 7, gates: [] }] };
+  assert.deepEqual(worldBossesOf(adm), [{ set: 'toy', best: 700000, departments: 4, bar: 710000 }, { set: 'low', best: 580000, departments: 1, bar: 610000 }]);
+  assert.equal(PARTY_MARGIN, 10000);
+  assert.equal(partyOf('toy'), 'raid-toy');
+  for (const junk of [null, {}, { departments: 'x' }, 'x']) assert.deepEqual(worldBossesOf(junk), []);
+});
+
+test('party strike: the party assembled as a mesh, its receipt naming every fielded card, owner and share', async () => {
+  const maker = await key('maker'), found = (d, s) => organOf(searchOf(d, s, SMALL), viewOf(ground, d), 0.6).fixed;
+  const PA = await cardOn([found('toy-a', 5)], { maker, owner: alice, name: 'toy-a' }), PB = await cardOn([found('toy-b', 6)], { maker, owner: bob, name: 'toy-b', serial: 2 });
+  const join = async (keys, c, name = 'raid-toy') => ({ v: c.v, consent: (await consent(keys, c.v, name)).consent });
+  const party = [await join(alice, PA), await join(bob, PB)], easy = { set: 'toy', bar: 500000 }, hard = { set: 'toy', bar: 999999 };
+  const r = await partyStrike(easy, party, ground);
+  assert.equal(r.ok, true);
+  const m = await assemble('raid-toy', party, ground);
+  assert.deepEqual(Object.keys(r.clear).sort(), CLEAR);
+  assert.deepEqual([r.clear.kind, r.clear.party, r.clear.set, r.clear.data, r.clear.bar, r.clear.gate], ['clear', 'raid-toy', 'toy', ground.id, 500000, m.gate]);
+  assert.deepEqual(r.clear.members, m.members.filter((x) => x.joined).map((x) => ({ card: x.card, head: x.card === PA.v.id ? PA.v.head : PB.v.head, owner: x.owner, contribution: x.contribution, share: x.share })));
+  assert.equal(r.clear.members.reduce((s, x) => s + x.share, 0), 1000000);
+  assert.deepEqual(new Set(r.clear.members.map((x) => x.owner)), new Set([alice.pub, bob.pub]));
+  assert.deepEqual([r.cleared, r.best], [true, m.best]);
+  assert.equal((await partyStrike(hard, party, ground)).cleared, false);
+  assert.equal((await partyStrike({ set: 'toy', bar: m.gate }, party, ground)).cleared, true, 'reaching the bar clears it');
+  assert.equal((await partyStrike({ set: 'toy', bar: m.gate + 1 }, party, ground)).cleared, false);
+  for (const b of [null, 'x', { set: 5, bar: 1 }, { set: 'toy' }, { set: 'toy', bar: 0.5 }]) assert.equal((await partyStrike(b, party, ground)).why, 'a party strikes a world boss');
+  assert.equal((await partyStrike({ set: 'bank', bar: 1 }, party, ground)).why, 'this is not the ground of bank');
+  assert.equal((await partyStrike(easy, party, null)).why, 'this is not the ground of toy');
+  assert.equal((await partyStrike(easy, party, { set: 'toy' })).why, 'this is not the ground of toy');
+  assert.equal((await partyStrike(easy, [], ground)).why, 'a mesh needs at least one card');
+  assert.match((await partyStrike(easy, [await join(alice, PA, 'raid-bank')], ground)).why, /^no card can join: the consent is for another mesh$/);
+  assert.equal((await partyStrike(easy, 'x', ground)).why, 'a mesh needs at least one card');
+  assert.equal((await partyStrike(easy, [null, ...party], ground)).why, 'the party could not strike here');
+  const loose = await partyStrike(easy, [...party, { v: undefined, consent: null }, { v: { ok: false }, consent: null }], ground);
+  assert.deepEqual(loose.clear, r.clear, 'a candidate with no card, or one that does not check, joins nothing and breaks nothing');
+  assert.deepEqual(await checkClear(r.clear, easy, party, ground), { ok: true });
+  assert.equal((await checkClear({ ...r.clear, gate: 1 }, easy, party, ground)).why, 'struck again here, the party scores ' + m.gate + ' with 2 fielded, not the 1 with 2 its receipt says');
+  assert.match((await checkClear(r.clear, easy, party.slice(0, 1), ground)).why, /^struck again here, the party scores \d+ with 1 fielded, not the \d+ with 2 its receipt says$/);
+  assert.match((await checkClear({ ...r.clear, members: 'x' }, easy, party, ground)).why, / with 0 its receipt says$/);
+  assert.match((await checkClear(r.clear, { set: 'toy', bar: 1 }, party, ground)).why, /^struck again here/, 'the bar is part of the receipt');
+  for (const bad of [null, { ...r.clear, kind: 'strike' }, { ...r.clear, extra: 1 }]) assert.equal((await checkClear(bad, easy, party, ground)).why, 'not a party’s strike');
+  assert.equal((await checkClear(r.clear, null, party, ground)).why, 'the party does not strike again: a party strikes a world boss');
+});
+
+test('world standing: the best party so far is the health; the boss falls to the first strike that clears; each once', async () => {
+  const bosses = [{ set: 'toy', best: 700000, departments: 4, bar: 710000 }, { set: 'low', best: 580000, departments: 1, bar: 610000 }];
+  const c = (gate, owners = [alice.pub, bob.pub], set = 'toy') => ({ kind: 'clear', party: partyOf(set), set, data: 'toy:x', bar: 710000, gate, members: owners.map((o, k) => ({ card: String(k).repeat(16), head: '0'.repeat(64), owner: o, contribution: 1, share: k ? 400000 : 600000 })) });
+  const start = worldStanding(bosses, []).raids;
+  assert.deepEqual(start.toy, { set: 'toy', bar: 710000, start: 700000, best: 700000, strikes: 0, hp: 10000, fallen: false, first: null });
+  assert.equal(start.low.hp, 30000);
+  const s = worldStanding(bosses, [c(705000), c(705000), c(712000, [alice.pub, alice.pub, bob.pub]), c(720000), { ...c(800000), set: 'nope' }, 'junk', { ...c(800000), gate: 0.9 }, { ...c(800000), members: 'x' }]).raids.toy;
+  assert.deepEqual([s.strikes, s.best, s.hp, s.fallen], [3, 720000, 0, true]);
+  assert.deepEqual(s.first, { gate: 712000, members: 3, owners: 2, after: 2 });
+  const exact = worldStanding(bosses, [c(710000)]).raids.toy;
+  assert.deepEqual([exact.fallen, exact.hp, exact.first.gate], [true, 0, 710000], 'reaching the bar fells it');
+  const under = worldStanding(bosses, [c(709999)]).raids.toy;
+  assert.deepEqual([under.fallen, under.hp, under.best], [false, 1, 709999]);
+  const lower = worldStanding(bosses, [c(600000)]).raids.toy;
+  assert.deepEqual([lower.best, lower.hp, lower.strikes], [700000, 10000, 1]);
+  assert.equal(worldStanding([{ set: 'toy', best: 720000, bar: 710000 }], []).raids.toy.hp, 0);
+  for (const [b, x] of [[null, []], [[], null]]) assert.equal(worldStanding(b, x).why, 'a standing reads the bosses and the strikes');
 });
