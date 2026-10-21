@@ -135,6 +135,21 @@
      "sha256": "dd34ee89de47c9d5c4c9310e07df518dc0892359a3d304fc94f06432ae0b85fd"
     }
    }
+  },
+  {
+   "repo": "sjgant80-hub/mint-an-app",
+   "commit": "6bd1c3d2528525bd52a2bb68da7ee7e931d8574b",
+   "local": "C:/Users/sjgan/mint-an-app",
+   "files": {
+    "vendor/mint-an-app/catalogue-data.json": {
+     "from": "catalogue-data.json",
+     "sha256": "960a5abc576c834e3f4c5bfb2e30871c6ae70505f59f6fc52dabf6f24604933c"
+    },
+    "vendor/mint-an-app/mint-data.json": {
+     "from": "mint-data.json",
+     "sha256": "ee2fb7b0d40d4668b861a4f0d082d5ecc50944bcef41b132b7abcc97f499baa4"
+    }
+   }
   }
  ]
 }
