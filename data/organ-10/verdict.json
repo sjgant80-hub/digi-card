@@ -1,0 +1,78 @@
+{
+ "kind": "digi-card.organ-10.verdict",
+ "v": 1,
+ "prereg": "dea3b0da83f9a9f2",
+ "record": "72943355175e6de7",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every kit measured twice gives the very same numbers, every slot’s worth is the kitted GATE AUC with it less without it, and every one of the 300 kit duels re-runs from its receipt to the very same receipt.",
+   "pass": true,
+   "saw": "100 of 100 kits measured twice the same, every worth exact, the loadout checking; 300 of 300 kit duels re-ran to the same receipt"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "All 240 forgeries are refused: a loadout signed by a stranger, a loadout for the card before a give, a node handed on since it was equipped, a node another key holds, a node of another business, more nodes than the slots, the same node twice, a challenge naming another kit, an edited duel score, a flipped winner, a side fielding nodes with no loadout, and a tool another key holds.",
+   "pass": true,
+   "saw": "240 of 240 forgeries refused"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every party strike re-runs to the very same receipt, its fielded members’ shares sum to exactly 1,000,000, and its bar is the world boss’s: the best lone genesis search on that business plus 0.010.",
+   "pass": true,
+   "saw": "55 of 55 party strikes re-ran to the same receipt, their shares a million, their bar the world boss’s"
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "A tool never moves a score: in every duel a kit carrying a tool fights, its AUC on the batch is exactly that of the same nodes with no tool.",
+   "pass": true,
+   "saw": "100 of 100 duels with a tool scored exactly as the same nodes with none"
+  },
+  {
+   "id": "P5",
+   "kind": "property",
+   "claim": "Every one of the 337 app items verifies against mint-an-app’s records, handed on once it still verifies, and every one of the 1,685 forged bodies (another commit, run, tier, licence or page) is refused.",
+   "pass": true,
+   "saw": "337 of 337 items verified, 337 handed on and still verifying; 1685 of 1685 forged bodies refused"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Of the kits whose nodes lift the DIGI by at least 0.005 on GATE (out of fold), at least 80% also lift it on TEST, the kit coupled on GATE and judged on cases nothing here selects on.",
+   "pass": true,
+   "saw": "88 of 88 kits that lifted GATE by 0.005 or more (100%) also lifted TEST"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Across all kits, the median lift on TEST is at least 0.8 of the median lift on GATE: the kit is not mostly fitted to the cases that chose it.",
+   "pass": true,
+   "saw": "median lift on GATE 0.092670, on TEST 0.082279 (89% of GATE’s)"
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "In at least 70% of the decided kit duels, the kitted DIGI beats the card of its own department that fights alone.",
+   "pass": true,
+   "saw": "kitted, the DIGI won 244 of 298 decided duels (81.9%); alone against the same cards it won 133 of 272 (48.9%)"
+  },
+  {
+   "id": "Q4",
+   "kind": "prediction",
+   "claim": "At least 3 of the 5 world bosses fall to the full party of their business’s best genesis cards.",
+   "pass": true,
+   "saw": "3 of 5 world bosses fell to their best-card party: telco 0.840751 ≥ 0.828213, shop 0.924174 < 0.931634, bank 0.778161 < 0.780582, adult 0.890793 ≥ 0.817504, credit 0.774217 ≥ 0.748587"
+  },
+  {
+   "id": "Q5",
+   "kind": "prediction",
+   "claim": "Of all the parties that clear their world boss on GATE, at least 80% score within 0.03 of their GATE AUC on TEST.",
+   "pass": true,
+   "saw": "25 of 26 parties that cleared on GATE (96.2%) scored within 0.03 of it on TEST"
+  }
+ ]
+}

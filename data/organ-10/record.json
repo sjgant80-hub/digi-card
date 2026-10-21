@@ -1,0 +1,10034 @@
+{
+ "kind": "digi-card.organ-10.record",
+ "v": 1,
+ "sets": [
+  "telco",
+  "shop",
+  "bank",
+  "adult",
+  "credit"
+ ],
+ "kits": [
+  {
+   "set": "telco",
+   "k": 0,
+   "digi": 497,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 364,
+     "domain": "telco-account"
+    }
+   ],
+   "joined": 1,
+   "gate": 817237,
+   "alone": 654853,
+   "lift": 162384,
+   "test": 814172,
+   "testAlone": 628105,
+   "testLift": 186067,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 900452,
+    "bare": 900452,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "digi": 649,
+   "domain": "telco-account",
+   "nodes": [
+    {
+     "serial": 93,
+     "domain": "telco-services"
+    },
+    {
+     "serial": 17,
+     "domain": "telco-customer"
+    }
+   ],
+   "joined": 2,
+   "gate": 832377,
+   "alone": 808306,
+   "lift": 24071,
+   "test": 830042,
+   "testAlone": 809409,
+   "testLift": 20633,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 877193,
+    "bare": 877193,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "digi": 348,
+   "domain": "telco-services",
+   "nodes": [
+    {
+     "serial": 184,
+     "domain": "telco-account"
+    },
+    {
+     "serial": 527,
+     "domain": "telco-customer"
+    }
+   ],
+   "joined": 2,
+   "gate": 829711,
+   "alone": 773528,
+   "lift": 56183,
+   "test": 829741,
+   "testAlone": 785851,
+   "testLift": 43890,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 861979,
+    "bare": 861979,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "digi": 167,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 438,
+     "domain": "telco-services"
+    }
+   ],
+   "joined": 1,
+   "gate": 790560,
+   "alone": 647664,
+   "lift": 142896,
+   "test": 783675,
+   "testAlone": 610692,
+   "testLift": 172983,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 672789,
+    "bare": 672789,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 4,
+   "digi": 544,
+   "domain": "telco-account",
+   "nodes": [
+    {
+     "serial": 227,
+     "domain": "telco-customer"
+    },
+    {
+     "serial": 48,
+     "domain": "telco-services"
+    }
+   ],
+   "joined": 2,
+   "gate": 819112,
+   "alone": 804055,
+   "lift": 15057,
+   "test": 823634,
+   "testAlone": 811942,
+   "testLift": 11692,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 792874,
+    "bare": 792874,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 5,
+   "digi": 77,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 318,
+     "domain": "telco-services"
+    },
+    {
+     "serial": 454,
+     "domain": "telco-account"
+    }
+   ],
+   "joined": 2,
+   "gate": 827839,
+   "alone": 671509,
+   "lift": 156330,
+   "test": 833029,
+   "testAlone": 624136,
+   "testLift": 208893,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 837415,
+    "bare": 837415,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 6,
+   "digi": 18,
+   "domain": "telco-services",
+   "nodes": [
+    {
+     "serial": 827,
+     "domain": "telco-customer"
+    },
+    {
+     "serial": 934,
+     "domain": "telco-account"
+    }
+   ],
+   "joined": 2,
+   "gate": 827011,
+   "alone": 734570,
+   "lift": 92441,
+   "test": 817216,
+   "testAlone": 759605,
+   "testLift": 57611,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 878947,
+    "bare": 878947,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 7,
+   "digi": 647,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 213,
+     "domain": "telco-services"
+    },
+    {
+     "serial": 229,
+     "domain": "telco-account"
+    }
+   ],
+   "joined": 2,
+   "gate": 832652,
+   "alone": 640076,
+   "lift": 192576,
+   "test": 828692,
+   "testAlone": 628296,
+   "testLift": 200396,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 829286,
+    "bare": 829286,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 8,
+   "digi": 933,
+   "domain": "telco-services",
+   "nodes": [
+    {
+     "serial": 32,
+     "domain": "telco-customer"
+    },
+    {
+     "serial": 289,
+     "domain": "telco-account"
+    }
+   ],
+   "joined": 2,
+   "gate": 818078,
+   "alone": 711837,
+   "lift": 106241,
+   "test": 826408,
+   "testAlone": 747262,
+   "testLift": 79146,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 964286,
+    "bare": 964286,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 9,
+   "digi": 484,
+   "domain": "telco-account",
+   "nodes": [
+    {
+     "serial": 228,
+     "domain": "telco-services"
+    },
+    {
+     "serial": 647,
+     "domain": "telco-customer"
+    }
+   ],
+   "joined": 2,
+   "gate": 824654,
+   "alone": 787681,
+   "lift": 36973,
+   "test": 829254,
+   "testAlone": 807967,
+   "testLift": 21287,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 881510,
+    "bare": 881510,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 10,
+   "digi": 409,
+   "domain": "telco-account",
+   "nodes": [
+    {
+     "serial": 512,
+     "domain": "telco-customer"
+    }
+   ],
+   "joined": 1,
+   "gate": 812079,
+   "alone": 799346,
+   "lift": 12733,
+   "test": 812764,
+   "testAlone": 811652,
+   "testLift": 1112,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 759809,
+    "bare": 759809,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 11,
+   "digi": 707,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 48,
+     "domain": "telco-services"
+    }
+   ],
+   "joined": 1,
+   "gate": 742604,
+   "alone": 660424,
+   "lift": 82180,
+   "test": 739864,
+   "testAlone": 614730,
+   "testLift": 125134,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 786395,
+    "bare": 786395,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 12,
+   "digi": 603,
+   "domain": "telco-services",
+   "nodes": [
+    {
+     "serial": 874,
+     "domain": "telco-account"
+    }
+   ],
+   "joined": 1,
+   "gate": 832235,
+   "alone": 755477,
+   "lift": 76758,
+   "test": 836726,
+   "testAlone": 779223,
+   "testLift": 57503,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 900585,
+    "bare": 900585,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 13,
+   "digi": 722,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 633,
+     "domain": "telco-services"
+    }
+   ],
+   "joined": 1,
+   "gate": 743891,
+   "alone": 654096,
+   "lift": 89795,
+   "test": 743669,
+   "testAlone": 628105,
+   "testLift": 115564,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 814768,
+    "bare": 814768,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 14,
+   "digi": 109,
+   "domain": "telco-account",
+   "nodes": [
+    {
+     "serial": 692,
+     "domain": "telco-customer"
+    }
+   ],
+   "joined": 1,
+   "gate": 810685,
+   "alone": 797069,
+   "lift": 13616,
+   "test": 803319,
+   "testAlone": 800829,
+   "testLift": 2490,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 839174,
+    "bare": 839174,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 15,
+   "digi": 393,
+   "domain": "telco-services",
+   "nodes": [
+    {
+     "serial": 664,
+     "domain": "telco-account"
+    },
+    {
+     "serial": 947,
+     "domain": "telco-customer"
+    }
+   ],
+   "joined": 2,
+   "gate": 822635,
+   "alone": 725073,
+   "lift": 97562,
+   "test": 820967,
+   "testAlone": 745749,
+   "testLift": 75218,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 841991,
+    "bare": 841991,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 16,
+   "digi": 947,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 153,
+     "domain": "telco-services"
+    },
+    {
+     "serial": 859,
+     "domain": "telco-account"
+    }
+   ],
+   "joined": 2,
+   "gate": 829716,
+   "alone": 656771,
+   "lift": 172945,
+   "test": 831536,
+   "testAlone": 630563,
+   "testLift": 200973,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 857322,
+    "bare": 857322,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 17,
+   "digi": 602,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 289,
+     "domain": "telco-account"
+    }
+   ],
+   "joined": 1,
+   "gate": 799556,
+   "alone": 635998,
+   "lift": 163558,
+   "test": 811019,
+   "testAlone": 628603,
+   "testLift": 182416,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 926316,
+    "bare": 926316,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 18,
+   "digi": 349,
+   "domain": "telco-account",
+   "nodes": [
+    {
+     "serial": 752,
+     "domain": "telco-customer"
+    }
+   ],
+   "joined": 1,
+   "gate": 810124,
+   "alone": 801799,
+   "lift": 8325,
+   "test": 801017,
+   "testAlone": 799818,
+   "testLift": 1199,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 866146,
+    "bare": 866146,
+    "same": true
+   }
+  },
+  {
+   "set": "telco",
+   "k": 19,
+   "digi": 527,
+   "domain": "telco-customer",
+   "nodes": [
+    {
+     "serial": 423,
+     "domain": "telco-services"
+    }
+   ],
+   "joined": 1,
+   "gate": 740070,
+   "alone": 654651,
+   "lift": 85419,
+   "test": 748383,
+   "testAlone": 628105,
+   "testLift": 120278,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 676633,
+    "bare": 676633,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "digi": 936,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 980,
+     "domain": "shop-browsing"
+    }
+   ],
+   "joined": 1,
+   "gate": 917934,
+   "alone": 917934,
+   "lift": 0,
+   "test": 815882,
+   "testAlone": 815882,
+   "testLift": 0,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 923729,
+    "bare": 923729,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "digi": 816,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 292,
+     "domain": "shop-context"
+    },
+    {
+     "serial": 545,
+     "domain": "shop-browsing"
+    }
+   ],
+   "joined": 2,
+   "gate": 915798,
+   "alone": 917601,
+   "lift": -1803,
+   "test": 803681,
+   "testAlone": 803681,
+   "testLift": 0,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 777966,
+    "bare": 777966,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "digi": 336,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 157,
+     "domain": "shop-context"
+    }
+   ],
+   "joined": 1,
+   "gate": 923269,
+   "alone": 918407,
+   "lift": 4862,
+   "test": 829165,
+   "testAlone": 821168,
+   "testLift": 7997,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 959322,
+    "bare": 959322,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "digi": 891,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 725,
+     "domain": "shop-browsing"
+    },
+    {
+     "serial": 352,
+     "domain": "shop-context"
+    }
+   ],
+   "joined": 2,
+   "gate": 921137,
+   "alone": 919228,
+   "lift": 1909,
+   "test": 824975,
+   "testAlone": 815040,
+   "testLift": 9935,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 915179,
+    "bare": 915179,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 4,
+   "digi": 605,
+   "domain": "shop-browsing",
+   "nodes": [
+    {
+     "serial": 7,
+     "domain": "shop-context"
+    },
+    {
+     "serial": 411,
+     "domain": "shop-analytics"
+    }
+   ],
+   "joined": 2,
+   "gate": 919931,
+   "alone": 662955,
+   "lift": 256976,
+   "test": 824553,
+   "testAlone": 682862,
+   "testLift": 141691,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 902902,
+    "bare": 902902,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 5,
+   "digi": 697,
+   "domain": "shop-context",
+   "nodes": [
+    {
+     "serial": 170,
+     "domain": "shop-browsing"
+    },
+    {
+     "serial": 201,
+     "domain": "shop-analytics"
+    }
+   ],
+   "joined": 2,
+   "gate": 911945,
+   "alone": 590858,
+   "lift": 321087,
+   "test": 825512,
+   "testAlone": 574311,
+   "testLift": 251201,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 945355,
+    "bare": 945355,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 6,
+   "digi": 651,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 995,
+     "domain": "shop-browsing"
+    },
+    {
+     "serial": 787,
+     "domain": "shop-context"
+    }
+   ],
+   "joined": 2,
+   "gate": 917934,
+   "alone": 912702,
+   "lift": 5232,
+   "test": 830258,
+   "testAlone": 821830,
+   "testLift": 8428,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 949713,
+    "bare": 949713,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 7,
+   "digi": 96,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 22,
+     "domain": "shop-context"
+    }
+   ],
+   "joined": 1,
+   "gate": 915031,
+   "alone": 913772,
+   "lift": 1259,
+   "test": 826786,
+   "testAlone": 820562,
+   "testLift": 6224,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 938616,
+    "bare": 938616,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 8,
+   "digi": 186,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 380,
+     "domain": "shop-browsing"
+    },
+    {
+     "serial": 742,
+     "domain": "shop-context"
+    }
+   ],
+   "joined": 2,
+   "gate": 923291,
+   "alone": 911714,
+   "lift": 11577,
+   "test": 826202,
+   "testAlone": 818804,
+   "testLift": 7398,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 882206,
+    "bare": 882206,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 9,
+   "digi": 95,
+   "domain": "shop-browsing",
+   "nodes": [
+    {
+     "serial": 336,
+     "domain": "shop-analytics"
+    },
+    {
+     "serial": 712,
+     "domain": "shop-context"
+    }
+   ],
+   "joined": 2,
+   "gate": 927537,
+   "alone": 664251,
+   "lift": 263286,
+   "test": 823123,
+   "testAlone": 687760,
+   "testLift": 135363,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 772989,
+    "bare": 772989,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 10,
+   "digi": 485,
+   "domain": "shop-browsing",
+   "nodes": [
+    {
+     "serial": 831,
+     "domain": "shop-analytics"
+    }
+   ],
+   "joined": 1,
+   "gate": 914154,
+   "alone": 656741,
+   "lift": 257413,
+   "test": 818272,
+   "testAlone": 677016,
+   "testLift": 141256,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 983709,
+    "bare": 983709,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 11,
+   "digi": 982,
+   "domain": "shop-context",
+   "nodes": [
+    {
+     "serial": 906,
+     "domain": "shop-analytics"
+    },
+    {
+     "serial": 290,
+     "domain": "shop-browsing"
+    }
+   ],
+   "joined": 2,
+   "gate": 921208,
+   "alone": 629774,
+   "lift": 291434,
+   "test": 817207,
+   "testAlone": 582291,
+   "testLift": 234916,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 912281,
+    "bare": 912281,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 12,
+   "digi": 81,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 365,
+     "domain": "shop-browsing"
+    }
+   ],
+   "joined": 1,
+   "gate": 905681,
+   "alone": 906098,
+   "lift": -417,
+   "test": 830239,
+   "testAlone": 823935,
+   "testLift": 6304,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 933898,
+    "bare": 933898,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 13,
+   "digi": 891,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 80,
+     "domain": "shop-browsing"
+    },
+    {
+     "serial": 337,
+     "domain": "shop-context"
+    }
+   ],
+   "joined": 2,
+   "gate": 918230,
+   "alone": 919228,
+   "lift": -998,
+   "test": 815040,
+   "testAlone": 815040,
+   "testLift": 0,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 928161,
+    "bare": 928161,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 14,
+   "digi": 5,
+   "domain": "shop-browsing",
+   "nodes": [
+    {
+     "serial": 97,
+     "domain": "shop-context"
+    },
+    {
+     "serial": 111,
+     "domain": "shop-analytics"
+    }
+   ],
+   "joined": 2,
+   "gate": 908881,
+   "alone": 662331,
+   "lift": 246550,
+   "test": 823116,
+   "testAlone": 682792,
+   "testLift": 140324,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 964481,
+    "bare": 964481,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 15,
+   "digi": 290,
+   "domain": "shop-browsing",
+   "nodes": [
+    {
+     "serial": 171,
+     "domain": "shop-analytics"
+    }
+   ],
+   "joined": 1,
+   "gate": 904150,
+   "alone": 656665,
+   "lift": 247485,
+   "test": 822503,
+   "testAlone": 653471,
+   "testLift": 169032,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 787946,
+    "bare": 787946,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 16,
+   "digi": 546,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 577,
+     "domain": "shop-context"
+    }
+   ],
+   "joined": 1,
+   "gate": 920600,
+   "alone": 918136,
+   "lift": 2464,
+   "test": 819567,
+   "testAlone": 814758,
+   "testLift": 4809,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 931920,
+    "bare": 931920,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 17,
+   "digi": 697,
+   "domain": "shop-context",
+   "nodes": [
+    {
+     "serial": 290,
+     "domain": "shop-browsing"
+    }
+   ],
+   "joined": 1,
+   "gate": 687007,
+   "alone": 590858,
+   "lift": 96149,
+   "test": 668653,
+   "testAlone": 574311,
+   "testLift": 94342,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 756696,
+    "bare": 756696,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 18,
+   "digi": 306,
+   "domain": "shop-analytics",
+   "nodes": [
+    {
+     "serial": 350,
+     "domain": "shop-browsing"
+    }
+   ],
+   "joined": 1,
+   "gate": 917055,
+   "alone": 917055,
+   "lift": 0,
+   "test": 822999,
+   "testAlone": 822999,
+   "testLift": 0,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 971698,
+    "bare": 971698,
+    "same": true
+   }
+  },
+  {
+   "set": "shop",
+   "k": 19,
+   "digi": 410,
+   "domain": "shop-browsing",
+   "nodes": [
+    {
+     "serial": 217,
+     "domain": "shop-context"
+    },
+    {
+     "serial": 96,
+     "domain": "shop-analytics"
+    }
+   ],
+   "joined": 2,
+   "gate": 915864,
+   "alone": 632562,
+   "lift": 283302,
+   "test": 826333,
+   "testAlone": 669667,
+   "testLift": 156666,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 854630,
+    "bare": 854630,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "digi": 145,
+   "domain": "bank-economy",
+   "nodes": [
+    {
+     "serial": 129,
+     "domain": "bank-campaign"
+    },
+    {
+     "serial": 38,
+     "domain": "bank-profile"
+    }
+   ],
+   "joined": 2,
+   "gate": 761087,
+   "alone": 749055,
+   "lift": 12032,
+   "test": 768174,
+   "testAlone": 753914,
+   "testLift": 14260,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 951149,
+    "bare": 951149,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "digi": 983,
+   "domain": "bank-profile",
+   "nodes": [
+    {
+     "serial": 804,
+     "domain": "bank-campaign"
+    },
+    {
+     "serial": 910,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 2,
+   "gate": 763121,
+   "alone": 611873,
+   "lift": 151248,
+   "test": 763909,
+   "testAlone": 612682,
+   "testLift": 151227,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 865657,
+    "bare": 865657,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "digi": 174,
+   "domain": "bank-campaign",
+   "nodes": [
+    {
+     "serial": 745,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 1,
+   "gate": 764300,
+   "alone": 681530,
+   "lift": 82770,
+   "test": 763415,
+   "testAlone": 694781,
+   "testLift": 68634,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 756250,
+    "bare": 756250,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "digi": 728,
+   "domain": "bank-profile",
+   "nodes": [
+    {
+     "serial": 10,
+     "domain": "bank-economy"
+    },
+    {
+     "serial": 294,
+     "domain": "bank-campaign"
+    }
+   ],
+   "joined": 2,
+   "gate": 763419,
+   "alone": 606534,
+   "lift": 156885,
+   "test": 767664,
+   "testAlone": 619983,
+   "testLift": 147681,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 564583,
+    "bare": 564583,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 4,
+   "digi": 189,
+   "domain": "bank-campaign",
+   "nodes": [
+    {
+     "serial": 428,
+     "domain": "bank-profile"
+    },
+    {
+     "serial": 460,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 2,
+   "gate": 763024,
+   "alone": 660601,
+   "lift": 102423,
+   "test": 768139,
+   "testAlone": 685860,
+   "testLift": 82279,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 943548,
+    "bare": 943548,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 5,
+   "digi": 428,
+   "domain": "bank-profile",
+   "nodes": [
+    {
+     "serial": 520,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 1,
+   "gate": 772653,
+   "alone": 599161,
+   "lift": 173492,
+   "test": 772542,
+   "testAlone": 613092,
+   "testLift": 159450,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 922034,
+    "bare": 922034,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 6,
+   "digi": 504,
+   "domain": "bank-campaign",
+   "nodes": [
+    {
+     "serial": 128,
+     "domain": "bank-profile"
+    },
+    {
+     "serial": 205,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 2,
+   "gate": 761650,
+   "alone": 677045,
+   "lift": 84605,
+   "test": 764697,
+   "testAlone": 696656,
+   "testLift": 68041,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 677857,
+    "bare": 677857,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 7,
+   "digi": 128,
+   "domain": "bank-profile",
+   "nodes": [
+    {
+     "serial": 415,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 1,
+   "gate": 765862,
+   "alone": 602637,
+   "lift": 163225,
+   "test": 764346,
+   "testAlone": 605124,
+   "testLift": 159222,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 852083,
+    "bare": 852083,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 8,
+   "digi": 309,
+   "domain": "bank-campaign",
+   "nodes": [
+    {
+     "serial": 248,
+     "domain": "bank-profile"
+    },
+    {
+     "serial": 610,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 2,
+   "gate": 774138,
+   "alone": 681468,
+   "lift": 92670,
+   "test": 778215,
+   "testAlone": 703698,
+   "testLift": 74517,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 817043,
+    "bare": 817043,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 9,
+   "digi": 775,
+   "domain": "bank-economy",
+   "nodes": [
+    {
+     "serial": 728,
+     "domain": "bank-profile"
+    }
+   ],
+   "joined": 1,
+   "gate": 761489,
+   "alone": 760804,
+   "lift": 685,
+   "test": 763074,
+   "testAlone": 757858,
+   "testLift": 5216,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 675223,
+    "bare": 675223,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 10,
+   "digi": 713,
+   "domain": "bank-profile",
+   "nodes": [
+    {
+     "serial": 550,
+     "domain": "bank-economy"
+    },
+    {
+     "serial": 594,
+     "domain": "bank-campaign"
+    }
+   ],
+   "joined": 2,
+   "gate": 769486,
+   "alone": 612290,
+   "lift": 157196,
+   "test": 772043,
+   "testAlone": 623800,
+   "testLift": 148243,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 955645,
+    "bare": 955645,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 11,
+   "digi": 999,
+   "domain": "bank-campaign",
+   "nodes": [
+    {
+     "serial": 98,
+     "domain": "bank-profile"
+    },
+    {
+     "serial": 475,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 2,
+   "gate": 771029,
+   "alone": 669047,
+   "lift": 101982,
+   "test": 770904,
+   "testAlone": 695254,
+   "testLift": 75650,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 530134,
+    "bare": 530134,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 12,
+   "digi": 955,
+   "domain": "bank-economy",
+   "nodes": [
+    {
+     "serial": 623,
+     "domain": "bank-profile"
+    }
+   ],
+   "joined": 1,
+   "gate": 761870,
+   "alone": 763008,
+   "lift": -1138,
+   "test": 759486,
+   "testAlone": 758061,
+   "testLift": 1425,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 587719,
+    "bare": 587719,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 13,
+   "digi": 400,
+   "domain": "bank-economy",
+   "nodes": [
+    {
+     "serial": 203,
+     "domain": "bank-profile"
+    }
+   ],
+   "joined": 1,
+   "gate": 757708,
+   "alone": 746898,
+   "lift": 10810,
+   "test": 757935,
+   "testAlone": 750663,
+   "testLift": 7272,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 666102,
+    "bare": 666102,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 14,
+   "digi": 339,
+   "domain": "bank-campaign",
+   "nodes": [
+    {
+     "serial": 820,
+     "domain": "bank-economy"
+    },
+    {
+     "serial": 548,
+     "domain": "bank-profile"
+    }
+   ],
+   "joined": 2,
+   "gate": 767022,
+   "alone": 691977,
+   "lift": 75045,
+   "test": 768780,
+   "testAlone": 693932,
+   "testLift": 74848,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 635338,
+    "bare": 635338,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 15,
+   "digi": 114,
+   "domain": "bank-campaign",
+   "nodes": [
+    {
+     "serial": 985,
+     "domain": "bank-economy"
+    },
+    {
+     "serial": 998,
+     "domain": "bank-profile"
+    }
+   ],
+   "joined": 2,
+   "gate": 770064,
+   "alone": 657760,
+   "lift": 112304,
+   "test": 770451,
+   "testAlone": 681469,
+   "testLift": 88982,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 662093,
+    "bare": 662093,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 16,
+   "digi": 983,
+   "domain": "bank-profile",
+   "nodes": [
+    {
+     "serial": 235,
+     "domain": "bank-economy"
+    },
+    {
+     "serial": 414,
+     "domain": "bank-campaign"
+    }
+   ],
+   "joined": 2,
+   "gate": 768899,
+   "alone": 611873,
+   "lift": 157026,
+   "test": 766621,
+   "testAlone": 612682,
+   "testLift": 153939,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 933333,
+    "bare": 933333,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 17,
+   "digi": 835,
+   "domain": "bank-economy",
+   "nodes": [
+    {
+     "serial": 789,
+     "domain": "bank-campaign"
+    },
+    {
+     "serial": 488,
+     "domain": "bank-profile"
+    }
+   ],
+   "joined": 2,
+   "gate": 759072,
+   "alone": 754994,
+   "lift": 4078,
+   "test": 763835,
+   "testAlone": 760418,
+   "testLift": 3417,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 864943,
+    "bare": 864943,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 18,
+   "digi": 623,
+   "domain": "bank-profile",
+   "nodes": [
+    {
+     "serial": 54,
+     "domain": "bank-campaign"
+    },
+    {
+     "serial": 985,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 2,
+   "gate": 767611,
+   "alone": 609884,
+   "lift": 157727,
+   "test": 765612,
+   "testAlone": 609307,
+   "testLift": 156305,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 553686,
+    "bare": 553686,
+    "same": true
+   }
+  },
+  {
+   "set": "bank",
+   "k": 19,
+   "digi": 203,
+   "domain": "bank-profile",
+   "nodes": [
+    {
+     "serial": 565,
+     "domain": "bank-economy"
+    }
+   ],
+   "joined": 1,
+   "gate": 767323,
+   "alone": 600009,
+   "lift": 167314,
+   "test": 761612,
+   "testAlone": 607421,
+   "testLift": 154191,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 725000,
+    "bare": 725000,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "digi": 973,
+   "domain": "adult-tax",
+   "nodes": [
+    {
+     "serial": 476,
+     "domain": "adult-person"
+    },
+    {
+     "serial": 822,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 2,
+   "gate": 884614,
+   "alone": 619285,
+   "lift": 265329,
+   "test": 885243,
+   "testAlone": 626439,
+   "testLift": 258804,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 916667,
+    "bare": 916667,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "digi": 326,
+   "domain": "adult-person",
+   "nodes": [
+    {
+     "serial": 523,
+     "domain": "adult-tax"
+    },
+    {
+     "serial": 972,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 2,
+   "gate": 882854,
+   "alone": 803887,
+   "lift": 78967,
+   "test": 885454,
+   "testAlone": 807520,
+   "testLift": 77934,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 919274,
+    "bare": 919274,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "digi": 373,
+   "domain": "adult-tax",
+   "nodes": [
+    {
+     "serial": 582,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 1,
+   "gate": 793992,
+   "alone": 619244,
+   "lift": 174748,
+   "test": 790356,
+   "testAlone": 626439,
+   "testLift": 163917,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 652244,
+    "bare": 652244,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "digi": 27,
+   "domain": "adult-work",
+   "nodes": [
+    {
+     "serial": 748,
+     "domain": "adult-tax"
+    }
+   ],
+   "joined": 1,
+   "gate": 794660,
+   "alone": 749886,
+   "lift": 44774,
+   "test": 792442,
+   "testAlone": 753314,
+   "testLift": 39128,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 827273,
+    "bare": 827273,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 4,
+   "digi": 506,
+   "domain": "adult-person",
+   "nodes": [
+    {
+     "serial": 58,
+     "domain": "adult-tax"
+    },
+    {
+     "serial": 342,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 2,
+   "gate": 884199,
+   "alone": 799102,
+   "lift": 85097,
+   "test": 887017,
+   "testAlone": 801845,
+   "testLift": 85172,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 850911,
+    "bare": 850911,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 5,
+   "digi": 342,
+   "domain": "adult-work",
+   "nodes": [
+    {
+     "serial": 161,
+     "domain": "adult-person"
+    }
+   ],
+   "joined": 1,
+   "gate": 864748,
+   "alone": 738547,
+   "lift": 126201,
+   "test": 864942,
+   "testAlone": 742786,
+   "testLift": 122156,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 890741,
+    "bare": 890741,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 6,
+   "digi": 522,
+   "domain": "adult-work",
+   "nodes": [
+    {
+     "serial": 268,
+     "domain": "adult-tax"
+    },
+    {
+     "serial": 191,
+     "domain": "adult-person"
+    }
+   ],
+   "joined": 2,
+   "gate": 882197,
+   "alone": 743171,
+   "lift": 139026,
+   "test": 879286,
+   "testAlone": 744037,
+   "testLift": 135249,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 788043,
+    "bare": 788043,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 7,
+   "digi": 283,
+   "domain": "adult-tax",
+   "nodes": [
+    {
+     "serial": 837,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 1,
+   "gate": 789058,
+   "alone": 619285,
+   "lift": 169773,
+   "test": 786969,
+   "testAlone": 626439,
+   "testLift": 160530,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 740234,
+    "bare": 740234,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 8,
+   "digi": 701,
+   "domain": "adult-person",
+   "nodes": [
+    {
+     "serial": 913,
+     "domain": "adult-tax"
+    }
+   ],
+   "joined": 1,
+   "gate": 828377,
+   "alone": 795519,
+   "lift": 32858,
+   "test": 833693,
+   "testAlone": 799613,
+   "testLift": 34080,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 921151,
+    "bare": 921151,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 9,
+   "digi": 178,
+   "domain": "adult-tax",
+   "nodes": [
+    {
+     "serial": 956,
+     "domain": "adult-person"
+    }
+   ],
+   "joined": 1,
+   "gate": 840974,
+   "alone": 619244,
+   "lift": 221730,
+   "test": 840271,
+   "testAlone": 626439,
+   "testLift": 213832,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 798077,
+    "bare": 798077,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 10,
+   "digi": 523,
+   "domain": "adult-tax",
+   "nodes": [
+    {
+     "serial": 776,
+     "domain": "adult-person"
+    }
+   ],
+   "joined": 1,
+   "gate": 840474,
+   "alone": 613776,
+   "lift": 226698,
+   "test": 842269,
+   "testAlone": 624781,
+   "testLift": 217488,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 814286,
+    "bare": 814286,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 11,
+   "digi": 102,
+   "domain": "adult-work",
+   "nodes": [
+    {
+     "serial": 746,
+     "domain": "adult-person"
+    },
+    {
+     "serial": 493,
+     "domain": "adult-tax"
+    }
+   ],
+   "joined": 2,
+   "gate": 885374,
+   "alone": 744380,
+   "lift": 140994,
+   "test": 885233,
+   "testAlone": 746750,
+   "testLift": 138483,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 788462,
+    "bare": 788462,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 12,
+   "digi": 433,
+   "domain": "adult-tax",
+   "nodes": [
+    {
+     "serial": 147,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 1,
+   "gate": 803598,
+   "alone": 619251,
+   "lift": 184347,
+   "test": 800358,
+   "testAlone": 626439,
+   "testLift": 173919,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 796498,
+    "bare": 796498,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 13,
+   "digi": 27,
+   "domain": "adult-work",
+   "nodes": [
+    {
+     "serial": 523,
+     "domain": "adult-tax"
+    }
+   ],
+   "joined": 1,
+   "gate": 795732,
+   "alone": 749886,
+   "lift": 45846,
+   "test": 794651,
+   "testAlone": 753314,
+   "testLift": 41337,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 874786,
+    "bare": 874786,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 14,
+   "digi": 416,
+   "domain": "adult-person",
+   "nodes": [
+    {
+     "serial": 12,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 1,
+   "gate": 867990,
+   "alone": 807163,
+   "lift": 60827,
+   "test": 866030,
+   "testAlone": 806845,
+   "testLift": 59185,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 856771,
+    "bare": 856771,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 15,
+   "digi": 43,
+   "domain": "adult-tax",
+   "nodes": [
+    {
+     "serial": 702,
+     "domain": "adult-work"
+    },
+    {
+     "serial": 326,
+     "domain": "adult-person"
+    }
+   ],
+   "joined": 2,
+   "gate": 886691,
+   "alone": 619285,
+   "lift": 267406,
+   "test": 886727,
+   "testAlone": 626439,
+   "testLift": 260288,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 817308,
+    "bare": 817308,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 16,
+   "digi": 118,
+   "domain": "adult-tax",
+   "nodes": [
+    {
+     "serial": 956,
+     "domain": "adult-person"
+    },
+    {
+     "serial": 987,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 2,
+   "gate": 883116,
+   "alone": 619228,
+   "lift": 263888,
+   "test": 881318,
+   "testAlone": 626439,
+   "testLift": 254879,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 877778,
+    "bare": 877778,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 17,
+   "digi": 611,
+   "domain": "adult-person",
+   "nodes": [
+    {
+     "serial": 792,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 1,
+   "gate": 866159,
+   "alone": 807341,
+   "lift": 58818,
+   "test": 866788,
+   "testAlone": 810121,
+   "testLift": 56667,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 876603,
+    "bare": 876603,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 18,
+   "digi": 176,
+   "domain": "adult-person",
+   "nodes": [
+    {
+     "serial": 102,
+     "domain": "adult-work"
+    }
+   ],
+   "joined": 1,
+   "gate": 865345,
+   "alone": 801086,
+   "lift": 64259,
+   "test": 865975,
+   "testAlone": 803908,
+   "testLift": 62067,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 797872,
+    "bare": 797872,
+    "same": true
+   }
+  },
+  {
+   "set": "adult",
+   "k": 19,
+   "digi": 371,
+   "domain": "adult-person",
+   "nodes": [
+    {
+     "serial": 28,
+     "domain": "adult-tax"
+    }
+   ],
+   "joined": 1,
+   "gate": 835828,
+   "alone": 795990,
+   "lift": 39838,
+   "test": 837799,
+   "testAlone": 799518,
+   "testLift": 38281,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 846429,
+    "bare": 846429,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "digi": 330,
+   "domain": "credit-collections",
+   "nodes": [
+    {
+     "serial": 269,
+     "domain": "credit-customer"
+    }
+   ],
+   "joined": 1,
+   "gate": 758590,
+   "alone": 730471,
+   "lift": 28119,
+   "test": 744299,
+   "testAlone": 735199,
+   "testLift": 9100,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 796621,
+    "bare": 796621,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "digi": 810,
+   "domain": "credit-collections",
+   "nodes": [
+    {
+     "serial": 509,
+     "domain": "credit-customer"
+    },
+    {
+     "serial": 556,
+     "domain": "credit-payments"
+    }
+   ],
+   "joined": 2,
+   "gate": 768163,
+   "alone": 729290,
+   "lift": 38873,
+   "test": 763352,
+   "testAlone": 742329,
+   "testLift": 21023,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 870192,
+    "bare": 870192,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "digi": 331,
+   "domain": "credit-payments",
+   "nodes": [
+    {
+     "serial": 60,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 1,
+   "gate": 756826,
+   "alone": 644734,
+   "lift": 112092,
+   "test": 760468,
+   "testAlone": 638654,
+   "testLift": 121814,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 828526,
+    "bare": 828526,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "digi": 661,
+   "domain": "credit-payments",
+   "nodes": [
+    {
+     "serial": 810,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 1,
+   "gate": 758272,
+   "alone": 624077,
+   "lift": 134195,
+   "test": 761459,
+   "testAlone": 622021,
+   "testLift": 139438,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 726263,
+    "bare": 726263,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 4,
+   "digi": 931,
+   "domain": "credit-payments",
+   "nodes": [
+    {
+     "serial": 270,
+     "domain": "credit-collections"
+    },
+    {
+     "serial": 509,
+     "domain": "credit-customer"
+    }
+   ],
+   "joined": 2,
+   "gate": 767881,
+   "alone": 635415,
+   "lift": 132466,
+   "test": 754841,
+   "testAlone": 634576,
+   "testLift": 120265,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 671946,
+    "bare": 671946,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 5,
+   "digi": 720,
+   "domain": "credit-collections",
+   "nodes": [
+    {
+     "serial": 884,
+     "domain": "credit-customer"
+    },
+    {
+     "serial": 361,
+     "domain": "credit-payments"
+    }
+   ],
+   "joined": 2,
+   "gate": 765365,
+   "alone": 725186,
+   "lift": 40179,
+   "test": 759559,
+   "testAlone": 738053,
+   "testLift": 21506,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 822917,
+    "bare": 822917,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 6,
+   "digi": 419,
+   "domain": "credit-customer",
+   "nodes": [
+    {
+     "serial": 661,
+     "domain": "credit-payments"
+    },
+    {
+     "serial": 570,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 2,
+   "gate": 758187,
+   "alone": 624408,
+   "lift": 133779,
+   "test": 750945,
+   "testAlone": 600673,
+   "testLift": 150272,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 862037,
+    "bare": 862037,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 7,
+   "digi": 616,
+   "domain": "credit-payments",
+   "nodes": [
+    {
+     "serial": 314,
+     "domain": "credit-customer"
+    }
+   ],
+   "joined": 1,
+   "gate": 680034,
+   "alone": 639996,
+   "lift": 40038,
+   "test": 652660,
+   "testAlone": 637564,
+   "testLift": 15096,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 681891,
+    "bare": 681891,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 8,
+   "digi": 765,
+   "domain": "credit-collections",
+   "nodes": [
+    {
+     "serial": 511,
+     "domain": "credit-payments"
+    }
+   ],
+   "joined": 1,
+   "gate": 758651,
+   "alone": 725952,
+   "lift": 32699,
+   "test": 761963,
+   "testAlone": 734368,
+   "testLift": 27595,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 784505,
+    "bare": 784505,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 9,
+   "digi": 721,
+   "domain": "credit-payments",
+   "nodes": [
+    {
+     "serial": 660,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 1,
+   "gate": 764981,
+   "alone": 640259,
+   "lift": 124722,
+   "test": 761786,
+   "testAlone": 628979,
+   "testLift": 132807,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 815988,
+    "bare": 815988,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 10,
+   "digi": 961,
+   "domain": "credit-payments",
+   "nodes": [
+    {
+     "serial": 164,
+     "domain": "credit-customer"
+    },
+    {
+     "serial": 915,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 2,
+   "gate": 759093,
+   "alone": 640259,
+   "lift": 118834,
+   "test": 755843,
+   "testAlone": 640697,
+   "testLift": 115146,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 842857,
+    "bare": 842857,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 11,
+   "digi": 704,
+   "domain": "credit-customer",
+   "nodes": [
+    {
+     "serial": 315,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 1,
+   "gate": 757743,
+   "alone": 634617,
+   "lift": 123126,
+   "test": 743611,
+   "testAlone": 604761,
+   "testLift": 138850,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 725242,
+    "bare": 725242,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 12,
+   "digi": 449,
+   "domain": "credit-customer",
+   "nodes": [
+    {
+     "serial": 120,
+     "domain": "credit-collections"
+    },
+    {
+     "serial": 826,
+     "domain": "credit-payments"
+    }
+   ],
+   "joined": 2,
+   "gate": 766992,
+   "alone": 629817,
+   "lift": 137175,
+   "test": 756010,
+   "testAlone": 608043,
+   "testLift": 147967,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 674593,
+    "bare": 674593,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 13,
+   "digi": 675,
+   "domain": "credit-collections",
+   "nodes": [
+    {
+     "serial": 721,
+     "domain": "credit-payments"
+    },
+    {
+     "serial": 464,
+     "domain": "credit-customer"
+    }
+   ],
+   "joined": 2,
+   "gate": 757605,
+   "alone": 720471,
+   "lift": 37134,
+   "test": 746764,
+   "testAlone": 731164,
+   "testLift": 15600,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 967410,
+    "bare": 967410,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 14,
+   "digi": 615,
+   "domain": "credit-collections",
+   "nodes": [
+    {
+     "serial": 389,
+     "domain": "credit-customer"
+    }
+   ],
+   "joined": 1,
+   "gate": 755057,
+   "alone": 726886,
+   "lift": 28171,
+   "test": 745908,
+   "testAlone": 737462,
+   "testLift": 8446,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 837858,
+    "bare": 837858,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 15,
+   "digi": 794,
+   "domain": "credit-customer",
+   "nodes": [
+    {
+     "serial": 600,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 1,
+   "gate": 757360,
+   "alone": 629237,
+   "lift": 128123,
+   "test": 742316,
+   "testAlone": 600408,
+   "testLift": 141908,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 784420,
+    "bare": 784420,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 16,
+   "digi": 630,
+   "domain": "credit-collections",
+   "nodes": [
+    {
+     "serial": 359,
+     "domain": "credit-customer"
+    },
+    {
+     "serial": 451,
+     "domain": "credit-payments"
+    }
+   ],
+   "joined": 2,
+   "gate": 769598,
+   "alone": 728249,
+   "lift": 41349,
+   "test": 765772,
+   "testAlone": 742455,
+   "testLift": 23317,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 830128,
+    "bare": 830128,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 17,
+   "digi": 916,
+   "domain": "credit-payments",
+   "nodes": [
+    {
+     "serial": 990,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 1,
+   "gate": 733642,
+   "alone": 620122,
+   "lift": 113520,
+   "test": 747801,
+   "testAlone": 634631,
+   "testLift": 113170,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 794286,
+    "bare": 794286,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 18,
+   "digi": 599,
+   "domain": "credit-customer",
+   "nodes": [
+    {
+     "serial": 630,
+     "domain": "credit-collections"
+    }
+   ],
+   "joined": 1,
+   "gate": 760140,
+   "alone": 626174,
+   "lift": 133966,
+   "test": 755084,
+   "testAlone": 609009,
+   "testLift": 146075,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 778731,
+    "bare": 778731,
+    "same": true
+   }
+  },
+  {
+   "set": "credit",
+   "k": 19,
+   "digi": 885,
+   "domain": "credit-collections",
+   "nodes": [
+    {
+     "serial": 794,
+     "domain": "credit-customer"
+    },
+    {
+     "serial": 436,
+     "domain": "credit-payments"
+    }
+   ],
+   "joined": 2,
+   "gate": 763492,
+   "alone": 726681,
+   "lift": 36811,
+   "test": 748297,
+   "testAlone": 727500,
+   "testLift": 20797,
+   "same": true,
+   "worthOk": true,
+   "loOk": true,
+   "tool": {
+    "ok": true,
+    "auc": 854545,
+    "bare": 854545,
+    "same": true
+   }
+  }
+ ],
+ "duels": [
+  {
+   "set": "telco",
+   "k": 0,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    798864,
+    652273
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    792468,
+    619391
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    831039,
+    660826
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    822278,
+    765332
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    870714,
+    811429
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    865885,
+    841797
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    780350,
+    668335
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    824781,
+    739675
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    813725,
+    686275
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    834694,
+    665986
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    770714,
+    732857
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    742690,
+    572515
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 4,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    868707,
+    866667
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 4,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    859286,
+    831429
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 4,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    752415,
+    803140
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 5,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    868750,
+    738542
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 5,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    810795,
+    672727
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 5,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    772727,
+    576705
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 6,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    845353,
+    833333
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 6,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    834040,
+    709968
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 6,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    825926,
+    739815
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 7,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    889474,
+    781287
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 7,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    842196,
+    669811
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 7,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    862954,
+    606383
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 8,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    818383,
+    831672
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 8,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    718571,
+    700714
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 8,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    818750,
+    690104
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 9,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    747396,
+    784505
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 9,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    896023,
+    883523
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 9,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    765341,
+    735227
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 10,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    713571,
+    707857
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 10,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    713392,
+    707760
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 10,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    826658,
+    770964
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 11,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    765182,
+    683198
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 11,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    700250,
+    613892
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 11,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    752190,
+    650814
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 12,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    832290,
+    814768
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 12,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    881429,
+    742143
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 12,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    809955,
+    805430
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 13,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    768182,
+    594886
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 13,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    740300,
+    575720
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 13,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    701563,
+    667188
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 14,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    851462,
+    880702
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 14,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    892512,
+    829106
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 14,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    813853,
+    773268
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 15,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    815789,
+    726316
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 15,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    833542,
+    676471
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 15,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    888386,
+    742081
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 16,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    762203,
+    537547
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 16,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    902056,
+    676948
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 16,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    869048,
+    671537
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 17,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    839181,
+    733918
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 17,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    768720,
+    576691
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 17,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    880682,
+    653409
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 18,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    787860,
+    739675
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 18,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    812265,
+    814143
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 18,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    707071,
+    663636
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 19,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    648394,
+    602990
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 19,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    802721,
+    744218
+   ]
+  },
+  {
+   "set": "telco",
+   "k": 19,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    775000,
+    542614
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "draw",
+   "alone": "b",
+   "aucs": [
+    975926,
+    975926
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    911028,
+    932331
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    845865,
+    852130
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    854885,
+    885057
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    929630,
+    894444
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    953125,
+    949777
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    941964,
+    944196
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    987037,
+    982407
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    790323,
+    802419
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    987037,
+    976852
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    952489,
+    930618
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "draw",
+   "aucs": [
+    889368,
+    916667
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 4,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    938889,
+    611111
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 4,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    930508,
+    528814
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 4,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    910185,
+    649074
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 5,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    865915,
+    556391
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 5,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    903736,
+    693966
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 5,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    898148,
+    577778
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 6,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    937037,
+    928704
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 6,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    904018,
+    863839
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 6,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    931920,
+    924107
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 7,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    856775,
+    827616
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 7,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    942593,
+    946296
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 7,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    966954,
+    965517
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 8,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    850000,
+    825000
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 8,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    935268,
+    915179
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 8,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    956250,
+    943750
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 9,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    844828,
+    531609
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 9,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    972701,
+    724138
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 9,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    977679,
+    773438
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 10,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    944196,
+    648438
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 10,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    938616,
+    608259
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 10,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    813131,
+    759596
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 11,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    820339,
+    589831
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 11,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    940404,
+    585859
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 11,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    887879,
+    701010
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 12,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    911830,
+    947545
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 12,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    973214,
+    983259
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 12,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    910714,
+    925223
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 13,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    922813,
+    927959
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 13,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    745968,
+    794355
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 13,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    984195,
+    988506
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 14,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    942373,
+    610169
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 14,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    974576,
+    642373
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 14,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    935345,
+    656609
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 15,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    880789,
+    713551
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 15,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    871186,
+    774576
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 15,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    983333,
+    800000
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 16,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "draw",
+   "alone": "a",
+   "aucs": [
+    869532,
+    869532
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 16,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    957627,
+    945763
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 16,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    886218,
+    874199
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 17,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    796474,
+    645032
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 17,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    822034,
+    440678
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 17,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    590909,
+    533333
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 18,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    968326,
+    947964
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 18,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    785417,
+    764583
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 18,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    874786,
+    885077
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 19,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    926852,
+    607407
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 19,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    965657,
+    789899
+   ]
+  },
+  {
+   "set": "shop",
+   "k": 19,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    974138,
+    702586
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    804598,
+    787356
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    812030,
+    843358
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    566667,
+    616667
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    688679,
+    560892
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    678388,
+    462264
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    796610,
+    757627
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    500000,
+    466102
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    835938,
+    784598
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    838889,
+    713889
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    623729,
+    432203
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    789831,
+    750847
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    762277,
+    398438
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 4,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    983838,
+    888889
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 4,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    645363,
+    516291
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 4,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    984195,
+    798851
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 5,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    950000,
+    556250
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 5,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    593750,
+    825000
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 5,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    666667,
+    272917
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 6,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    839599,
+    843358
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 6,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    777299,
+    613506
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 6,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    731561,
+    716123
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 7,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    843750,
+    547917
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 7,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    738889,
+    487963
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 7,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    542468,
+    466346
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 8,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    860632,
+    831897
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 8,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    847701,
+    771552
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 8,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    830357,
+    797991
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 9,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    745614,
+    705514
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 9,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "draw",
+   "aucs": [
+    868782,
+    909949
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 9,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    850505,
+    878788
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 10,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    705085,
+    655932
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 10,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    811111,
+    515152
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 10,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    632203,
+    545763
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 11,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    913131,
+    820202
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 11,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    763636,
+    741414
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 11,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    474576,
+    667797
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 12,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    836364,
+    847475
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 12,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    747458,
+    754237
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 12,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    833333,
+    857143
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 13,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    745690,
+    800287
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 13,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    739943,
+    778736
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 13,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    762097,
+    685484
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 14,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    793750,
+    558333
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 14,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    847701,
+    755747
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 14,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    793220,
+    659322
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 15,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    938983,
+    852542
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 15,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    771717,
+    685859
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 15,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    699095,
+    647813
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 16,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    635593,
+    505085
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 16,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    907104,
+    603825
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 16,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    811782,
+    646552
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 17,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    945833,
+    927083
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 17,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    935354,
+    945455
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 17,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    557471,
+    587644
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 18,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    530172,
+    658046
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 18,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    726263,
+    815152
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 18,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    573276,
+    577586
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 19,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    660606,
+    589899
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 19,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    739955,
+    473214
+   ]
+  },
+  {
+   "set": "bank",
+   "k": 19,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    749153,
+    683051
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    876721,
+    597622
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    881429,
+    637143
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    856463,
+    538776
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    867143,
+    841429
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    930714,
+    785714
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    863579,
+    784731
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    827143,
+    581429
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    868182,
+    621591
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    817708,
+    649740
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    769481,
+    757035
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    864831,
+    817897
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    891146,
+    806771
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 4,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    835419,
+    714643
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 4,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    972857,
+    880714
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 4,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    856571,
+    889423
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 5,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    875969,
+    791251
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 5,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    896739,
+    748188
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 5,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    895833,
+    848307
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 6,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    883454,
+    807971
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 6,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    936535,
+    867067
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 6,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    960000,
+    732143
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 7,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    882993,
+    692517
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 7,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    828473,
+    554031
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 7,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "draw",
+   "aucs": [
+    563265,
+    570748
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 8,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    768421,
+    778947
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 8,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    794558,
+    782993
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 8,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    733974,
+    707532
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 9,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    896739,
+    654589
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 9,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    878598,
+    723404
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 9,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    822464,
+    585145
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 10,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    782609,
+    544686
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 10,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    855072,
+    649155
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 10,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    846069,
+    640642
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 11,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    928661,
+    816020
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 11,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    887077,
+    712560
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 11,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    861921,
+    723842
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 12,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    710407,
+    606335
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 12,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    838542,
+    639323
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 12,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    809286,
+    635000
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 13,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    771589,
+    717772
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 13,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    708333,
+    777174
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 13,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    756566,
+    732323
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 14,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    861111,
+    735507
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 14,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    824870,
+    851563
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 14,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    793197,
+    737415
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 15,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    854167,
+    610677
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 15,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    835374,
+    585034
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 15,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    933333,
+    619048
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 16,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    940936,
+    729240
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 16,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    891429,
+    664286
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 16,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    941176,
+    638763
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 17,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    862585,
+    838095
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 17,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    891827,
+    890224
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 17,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    872789,
+    846259
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 18,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    799479,
+    735677
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 18,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    934783,
+    804348
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 18,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    838596,
+    792982
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 19,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    861237,
+    797134
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 19,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    877841,
+    864205
+   ]
+  },
+  {
+   "set": "adult",
+   "k": 19,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    853061,
+    780272
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "draw",
+   "aucs": [
+    807407,
+    723148
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    705000,
+    701429
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    803433,
+    899779
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    746141,
+    747856
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    788411,
+    783203
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    572917,
+    707031
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    850000,
+    737963
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    717448,
+    699870
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    841184,
+    719807
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    729968,
+    514423
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    793571,
+    581429
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    824185,
+    590051
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 4,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    677187,
+    512182
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 4,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    724490,
+    500680
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 4,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    859864,
+    678912
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 5,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    737179,
+    757212
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 5,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    548485,
+    571717
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 5,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    809762,
+    840426
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 6,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    724030,
+    557572
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 6,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    840741,
+    660185
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 6,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    812925,
+    678231
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 7,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    763293,
+    735849
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 7,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    744391,
+    588141
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 7,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    578231,
+    653741
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 8,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    687143,
+    657857
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 8,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    842424,
+    753535
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 8,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    777995,
+    708333
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 9,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    908163,
+    745578
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 9,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    755575,
+    730703
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 9,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    858092,
+    605072
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 10,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    778846,
+    563301
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 10,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    841346,
+    702724
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 10,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    680961,
+    548885
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 11,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    833333,
+    793363
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 11,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    766908,
+    624396
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 11,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    754286,
+    587857
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 12,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    785000,
+    701429
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 12,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    612143,
+    557857
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 12,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    642857,
+    552857
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 13,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    791156,
+    827891
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 13,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "draw",
+   "aucs": [
+    649562,
+    703379
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 13,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    837297,
+    854819
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 14,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "b",
+   "aucs": [
+    692741,
+    693992
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 14,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    662078,
+    716521
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 14,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    703502,
+    701087
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 15,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    688571,
+    532857
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 15,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    874286,
+    630000
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 15,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    752381,
+    618367
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 16,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    786830,
+    768973
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 16,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "b",
+   "alone": "a",
+   "aucs": [
+    712891,
+    714844
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 16,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    810268,
+    666295
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 17,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    734134,
+    536878
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 17,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    783854,
+    773438
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 17,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    708385,
+    672716
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 18,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    674208,
+    555053
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 18,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    843537,
+    611565
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 18,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    767722,
+    708899
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 19,
+   "d": 0,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    827857,
+    735000
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 19,
+   "d": 1,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "b",
+   "aucs": [
+    823328,
+    807033
+   ]
+  },
+  {
+   "set": "credit",
+   "k": 19,
+   "d": 2,
+   "ok": true,
+   "why": null,
+   "rerun": true,
+   "kitted": "a",
+   "alone": "a",
+   "aucs": [
+    744218,
+    643537
+   ]
+  }
+ ],
+ "forgeries": [
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is shop, the DIGI telco"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 798864 against 652273, not the receipt’s 798865 against 652273"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 798864 against 652273, not the receipt’s 798864 against 652273"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "telco",
+   "k": 0,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is shop, the DIGI telco"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 822278 against 765332, not the receipt’s 822279 against 765332"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 822278 against 765332, not the receipt’s 822278 against 765332"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "telco",
+   "k": 1,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is shop, the DIGI telco"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 780350 against 668335, not the receipt’s 780351 against 668335"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 780350 against 668335, not the receipt’s 780350 against 668335"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "telco",
+   "k": 2,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is shop, the DIGI telco"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 834694 against 665986, not the receipt’s 834695 against 665986"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 834694 against 665986, not the receipt’s 834694 against 665986"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "telco",
+   "k": 3,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI shop"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 975926 against 975926, not the receipt’s 975927 against 975926"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 975926 against 975926, not the receipt’s 975926 against 975926"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "shop",
+   "k": 0,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI shop"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 854885 against 885057, not the receipt’s 854886 against 885057"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 854885 against 885057, not the receipt’s 854885 against 885057"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "shop",
+   "k": 1,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI shop"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 941964 against 944196, not the receipt’s 941965 against 944196"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 941964 against 944196, not the receipt’s 941964 against 944196"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "shop",
+   "k": 2,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI shop"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 987037 against 976852, not the receipt’s 987038 against 976852"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 987037 against 976852, not the receipt’s 987037 against 976852"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "shop",
+   "k": 3,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI bank"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 804598 against 787356, not the receipt’s 804599 against 787356"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 804598 against 787356, not the receipt’s 804598 against 787356"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "bank",
+   "k": 0,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI bank"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 688679 against 560892, not the receipt’s 688680 against 560892"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 688679 against 560892, not the receipt’s 688679 against 560892"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "bank",
+   "k": 1,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI bank"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 500000 against 466102, not the receipt’s 500001 against 466102"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 500000 against 466102, not the receipt’s 500000 against 466102"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "bank",
+   "k": 2,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI bank"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 623729 against 432203, not the receipt’s 623730 against 432203"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 623729 against 432203, not the receipt’s 623729 against 432203"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "bank",
+   "k": 3,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI adult"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 876721 against 597622, not the receipt’s 876722 against 597622"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 876721 against 597622, not the receipt’s 876721 against 597622"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "adult",
+   "k": 0,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI adult"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 867143 against 841429, not the receipt’s 867144 against 841429"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 867143 against 841429, not the receipt’s 867143 against 841429"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "adult",
+   "k": 1,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI adult"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 827143 against 581429, not the receipt’s 827144 against 581429"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 827143 against 581429, not the receipt’s 827143 against 581429"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "adult",
+   "k": 2,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI adult"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 769481 against 757035, not the receipt’s 769482 against 757035"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 769481 against 757035, not the receipt’s 769481 against 757035"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "adult",
+   "k": 3,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI credit"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 807407 against 723148, not the receipt’s 807408 against 723148"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 807407 against 723148, not the receipt’s 807407 against 723148"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "credit",
+   "k": 0,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI credit"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 746141 against 747856, not the receipt’s 746142 against 747856"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 746141 against 747856, not the receipt’s 746141 against 747856"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "credit",
+   "k": 1,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI credit"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 850000 against 737963, not the receipt’s 850001 against 737963"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 850000 against 737963, not the receipt’s 850000 against 737963"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "credit",
+   "k": 2,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a loadout signed by a stranger",
+   "refused": true,
+   "why": "the loadout is not its card’s owner’s"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a loadout for the card before a give",
+   "refused": true,
+   "why": "the card has changed since this kit was equipped: its owner equips it again"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a node handed on since it was equipped",
+   "refused": true,
+   "why": "node 1 has changed since it was equipped: its owner equips it again"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a node another key holds",
+   "refused": true,
+   "why": "a node is a card the DIGI’s owner also owns"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a node of another business",
+   "refused": true,
+   "why": "a node works with its DIGI on the same business’s records: this one is telco, the DIGI credit"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "more nodes than the slots",
+   "refused": true,
+   "why": "this DIGI has 2 node slots"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "the same node twice",
+   "refused": true,
+   "why": "the same card is in two slots"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a challenge naming another kit",
+   "refused": true,
+   "why": "the challenge names another kit"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "an edited duel score",
+   "refused": true,
+   "why": "re-fought here, it gives 729968 against 514423, not the receipt’s 729969 against 514423"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a flipped winner",
+   "refused": true,
+   "why": "re-fought here, it gives 729968 against 514423, not the receipt’s 729968 against 514423"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a side fielding nodes with no loadout",
+   "refused": true,
+   "why": "a side with no loadout fields its card alone"
+  },
+  {
+   "set": "credit",
+   "k": 3,
+   "kind": "a tool another key holds",
+   "refused": true,
+   "why": "a tool is an item the DIGI’s owner also holds"
+  }
+ ],
+ "parties": [
+  {
+   "full": true,
+   "set": "telco",
+   "tag": "best",
+   "ok": true,
+   "gate": 840751,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": true,
+   "test": 828332,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r0",
+   "ok": true,
+   "gate": 821179,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": false,
+   "test": 835880,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r1",
+   "ok": true,
+   "gate": 834565,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": true,
+   "test": 824973,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r2",
+   "ok": true,
+   "gate": 819170,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": false,
+   "test": 825059,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r3",
+   "ok": true,
+   "gate": 824796,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": false,
+   "test": 822115,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r4",
+   "ok": true,
+   "gate": 807091,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": false,
+   "test": 815003,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r5",
+   "ok": true,
+   "gate": 819153,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": false,
+   "test": 811267,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r6",
+   "ok": true,
+   "gate": 825827,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": false,
+   "test": 821658,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r7",
+   "ok": true,
+   "gate": 827136,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": false,
+   "test": 816433,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r8",
+   "ok": true,
+   "gate": 829086,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": true,
+   "test": 823565,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "telco",
+   "tag": "r9",
+   "ok": true,
+   "gate": 825942,
+   "bar": 828213,
+   "barOk": true,
+   "cleared": false,
+   "test": 822939,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": true,
+   "set": "shop",
+   "tag": "best",
+   "ok": true,
+   "gate": 924174,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 826537,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r0",
+   "ok": true,
+   "gate": 918110,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 824850,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r1",
+   "ok": true,
+   "gate": 934557,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": true,
+   "test": 803553,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r2",
+   "ok": true,
+   "gate": 906950,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 827784,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r3",
+   "ok": true,
+   "gate": 922470,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 827613,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r4",
+   "ok": true,
+   "gate": 930444,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 826239,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r5",
+   "ok": true,
+   "gate": 919388,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 826853,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r6",
+   "ok": true,
+   "gate": 912420,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 824802,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r7",
+   "ok": true,
+   "gate": 919997,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 822288,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r8",
+   "ok": true,
+   "gate": 921638,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 824717,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "shop",
+   "tag": "r9",
+   "ok": true,
+   "gate": 917638,
+   "bar": 931634,
+   "barOk": true,
+   "cleared": false,
+   "test": 816323,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": true,
+   "set": "bank",
+   "tag": "best",
+   "ok": true,
+   "gate": 778161,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 778373,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r0",
+   "ok": true,
+   "gate": 765695,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 769252,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r1",
+   "ok": true,
+   "gate": 770869,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 774107,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r2",
+   "ok": true,
+   "gate": 770825,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 772396,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r3",
+   "ok": true,
+   "gate": 771167,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 771170,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r4",
+   "ok": true,
+   "gate": 759312,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 762053,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r5",
+   "ok": true,
+   "gate": 774549,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 776268,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r6",
+   "ok": true,
+   "gate": 762458,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 765136,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r7",
+   "ok": true,
+   "gate": 764999,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 763273,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r8",
+   "ok": true,
+   "gate": 762633,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 764851,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "bank",
+   "tag": "r9",
+   "ok": true,
+   "gate": 767183,
+   "bar": 780582,
+   "barOk": true,
+   "cleared": false,
+   "test": 766130,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": true,
+   "set": "adult",
+   "tag": "best",
+   "ok": true,
+   "gate": 890793,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 891987,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r0",
+   "ok": true,
+   "gate": 881431,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 883166,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r1",
+   "ok": true,
+   "gate": 883354,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 886048,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r2",
+   "ok": true,
+   "gate": 878720,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 879200,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r3",
+   "ok": true,
+   "gate": 883326,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 883304,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r4",
+   "ok": true,
+   "gate": 880670,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 881935,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r5",
+   "ok": true,
+   "gate": 890533,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 891701,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r6",
+   "ok": true,
+   "gate": 864075,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 861652,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r7",
+   "ok": true,
+   "gate": 887980,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 887433,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r8",
+   "ok": true,
+   "gate": 890526,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 891662,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "adult",
+   "tag": "r9",
+   "ok": true,
+   "gate": 888276,
+   "bar": 817504,
+   "barOk": true,
+   "cleared": true,
+   "test": 888944,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": true,
+   "set": "credit",
+   "tag": "best",
+   "ok": true,
+   "gate": 774217,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 760158,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r0",
+   "ok": true,
+   "gate": 764489,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 753209,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r1",
+   "ok": true,
+   "gate": 761252,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 753959,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r2",
+   "ok": true,
+   "gate": 762481,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 756417,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r3",
+   "ok": true,
+   "gate": 758026,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 752951,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r4",
+   "ok": true,
+   "gate": 765125,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 756962,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r5",
+   "ok": true,
+   "gate": 772031,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 765789,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r6",
+   "ok": true,
+   "gate": 768345,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 758930,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r7",
+   "ok": true,
+   "gate": 767928,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 764132,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r8",
+   "ok": true,
+   "gate": 760276,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 747175,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  },
+  {
+   "full": false,
+   "set": "credit",
+   "tag": "r9",
+   "ok": true,
+   "gate": 762376,
+   "bar": 748587,
+   "barOk": true,
+   "cleared": true,
+   "test": 749877,
+   "fielded": 3,
+   "owners": 3,
+   "shares": 1000000,
+   "rerun": true
+  }
+ ],
+ "items": {
+  "apps": 337,
+  "minted": 337,
+  "verified": 337,
+  "handed": 337,
+  "forged": 1685,
+  "refused": 1685
+ },
+ "ms": [
+  167.9,
+  185.1,
+  150.2,
+  656,
+  632.8,
+  604.8,
+  616.6,
+  587,
+  643,
+  349.7,
+  368.3,
+  402.3,
+  1222.8,
+  1105.2,
+  1324.3,
+  774.7,
+  684.7,
+  710.8,
+  959.7,
+  757.2,
+  771.8,
+  880.1,
+  775.3,
+  751.1,
+  707.6,
+  693.5,
+  736.2,
+  721.2,
+  624.6,
+  655.8,
+  352.9,
+  339.7,
+  335.6,
+  334.4,
+  349.3,
+  339.9,
+  338.4,
+  361,
+  373.9,
+  315.9,
+  344.5,
+  327,
+  312.1,
+  325.1,
+  300.6,
+  593.1,
+  616.9,
+  609.6,
+  585.3,
+  586.9,
+  586.9,
+  359.4,
+  349.6,
+  350.5,
+  328.8,
+  341.5,
+  328.5,
+  365.7,
+  350.1,
+  350.5,
+  539.8,
+  540.6,
+  537.8,
+  1125.9,
+  1134.9,
+  1166.2,
+  603,
+  595.8,
+  614.2,
+  1089,
+  959.1,
+  2074.3,
+  1160.2,
+  1022.1,
+  1021.6,
+  2117.3,
+  1156.9,
+  1096.1,
+  1036,
+  1022.6,
+  1078.2,
+  499.6,
+  540.6,
+  785.4,
+  1062,
+  1156,
+  1042.1,
+  1042.6,
+  1132.5,
+  1055,
+  678.5,
+  657.2,
+  608.1,
+  1037.1,
+  958.2,
+  976.4,
+  569.9,
+  567.1,
+  628.3,
+  1019.5,
+  1020.7,
+  1030.8,
+  1039.4,
+  1065.2,
+  1026.8,
+  583.8,
+  678.8,
+  675.1,
+  717,
+  768.3,
+  698.3,
+  833.2,
+  872.1,
+  825.3,
+  810.5,
+  857.6,
+  976.3,
+  1636.9,
+  1727.9,
+  1490.9,
+  5743,
+  5378.3,
+  5156.7,
+  5265.4,
+  5412.6,
+  5449.6,
+  2740.3,
+  2487.1,
+  2537.7,
+  5215.3,
+  5656.2,
+  5626.7,
+  5563.1,
+  5095.5,
+  5049.4,
+  3673.4,
+  2906.5,
+  3186.8,
+  4613.1,
+  4827.1,
+  4532.5,
+  2620.7,
+  2615.2,
+  2633.5,
+  5185.1,
+  4882.4,
+  4828.7,
+  2707.8,
+  2815.1,
+  3176.9,
+  5575.1,
+  10210,
+  10338.9,
+  8419.2,
+  10896.7,
+  10254.1,
+  3584,
+  4698.1,
+  42457.1,
+  3616.4,
+  3894.7,
+  3695.4,
+  7758.5,
+  11056.1,
+  17391,
+  6175,
+  6018.3,
+  7458.5,
+  11956.4,
+  9116.6,
+  8721.8,
+  5710.2,
+  6438.4,
+  6743.9,
+  5573,
+  5465,
+  5067.2,
+  2864.5,
+  2931.4,
+  3427.1,
+  5635.6,
+  5693.3,
+  6764.4,
+  7184.7,
+  6880.4,
+  6871.7,
+  3832.6,
+  3785.8,
+  3746.5,
+  3096.8,
+  3117.7,
+  3118.1,
+  5943.6,
+  5923.9,
+  6045.3,
+  3717.9,
+  3600.4,
+  3526.8,
+  5920.9,
+  5300.8,
+  5261.1,
+  3296.8,
+  3268.4,
+  3225.6,
+  2573.4,
+  2504.2,
+  2874.7,
+  5739.4,
+  6509.7,
+  6543.8,
+  6785.8,
+  7138.7,
+  7702.3,
+  8177.3,
+  6061.8,
+  7411.9,
+  8691.5,
+  3324,
+  4553.7,
+  2429.3,
+  2450.1,
+  2353.4,
+  3734.1,
+  3820.7,
+  3657,
+  6415.2,
+  6565.4,
+  6485.1,
+  6448.3,
+  7279,
+  6557.4,
+  3692.4,
+  3754.9,
+  3725.5,
+  3757.5,
+  3655.6,
+  3736.1,
+  3137.8,
+  3083.1,
+  22513.2,
+  4108.9,
+  2350.2,
+  2745.5,
+  3849.5,
+  3700.6,
+  3971.8,
+  2545.1,
+  1983,
+  1996.1,
+  1991.2,
+  1970.1,
+  2025.2,
+  3685.3,
+  3739.5,
+  3661.5,
+  4551,
+  4495.5,
+  4622.2,
+  3998,
+  4867.9,
+  4138.8,
+  2461.5,
+  2545.3,
+  2546.3,
+  2449.7,
+  2728.1,
+  2599.1,
+  2301.9,
+  2325.6,
+  2388.1,
+  4733,
+  4749.2,
+  4813.4,
+  2852.7,
+  2686.1,
+  2526.2,
+  5344.7,
+  7048.5,
+  5572.3,
+  3904.1,
+  4324,
+  3795.5,
+  2188.7,
+  2176.2,
+  2248.7,
+  3477.3,
+  2673.9,
+  2336.9,
+  4341.9,
+  4262.7,
+  4269.9,
+  2119.5,
+  2131.9,
+  3084.5,
+  2052.6,
+  2547.8,
+  2157.7,
+  4266.9,
+  3943.1,
+  3973.6
+ ]
+}
