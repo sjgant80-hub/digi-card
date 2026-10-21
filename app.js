@@ -568,6 +568,15 @@ async function costRun() {
   } catch (e) { say(out, String(e.message || e), 'bad'); }
 }
 
+/** every price the cost case reads, shown before anything is computed: the lock's entries with their sources and dates */
+async function renderPrices() {
+  const lock = await fetch('data/prices.lock.json').then((r) => r.json()).catch(() => null);
+  if (!lock) return;
+  const what = (e) => (e.kind === 'api' ? e.provider + ' ' + e.model + ': $' + e.inPerM + ' in / $' + e.outPerM + ' out per million tokens' : e.id === 'uk-national-living-wage' ? 'UK National Living Wage: £' + e.value + ' an hour' : e.id === 'desnz-electricity-nondomestic' ? 'UK non-domestic electricity: ' + e.pencePerKwh + 'p a kWh' : e.id === 'intel-i7-1255u-power' ? e.chip + ': ' + e.wattsLow + ' W base power' : e.id === 'fx-gbp-usd' ? 'Pounds per dollar: ' + e.gbpPerUsd : e.id === 'ons-cpi' ? 'UK CPI, 12 months: ' + (e.value * 100).toFixed(1) + '%' : e.id);
+  clear($('#cost-prices'), el('details', {}, el('summary', {}, 'Every price this case reads, with its source (' + lock.entries.length + ', from ' + lock.registry + ', pulled ' + lock.pulled + ')'),
+    el('ul', {}, lock.entries.map((e) => el('li', {}, what(e) + ' — ', el('a', { href: e.source }, 'source'), ' (checked ' + e.checked + ')')))));
+}
+
 // ── the drop's public posts, each re-run here through the claim gate ─────────────────────────────────────────────────
 const pad4 = (s) => String(s).padStart(4, '0'), three = (g) => (g / 1e6).toFixed(3);
 const cardBySerial = (serial) => (serial === 1 ? { ...S.manifest.first, serial: 1 } : S.manifest.cards.find((c) => c.serial === serial));
@@ -660,6 +669,7 @@ function wire() {
 async function boot() {
   try { const t = localStorage.getItem('digi-theme'); if (t) document.documentElement.dataset.theme = t; } catch {}
   wire();
+  renderPrices();   // the sourced prices need nothing from the drop
   const status = $('#boot');
   try { await generate(); } catch { $('#nocrypto').hidden = false; say(status, 'This browser cannot sign or check Ed25519, which every card needs. Use a current Chrome, Edge, Firefox or Safari.', 'bad'); return; }
   S.me = await loadMe(); renderMe();
