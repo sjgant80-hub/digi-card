@@ -1,0 +1,29 @@
+{
+ "kind": "digi-card.organ-5.record",
+ "v": 1,
+ "owners": 200,
+ "cards": 999,
+ "honest": 3037,
+ "recorded": 3037,
+ "ownedByLastBuyer": 999,
+ "doubles": 300,
+ "doubleRefused": 300,
+ "firstKept": 300,
+ "forkWhy": [
+  "this card’s life parts from the one on record at event 2: the first recorded wins, so this is not the card’s life",
+  "this card’s life parts from the one on record at event 2: the first recorded wins, so this is not the card’s life",
+  "this card’s life parts from the one on record at event 2: the first recorded wins, so this is not the card’s life"
+ ],
+ "forged": 100,
+ "forgedRefused": 100,
+ "replay": {
+  "ok": true,
+  "same": true,
+  "entries": 4037,
+  "ms": 18441
+ },
+ "mind": {
+  "traded": 50,
+  "same": 50
+ }
+}

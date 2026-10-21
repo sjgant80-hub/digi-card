@@ -1,0 +1,50 @@
+{
+ "kind": "digi-card.organ-5.verdict",
+ "v": 1,
+ "prereg": "6a499385e4ae93eb",
+ "record": "97b779abb580eb28",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every honest give — the hand-out and every trade — is recorded, and afterwards each card’s owner in the registry is the last buyer it was given to.",
+   "pass": true,
+   "saw": "3037 of 3037 honest gives recorded; 999 of 999 cards owned by their last buyer"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every attempted double sale is refused, naming the event where the second chain parts from the first recorded one; the first buyer keeps the card.",
+   "pass": true,
+   "saw": "300 of 300 double sales refused; the first buyer kept the card 300 times"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every give signed by someone who does not own the card is refused.",
+   "pass": true,
+   "saw": "100 of 100 gives signed by a non-owner refused"
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "The whole registry log, replayed from nothing, gives the very same cards, owners and head.",
+   "pass": true,
+   "saw": "4037 entries replayed from nothing: the very same registry"
+  },
+  {
+   "id": "P5",
+   "kind": "property",
+   "claim": "The mind goes with the card: for 50 traded cards, the mind their new owner expresses scores exactly the GATE the drop declared.",
+   "pass": true,
+   "saw": "50 of 50 traded cards’ minds scored their declared GATE for their new owner"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Replaying the whole log from nothing takes at most 120 seconds on the measuring machine.",
+   "pass": true,
+   "saw": "4037 entries in 18.4 s"
+  }
+ ]
+}
