@@ -44,6 +44,7 @@ node witness-all.mjs               # the mutation gate over every kernel
 node tools/vendor-check.mjs        # vendored code byte-identical to its sources
 node tools/drop-check.mjs          # the drop re-runs from decoder #0001; every genesis mind re-grows to its declared score
 node tools/page-check.mjs          # the page gate
+node tools/ui-play.mjs             # the game view, played from nothing in a headless browser
 node tools/order.mjs --organ 1     # an organ was sealed before it was measured (1 to 8)
 node tools/judge-1.mjs --check     # and its verdict is what the sealed rules give
 node tools/genesis.mjs --searches  # every search behind the drop (cached in drop/searches.jsonl)

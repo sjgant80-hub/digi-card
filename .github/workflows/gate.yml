@@ -17,6 +17,9 @@ jobs:
         run: node tools/drop-check.mjs
       - name: the page gate
         run: node tools/page-check.mjs
+      - name: the game view, played in a headless browser
+        run: node tools/ui-play.mjs
+        env: { CHROME: /usr/bin/google-chrome }
       - name: every organ sealed before measured, judged by its sealed rules
         run: |
           for k in 1 2 3 4 5 6 7 8; do
