@@ -204,7 +204,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <h2 id="boot-h" class="g-h" data-info="boot">Boot <span id="g-boot-name" class="g-white"></span></h2>
       <ol class="g-lines" id="g-boot-steps" aria-live="polite"></ol>
       <div class="g-panel">
-        <p class="g-dim g-small" data-info="gate">GATE AUC · computed on this device</p>
+        <p class="g-dim g-small" data-info="gate">Score on cases it never saw (GATE AUC) · computed on this device</p>
         <div class="g-big" id="g-boot-gate" aria-live="polite">–</div>
         <div class="g-row" id="g-boot-match"></div>
         <p class="g-dim g-small" id="g-boot-rows"></p>
@@ -259,7 +259,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="g-grid g-estate">
     <div class="g-col">
       <div class="g-panel"><h2 id="estate-h" class="g-h" data-info="estate">My estate</h2><p class="g-hot">Grow your estate</p></div>
-      <div class="g-panel"><h3>Stats <small>from your key and this device’s registry</small></h3><dl class="g-stats" id="g-estate-stats"></dl></div>
+      <div class="g-panel"><h3 data-info="estatestats">Stats <small>from your key and this device’s registry</small></h3><dl class="g-stats" id="g-estate-stats"></dl></div>
       <div class="g-panel"><h3 data-info="overnight">Overnight</h3><ul class="g-lines" id="g-overnight"></ul><button class="g-btn" id="g-work" type="button" aria-pressed="false">Work overnight</button><p class="g-dim g-small">Keeps only a level that re-runs · inert until checked</p></div>
       <button class="g-btn gold big" id="g-snapshot" type="button">Share snapshot</button>
       <div id="g-snap-out" aria-live="polite"></div>
@@ -267,7 +267,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="g-panel g-plotbox"><p class="g-row"><b class="g-okt" data-k="g-plot-open">Plot</b><small class="g-dim">more blocks open more tiles</small></p><canvas id="g-plot" width="720" height="480" role="img" aria-label="Your estate: one block for every card you hold"></canvas><p class="g-dim g-small" id="g-plot-rule"></p></div>
     <div class="g-col">
       <div class="g-panel"><h3 data-info="districts">Districts</h3><ul class="g-lines" id="g-districts"></ul></div>
-      <div class="g-panel"><h3>Legend</h3><ul class="g-legend"><li><span class="g-sw wire"></span>Mesh wire · a consented link</li><li><span class="g-sw fresh"></span>New since your last visit</li><li><span class="g-sw lock"></span>Locked tile · coming</li></ul></div>
+      <div class="g-panel"><h3 data-info="legend">Legend</h3><ul class="g-legend"><li><span class="g-sw wire"></span>Mesh wire · a consented link</li><li><span class="g-sw fresh"></span>New since your last visit</li><li><span class="g-sw lock"></span>Locked tile · coming</li></ul></div>
       <p class="g-badt g-small">No land sale · never ranked by value</p>
     </div>
   </div>

@@ -67,6 +67,8 @@ const INFO = {
   give: 'A give hands the card to another key for good. To get it back, they must give it back. Send the same card twice and the second is refused.',
   mesh: 'Cards from one business’s departments answering together. Only scores pass between them, never records. Each card’s share is its measured part of a million.',
   credits: 'Accounting of what your cards measurably added in a mesh. Not money; it cannot be cashed.',
+  estatestats: 'Blocks: cards you hold. Levels re-run: levels your cards earned and this device re-checked. Births: children that beat both parents, and pairings refused. Mesh links: your cards joined, by your consent, in a mesh.',
+  legend: 'A cyan wire joins cards of yours working together in a mesh. A green top marks a card new since your last visit. Grey fenced tiles are districts for DIGI forms that are coming, not built yet.',
   test: 'The same measure on cases nothing in the build ever grew on or was chosen by: the honest check.',
   abstain: 'When its rules cannot read a case, it says “I don’t know” instead of guessing.',
   lv: 'Levels earned. A level counts only when a new search beats its mind by 0.002 and anyone can re-run it. Rarity follows the level.',
@@ -237,7 +239,7 @@ async function bootCard(id) {
     const bytes = utf8(encode(d)).length;
     fill($('#g-boot-band'), 'Band · ' + bytes.toLocaleString() + ' bytes · the top 16 rows');
     fill($('#g-boot-gate'), '0.000000'); fill($('#g-boot-match')); fill($('#g-boot-rows')); fill($('#g-boot-rules')); fill($('#g-boot-protected')); fill($('#g-boot-say'));
-    const steps = ['A PNG · every CRC whole', 'Band · dossier in one byte form · ' + bytes.toLocaleString() + ' bytes', 'Seals · ' + d.events.length + ' signature' + (d.events.length === 1 ? '' : 's'), 'Face redrawn · ' + (W * (H - BAND)).toLocaleString() + ' px match', 'Data · fetching', 'Mind · growing'];
+    const steps = ['The file is whole · every checksum (CRC) passes', 'Its data strip reads · ' + bytes.toLocaleString() + ' bytes in one exact form', 'Its signatures check · ' + d.events.length, 'Its picture is redrawn and matches · ' + (W * (H - BAND)).toLocaleString() + ' pixels', 'Data · fetching', 'Mind · growing'];
     const lis = steps.map((s) => line('wait', '· ' + s));
     fill($('#g-boot-steps'), lis);
     const scan = $('#g-scan');
@@ -254,13 +256,13 @@ async function bootCard(id) {
     let rows = null;
     const g = await api.groundFor(v, (t) => { lis[4].textContent = '→ Data · ' + t; });
     rows = g.ds.y.length;
-    lis[4].className = 'k'; lis[4].textContent = '✓ ' + (SET_NAMES[api.setOf(v)] || 'Your table') + ' · ' + rows.toLocaleString() + ' rows · hash checked';
+    lis[4].className = 'k'; lis[4].textContent = '✓ ' + (SET_NAMES[api.setOf(v)] || 'Your table') + ' data fetched · ' + rows.toLocaleString() + ' rows · fingerprint (hash) checked';
     lis[5].className = 'm';
     const grown = await api.actGrow();
     if (!grown || grown.gate == null) { lis[5].className = 'r'; lis[5].textContent = '✗ Mind · ' + (grown && grown.error ? grown.error : 'it did not clear its bar here: it abstains, always'); bleep('abstain'); return; }
     G.grown.set(id, grown);
     const rules = grown.mind.organs.filter((o) => o.body).flatMap((o) => o.body.rules);
-    lis[5].className = 'k'; lis[5].textContent = '✓ Mind grown · ' + rules.length + ' rules · ' + grown.ms + ' ms';
+    lis[5].className = 'k'; lis[5].textContent = '✓ Its mind grows here · ' + rules.length + ' rules · ' + grown.ms + ' ms';
     // the score counts up to the number this device computed, then is set beside the one declared
     const target = grown.gate, gateBox = $('#g-boot-gate'), t0 = performance.now(), span = calm() || G.skip ? 0 : 900;
     await new Promise((done) => { const tick = (t) => { const p = span ? Math.min(1, (t - t0) / span) : 1; gateBox.textContent = six(Math.round(target * p)); if (p < 1) requestAnimationFrame(tick); else done(); }; requestAnimationFrame(tick); });
