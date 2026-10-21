@@ -11,9 +11,9 @@ import { drop } from './lib.mjs';
 const { m } = await drop();
 const best = [...m.cards].sort((a, b) => b.gate - a.gate)[0], pad = (s) => String(s).padStart(4, '0'), three = (g) => (g / 1e6).toFixed(3);
 export const DRAFTS = (m) => [
-  { text: 'Decoder #0001 is out: ' + m.total.toLocaleString('en') + ' DIGI cards, each a picture whose pixels carry a working mind grown on real records. Hold #0001 and re-run the whole drop yourself: ' + PAGE,
+  { text: 'Decoder #0001 is out: ' + m.total.toLocaleString('en') + ' DIGI cards, each a picture whose pixels carry a working mind grown on real records. Hold #0001 and re-run the whole drop yourself: ' + PAGE + '#drop',
     claims: [{ kind: 'drop' }] },
-  { text: 'DIGI #' + pad(best.serial) + ' (' + best.domain + ') scores ' + three(best.gate) + ' on cases it never grew on, and it grows on your device with the network off. Re-run it yourself: ' + PAGE,
+  { text: 'DIGI #' + pad(best.serial) + ' (' + best.domain + ') scores ' + three(best.gate) + ' on cases it never grew on, and it grows on your device with the network off. Re-run it yourself: ' + PAGE + '#card=' + pad(best.serial),
     claims: [{ kind: 'grown', serial: best.serial }, { kind: 'offline', serial: best.serial }] },
   { text: 'Say "card me" and get a DIGI card: its seals check, its owner is you, and its mind grows offline on real records. No server, no chain. Re-run every claim: ' + PAGE,
     claims: [{ kind: 'verified', serial: 2 }, { kind: 'offline', serial: 2 }] },

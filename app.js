@@ -488,7 +488,11 @@ async function regrow() {
   if (!c) return say(out, 'There is no genesis card #' + serial + '.', 'bad');
   try {
     const g = await groundOf(c.domain.split('-')[0], (t) => say(out, t)), t0 = performance.now(), o = organOf(c.recipe, viewOf(g, c.domain), S.manifest.bar);
-    say(out, (o.gate === c.gate ? '✓ ' : '✗ ') + '#' + String(serial).padStart(4, '0') + ' (' + c.domain + '): its mind, re-grown here from the recipe it carries, scores ' + auc(o.gate) + ' on GATE in ' + Math.round(performance.now() - t0) + ' ms; the manifest declared ' + auc(c.gate) + '. The search that found it is ' + c.found.split(' ').slice(2, 5).join(' ') + ' — run it yourself (node tools/genesis.mjs) and it finds the very same mind.', o.gate === c.gate ? 'ok' : 'bad');
+    const canvas = el('canvas', { class: 'card', width: W, height: H, role: 'img', 'aria-label': 'Genesis card #' + serial });
+    clear(out, el('div', { class: 'status ' + (o.gate === c.gate ? 'ok' : 'bad') }, (o.gate === c.gate ? '✓ ' : '✗ ') + '#' + String(serial).padStart(4, '0') + ' (' + c.domain + '): its mind, re-grown here from the recipe it carries, scores ' + (o.gate / 1e6).toFixed(6) + ' on GATE in ' + Math.round(performance.now() - t0) + ' ms; the manifest declared ' + (c.gate / 1e6).toFixed(6) + '. The search that found it is ' + c.found.split(' ').slice(2, 5).join(' ') + ' — run it yourself (node tools/genesis.mjs) and it finds the very same mind.'),
+      el('div', { class: 'row' }, canvas, el('div', {}, el('p', { class: 'dim' }, 'A picture of a card posted on social media is only a picture (sites re-compress images, and the band’s exact bytes are lost). The card itself is this PNG:'),
+        el('button', { onclick: async () => download((await cardOf(lifeOf(c.card), paint)).png, 'digi-' + String(serial).padStart(4, '0') + '-' + c.card + '.png') }, 'Download card #' + String(serial).padStart(4, '0')))));
+    drawCard(canvas, lifeOf(c.card));
   } catch (e) { say(out, String(e.message || e), 'bad'); }
 }
 
@@ -588,6 +592,8 @@ async function boot() {
     await loadTail();
     await renderDrop(stats);
     say(status, '✓ ' + stats.n.toLocaleString() + ' genesis cards replayed and checked here in ' + stats.ms + ' ms. You are ' + short(S.me.pub) + '.', 'ok');
+    const linked = /^#card=(\d{1,4})$/.exec(location.hash);   // a post links straight to its card: re-grow it, show it, offer it
+    if (linked) { $('#regrow-serial').value = String(Number(linked[1])); $('#drop').scrollIntoView(); regrow(); }
   } catch (e) { say(status, 'The drop could not be checked: ' + (e.message || e), 'bad'); }
   await renderWallet();
   renderProof(); renderPosts();
