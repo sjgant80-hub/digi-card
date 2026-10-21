@@ -13,13 +13,15 @@ import { answer, caseAt, scoreRow } from '../src/mind.mjs';
 import { auc, decodeSeed } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/seedlib.mjs';
 import { SETS } from '../src/data.mjs';
 import { standing, hashOf } from '../src/registry.mjs';
-import { tally } from '../src/mesh.mjs';
+import { tally, consent } from '../src/mesh.mjs';
 import { THEMES, paintArt } from '../vendor/pixelwhisperer/kards/kardart.mjs';
 import { ratings } from '../src/arena.mjs';
 import { slotsOf, equip, loadoutOk, kitted, kitChallenge, kitAccept, kitDuel, kitRerun } from '../src/kit.mjs';
 import { appsOf, mintApp, giveItem, verifyItem, repoOf } from '../src/item.mjs';
+import { begin, releaseOfDrop, releaseOfCard, releaseOfItem, valuesOfClear, gateFor, add, jobOf } from '../src/earn.mjs';
+import { credits, allocate, replay as replayLedger, sha256 as kccSha, canonical as kccCanon } from '../vendor/kcc-mesh/contrib.mjs';
 import { GROW } from '../src/mind.mjs';
-import { bossesOf, strikeSeed, strike as raidStrike, check as checkStrike, standing as raidStanding, lootOf, BAR as RAID_BAR } from '../src/raid.mjs';
+import { bossesOf, strikeSeed, strike as raidStrike, check as checkStrike, standing as raidStanding, lootOf, BAR as RAID_BAR, worldBossesOf, partyStrike, checkClear, worldStanding, partyOf } from '../src/raid.mjs';
 import { seal as sealGenome } from '../vendor/dex-frontier/vendor/living-seed/src/genome.mjs';
 import { issue as issueCard } from '../src/dossier.mjs';
 import { verify as verifyLife } from '../src/dossier.mjs';
@@ -82,6 +84,7 @@ const INFO = {
   lv: 'Levels earned. A level counts only when a new search beats its mind by 0.002 and anyone can re-run it. Rarity follows the level.',
   gen: 'Generation: 0 for a genesis card; a child is one more than its parents.',
   owners: 'How many keys it has passed through. Replay checks its whole signed life.',
+  worldboss: 'A whole business, at the best score any lone genesis search reached on it plus 0.010. No card alone has reached it: a party can, of your own cards and friends’ by their owners’ consent. The party’s record names every member card, its owner and its measured share.',
   raids: 'A raid is many players searching one unsolved department, each search signed and re-checkable. The boss’s health is how far the best search so far is from the 0.6 bar. The first strike to clear it fells the boss, and its striker seals the first card of that department — the loot. The best of many tries is luckier than one: the screen always says how many strikes it took.',
   arena: 'Two cards of one business meet on 64 cases both minds were proven on, chosen by both owners’ signatures together. Each side fights as it is kitted: its nodes answer with it, weighed on GATE cases outside the batch; its tools change nothing. The side that ranks the cases better wins. Nothing is staked: a duel moves no card and no credit, and anyone re-runs it from its receipt.',
   kit: 'Your DIGI’s inventory. Node slots hold your own cards of the same business, which answer with it; tool slots hold app items, which ride with it. Every card has its slots from birth, and levels open more node slots.',
@@ -90,6 +93,7 @@ const INFO = {
   kitted: 'The kitted mind is your DIGI and its nodes coupled into one answer, scored out of fold on GATE. A slot’s worth is the score with it, less the score without it.',
   mintnode: 'Minting a node is one search on a department, from a seed your key fixes, like a raid strike. Only a mind that clears 0.6 on GATE is sealed, with you as its maker.',
   mintapp: 'Minting an app tool signs an item naming that app, its commit and the run that proved it. It is free, and it checks only while the estate’s records list the app exactly so.',
+  record: 'Your record in the estate’s contribution ledger: the release of every card and app tool you made, and the measured share of every card in every party you struck — each recorded only once its proof re-runs here, nothing counted twice. Units are internal contribution units, not money; the switch that would make any allocation live is off.',
   ladder: 'Ratings from the duels this device has seen, in order, from a published table — the same on every device. Self-play is never rated.',
 };
 /** an "i" button and the sentence it opens, beside the term it explains */
@@ -189,7 +193,7 @@ function go(screen, opts = {}) {
   render(screen);
 }
 function render(screen) {
-  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, arena: renderArena, raids: renderRaids, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
+  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, arena: renderArena, raids: () => { renderRaids(); renderWorld(); }, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
   renderTop();
 }
 
@@ -1039,6 +1043,163 @@ async function itemTake() {
   renderKit();
 }
 
+
+// ── play: the world bosses, for a party ───────────────────────────────────────────────────────────────────────────
+// A whole business at the best score a lone genesis search reached on it, plus 0.010. The party is your own cards of that
+// business and the members friends send you, each consenting for this raid by its owner's signature; it is assembled as a
+// mesh, and its receipt names every fielded card, its owner and its measured share. Anyone holding the cards and the
+// consents strikes again to the very same receipt.
+const P = { friends: {}, busy: new Set() };
+async function renderWorld() {
+  admission ||= await fetch('drop/admission.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const bosses = worldBossesOf(admission), st = worldStanding(bosses, (G.st.clears || []).map((c) => c.clear)), box = $('#g-pt-bosses');
+  if (!bosses.length) return fill(box, el('p', { class: 'g-dim' }, 'The admission record did not load.'));
+  const mine = await myCards(null);
+  fill(box, bosses.map((b) => {
+    const r = st.raids[b.set], have = mine.filter((m) => api.setOf(m.v) === b.set).length, friends = (P.friends[b.set] || []).length, last = [...(G.st.clears || [])].reverse().find((c) => c.clear.set === b.set);
+    const go = el('button', { type: 'button', class: 'g-btn hot', disabled: P.busy.has(b.set) || !(have + friends), onclick: () => partyGo(b) }, P.busy.has(b.set) ? 'Striking…' : 'Strike together');
+    return el('div', { class: 'g-boss' + (r.fallen ? ' down' : '') }, el('h3', {}, SETS[b.set] ? SETS[b.set].title : b.set),
+      el('div', { class: 'g-hp', role: 'img', 'aria-label': 'Health ' + six(r.hp) + ' from the bar' }, el('i', { style: 'width:' + Math.min(100, Math.round(r.hp / 400)) + '%' })),
+      el('p', { class: 'g-small' }, r.fallen ? 'Fallen after ' + r.first.after + ' party strike' + (r.first.after === 1 ? '' : 's') + ' · ' + six(r.first.gate) + ' by ' + r.first.members + ' cards of ' + r.first.owners + ' owner' + (r.first.owners === 1 ? '' : 's') : 'Best party ' + six(r.best) + ' · the bar ' + six(b.bar) + ' · ' + six(r.hp) + ' to go'),
+      el('p', { class: 'g-small g-dim' }, 'Best lone genesis search ' + six(b.best) + ' · ' + b.departments + ' departments · your cards ' + have + (friends ? ' · friends’ ' + friends : '') + ' · party strikes ' + r.strikes),
+      el('div', { class: 'g-row' }, go, el('button', { type: 'button', class: 'g-btn', disabled: !have, onclick: () => partyCopy(b) }, 'Copy my party code'), el('button', { type: 'button', class: 'g-btn', onclick: () => partyAdd(b) }, 'Add a friend’s members'),
+        last ? el('button', { type: 'button', class: 'g-btn cy', onclick: () => partyAgain(b) }, 'Strike it again') : null));
+  }));
+}
+async function partyGo(b) {
+  const out = $('#g-pt-out');
+  P.busy.add(b.set); renderWorld();
+  try {
+    const g = await api.groundOf(b.set, (t) => fill(out, el('p', { class: 'g-small' }, t)));
+    const cands = [];
+    for (const m of await myCards(b.set)) cands.push({ v: m.v, consent: (await consent(S.me, m.v, partyOf(b.set))).consent, life: api.lifeOf(m.id) });
+    cands.push(...(P.friends[b.set] || []));
+    fill(out, el('p', { class: 'g-small' }, 'Assembling ' + cands.length + ' card' + (cands.length === 1 ? '' : 's') + ': each must answer here and beat a coin on GATE, one per department…'));
+    const r = await partyStrike(b, cands.map((c) => ({ v: c.v, consent: c.consent })), g);
+    if (!r.ok) { bleep('refused'); return fill(out, el('p', { class: 'g-badt' }, 'The party could not strike: ' + r.why)); }
+    G.st.clears = [...(G.st.clears || []), { clear: r.clear, cards: cands.map((c) => ({ card: c.life, consent: c.consent })) }].slice(-40);
+    note('party', { set: b.set, gate: r.clear.gate, cleared: r.cleared });
+    saveState();
+    const vOf = new Map(cands.map((c) => [c.v.id, c.v]));
+    fill(out, el('p', { class: r.cleared ? 'g-okt' : '' }, (r.cleared ? '★ The world boss falls: the party scored ' : 'The party scored ') + six(r.clear.gate) + ' on GATE against the bar ' + six(b.bar) + ' (its best card alone ' + six(r.best) + ')'),
+      el('ul', { class: 'g-lines' }, r.clear.members.map((x) => line('k', '#' + pad4(vOf.get(x.card).serial) + ' ' + facts(vOf.get(x.card)).department, el('small', {}, (x.owner === S.me.pub ? 'yours' : api.short(x.owner)) + ' · share ' + x.share.toLocaleString())))),
+      el('p', { class: 'g-small g-dim' }, 'Shares are parts of a million: each member’s worth to the party, measured by leaving it out · ' + r.clear.members.length + ' fielded, ' + (r.mesh.members.length - r.clear.members.length) + ' on the bench · the receipt re-runs from the cards and the consents'));
+    bleep(r.cleared ? 'level' : 'refused');
+  } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
+  finally { P.busy.delete(b.set); renderWorld(); }
+}
+async function partyCopy(b) {
+  const out = $('#g-pt-out'), members = [];
+  for (const m of await myCards(b.set)) members.push({ card: api.lifeOf(m.id), consent: (await consent(S.me, m.v, partyOf(b.set))).consent });
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify({ kind: 'digi.party', set: b.set, members }))));
+  try { await navigator.clipboard.writeText(code); fill(out, el('p', { class: 'g-okt g-small' }, 'Copied your ' + members.length + ' card' + (members.length === 1 ? '' : 's') + ', each with your consent for this raid only. A friend adds them to their party; every card is checked on arrival.')); }
+  catch { const t = $('#g-pt-code'); t.hidden = false; t.value = code; fill(out, el('p', { class: 'g-small' }, 'Copy the text above and send it.')); }
+}
+async function partyAdd(b) {
+  const t = $('#g-pt-code'), out = $('#g-pt-out');
+  if (t.hidden || !t.value.trim()) { t.hidden = false; t.value = ''; t.focus(); return fill(out, el('p', { class: 'g-small' }, 'Paste a friend’s party code in the box, then press Add a friend’s members again.')); }
+  let o = null;
+  try { o = JSON.parse(decodeURIComponent(escape(atob(t.value.trim())))); } catch { o = null; }
+  if (!o || o.kind !== 'digi.party' || o.set !== b.set || !Array.isArray(o.members)) return fill(out, el('p', { class: 'g-badt' }, 'That is not a party code for ' + (SETS[b.set] ? SETS[b.set].title : b.set) + '.'));
+  let added = 0, refused = 0;
+  const have = new Set((P.friends[b.set] || []).map((f) => f.v.id));
+  for (const x of o.members.slice(0, 12)) {
+    const v = await verifyLife(x.card);
+    if (!v.ok || v.owner === S.me.pub || have.has(v.id)) { refused++; continue; }
+    await api.keep(x.card);
+    P.friends[b.set] = [...(P.friends[b.set] || []), { v, consent: x.consent, life: x.card }]; have.add(v.id); added++;
+  }
+  t.value = ''; t.hidden = true;
+  fill(out, el('p', { class: added ? 'g-okt' : 'g-badt' }, added + ' card' + (added === 1 ? '' : 's') + ' added to your party, each checked here' + (refused ? ' · ' + refused + ' refused' : '') + '. Their consents are checked when the party strikes.'));
+  renderWorld();
+}
+async function partyAgain(b) {
+  const out = $('#g-pt-out'), last = [...(G.st.clears || [])].reverse().find((c) => c.clear.set === b.set);
+  if (!last) return;
+  const g = await api.groundOf(b.set, (t) => fill(out, el('p', { class: 'g-small' }, t))), cands = [];
+  for (const x of last.cards) { const v = await verifyLife(x.card); cands.push({ v, consent: x.consent }); }
+  const r = await checkClear(last.clear, b, cands, g);
+  $('#g-pt-out').append(el('p', { class: r.ok ? 'g-okt' : 'g-badt' }, r.ok ? '✓ Struck again here: the very same receipt' : '✗ ' + r.why));
+}
+
+
+// ── proof: your record, in the estate's contribution ledger ──────────────────────────────────────────────────────
+// The record is the estate's economy (src/earn.mjs): it begins from the estate's genesis, takes the drop's release of
+// every genesis card you field, your own release of every card and app tool you made, and a value for every card of
+// every party strike you ran — each party struck again here first. Nothing counts twice; the switch is off.
+const REC = { busy: false };
+const nowIso = () => new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+const dropLine = (id) => (S.manifest.first.card === id ? { ...S.manifest.first, serial: 1 } : S.manifest.cards.find((c) => c.card === id));
+async function recordUpdate() {
+  if (REC.busy) return;
+  const out = $('#g-rec-out');
+  REC.busy = true; $('#g-rec-go').disabled = true;
+  try {
+    let ledger = G.st.record;
+    if (!ledger) { const b = await begin(); if (!b.ok) return fill(out, el('p', { class: 'g-badt' }, b.why)); ledger = b.ledger; }
+    const at = nowIso(), rec = await appsLoaded(), genomes = new Map(), items = new Map(), clears = new Map(), entries = [], drops = new Set();
+    const wantDrop = (id) => { if (dropLine(id) && !ledger.assets['digi:' + id]) drops.add(id); };
+    // the cards you hold: the drop's release of each genesis card, your own release of each card you made (parents first)
+    const held = await holdings(), made = [];
+    for (const h of held) {
+      if (h.v.maker === S.maker.pub) wantDrop(h.id);
+      else if (h.v.maker === S.me.pub) { const text = api.lifeOf(h.id).genome; genomes.set('digi:' + h.id, text); made.push({ text, gen: h.v.generation, parents: h.v.genome.parents }); }
+    }
+    for (const m of made) for (const p of m.parents) wantDrop(p);
+    // every party strike you ran, struck again here before a single value of it is recorded
+    for (const c of G.st.clears || []) {
+      const digest = await sha256Of(c.clear), job = jobOf(c.clear.set, digest);
+      if (Object.keys(ledger.values).some((k) => k.endsWith('|' + job))) continue;
+      fill(out, el('p', { class: 'g-small' }, 'Striking the ' + c.clear.set + ' party again before its values are recorded…'));
+      const g = await api.groundOf(c.clear.set), boss = worldBossesOf(admission || {}).find((b) => b.set === c.clear.set), cands = [];
+      for (const x of c.cards) cands.push({ v: await verifyLife(x.card), consent: x.consent });
+      if (!boss || !(await checkClear(c.clear, boss, cands, g)).ok) continue;
+      clears.set(digest, c.clear);
+      for (const x of c.clear.members) wantDrop(x.card);
+      entries.push(...(await valuesOfClear(c.clear, at)).entries);
+    }
+    const front = [];
+    for (const id of drops) front.push((await releaseOfDrop(dropLine(id))).entry);
+    for (const m of made.sort((a, b) => a.gen - b.gen)) { const r = await releaseOfCard(S.me, m.text, at); if (r.ok) front.push(r.entry); }
+    for (const it of G.st.items || []) {
+      const v = rec ? await verifyItem(it, rec.apps) : { ok: false };
+      if (!v.ok || v.maker !== S.me.pub) continue;
+      items.set('item:' + v.id, it);
+      const r = await releaseOfItem(S.me, it, rec.apps, at);
+      if (r.ok) front.push(r.entry);
+    }
+    const gate = await gateFor({ manifest: S.manifest, genomes, items, apps: rec ? rec.apps : null, clears });
+    const r = await add(ledger, [...front, ...entries], gate);
+    G.st.record = r.ledger; note('record', { added: r.added }); saveState();
+    fill(out, el('p', { class: r.refused.length ? '' : 'g-okt' }, '✓ ' + r.added + ' new entr' + (r.added === 1 ? 'y' : 'ies') + ' recorded, each through its gate here · ' + r.skipped + ' already held'),
+      r.refused.length ? el('p', { class: 'g-small g-dim' }, r.refused.length + ' not recorded — ' + [...new Set(r.refused)].slice(0, 3).join(' · ') + (r.refused.some((w) => /is not recorded here/.test(w)) ? ' (a friend’s own card is released in their record, not yours)' : '')) : null);
+    renderRecord();
+  } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
+  finally { REC.busy = false; $('#g-rec-go').disabled = false; }
+}
+function renderRecord() {
+  const l = G.st.record, box = $('#g-rec-stats');
+  if (!l) return fill(box, el('p', { class: 'g-dim g-small' }, 'Nothing recorded on this device yet. Mint a node, mint a tool, or strike a world boss with a party, then bring the record up to date.'));
+  const by = (t) => l.log.filter((x) => x.entry.type === t).length, c = credits(l), mine = c.ok ? c.credits[S.me.pub] || '0' : '0', pool = 1000000, a = allocate(l, { sandbox: true, pool });
+  fill(box, el('dl', { class: 'g-stats' }, [['Entries', l.log.length], ['Releases', by('release')], ['Values measured', by('value')], ['Your credit', BigInt(mine) === 0n ? '0' : (Number(BigInt(mine)) / (c.scale || 1)).toLocaleString()], ['Sandbox part of ' + pool.toLocaleString(), a.ok ? (a.parts[S.me.pub] || 0).toLocaleString() : '–'], ['The switch', l.switch === null ? 'off' : 'on']].flatMap(([k, v]) => [el('dt', {}, k), el('dd', {}, String(v))])),
+    el('p', { class: 'g-small g-dim' }, 'Head ' + l.head.slice(0, 16) + '… · the estate’s demo economy (its genesis ' + l.log[0].entry.by.slice(0, 8) + '…) · units are internal contribution units, not money · a sandbox part shows how a pool would split by this record; nothing is allocated'));
+}
+async function recordReplay() {
+  const out = $('#g-rec-out'), l = G.st.record;
+  if (!l) return;
+  const rec = await appsLoaded(), genomes = new Map(), items = new Map(), clears = new Map();
+  for (const h of await holdings()) if (h.v.maker === S.me.pub) genomes.set('digi:' + h.id, api.lifeOf(h.id).genome);
+  for (const it of G.st.items || []) { const v = rec ? await verifyItem(it, rec.apps) : { ok: false }; if (v.ok) items.set('item:' + v.id, it); }
+  for (const c of G.st.clears || []) clears.set(await sha256Of(c.clear), c.clear);
+  const t0 = performance.now(), r = await replayLedger(l.log, { gate: await gateFor({ manifest: S.manifest, genomes, items, apps: rec ? rec.apps : null, clears }) });
+  fill(out, el('p', { class: r.ok && r.ledger.head === l.head ? 'g-okt' : 'g-badt' }, r.ok ? (r.ledger.head === l.head ? '✓ Replayed here from nothing in ' + Math.round(performance.now() - t0) + ' ms: ' + l.log.length + ' entries, every signature and every gate holds' : '✗ It replays to another head') : '✗ ' + r.why));
+}
+function recordSave() {
+  if (!G.st.record) return;
+  api.download(new TextEncoder().encode(JSON.stringify({ schema: G.st.record.schema, note: 'A DIGI player’s contribution record: the estate’s demo economy, every entry gated where it was made. Internal units, not money; the switch is off.', head: G.st.record.head, log: G.st.record.log }, null, 1)), 'digi-record-' + G.st.record.head.slice(0, 8) + '.json');
+}
+const sha256Of = (x) => kccSha(kccCanon(x));
+
 // ── mesh, send, proof ────────────────────────────────────────────────────────────────────────────────────────────────
 function renderMesh() {
   const box = $('#g-meshslots');
@@ -1063,6 +1224,7 @@ async function renderProof() {
   G.lifeId ||= featured();
   await renderLife();
   renderOrgans();
+  renderRecord();
 }
 async function renderLife() {
   const d = api.lifeOf(G.lifeId);
@@ -1177,6 +1339,7 @@ function wire() {
   on('#g-kit-t-proven', 'click', () => { KIT.tier = 'proven'; renderKitApps(); }); on('#g-kit-t-works', 'click', () => { KIT.tier = 'works'; renderKitApps(); });
   on('#g-kit-q', 'input', () => renderKitApps());
   on('#g-kit-give', 'click', itemGive); on('#g-kit-take', 'click', itemTake);
+  on('#g-rec-go', 'click', recordUpdate); on('#g-rec-replay', 'click', recordReplay); on('#g-rec-save', 'click', recordSave);
   on('#g-ar-copy', 'click', arenaCopy); on('#g-ar-paste', 'click', arenaPaste);
   on('#g-rd-share', 'click', raidShare); on('#g-rd-import', 'click', raidImport);
   const toTab = (t) => () => { tab = t; renderTabs(); };

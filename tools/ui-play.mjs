@@ -153,6 +153,35 @@ try {
       }
     } else if (!problems.length) problems.push('five node searches and none cleared the bar');
   }
+  // a world boss: the player's own telco cards strike it as a party, and strike again to the very same receipt
+  await js(`location.hash = '#raids'`);
+  if (await until(`[...document.querySelectorAll('#g-pt-bosses .g-boss h3')].some((h) => /Telecom/.test(h.textContent))`, 30000, 'the world bosses')) {
+    await js(`[...document.querySelectorAll('#g-pt-bosses .g-boss')].find((b) => /Telecom/.test(b.querySelector('h3').textContent)).querySelector('button').click()`);
+    if (await until(`/party scored|could not strike/.test(document.querySelector('#g-pt-out').textContent)`, 120000, 'a party strike')) {
+      const out = await js(`document.querySelector('#g-pt-out').innerText`);
+      if (!/party scored \d\.\d{6} on GATE against the bar \d\.\d{6}/.test(out) || !/share [\d,]+/.test(out)) problems.push('the party strike: ' + out.slice(0, 160));
+      else {
+        await js(`[...document.querySelectorAll('#g-pt-bosses .g-boss')].find((b) => /Telecom/.test(b.querySelector('h3').textContent)).querySelector('button.cy').click()`);
+        if (await until(`/Struck again here|✗/.test(document.querySelector('#g-pt-out').textContent)`, 60000, 'the party struck again'))
+          (await js(`/Struck again here: the very same receipt/.test(document.querySelector('#g-pt-out').textContent)`)) ? seen.push('a world boss struck by a party, struck again to the same receipt') : problems.push('the party did not strike again to the same receipt');
+      }
+    }
+  }
+  // the record: brought up to date through every gate, then replayed from nothing
+  await js(`location.hash = '#proof'`);
+  if (await until(`document.querySelector('#g-rec-go')`, 20000, 'the record panel')) {
+    await js(`document.querySelector('#g-rec-go').click()`);
+    if (await until(`/new entr|✗|Error/.test(document.querySelector('#g-rec-out').textContent)`, 120000, 'the record brought up to date')) {
+      const st = await js(`document.querySelector('#g-rec-stats').innerText`), out = await js(`document.querySelector('#g-rec-out').innerText`);
+      const rel = Number((/Releases\s+(\d+)/.exec(st) || [])[1] || 0), val = Number((/Values measured\s+(\d+)/.exec(st) || [])[1] || 0);
+      if (!/✓/.test(out) || rel < 3 || val < 1 || !/switch\s+off/i.test(st)) problems.push('the record: ' + (out + ' | ' + st).replace(/\s+/g, ' ').slice(0, 200));
+      else {
+        await js(`document.querySelector('#g-rec-replay').click()`);
+        if (await until(`/Replayed here|✗/.test(document.querySelector('#g-rec-out').textContent)`, 120000, 'the record replayed'))
+          (await js(`/Replayed here from nothing/.test(document.querySelector('#g-rec-out').textContent)`)) ? seen.push('the record: ' + rel + ' releases and ' + val + ' values, each through its gate, replayed from nothing, the switch off') : problems.push('the record did not replay: ' + (await js(`document.querySelector('#g-rec-out').textContent`)).slice(0, 120));
+      }
+    }
+  }
   // the mesh: assembled, the fielded cards shown, their shares a million between them
   await js(`location.hash = '#mesh'`); await sleep(400);
   await js(`document.querySelector('#mesh-set').value = 'telco'; document.querySelector('#mesh-build').click()`);
