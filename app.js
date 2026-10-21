@@ -626,7 +626,7 @@ function wire() {
       for (const d of Array.isArray(j.cards) ? j.cards : []) if ((await keep(d)).ok) back++;
       await renderWallet();
       say($('#key-out'), 'Restored: you are ' + short(k.pub) + ' again' + (back ? ', with ' + back + ' card(s) recorded here' : '') + '.', 'ok');
-    } catch (err) { say($('#key-out'), 'Not a wallet file: ' + (err.message || err), 'bad'); }
+    } catch (err) { say($('#key-out'), 'That is not a DIGI wallet file: ' + (/does not match/.test(String(err && err.message)) ? err.message : 'the key in it could not be read') + '. Use the file “Back up my wallet” saved.', 'bad'); }
   });
   on('#theme-toggle', 'click', () => { const r = document.documentElement, t = r.dataset.theme === 'light' ? 'dark' : 'light'; r.dataset.theme = t; try { localStorage.setItem('digi-theme', t); } catch {} });
 }
