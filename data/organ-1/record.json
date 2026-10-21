@@ -1,0 +1,109 @@
+{
+ "kind": "digi-card.organ-1.record",
+ "v": 1,
+ "cards": 1000,
+ "roundtrip": 1000,
+ "identical": 1000,
+ "failedRoundtrip": [],
+ "sample": 100,
+ "forgeries": {
+  "a face pixel flipped": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the card’s face does not match what it carries": 100
+   }
+  },
+  "a byte after the dossier": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the band holds more than its dossier": 100
+   }
+  },
+  "another card’s face": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the card’s face does not match what it carries": 100
+   }
+  },
+  "a changed owner": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the card was refused": 100
+   }
+  },
+  "a changed serial": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the card was refused": 100
+   }
+  },
+  "a changed genome byte": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the card was refused": 100
+   }
+  },
+  "a re-wrapped dossier": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the band does not hold a dossier": 100
+   }
+  },
+  "a cut-short file": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the PNG is cut short": 100
+   }
+  },
+  "a damaged chunk": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "a chunk of the PNG is damaged": 100
+   }
+  },
+  "the wrong size": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "not a DIGI card (it is not a 384 × 576 RGB picture)": 100
+   }
+  },
+  "an event signed by a stranger": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "the card was refused": 100
+   }
+  },
+  "the magic removed": {
+   "tried": 100,
+   "refused": 100,
+   "why": {
+    "not a DIGI card (no dossier in its band)": 100
+   }
+  }
+ },
+ "offline": {
+  "reads": 100,
+  "touched": 0
+ },
+ "fakeLevel": {
+  "tried": 100,
+  "read": 100,
+  "refused": 100
+ },
+ "readMs": {
+  "median": 84,
+  "p90": 100
+ },
+ "machine": "win32 x64 node v25.7.0"
+}

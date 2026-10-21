@@ -1,0 +1,50 @@
+{
+ "kind": "digi-card.organ-1.verdict",
+ "v": 1,
+ "prereg": "193e4556ce933f5e",
+ "record": "5c47a579cb269100",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every genesis card, written as a PNG with the real art engine and read back, returns exactly its dossier (canonical bytes equal), with its facts.",
+   "pass": true,
+   "saw": "1000 of 1000 cards read back exactly"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every genesis card written twice is byte-identical: the same life makes the same card.",
+   "pass": true,
+   "saw": "1000 of 1000 written twice were byte-identical"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "On every tenth genesis card, each of 12 forgeries — a face pixel flipped, a byte after the dossier, another card’s face, a changed owner, a changed serial, a changed genome byte, a re-wrapped dossier, a cut-short file, a damaged chunk, the wrong size, an event signed by a stranger, the magic removed — is refused, every one.",
+   "pass": true,
+   "saw": "a face pixel flipped 100/100; a byte after the dossier 100/100; another card’s face 100/100; a changed owner 100/100; a changed serial 100/100; a changed genome byte 100/100; a re-wrapped dossier 100/100; a cut-short file 100/100; a damaged chunk 100/100; the wrong size 100/100; an event signed by a stranger 100/100; the magic removed 100/100"
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "Reading a card touches no network: every read on the sampled cards runs with the network trapped and never reaches for it.",
+   "pass": true,
+   "saw": "100 of 100 read with the network trapped; 0 reached for it"
+  },
+  {
+   "id": "P5",
+   "kind": "property",
+   "claim": "A level signed into a card by its own owner with made-up numbers still reads (a card proves what it is), and is refused by the registry, which re-runs every level before recording it — on every sampled card.",
+   "pass": true,
+   "saw": "100 of 100 faked cards read; 100 refused by the registry"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "The median time to read and fully check a card (CRCs, seals, signatures, redrawn face) is at most 250 ms on the measuring machine.",
+   "pass": true,
+   "saw": "median 84 ms, 90th percentile 100 ms (win32 x64 node v25.7.0)"
+  }
+ ]
+}
