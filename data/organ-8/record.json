@@ -1,0 +1,144 @@
+{
+ "kind": "digi-card.organ-8.record",
+ "v": 1,
+ "growth": [
+  {
+   "set": "telco",
+   "steps": [
+    {
+     "departments": 1,
+     "fielded": 1,
+     "gate": 666636,
+     "test": 624681,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 2,
+     "fielded": 2,
+     "gate": 795188,
+     "test": 790373,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 3,
+     "fielded": 3,
+     "gate": 840751,
+     "test": 828332,
+     "shareSum": 1000000
+    }
+   ]
+  },
+  {
+   "set": "shop",
+   "steps": [
+    {
+     "departments": 1,
+     "fielded": 1,
+     "gate": 663315,
+     "test": 672003,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 2,
+     "fielded": 2,
+     "gate": 917114,
+     "test": 820477,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 3,
+     "fielded": 3,
+     "gate": 924174,
+     "test": 826537,
+     "shareSum": 1000000
+    }
+   ]
+  },
+  {
+   "set": "bank",
+   "steps": [
+    {
+     "departments": 1,
+     "fielded": 1,
+     "gate": 625065,
+     "test": 627443,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 2,
+     "fielded": 2,
+     "gate": 719393,
+     "test": 721500,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 3,
+     "fielded": 3,
+     "gate": 778161,
+     "test": 778373,
+     "shareSum": 1000000
+    }
+   ]
+  },
+  {
+   "set": "adult",
+   "steps": [
+    {
+     "departments": 1,
+     "fielded": 1,
+     "gate": 811465,
+     "test": 813681,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 2,
+     "fielded": 2,
+     "gate": 872668,
+     "test": 874191,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 3,
+     "fielded": 3,
+     "gate": 890793,
+     "test": 891987,
+     "shareSum": 1000000
+    }
+   ]
+  },
+  {
+   "set": "credit",
+   "steps": [
+    {
+     "departments": 1,
+     "fielded": 1,
+     "gate": 637300,
+     "test": 612429,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 2,
+     "fielded": 2,
+     "gate": 763535,
+     "test": 748082,
+     "shareSum": 1000000
+    },
+    {
+     "departments": 3,
+     "fielded": 3,
+     "gate": 774217,
+     "test": 760158,
+     "shareSum": 1000000
+    }
+   ]
+  }
+ ],
+ "registry": {
+  "entries": 10000,
+  "bytes": 5712014,
+  "ms": 36817,
+  "ok": true,
+  "same": true,
+  "owners": 633
+ }
+}
