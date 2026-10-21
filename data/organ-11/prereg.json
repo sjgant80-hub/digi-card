@@ -1,0 +1,66 @@
+{
+ "kind": "digi-card.organ-11.prereg",
+ "v": 1,
+ "organ": "the campaign and kit it for me: the raids read as chapters from their receipts alone, and a DIGI kitted for its owner by measured forward selection",
+ "disclosure": "Not fully blind: before this seal, on 2026-10-22, tools/measure-11.mjs was dry-run with DRY=1 and SMALL=1 (2 DIGIs a business, 1 foreign pool, 50 receipt sets), every TEST read replaced by 0, to test the tooling. No TEST row was read, and only its properties were read: all held. An earlier full DRY=1 run was stopped before it wrote anything.",
+ "population": "the five businesses whose drop has cards in two or more departments: 20 seeded DIGIs per business, each a genesis card handed to a demo owner with a seeded collection of 8 other genesis cards of its business, and auto-kitted from that collection; 4 foreign pools per business; the drop’s own admission record for the campaign, read from 1,000 seeded receipt sets",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 100 auto-kits is the very same kit with the very same numbers when run twice with its collection in either order; every step lifts the kitted GATE AUC; at every step the node chosen scores the highest kitted GATE of every candidate that joins, ties to the lower card id; and in all 20 foreign pools no auto-kit picks a card another key holds, a card of another business, or the DIGI itself."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every raid boss and every world boss of the drop’s admission record stands in exactly one chapter, the chapters in order of what they have left; and across 1,000 seeded receipt sets every chapter reads as cleared exactly when every boss in it has fallen, the chapter to play is the first not cleared, and the campaign reads the same with its receipts in either order."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every auto-kit measures again exactly what it says: the DIGI kitted with the nodes it hands over scores its stated GATE, and alone its stated starting GATE."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Of the auto-kits that lift their DIGI by at least 0.005 on GATE (out of fold), at least 80% also lift it on TEST, the cases nothing here selects on."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Over the auto-kits of two nodes or more, the median TEST lift with every node is at least the median TEST lift with its first node alone: the nodes chosen after the first do not, typically, give back on TEST what the first one gained."
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "At least 70% of the auto-kits score at least as well on TEST as a seeded random kit of the same size from the same collection: the kit is chosen by measurement, not luck."
+  }
+ ],
+ "judgedBy": "tools/judge-11.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "3c239143bdfa5e0b499ada224335947c6a68a8b86eef5bf9ca5fd77eab9304b8",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "afe6dee22dbf4dab7e7568cfa873613e36ddf72623f773cd547ae460f2c378b0",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "f60d7318fd400955da785c3c4c0ea4d57bb5b25f8dacf4da68df23a2b10cc5f6",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "src/campaign.mjs": "b1d1eb0cea7df4c81592fe106f18068a327990872ce8d6d6bd910a5575e107aa",
+  "src/kit.mjs": "dee8b6cd5040317fd4fb79f962b2073b1d0b3cc493b8a86bf2e745f0a6e7be68",
+  "src/raid.mjs": "923678b0f5aeeb3ae0cc82c9ca0d3d68e4b2e19d8dbe67cbe6f520ab06bcccdd",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "drop/admission.json": "f6205cc55755f398f9722a9483f56467b9bf17b5b0cba2b61701b52400e7ac8f",
+  "tools/measure-11.mjs": "87f87bf521d3041be52d879246aa1a5401ae2ab2c75739ef5b78ba4da1219957",
+  "tools/judge-11.mjs": "df6582e446318bd1a1158600c4cbf2dbbcd40bbb47b5903a9dfcb8c456b4343c",
+  "tools/seal-11.mjs": "edc9e2cf8f806ea9a24f16badb88f0289d5fc86a65d5d1cea87f2afd863ba18a"
+ }
+}

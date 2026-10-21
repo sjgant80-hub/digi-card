@@ -138,6 +138,17 @@ try {
         if (await until(`/Re-fought here|✗/.test(document.querySelector('#g-ar-result').textContent)`, 30000, 'the duel re-fought'))
           (await js(`/Re-fought here: the very same receipt/.test(document.querySelector('#g-ar-result').textContent)`)) ? seen.push('a rated duel, re-fought to the same receipt') : problems.push('the duel did not re-fight to the same receipt');
         await scan('a duel');
+        // watched back: fought again from its receipt, 64 cases laid out, and one read back by the rules that fired
+        await js(`document.querySelector('#g-ar-watch').click()`);
+        if (await until(`/The very same receipt|✗/.test(document.querySelector('#g-ar-watch-line').textContent)`, 60000, 'the duel watched back')) {
+          const w = await js(`({ line: document.querySelector('#g-ar-watch-line').textContent, cases: document.querySelectorAll('#g-ar-watch-out .g-case').length })`);
+          if (!/The very same receipt/.test(w.line) || w.cases !== 64) problems.push('watched back: ' + w.line.slice(0, 140) + ' (' + w.cases + ' cases)');
+          else {
+            await js(`document.querySelector('#g-ar-watch-out .g-case').click()`);
+            (await until(`/Yours · /.test(document.querySelector('#g-ar-readback').textContent) && /Theirs · /.test(document.querySelector('#g-ar-readback').textContent)`, 10000, 'a case read back')) ? seen.push('a duel watched back to the very same receipt, 64 cases, one read back by the rules that fired') : null;
+          }
+          await scan('a duel watched back');
+        }
       }
     }
   }
@@ -175,6 +186,13 @@ try {
       seen.push('a node minted by a search from the key');
       await js(`document.querySelector('#g-kit-apps button').click()`);
       if (await until(`/is yours/.test(document.querySelector('#g-kit-out').textContent) && document.querySelectorAll('#g-kit-tools .g-kslot.full').length === 1`, 30000, 'an app tool in a slot')) seen.push('an app tool minted into a slot');
+      // the tool opens in its box: here the estate's pages are on another address, so the box says so and offers its own tab
+      await js(`[...document.querySelectorAll('#g-kit-tools .g-kslot.full button')].find((x) => x.textContent === 'Open').click()`);
+      if (await until(`!document.querySelector('#g-box').hidden && document.querySelectorAll('#g-box-asked li').length > 0 && !/Reading/.test(document.querySelector('#g-box-asked').textContent)`, 20000, 'the tool’s box')) {
+        const bx = await js(`({ asked: document.querySelector('#g-box-asked').textContent, src: document.querySelector('#g-box-frame').getAttribute('src'), sandbox: document.querySelector('#g-box-frame').getAttribute('sandbox') })`);
+        (bx.sandbox === 'allow-scripts allow-forms' && bx.src === null && /another address/.test(bx.asked)) ? seen.push('a tool’s box: exactly scripts and forms, and a page on another address never framed') : problems.push('the tool’s box: ' + JSON.stringify(bx).slice(0, 200));
+        await js(`document.querySelector('#g-box-close').click()`);
+      }
       await js(`document.querySelector('#g-kit-measure-go').click()`);
       if (await until(`/Kitted \\d\\.\\d{6}/.test(document.querySelector('#g-kit-measure').textContent)`, 60000, 'the kit measured')) {
         const m = await js(`document.querySelector('#g-kit-measure').innerText`);
@@ -204,6 +222,18 @@ try {
       }
     } else if (!problems.length) problems.push('five node searches and none cleared the bar');
   }
+  // Kit it for me: the DIGI's other cards of its business tried one slot at a time, each step a measured lift, or nothing
+  await js(`location.hash = '#kit'`);
+  if (await until(`document.querySelector('#g-kit-auto') && document.querySelector('#g-kit-card').value`, 30000, 'the kit, for Kit it for me')) {
+    await js(`document.querySelector('#g-kit-auto').click()`);
+    if (await until(`/Kitted for you|Nothing of yours lifts it|could not|must/.test(document.querySelector('#g-kit-measure').textContent)`, 120000, 'Kit it for me')) {
+      const a = await js(`({ text: document.querySelector('#g-kit-measure').innerText, steps: [...document.querySelectorAll('#g-kit-measure li')].map((l) => l.textContent) })`);
+      if (/Kitted for you/.test(a.text)) (a.steps.length >= 1 && a.steps.every((s) => /adds \+0\.\d{6}/.test(s))) ? seen.push('Kit it for me: ' + a.steps.length + ' step' + (a.steps.length === 1 ? '' : 's') + ', each a measured lift') : problems.push('Kit it for me: ' + a.text.replace(/\s+/g, ' ').slice(0, 160));
+      else if (/Nothing of yours lifts it/.test(a.text)) a.steps.length === 0 ? seen.push('Kit it for me: nothing of yours lifts it, and nothing is put in a slot') : problems.push('Kit it for me listed steps it did not take');
+      else problems.push('Kit it for me: ' + a.text.replace(/\s+/g, ' ').slice(0, 160));
+      await scan('Kit it for me');
+    }
+  }
   // the estate, drawn from only what DIGI holds: with the tool and the kit above, its TOOLS and KITTED districts open
   await js(`location.hash = '#estate'`);
   if (await until(`/Scorer \\d+ tiles/.test(document.querySelector('[data-k="g-plot-open"]').textContent)`, 30000, 'the estate drawn')) {
@@ -221,11 +251,33 @@ try {
     await js(`document.querySelector('#g-fu-go').click()`);
     if (await until(`/Kept · a fused card|Refused: no fused card beat both/.test(document.querySelector('#g-fu-out').textContent) || !!document.querySelector('#g-fu-out .g-badt')`, 300000, 'a fusion')) {
       const f = await js(`({ out: document.querySelector('#g-fu-out').innerText, kept: /Kept · a fused card/.test(document.querySelector('#g-fu-out').textContent), next: (document.querySelector('#g-fu-out #g-fu-next') || {}).getAttribute?.('href') || null, tree: document.querySelectorAll('#g-fu-lineage li').length })`);
+      // the fusion and its family tree, drawn by PixelWhisperer from the fusion's own record and the seals held here
+      await until(`!document.querySelector('#g-fu-art').hidden && !document.querySelector('#g-fu-tree').hidden`, 20000, 'the fusion and its family tree drawn');
+      if (await js(`!document.querySelector('#g-fu-art').hidden && !document.querySelector('#g-fu-tree').hidden`)) seen.push('the fusion and its family tree drawn');
       if (f.kept) (/Re-run here: it holds/.test(f.out) && f.next === '#kit' && f.tree >= 3) ? seen.push('a fusion kept, beating both parents, re-run here, its lineage ' + f.tree + ' deep, NEXT · kit the fused card') : problems.push('the kept fusion: ' + f.out.replace(/\s+/g, ' ').slice(0, 160) + ' (next ' + f.next + ', lineage ' + f.tree + ')');
       else if (/Refused: no fused card beat both/i.test(f.out)) (f.next === '#fusion' && /tries? ran here/.test(f.out)) ? seen.push('a fusion refused with its numbers, NEXT · pick another pair') : problems.push('the refused fusion: ' + f.out.replace(/\s+/g, ' ').slice(0, 160));
       else problems.push('the fusion: ' + f.out.replace(/\s+/g, ' ').slice(0, 160));
       await scan('a fusion'); await shot('fusion');
     }
+  }
+  // the campaign: every business a chapter, read from the receipts — exactly one marked now until all are cleared
+  await js(`location.hash = '#raids'`);
+  if (await until(`document.querySelectorAll('#g-cp-chapters li').length > 0`, 30000, 'the campaign')) {
+    const cp = await js(`({ n: document.querySelectorAll('#g-cp-chapters li').length, now: [...document.querySelectorAll('#g-cp-chapters li')].filter((l) => / · now/.test(l.textContent)).length, first: (document.querySelector('#g-cp-chapters li') || {}).textContent || '' })`);
+    (cp.n === 6 && cp.now === 1 && /^Chapter 1 · /.test(cp.first)) ? seen.push('the campaign: 6 chapters, one now') : problems.push('the campaign: ' + JSON.stringify(cp));
+    await scan('the campaign');
+  }
+  // the tournament: the player's telco cards in a bracket, each open match one practice duel away, played to a champion
+  await js(`location.hash = '#arena'`);
+  if (await until(`[...document.querySelectorAll('#g-tn-rounds li')].length > 0`, 30000, 'the tournament')) {
+    for (let n = 0; n < 6 && await js(`!!document.querySelector('#g-tn-rounds button')`); n++) {
+      const before = await js(`document.querySelector('#g-tn-rounds').textContent`);
+      await js(`document.querySelector('#g-tn-rounds button').click()`);
+      if (!(await until(`document.querySelector('#g-tn-rounds').textContent !== ${JSON.stringify(before)} || /could not/.test(document.querySelector('#g-tn-title').textContent)`, 60000, 'a tournament match'))) break;
+    }
+    const tn = await js(`({ title: document.querySelector('#g-tn-title').textContent, open: [...document.querySelectorAll('#g-tn-rounds li')].filter((l) => / open$/.test(l.textContent)).length })`);
+    /Practice champion: #\d{4} /.test(tn.title) && tn.open === 0 ? seen.push('a tournament of your cards played to a practice champion: a title, and nothing else') : problems.push('the tournament: ' + JSON.stringify(tn));
+    await scan('the tournament');
   }
   // a world boss: the player's own telco cards strike it as a party, and strike again to the very same receipt
   await js(`location.hash = '#raids'`);

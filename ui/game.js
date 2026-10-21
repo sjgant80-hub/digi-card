@@ -30,6 +30,11 @@ import { paintEstate, tilesFor } from '../vendor/pixelwhisperer/kards/estate.mjs
 import { paintSlot } from '../vendor/pixelwhisperer/kards/gear.mjs';
 import { paintDuel } from '../vendor/pixelwhisperer/kards/arena.mjs';
 import { paintBack } from '../vendor/pixelwhisperer/kards/back.mjs';
+import { paintFusion, paintLineage } from '../vendor/pixelwhisperer/kards/fusion.mjs';
+import { campaign, autoKit } from '../src/campaign.mjs';
+import { replay, readBack } from '../src/replay.mjs';
+import { SANDBOX, askedFor, boxable } from '../src/sandbox.mjs';
+import { bracketOf, playOut } from '../src/tournament.mjs';
 import { offered, shownDesc, sayOutcome, SHOWN_AS } from '../src/copy.mjs';
 import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
@@ -65,6 +70,10 @@ const INFO = {
   fusion: 'The Fusion lab: two of your cards of one business become one only if the fused card beats both parents on GATE, cases neither grew on, and anyone holding the ground re-runs it. This is model merging and selection: most merges do not beat both parents, and those are refused, never kept.',
   fuse: 'Of one department, the parents’ rule shapes are crossed rule by rule and, half the time, changed once; of two departments, the fused card carries both minds and answers through a coupling learned on GATE. Up to 12 tries run on this device, and the first that beats both is sealed with you as its maker, naming both parents.',
   lineage: 'Who a card was fused from, read from the seals of the cards this device holds. A parent this device does not hold is named by its id, never drawn or guessed.',
+  sandbox: 'A tool runs in a box: a frame that never shares this page’s origin, so it cannot read or change anything of DIGI’s — your cards, this page’s storage — and it never moves a score. Before it opens, its own page is read for what it asked for: the network its security policy lets it reach, and whether it keeps anything in storage (inside the box, its own and empty).',
+  replay: 'Watched back: the duel fought again from its own receipt (it must give the very same numbers), then laid out case by case — each side’s call, and whether the case really was a yes. Tap a case to read it back: the very rules of each mind that fired on it.',
+  tournament: 'A tournament: your cards of one business in a bracket, seeded by their ratings, the best two apart until the final. Each match is decided by the first duel receipt between exactly those two cards that is not a draw; a match with none yet stays open. Duels of your own cards are practice, so the champion is a practice champion: a title, and nothing else.',
+  campaign: 'The campaign: each business is a chapter — first the parts of it no card has cracked, nearest the bar first, then the business itself as a world boss. Chapters run with the least left to clear first; a chapter is cleared only when every boss in it has fallen, read from your strikes and party strikes, which anyone can re-run.',
   organ4: 'Organ 4 wrote its rules down and sealed them in git before it fused a single card, then measured them; each verdict here is read from its committed record. A prediction that failed stays on show.',
   registry: 'This device’s ordered record of every card’s life. It is what stops a card being given away twice.',
   forms: 'The forms a DIGI fights in. Alone: its own mind. Kitted: with your own node cards in its slots. Mesh: with other owners’ cards, each by its owner’s consent. Party: a raid, with friends’ DIGIs. Every one is live.',
@@ -250,7 +259,7 @@ function go(screen, opts = {}) {
   render(screen);
 }
 function render(screen) {
-  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, fusion: renderFusion, arena: renderArena, raids: () => { renderRaids(); renderWorld(); }, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
+  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, fusion: renderFusion, arena: () => { renderArena(); renderTournament(); }, raids: () => { renderCampaign(); renderRaids(); renderWorld(); }, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
   renderTop(); renderRail();
 }
 
@@ -655,6 +664,7 @@ async function fusionGo() {
   try {
     const x = await api.fuse(FUS.a, FUS.b, (s) => fill(out, el('p', { class: 'g-small' }, s)));
     FUS.last = x;
+    if (x.ok) drawFusion(x);
     if (!x.ok) { bleep('refused'); fill(out, el('p', { class: 'g-badt' }, x.why)); }
     else if (!x.kept) {
       bleep('refused');
@@ -675,6 +685,21 @@ async function fusionGo() {
   } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
   finally { FUS.busy = false; await renderFusion(); }
 }
+/** the fusion drawn from its own record: both parents with their GATE, how many tries, and the fused card when one was kept */
+async function drawFusion(x) {
+  const cv = $('#g-fu-art'), [va, vb] = await Promise.all([FUS.a, FUS.b].map((id) => verify(api.lifeOf(id)))), side = (v, gate) => ({ id: v.id, rarity: facts(v).rarity, gate, title: artText(facts(v).title, 16) });
+  const fusion = { a: side(va, x.parents[0]), b: side(vb, x.parents[1]), tried: x.r.tries, ...(x.kept ? { fused: side(x.child, x.r.gate) } : {}) };
+  cv.hidden = !paintOn(cv, paintFusion(fusion, plotTheme(), cv.width, cv.height));
+  cv.setAttribute('aria-label', 'The fusion, drawn: ' + facts(va).title + ' and ' + facts(vb).title + ', ' + x.r.tries + ' tr' + (x.r.tries === 1 ? 'y' : 'ies') + (x.kept ? ', a fused card kept' : ', refused: no fused card beat both'));
+}
+/** a card's family tree for the painter: four generations at most; a card this device does not hold is its id alone */
+async function treeOf(id, depth = 0) {
+  const d = api.lifeOf(id), v = d ? await verify(d) : null;
+  if (!v || !v.ok) return { id };
+  const f = facts(v), node = { id, rarity: f.rarity };
+  if (f.parents.length === 2 && depth < 3) node.parents = [await treeOf(f.parents[0], depth + 1), await treeOf(f.parents[1], depth + 1)];
+  return node;
+}
 /** a card's lineage, walked back through the seals this device holds; a parent it does not hold is named, never drawn */
 async function renderLineage(id) {
   const rows = [], seen = new Set();
@@ -691,6 +716,8 @@ async function renderLineage(id) {
   };
   await walk(id, 0);
   fill($('#g-fu-lineage'), rows.length ? rows : line('x', 'Card me first: a lineage starts at a card you hold'));
+  const tree = $('#g-fu-tree');
+  tree.hidden = !id || !paintOn(tree, paintLineage(await treeOf(id), plotTheme(), tree.width, tree.height));
 }
 /** organ 4's sealed rules, each with its verdict read from the committed record */
 async function renderFusionProof() {
@@ -824,9 +851,51 @@ function showDuel(r, vA, vB) {
     cases: r.batch.map((row, k) => [(r.scores.a[k] >= lineA) === (r.y[k] === 1) ? 1 : 0, (r.scores.b[k] >= lineB) === (r.y[k] === 1) ? 1 : 0]), result: x.winner === 'a' ? 'left' : x.winner === 'b' ? 'right' : 'draw' }, plotTheme(), 480, 320));
   $('#g-ar-duelart').hidden = !drawn;
   $('#g-ar-duelart').setAttribute('aria-label', 'The duel, drawn: ' + facts(vA).title + ' against ' + facts(vB).title + ', ' + (x.winner === 'a' ? 'yours wins' : x.winner === 'b' ? 'theirs wins' : 'a draw') + ', every case marked');
-  $('#g-ar-rerun').disabled = false; $('#g-ar-receipt').disabled = false;
+  $('#g-ar-rerun').disabled = false; $('#g-ar-receipt').disabled = false; $('#g-ar-watch').disabled = false; $('#g-ar-watchbox').hidden = true;
   bleep(you === 'ok' ? 'kept' : you === 'bad' ? 'wrong' : 'abstain');
   renderLadder(); fill($('#g-ar-a-line'), facts(vA).title + ' #' + pad4(vA.serial) + ' · rating ' + (after[vA.id] ?? 1000));
+}
+/** watch the last duel back: fought again from its receipt, then case by case, each case readable */
+async function arenaWatch() {
+  if (!A.last) return;
+  const box = $('#g-ar-watchbox'), lineEl = $('#g-ar-watch-line'), out = $('#g-ar-watch-out');
+  box.hidden = false; fill($('#g-ar-readback')); fill(out); fill(lineEl, 'Fighting it again from its receipt…');
+  const g = await api.groundFor(A.last.vA), r = await replay(A.last.receipt, A.last.sides.a, A.last.sides.b, g, A.last.signed);
+  if (!r.ok) return fill(lineEl, el('span', { class: 'g-badt' }, '✗ ' + r.why));
+  const cells = r.frames.map((f) => el('button', { type: 'button', class: 'g-case ' + (f.a.right && f.b.right ? 'both' : f.a.right ? 'mine' : f.b.right ? 'theirs' : 'none'), 'aria-label': 'Case ' + (f.k + 1) + ': really ' + (f.y ? 'yes' : 'no') + ', yours ' + (f.a.right ? 'right' : 'wrong') + ', theirs ' + (f.b.right ? 'right' : 'wrong'), onclick: () => arenaReadBack(r, f, g) }));
+  fill(out, el('div', { class: 'g-cases' }, cells));
+  let a = 0, b = 0;
+  for (const f of r.frames) {
+    if (f.a.right) a++; if (f.b.right) b++;
+    cells[f.k].classList.add('seen');
+    fill(lineEl, 'Case ' + (f.k + 1) + ' of ' + r.frames.length + ' · really ' + (f.y ? 'yes' : 'no') + ' · yours called ' + (f.a.call ? 'yes' : 'no') + (f.a.right ? ' (right)' : ' (wrong)') + ' · theirs ' + (f.b.call ? 'yes' : 'no') + (f.b.right ? ' (right)' : ' (wrong)') + ' · so far ' + a + ' to ' + b);
+    await sleep(60);
+  }
+  fill(lineEl, '✓ The very same receipt · yours called ' + r.right.a + ' of ' + r.frames.length + ' right, theirs ' + r.right.b + ' · AUC on the batch ' + six(r.receipt.a.auc) + ' against ' + six(r.receipt.b.auc) + ' · tap a case to read it back');
+}
+/** one case of a watched duel, read back: each fielded mind's rules that fired on it, and its score */
+function arenaReadBack(r, f, g) {
+  const side = (k, name) => { const b = readBack(k, g, f.row); return b.ok ? b.minds.map((m) => el('div', {}, el('p', { class: 'g-small' }, name + ' · ' + (m.score === null ? 'no answer here' : 'score ' + m.score)), el('ul', { class: 'g-lines' }, m.fired.length ? m.fired.map((x) => line(x.w > 0 ? 'k' : 'r', x.feat + ' ' + (x.op === '<=' ? '≤' : '>') + ' ' + x.v, el('small', {}, (x.w > 0 ? '+' : '') + x.w))) : line('x', 'no rule fired')))) : el('p', { class: 'g-badt' }, b.why); };
+  fill($('#g-ar-readback'), el('h4', {}, 'Case ' + (f.k + 1) + ' · really ' + (f.y ? 'yes' : 'no')), side(r.kits.a, 'Yours'), side(r.kits.b, 'Theirs'));
+}
+/** the tournament of your cards of one business: seeded, played out from the receipts, each open match one duel away */
+async function renderTournament() {
+  const mine = await myCards(null), sets = [...new Set(mine.map((m) => m.f.dataset))].filter((s) => mine.filter((m) => m.f.dataset === s).length >= 2), pick = $('#g-tn-set');
+  if (!sets.length) { fill(pick, el('option', { value: '' }, 'two cards of one business first')); fill($('#g-tn-rounds'), line('x', 'Hold two or more cards of one business: press Card me, or mint a node in the Kit.')); return fill($('#g-tn-title')); }
+  const keep = pick.value; fill(pick, sets.map((s) => el('option', { value: s }, SETS[s] ? SETS[s].title : s))); if (sets.includes(keep)) pick.value = keep;
+  const cards = mine.filter((m) => m.f.dataset === pick.value).slice(0, 8), byCard = new Map(cards.map((m) => [m.id, m])), name = (id) => (byCard.get(id) ? '#' + pad4(byCard.get(id).v.serial) + ' ' + byCard.get(id).f.department : 'a bye');
+  const receipts = G.st.duels || [], b = bracketOf(cards.map((m) => m.id), receipts), p = b.ok ? playOut(b, receipts) : b;
+  if (!p.ok) return fill($('#g-tn-rounds'), line('r', p.why));
+  const label = (n, total) => (n === total - 1 ? 'Final' : n === total - 2 ? 'Semi-final' : 'Round ' + (n + 1));
+  fill($('#g-tn-rounds'), p.rounds.flatMap((round, n) => round.map((m) => line(m.open ? 'x' : 'k', label(n, p.rounds.length) + ' · ' + (m.a ? name(m.a) : 'to be decided') + ' v ' + (m.b ? name(m.b) : m.by === 'bye' ? 'a bye' : 'to be decided'),
+    m.open && m.a && m.b ? el('button', { type: 'button', class: 'g-btn', onclick: () => tournamentFight(m.a, m.b) }, 'Fight this match') : el('small', {}, m.open ? 'open' : m.by === 'bye' ? name(m.winner) + ' advances' : name(m.winner) + ' won · duel ' + (m.by + 1))))));
+  fill($('#g-tn-title'), p.champion ? '★ ' + p.title + ': ' + name(p.champion) + ' — a title, and nothing else' : '');
+}
+async function tournamentFight(aId, bId) {
+  const vA = await verify(api.lifeOf(aId)), vB = await verify(api.lifeOf(bId)), r = await fightWith(vA, vB, S.me, S.me, 'tournament-' + Date.now());
+  if (!r.ok) return fill($('#g-tn-title'), el('span', { class: 'g-badt' }, 'The match could not be fought: ' + r.why));
+  G.st.duels = [...(G.st.duels || []), r.receipt].slice(-500); saveState(); renderLadder();
+  await renderTournament();
 }
 async function arenaRerun() {
   if (!A.last) return;
@@ -886,6 +955,18 @@ async function arenaPaste() {
 
 // ── play: raids ─────────────────────────────────────────────────────────────────────────────────────────────────
 const R = { running: new Set() };
+/** the campaign: every chapter, cleared or now or later, each boss in it felled or standing, from the receipts alone */
+async function renderCampaign() {
+  admission ||= await fetch('drop/admission.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const c = campaign(admission, G.st.strikes || [], (G.st.clears || []).map((x) => x.clear)), box = $('#g-cp-chapters');
+  if (!c.ok || !c.chapters.length) return fill(box, line('x', 'The admission record did not load.'));
+  fill(box, c.chapters.map((ch) => {
+    const title = SETS[ch.set] ? SETS[ch.set].title : ch.set, down = ch.raids.filter((r) => r.fallen).length;
+    const bosses = [...ch.raids.map((r) => r.domain.slice(ch.set.length + 1) + (r.fallen ? ' ✓' : '')), 'the whole business' + (ch.world.fallen ? ' ✓' : '')];
+    return line((ch.cleared ? 'k' : ch.n === c.now ? 'm' : 'x') + ' g-two', 'Chapter ' + ch.n + ' · ' + title + (ch.cleared ? ' · cleared' : ch.n === c.now ? ' · now' : ''),
+      el('small', {}, (ch.raids.length ? down + ' of ' + ch.raids.length + ' raid boss' + (ch.raids.length === 1 ? '' : 'es') + ' down, then ' : '') + 'its world boss · ' + bosses.join(' → ')));
+  }));
+}
 async function renderRaids() {
   admission ||= await fetch('drop/admission.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
   const bosses = bossesOf(admission), st = raidStanding(bosses, G.st.strikes || []), box = $('#g-rd-bosses');
@@ -1105,7 +1186,7 @@ async function renderKitTools() {
     }
     const b = h.v.body;
     return el('div', { class: 'g-kslot full' }, slotArt({ kind: 'tool', item: { id: b.sha.slice(0, 16), tier: b.tier } }, 'Tool slot ' + (i + 1) + ': ' + b.app + ', ' + b.tier), name, el('span', {}, b.app + ' ', el('span', { class: 'g-tag ' + (b.tier === 'proven' ? 'ok' : 'cy') }, b.tier)), el('small', {}, 'commit ' + b.sha.slice(0, 7) + (b.spdx ? ' · ' + b.spdx : '')),
-      el('span', { class: 'g-row' }, el('a', { class: 'g-btn', href: b.page || repoOf(b.app), target: '_blank', rel: 'noopener noreferrer' }, 'Open'), el('a', { class: 'g-btn', href: b.run, target: '_blank', rel: 'noopener noreferrer' }, 'Its proof'),
+      el('span', { class: 'g-row' }, el('button', { type: 'button', class: 'g-btn', onclick: () => toolOpen(b) }, 'Open'), el('a', { class: 'g-btn', href: b.run, target: '_blank', rel: 'noopener noreferrer' }, 'Its proof'),
         el('button', { type: 'button', class: 'g-btn', onclick: () => { KIT.tools.splice(i, 1); renderKit(); } }, 'Take out')));
   }));
   const give = $('#g-kit-give-item');
@@ -1151,6 +1232,32 @@ async function nodeMint(domain) {
     fill(out, el('p', { class: 'g-okt' }, '★ Minted: a ' + domain + ' node, ' + six(s.strike.gate) + ' on GATE, sealed with you as its maker' + (KIT.nodes.includes(sealed.id) ? ' and put in a slot. Measure it, then equip.' : '. Your node slots are full: it waits in Cards.')));
   } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
   finally { KIT.busy.delete(domain); renderKit(); }
+}
+/** Kit it for me: the card of yours that lifts this DIGI most, then the next, while one lifts it and a slot is open (src/campaign.mjs) */
+async function kitAuto() {
+  if (!KIT.card) return;
+  const v = await verify(api.lifeOf(KIT.card)), out = $('#g-kit-measure'), mine = await myCards(api.setOf(v)), others = mine.filter((m) => m.id !== v.id);
+  fill(out, el('p', { class: 'g-small' }, 'Trying your ' + others.length + ' other card' + (others.length === 1 ? '' : 's') + ' of this business, one slot at a time, each measured here…'));
+  const g = await api.groundFor(v), k = autoKit(v, others.map((m) => m.v), g);
+  if (!k.ok) return fill(out, el('p', { class: 'g-badt' }, k.why));
+  KIT.nodes = [...k.nodes]; KIT.measured = null;
+  await renderKitNodes(v, slotsOf(v));
+  const named = (id) => { const m = others.find((x) => x.id === id); return m ? '#' + pad4(m.v.serial) + ' · ' + m.f.department : id.slice(0, 8); };
+  fill(out, el('p', { class: 'g-win ' + (k.steps.length ? 'ok' : 'draw') }, k.steps.length ? 'Kitted for you ' + six(k.gate) : 'Nothing of yours lifts it'),
+    el('p', {}, 'Alone ' + six(k.alone) + (k.steps.length ? ' · lift +' + six(k.gate - k.alone) + ' · out of fold on GATE' : '')),
+    el('ul', { class: 'g-lines' }, k.steps.map((s, i) => line('k', 'Step ' + (i + 1) + ' · ' + named(s.card), el('small', {}, 'adds +' + six(s.adds))))),
+    el('p', { class: 'g-small g-dim' }, 'Each step took the card of yours that lifted the kitted score most; it stopped when none lifted it or the slots were full. Equip it to fight with it. Whether lifts like these hold on TEST is organ 11’s question, sealed before it was measured.'));
+}
+/** open a tool in its box: its own page read first for what it asked for; a page elsewhere opens in its own tab */
+async function toolOpen(b) {
+  const page = b.page || repoOf(b.app), box = $('#g-box'), frame = $('#g-box-frame');
+  box.hidden = false; fill($('#g-box-name'), b.app); frame.removeAttribute('src');
+  if (!boxable(page, location.href)) { fill($('#g-box-asked'), line('y', 'Its page is on another address, so it cannot go in a box here', el('a', { class: 'g-btn', href: page, target: '_blank', rel: 'noopener noreferrer' }, 'Open it in its own tab'))); return; }
+  fill($('#g-box-asked'), line('', 'Reading what its page asked for…'));
+  const html = await fetch(page).then((r) => (r.ok ? r.text() : '')).catch(() => ''), a = askedFor(html);
+  if (frame.getAttribute('sandbox') !== SANDBOX.join(' ')) { fill($('#g-box-asked'), line('r', 'The box is not the box: it will not open')); return; }
+  fill($('#g-box-asked'), line('k', 'In a box: scripts and forms only — never this page’s origin, a pop-up, a download or the top window'), line(a.policy ? 'k' : 'y', a.network), line(a.policy ? 'k' : 'y', a.frames), line('', a.storage), line('', 'It never moves a score: duels and raids are won by the card’s mind'));
+  frame.setAttribute('src', page);
 }
 async function kitMeasure() {
   if (!KIT.card) return;
@@ -1526,6 +1633,10 @@ function wire() {
   on('#g-kit-measure-go', 'click', kitMeasure); on('#g-kit-equip', 'click', kitEquip);
   on('#g-kit-t-proven', 'click', () => { KIT.tier = 'proven'; renderKitApps(); }); on('#g-kit-t-works', 'click', () => { KIT.tier = 'works'; renderKitApps(); });
   on('#g-kit-q', 'input', () => renderKitApps());
+  on('#g-kit-auto', 'click', kitAuto);
+  on('#g-ar-watch', 'click', arenaWatch);
+  on('#g-box-close', 'click', () => { $('#g-box-frame').removeAttribute('src'); $('#g-box').hidden = true; });
+  on('#g-tn-set', 'change', () => renderTournament());
   on('#g-kit-give', 'click', itemGive); on('#g-kit-take', 'click', itemTake);
   on('#g-rec-go', 'click', recordUpdate); on('#g-rec-replay', 'click', recordReplay); on('#g-rec-save', 'click', recordSave);
   on('#g-ar-copy', 'click', arenaCopy); on('#g-ar-paste', 'click', arenaPaste);

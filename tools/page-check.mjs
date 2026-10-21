@@ -28,6 +28,8 @@ for (const [name, text] of said) {
   for (const m of text.matchAll(/.{0,40}\b(breed|breeds|breeding|bred|breeder|offspring)\b.{0,40}/gi)) if (!/src\/breed\.mjs|sealed as ‘breeding’/.test(m[0])) problems.push(name + ' says “' + m[1] + '” (the act is fuse): ' + m[0].trim());
 }
 if (!/\boffered\(b\.app\) && /.test(at('ui/game.js'))) problems.push('the Kit offers every estate app, the money side and the ledger’s own apps included');
+if (!/id="g-box-frame" sandbox="allow-scripts allow-forms"/.test(html)) problems.push('the Kit’s box is not exactly scripts and forms');
+if (/allow-same-origin/.test(html + app)) problems.push('a frame here would share this page’s origin');
 for (const [id, href] of [['g-boot-next', '#kit'], ['g-estate-next', '#mint']]) if (!new RegExp('id="' + id + '" href="' + href + '"').test(html)) problems.push('the first visit’s NEXT from ' + id + ' does not go to ' + href);
 for (const [id, href] of [['g-kit-next', '#arena'], ['g-ar-next', '#estate']]) if (!new RegExp("id: '" + id + "', href: '" + href + "'").test(at('ui/game.js'))) problems.push('the first visit’s NEXT from ' + id + ' does not go to ' + href);
 for (const s of ['ui/game.css', 'ui/mode.js', 'ui/game.js']) if (!html.includes('"' + s + '"')) problems.push('the page does not load ' + s);

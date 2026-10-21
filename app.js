@@ -334,15 +334,15 @@ async function fuse(aId, bId, tell = () => {}) {
   if (v.owner !== S.me.pub || vp.owner !== S.me.pub) return { ok: false, why: 'Fusing needs two cards that are yours.' };
   const g = await groundFor(v, tell);
   tell('Fusing their minds, up to 12 times, looking for a fused card that beats both on GATE…'); await wait();
-  const r = await breed(v, vp, g, S.me, { seed: 1 + v.receipts.length + vp.receipts.length });
-  if (!r.born) { emit('birth', { kept: false, a: v.id, b: vp.id, tries: r.tries, why: r.why }); return { ok: true, kept: false, r, why: r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) }; }
+  const r = await breed(v, vp, g, S.me, { seed: 1 + v.receipts.length + vp.receipts.length }), parents = [mindOf(v, g).gate, mindOf(vp, g).gate];
+  if (!r.born) { emit('birth', { kept: false, a: v.id, b: vp.id, tries: r.tries, why: r.why }); return { ok: true, kept: false, r, parents, why: r.why.replace(/\b\d{6,7}\b/g, (x) => (x / 1e6).toFixed(3)) }; }
   const serial = nextSerial(), child = await issue(r.genome, S.me, { serial, to: S.me.pub, theme: themeOf(serial), generation: Math.max(v.generation, vp.generation) + 1 });
   const kept = await keep(child.dossier);
   if (!kept.ok) return { ok: false, why: kept.why };
   const vc = await verify(child.dossier), bc = birthCheck(vc, v, vp, g);
   emit('birth', { kept: true, id: vc.id, a: v.id, b: vp.id, gate: r.gate, parents: r.parents, tries: r.tries });
   await renderWallet();
-  return { ok: true, kept: true, child: vc, r, check: bc };
+  return { ok: true, kept: true, child: vc, r, parents, check: bc };
 }
 
 async function actBreed() {
