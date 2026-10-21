@@ -507,8 +507,13 @@ async function renderDrop(stats) {
   setK('demo', m.demo ? 'This drop is sealed with the public DEMO maker key (its phrase is in src/drop.mjs), so anyone can reproduce every seal. The real drop is sealed by its owner’s own key; nothing else changes.' : 'Sealed by the drop owner’s own key.');
   // distinct scores: every card's rule shape is its own, but a department of few columns leaves a search little room, so
   // many shapes can rank the cases identically (adult-tax reads only capital gain and loss) — the table says how many
-  clear($('#drop-depts'), el('table', {}, el('thead', {}, el('tr', {}, ['Department', 'Cards', 'Distinct GATE scores', 'Median GATE', 'Best GATE'].map((h) => el('th', {}, h)))),
-    el('tbody', {}, Object.entries(per).map(([d, gs]) => el('tr', {}, el('td', {}, d), el('td', { class: 'num' }, String(gs.length)), el('td', { class: 'num' }, String(new Set(gs).size)), el('td', { class: 'num' }, auc(med(gs))), el('td', { class: 'num' }, auc(Math.max(...gs))))))));
+  // TEST, from organ 2's committed record: the cases nothing in the build fitted or selected on, read once, by the seal
+  const r2 = await fetch('data/organ-2/record.json').then((r) => (r.ok ? r.json() : null)).catch(() => null), test = (d) => (r2 && r2.departments[d] ? auc(r2.departments[d].medianTest) : '—');
+  clear($('#drop-depts'), el('table', {}, el('thead', {}, el('tr', {}, ['Department', 'Cards', 'Distinct GATE scores', 'Median GATE', 'Best GATE', 'Median TEST (organ 2)'].map((h) => el('th', {}, h)))),
+    el('tbody', {}, Object.entries(per).map(([d, gs]) => el('tr', {}, el('td', {}, d), el('td', { class: 'num' }, String(gs.length)), el('td', { class: 'num' }, String(new Set(gs).size)), el('td', { class: 'num' }, auc(med(gs))), el('td', { class: 'num' }, auc(Math.max(...gs))), el('td', { class: 'num' }, test(d)))))));
+  // what a minute of searching costs, from the price lock: the chip's rated power for sixty seconds at the sourced price
+  const lock = await fetch('data/prices.lock.json').then((r) => r.json()).catch(() => null);
+  if (lock) { const p = Object.fromEntries(lock.entries.map((e) => [e.id, e])), w = p['intel-i7-1255u-power'].wattsLow, pence = p['desnz-electricity-nondomestic'].pencePerKwh, kwh = (w * 60) / 3600 / 1000; setK('search-cost', w + ' W for a minute is ' + kwh.toFixed(5) + ' kWh — at ' + pence + 'p a kWh (DESNZ, ' + p['desnz-electricity-nondomestic'].checked + '), about ' + (kwh * pence).toFixed(4) + 'p a search'); }
 }
 async function rerunDrop() {
   const out = $('#drop-out');
