@@ -12,11 +12,32 @@ Everything on the live page is this repository's mutation-gated code running in 
 datasets. Nothing is mocked; nothing is sent anywhere.
 
 The page opens as a game, built from the same blocks as the cards (PixelWhisperer Kards' palettes, rarity rings and
-pixel lettering). Its dock holds eight screens: Estate, Base, Cards, Evals, Mint, Mesh, Send and Proof. Card me hands you
+pixel lettering). Its dock holds eight screens: Estate, Base, Cards (with each card's Kit), Play (the Arena, the Raids and
+Evals), Mint, Mesh, Send and Proof (with your record). Card me hands you
 a telco card, and Boot reads it, checks it, grows its mind and counts up to the score your device computed beside the
 one the drop declared. The classic document view (Menu → Classic view) holds the full explanation, the brochure and
 the white paper. Your key is never kept in the browser's storage: it lives in the tab and in the key file you save.
 The game's own files are `ui/mode.js`, `ui/game.js` and `ui/game.css`, and they change no kernel.
+
+## FallWorld: kit it out, fight, raid — the agent economy as a game, real underneath
+
+Every card is born with an inventory: two node slots (a third once it levels, a fourth at rare) and two tool slots. A
+**node** is another card its owner holds from the same business, for a department the DIGI does not cover; equipped, it
+couples with the DIGI exactly as a mesh couples its members, and joins only if it measurably adds (it must answer, cover
+something new and beat a coin on GATE). Every slot shows its leave-one-out worth. A **tool** is one of the estate's 337
+mintable apps, exactly as mint-an-app's records hold it — the commit its own CI passed at and the run that proved it —
+minted as a signed item, handed on by signed gives; it moves no score, and the page says so.
+
+- **Arena** (`src/arena.mjs`, `src/kit.mjs`): two cards fight on 64 GATE cases drawn from both owners' signatures, each
+  fighting as it is kitted (its coupling learned on the GATE cases outside the batch); the better ranking wins; the
+  receipt re-runs; ratings come from a published table; self-play is never rated; nothing is staked.
+- **Raids** (`src/raid.mjs`): a department nobody solved is a boss struck by signed searches seeded by each player's own
+  key; the first strike to clear 0.6 seals that department's first card. A whole business is a **world boss** at its
+  best lone genesis search plus 0.010; a **party** of owners' cards, each by its owner's signed consent, strikes it
+  together, and the receipt names every member's measured share (in millionths, a million between them).
+- **The record** (`src/earn.mjs`): every card and tool a player makes, and every party share they measure, written into
+  the estate's contribution ledger (kcc-mesh's `contrib.mjs`, vendored byte for byte), begun from the estate's very
+  genesis so a reconcile counts each entry once; internal units, not money; the switch is off.
 
 ## What was proven
 
@@ -81,7 +102,12 @@ or sent by the tools: a person does that.
 | `src/drop.mjs` | the genesis and decoder #0001 |
 | `src/cost.mjs` | the cost case, from sourced prices only |
 | `src/arena.mjs` | duels: both owners sign, the batch comes from both signatures, the better ranking wins, ratings from a published table |
-| `src/raid.mjs` | raids: the unsolved departments as bosses, signed strikes anyone re-checks, the first card of a fallen boss as loot |
+| `src/raid.mjs` | raids: the unsolved departments as bosses, signed strikes anyone re-checks, the first card of a fallen boss as loot; world bosses, party strikes assembled as a mesh, receipts that re-run |
+| `src/kit.mjs` | the kit: slots from birth, the owner's signed loadout, the kitted mind with each slot's worth, kit duels |
+| `src/item.mjs` | app items: an estate app exactly as mint-an-app's records hold it, minted and handed on by signature |
+| `src/earn.mjs` | the record: a player's releases and measured party shares as entries of the estate's contribution ledger |
+| `vendor/mint-an-app/` | mint-an-app's records of the estate's apps (which are mintable, their tier, commit and CI run), byte for byte |
+| `vendor/kcc-mesh/` | the contribution ledger and its DIGI gate, byte for byte |
 | `data/organ-*/` | nine organs: sealed claims, records, verdicts |
 | `drop/` | the manifest, the genesis log, every search |
 | `decoder/v1/` | the exact files that read a card, frozen at the drop |

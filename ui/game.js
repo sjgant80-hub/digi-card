@@ -883,10 +883,21 @@ async function renderKit() {
   const s = slotsOf(v), f = facts(v);
   fill($('#g-kit-line'), f.title + ' #' + pad4(v.serial) + ' · ' + f.rarity + ' · ' + (k.ok ? 'equipped: ' + k.lo.nodes.length + ' node' + (k.lo.nodes.length === 1 ? '' : 's') + ', ' + k.lo.tools.length + ' tool' + (k.lo.tools.length === 1 ? '' : 's') : k.lo ? 'its kit lapsed: ' + k.why : 'not kitted yet: it fights alone'));
   fill($('#g-kit-nslots'), s.nodes + ' of 4 open');
+  renderSheet(v, f, s);
   await renderKitNodes(v, s);
   await renderKitTools();
   await renderKitDepts(v);
   await renderKitApps();
+}
+/** the character sheet: what it covers, where it fights, and its record, every line read from receipts on this device */
+function renderSheet(v, f, s) {
+  const duels = (G.st.duels || []).filter((x) => x.a && (x.a.card === v.id || x.b.card === v.id)), side = (x) => (x.a.card === v.id ? 'a' : 'b');
+  const rated = duels.filter((x) => !x.self), won = rated.filter((x) => x.winner === side(x)).length, drawn = rated.filter((x) => x.winner === 'draw').length, rate = (ratings(G.st.duels || []).ratings || {})[v.id] ?? 1000;
+  const parties = (G.st.clears || []).filter((c) => c.clear.members.some((m) => m.card === v.id)), share = parties.reduce((n, c) => n + c.clear.members.find((m) => m.card === v.id).share, 0);
+  const domains = domainsOf(v).filter(Boolean), set = api.setOf(v);
+  fill($('#g-kit-sheet'), [['Raid role', 'covers ' + (domains.join(' + ') || 'its own table')], ['Arena', set ? 'ready on ' + (SETS[set] ? SETS[set].title : 'its own table') + ' — its mind cleared 0.6 on GATE' : 'its own table only'],
+    ['Level · rarity', f.stage + ' · ' + f.rarity + ' (' + s.nodes + ' node slots)'], ['Duels, rated', rated.length + ' · won ' + won + ', lost ' + (rated.length - won - drawn) + ', drawn ' + drawn], ['Rating', String(rate)],
+    ['Party strikes', parties.length + (parties.length ? ' · share ' + share.toLocaleString() + ' millionths in all' : '')], ['Lineage', v.generation ? 'generation ' + v.generation + ' · parents ' + v.genome.parents.map((p) => p.slice(0, 6)).join(', ') : 'genesis']].flatMap(([k, x]) => [el('dt', {}, k), el('dd', {}, x)]));
 }
 async function renderKitNodes(v, s) {
   const same = (await myCards(api.setOf(v))).filter((m) => m.id !== v.id), worth = new Map(((KIT.measured && KIT.measured.slots) || []).map((x) => [x.card, x]));

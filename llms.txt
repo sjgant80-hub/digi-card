@@ -19,8 +19,17 @@ Source: https://github.com/sjgant80-hub/digi-card (MIT — no licence fee)
 - The page opens as a pixel game view built from the cards' own art engine: eight screens (Estate, Base, Cards,
   Evals, Mint, Mesh, Send, Proof) over the same kernels; the classic document view holds the full explanation.
 - A player's key is never kept in browser storage: it lives in the open tab and in the key file they save.
+- FallWorld, the agent economy as a game: every card is born with two node slots (more as it levels) and two tool slots.
+  Nodes are the owner's own cards of other departments, coupled with it and joining only if they measurably add; tools
+  are the estate's proven apps as signed items, and move no score.
+- Arena: two cards fight on 64 GATE cases drawn from both owners' signatures, each as it is kitted; the receipt re-runs;
+  nothing is staked. Raids: unsolved departments struck by signed searches (the first to clear 0.6 seals the first card);
+  world bosses (a whole business) cleared only by a party of owners' cards, each member's measured share on the record.
+- The record: a player's releases and party shares as entries of the estate's contribution ledger (internal units, not
+  money; the switch off).
 
 ## Sections of the page
+- Game screens: Estate · Base · Cards and Kit · Play (Arena, Raids and world bosses, Evals) · Mint · Mesh · Send · Proof and your record
 - What it is · Start here · Wallet · Open a card · The mesh · Your data · The drop · How it works · Blueprint · Proof ·
   For business (cost case computed from sourced prices) · White paper · Questions
 
