@@ -1,0 +1,43 @@
+{
+ "kind": "digi-card.organ-12.verdict",
+ "v": 1,
+ "prereg": "20e345b5e4aea073",
+ "record": "cbb21ecee812cc43",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 100 duels replays to the very same receipt; its cases, laid out, give back the receipt’s two AUCs exactly; and each side calls exactly as many yeses as the batch holds real yeses.",
+   "pass": true,
+   "saw": "100 of 100 duels replayed to the very same receipt, their cases giving back its AUCs, each side calling exactly as many yeses as the batch held"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "On every case of every replayed duel, each fielded mind’s read-back gives the very score the duel used for it, and for every mind of one department the weights of its rules that fired sum to that score.",
+   "pass": true,
+   "saw": "19584 of 19584 read-backs gave the very score the duel used; 19584 of 19584 minds of one department had their fired rules sum to it"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Across the 1,000 receipt sets every bracket plays out the same however its entrants are listed; every decided match is decided by the first receipt, in order, naming exactly its two cards that is not a draw; no match is decided while a side of it is open; a champion is named exactly when the final is decided, its title practice exactly when a deciding duel was one owner against itself; and all 5 real brackets play out to a champion that is no practice champion.",
+   "pass": false,
+   "saw": "1000 of 1000 receipt sets played out the same however entered; 1000 decided every match only by the first decisive receipt of exactly its two cards; 1000 never decided a match with a side open; 1000 named a champion exactly when the final was decided; 3 of 5 real brackets played to a champion"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "In at least 80% of the decided duels whose sides called different numbers of cases right, the side that called more right also has the higher AUC: the watched-back tally agrees with the receipt.",
+   "pass": true,
+   "saw": "63 of 73 decided duels whose sides called different numbers of cases right were won by the side with more right (86.3%)"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "In the 5 real brackets, the card with the higher declared GATE AUC wins at least 60% of the matches between cards of different declared AUC: the arena’s 64 cases reflect the score a card was proven on.",
+   "pass": false,
+   "saw": "17 of 29 bracket matches were won by the card with the higher declared GATE AUC (58.6%)"
+  }
+ ]
+}
