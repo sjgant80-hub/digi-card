@@ -225,6 +225,8 @@ async function bootCard(id) {
     const steps = ['A PNG · every CRC whole', 'Band · dossier in one byte form · ' + bytes.toLocaleString() + ' bytes', 'Seals · ' + d.events.length + ' signature' + (d.events.length === 1 ? '' : 's'), 'Face redrawn · ' + (W * (H - BAND)).toLocaleString() + ' px match', 'Data · fetching', 'Mind · growing'];
     const lis = steps.map((s) => line('wait', '· ' + s));
     fill($('#g-boot-steps'), lis);
+    const scan = $('#g-scan');
+    scan.classList.remove('on'); void scan.offsetWidth; scan.classList.add('on');   // the band's 16 rows, read top to bottom (beside the card, never on it)
     const png = await cardOf(d, api.paint), r = await readCard(png.png, api.paint);
     const fail = r.ok ? -1 : /PNG|chunk|picture|CRC/.test(r.why) ? 0 : /band|dossier/.test(r.why) ? 1 : /face/.test(r.why) ? 3 : 2;
     for (let k = 0; k < 4; k++) {
@@ -687,6 +689,16 @@ function wire() {
   on('#g-back', 'click', toGame);
   on('#g-ui-theme', 'click', () => { const r = document.documentElement, ui = r.dataset.ui === 'blockcraft' ? 'synthwave' : 'blockcraft'; if (ui === 'blockcraft') r.dataset.ui = 'blockcraft'; else delete r.dataset.ui; store.set('digi-ui', ui); setK('g-ui-name', ui); });
   on('#g-plain', 'click', () => { const p = document.documentElement.classList.toggle('plain'); store.set('digi-plain', p ? '1' : '0'); setK('g-plain', p ? 'on' : 'off'); $('#g-plain').setAttribute('aria-pressed', String(p)); });
+  on('#g-tilt', 'click', () => { const t = document.documentElement.classList.toggle('tilt'); store.set('digi-tilt', t ? '1' : '0'); setK('g-tilt', t ? 'on' : 'off'); $('#g-tilt').setAttribute('aria-pressed', String(t)); });
+  // the tilt, if chosen and motion is welcome: the card leans toward the pointer, a few degrees, the PNG itself untouched
+  addEventListener('pointermove', (e) => {
+    if (!document.documentElement.classList.contains('tilt') || calm()) return;
+    const ring = e.target && e.target.closest && e.target.closest('.g-ring');
+    $$('.g-ring.leaning').forEach((r) => { if (r !== ring) { r.classList.remove('leaning'); r.style.transform = ''; } });
+    if (!ring) return;
+    const b = ring.getBoundingClientRect(), x = (e.clientX - b.left) / b.width - 0.5, y = (e.clientY - b.top) / b.height - 0.5;
+    ring.classList.add('leaning'); ring.style.transform = 'perspective(900px) rotateY(' + (x * 8).toFixed(1) + 'deg) rotateX(' + (-y * 8).toFixed(1) + 'deg)';
+  });
   on('#g-sound', 'click', () => { G.sound = !G.sound; store.set('digi-sound', G.sound ? '1' : '0'); setK('g-sound', G.sound ? 'on' : 'off'); $('#g-sound').setAttribute('aria-pressed', String(G.sound)); bleep('boot'); });
   on('#g-install', 'click', async () => { if (!G.install) return; G.install.prompt(); const c = await G.install.userChoice.catch(() => null); if (!c || c.outcome !== 'accepted') store.set('digi-install', 'no'); $('#g-install').hidden = true; G.install = null; });
   addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); G.install = e; if (G.grown.size) offerInstall(); });
@@ -701,6 +713,7 @@ async function start() {
   wireInfo();
   if (store.get('digi-plain') === '1') { document.documentElement.classList.add('plain'); setK('g-plain', 'on'); }
   if (store.get('digi-sound') === '1') { G.sound = true; setK('g-sound', 'on'); }
+  if (store.get('digi-tilt') === '1') { document.documentElement.classList.add('tilt'); setK('g-tilt', 'on'); }
   setK('g-ui-name', document.documentElement.dataset.ui === 'blockcraft' ? 'blockcraft' : 'synthwave');
   if (!document.documentElement.classList.contains('game')) $('#g-classic-bar').hidden = false;
   wire();
