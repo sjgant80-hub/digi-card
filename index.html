@@ -188,6 +188,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div><dt>Genome</dt> <dd>— the mind’s recipe, a few hundred bytes, sealed by its maker’s Ed25519 key.</dd></div>
     <div><dt>FIT · GATE · TEST</dt> <dd>— the rows a mind grows on, the rows it must prove itself on, and rows nothing in this repository ever fits or selects on.</dd></div>
     <div><dt>AUC</dt> <dd>— how often a mind ranks a real yes above a real no: 0.5 is a coin, 1 is perfect.</dd></div>
+    <div><dt>Bootstrap bound</dt> <dd>— the cases are resampled thousands of times; the bound is the score a lead keeps in all but the worst 2.5% of resamples. Above zero means the lead is not luck.</dd></div>
+    <div><dt>Out of fold</dt> <dd>— the GATE rows are cut into four; each quarter is scored by a coupling learned on the other three, so no row judges the coupling that learned from it.</dd></div>
     <div><dt>Level</dt> <dd>— a better mind found by search and adopted only if it beats the old one by 0.002 on GATE.</dd></div>
     <div><dt>Receipt</dt> <dd>— what a level carries so anyone can re-run it: both minds, the data’s hash, both scores.</dd></div>
     <div><dt>Registry</dt> <dd>— the ordered record of cards’ lives that settles a double sale: the first recorded give wins.</dd></div>
@@ -384,7 +386,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <h3>What it does for each role</h3>
   <div class="grid three">
     <div class="panel role"><h4>Chief executive</h4><p>Your scoring stops being rent. Each team’s mind is a file you own, not a subscription, and it improves only by gains it proves on cases it never grew on. The proof travels with it, so a mind you buy, sell or breed is worth exactly what it re-runs to.</p></div>
-    <div class="panel role"><h4>Finance</h4><p>The cost case below is computed by the kernel from published prices, each sourced and dated: by hand at the National Living Wage floor, rented from the cloud model you pick (the cheapest by default), or on the machine you already run. No new hardware, no per-seat fee, no token bill — and no record handed to a processor.</p></div>
+    <div class="panel role"><h4>Finance</h4><p>The cost case below is computed by the kernel from published prices, each sourced and dated: by hand at the National Living Wage floor, rented from the cloud model you pick (the cheapest by default), or on the machine you already run. No new hardware, no per-seat fee, no token bill — and no record handed to a processor. Setup is opening a page or hosting static files; there is no service to maintain.</p></div>
     <div class="panel role"><h4>Operations</h4><p>Every queue — collections, retention, campaign lists — is ranked the moment the records land, with the rules that put each case at the top shown beside it. A mind that cannot clear its bar abstains rather than guess, so your people see where it knows and where it does not.</p></div>
     <div class="panel role"><h4>Technology and security</h4><p>No server, no API key, no egress: the page and the kernels are static files. Every card is checked before it is read — CRCs, Ed25519 seals, every signature, the face redrawn and compared. The code is mutation-gated, vendored byte for byte at pinned commits, served under a strict Content-Security-Policy.</p></div>
     <div class="panel role"><h4>Department heads</h4><p>Grow a card from your own export (a CSV, any yes/no outcome, up to sixteen measured columns). You are its maker and owner. It levels overnight on your data, couples with other teams’ cards by consent, and is credited for what it measurably adds — without any team ever seeing another’s records.</p></div>
@@ -402,12 +404,12 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <li><b>Every event is signed.</b> Issue by the genome’s maker, every give, level and skin by the owner of that moment — Ed25519 over one canonical byte form, chained by SHA-256.</li>
     <li><b>Verify before parse.</b> A card is refused at the first thing that fails, before a fact of it is used; the reader is total (no input makes it throw), proven by fuzzing in the tests.</li>
     <li><b>Every number re-runs.</b> Scores are re-expressed on the published bytes; levels and births re-run; the drop replays from decoder #0001; the organs were sealed before they were measured, and git proves the order.</li>
-    <li><b>Protected characteristics are visible, not hidden.</b> Some genesis departments read columns such as sex, race or age, because the public research datasets hold them. A business must not decide about people on those grounds (Equality Act 2010) — and with a DIGI card it can see exactly which rules read which columns, and grow its own cards only from the columns it chooses.</li>
+    <li><b>Protected characteristics are flagged, not hidden.</b> Some genesis departments read columns such as sex, race, age or marital status, because the public research datasets hold them (the credit set’s customer department among them). A business must not decide about people on those grounds (Equality Act 2010). Every card’s rules are shown when it grows, and a card whose rules read a protected characteristic says so in a warning beside them. Grow your own cards only from the columns you may lawfully use.</li>
   </ul>
   <h3>Roll-out</h3>
   <ol class="steps">
     <li><b>Day one:</b> open this page (or host the repository’s static files yourself — nothing else is needed). Card a genesis mind, grow it, ask it, verify it.</li>
-    <li><b>Week one:</b> each department grows its own card from an export, on its own machine. You see each card’s GATE score and its rules before anyone uses it.</li>
+    <li><b>Week one:</b> each department grows its own card from an export, on its own machine. You see each card’s GATE score and its rules before anyone uses it. <b>Run it beside what you use now:</b> score the same cases with your current model and with the card, and compare their AUC on cases neither was fitted on. The card’s six rules are plain thresholds, so they can be written into any system you already run.</li>
     <li><b>Month one:</b> cards level overnight on fresh records; departments couple their cards into a mesh by consent and the ledger credits each team by measured contribution.</li>
     <li><b>Ongoing:</b> keep your registry where you keep records — a device, a shared drive, or a private repository whose CI replays the log on every change.</li>
   </ol>

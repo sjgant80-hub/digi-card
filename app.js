@@ -182,6 +182,15 @@ async function select(id) {
 }
 const current = async () => { const d = lifeOf(S.sel); return { d, v: await verify(d) }; };
 
+// ── protected characteristics: the columns of the bundled sets that stand for one under the Equality Act 2010 (age,
+// marriage and civil partnership, race, sex). A card whose rules read one is flagged wherever its rules are shown. ─────
+const PROTECTED = { gender: 'sex', female: 'sex', male: 'sex', SeniorCitizen: 'age', age: 'age', married: 'marriage and civil partnership', single: 'marriage and civil partnership', Partner: 'marriage and civil partnership', usBorn: 'race (national origin)' };
+const protectedOf = (feat) => PROTECTED[feat] || (/^race_/.test(feat) ? 'race' : /^(marital_|rel_)/.test(feat) ? 'marriage and civil partnership' : null);
+function protectedNote(rules) {
+  const hit = [...new Set(rules.map((r) => protectedOf(r.feat)).filter(Boolean))];
+  return hit.length ? el('div', { class: 'note' }, '⚠ Its rules read columns that stand for protected characteristics under the Equality Act 2010 (' + hit.join(', ') + '). It is a research mind grown on a public dataset: before it informs a decision about a person, check you may lawfully use those columns for that decision — or grow your own card from the columns you may.') : null;
+}
+
 // ── actions on the selected card ─────────────────────────────────────────────────────────────────────────────────────
 async function actGrow() {
   const out = $('#out-grow'), { v } = await current();
@@ -193,7 +202,7 @@ async function actGrow() {
       : 'Its mind did not clear its bar on this ground: it abstains, always.'),
       m.organs.map((o) => el('div', { class: 'answer' }, el('b', {}, o.domain), ' ', el('span', { class: 'chip ' + o.state }, o.state), o.gate != null ? ' GATE ' + auc(o.gate) : ' ' + (o.why || ''),
         o.body ? el('ul', { class: 'rules' }, o.body.rules.map((r) => el('li', {}, r.feat + ' ' + r.op + ' ' + r.v + '  →  ' + (r.w > 0 ? '+' : '') + r.w))) : null,
-        o.body ? el('div', { class: 'dim' }, 'says yes above ' + o.body.threshold + ' (the operating point read off the FIT rows)') : null)),
+        o.body ? el('div', { class: 'dim' }, 'says yes above ' + o.body.threshold + ' (the operating point read off the FIT rows)') : null, o.body ? protectedNote(o.body.rules) : null)),
       m.coupling ? el('p', { class: 'dim' }, 'Two or more departments: their scores are coupled by a logistic regression learned on GATE; its GATE AUC is judged out of fold.') : null);
   } catch (e) { say(out, String(e.message || e), 'bad'); }
 }
