@@ -1,0 +1,10 @@
+/* PixelWhisperer: the 5 x 9 pixel font the DIGI cards are drawn in, as a real font (kards/fonts/PixelWhisperer.ttf).
+   Use it at font-size 9px x k (9px, 18px, 27px, 36px ...): one glyph pixel is then exactly k CSS pixels.
+   Line height is one em (9 pixels: 7 above the baseline, 2 below); every glyph advances 6 pixels (monospaced). */
+@font-face {
+  font-family: 'PixelWhisperer';
+  src: url('PixelWhisperer.ttf') format('truetype');
+  font-display: block;
+}
+.pw { font-family: 'PixelWhisperer', monospace; line-height: 1; font-kerning: none; font-variant-ligatures: none; -webkit-font-smoothing: none; font-smooth: never; }
+.pw-1 { font-size: 9px; } .pw-2 { font-size: 18px; } .pw-3 { font-size: 27px; } .pw-4 { font-size: 36px; }

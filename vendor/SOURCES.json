@@ -107,12 +107,32 @@
   },
   {
    "repo": "sjgant80-hub/pixelwhisperer",
-   "commit": "3047ccc63d2f9a125cb269ffe7a764fa6ce57146",
+   "commit": "c1a01539e5e1f46d34ea6df1d333cc0caba231c1",
    "local": "C:/Users/sjgan/pixelwhisperer",
    "files": {
     "vendor/pixelwhisperer/kards/kardart.mjs": {
      "from": "kards/kardart.mjs",
-     "sha256": "cbb00d3a522c82f9a5aad0d553f5125e28bcc0f6793dee43298ebe91d61acb40"
+     "sha256": "b32603269320d37f0d4f41807574abcaf20a299bcf04b7d78df5116e3c407334"
+    },
+    "vendor/pixelwhisperer/kards/ui.mjs": {
+     "from": "kards/ui.mjs",
+     "sha256": "fe966b76ff9d46fa5b4d3156017dd124f04838da0a0d303381d23fee171f257f"
+    },
+    "vendor/pixelwhisperer/kards/estate.mjs": {
+     "from": "kards/estate.mjs",
+     "sha256": "fe1298007afc884d9cce2620826506c6000a807731ef2636aa12754d214d218f"
+    },
+    "vendor/pixelwhisperer/kards/kardpng.mjs": {
+     "from": "kards/kardpng.mjs",
+     "sha256": "203c9d631b81c13f212672f345975f9c4d7996dd1da2929c1cc2bd40d54fb4ab"
+    },
+    "vendor/pixelwhisperer/kards/fonts/PixelWhisperer.ttf": {
+     "from": "kards/fonts/PixelWhisperer.ttf",
+     "sha256": "cc5d57791b218348c1b051a334407c3388a966f987f212dbe069b7aaa5a9ef64"
+    },
+    "vendor/pixelwhisperer/kards/fonts/pixelwhisperer.css": {
+     "from": "kards/fonts/pixelwhisperer.css",
+     "sha256": "dd34ee89de47c9d5c4c9310e07df518dc0892359a3d304fc94f06432ae0b85fd"
     }
    }
   }
