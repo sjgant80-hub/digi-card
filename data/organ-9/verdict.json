@@ -1,0 +1,57 @@
+{
+ "kind": "digi-card.organ-9.verdict",
+ "v": 1,
+ "prereg": "72eddaef1219fc72",
+ "record": "25ebc90d1af7ea3b",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 1,000 duels re-runs, from its receipt, its two cards, the ground and the two signed records, to the very same receipt.",
+   "pass": true,
+   "saw": "1000 of 1000 duels re-ran to the same receipt"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every duel’s batch is 64 distinct GATE rows of its ground, and no duel reads a TEST row.",
+   "pass": true,
+   "saw": "1000 of 1000 batches were 64 distinct GATE rows with no TEST row"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "All 240 forgeries are refused: an edited challenge, a challenge or acceptance signed by a stranger, an acceptance for another challenge, a stale challenge or acceptance after a give, an edited score, winner or self-play flag in a receipt, a ground of another business, a card fighting itself, an acceptance with an extra field.",
+   "pass": true,
+   "saw": "240 of 240 forgeries refused"
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "The ratings of all the duels, computed twice in their order, are identical, and their total is exactly 1,000 points times the number of rated cards.",
+   "pass": true,
+   "saw": "ratings identical twice; total 341000 over 341 cards"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "In at least 60% of the pairs a majority of five duels decides, the winner is the card with the higher TEST AUC.",
+   "pass": true,
+   "saw": "156 of 199 decided pairs (78.4%): the majority winner had the higher TEST AUC"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "At least 10% of the decided duels are won by the card with the lower GATE AUC: a duel is a fight, not a lookup of the two scores.",
+   "pass": true,
+   "saw": "261 of 994 decided duels (26.3%) were won by the card with the lower GATE AUC"
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "The median duel takes at most 250 milliseconds on the measuring machine, signatures included.",
+   "pass": false,
+   "saw": "median duel 277.7 ms"
+  }
+ ]
+}
