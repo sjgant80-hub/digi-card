@@ -127,7 +127,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <span class="g-sp"></span>
   <a class="g-chip g-key" href="#cards" id="g-key"><canvas id="g-idn" width="10" height="10" aria-hidden="true"></canvas><span>Key <b data-k="me-short">…</b></span><span class="g-tag bad" id="g-key-tag">Not saved</span></a>
   <span class="g-chip g-wide">Blocks <b data-k="g-blocks">0</b></span>
-  <span class="g-chip g-wide">Credits <b data-k="g-credits">0</b> <small>accounting · not money</small></span>
+  <span class="g-chip g-wide" data-info="credits">Credits <b data-k="g-credits">0</b> <small>accounting · not money</small></span>
   <span class="g-chip g-wide">Uptime <b data-k="g-uptime">1d</b></span>
   <button class="g-chip g-pack" id="g-install" type="button" hidden>Install</button>
   <details class="g-menu"><summary class="g-chip">Menu</summary>
@@ -181,7 +181,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 <section id="first-s" class="g-only g-screen" data-screen="first" aria-labelledby="first-h">
   <div class="g-first">
     <h2 id="first-h" class="g-hero">A card that is a mind you own</h2>
-    <p class="g-lead">It grows on this device · nothing is sent</p>
+    <p class="g-lead">It runs on this device · nothing you do here is sent anywhere</p>
     <button class="g-btn hot huge" id="g-first-cardme" type="button" disabled>Card me</button>
     <p class="g-dim g-small" id="g-first-status" aria-live="polite">Checking the 1,000 genesis cards here, from nothing…</p>
     <p class="g-okt">Free · no account · no chain · no seed phrase</p>
@@ -200,10 +200,10 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="g-grid g-boot">
     <div class="g-cardcol"><div class="g-ring" id="g-boot-ring"><canvas class="g-card1" id="g-boot-card" width="384" height="576" role="img" aria-label="The card booting"></canvas></div><p class="g-dim g-small" id="g-boot-band"></p></div>
     <div class="g-col">
-      <h2 id="boot-h" class="g-h">Boot <span id="g-boot-name" class="g-white"></span></h2>
+      <h2 id="boot-h" class="g-h" data-info="boot">Boot <span id="g-boot-name" class="g-white"></span></h2>
       <ol class="g-lines" id="g-boot-steps" aria-live="polite"></ol>
       <div class="g-panel">
-        <p class="g-dim g-small">GATE AUC · computed on this device</p>
+        <p class="g-dim g-small" data-info="gate">GATE AUC · computed on this device</p>
         <div class="g-big" id="g-boot-gate" aria-live="polite">–</div>
         <div class="g-row" id="g-boot-match"></div>
         <p class="g-dim g-small" id="g-boot-rows"></p>
@@ -211,8 +211,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <div class="g-row"><button class="g-btn" id="g-boot-again" type="button">Boot again</button><a class="g-btn" href="#cards">Inspect</a></div>
     </div>
     <div class="g-col">
-      <div class="g-panel"><h3>Rules <small>printed as it grew</small></h3><ol class="g-lines g-rules" id="g-boot-rules"></ol><p class="g-dim g-small" id="g-boot-say"></p><div id="g-boot-protected"></div></div>
-      <div class="g-panel g-gold" id="g-keep"><h3>Keep this card</h3><p class="g-badt g-small" id="g-keep-why">Your key lives only in this tab until you save it</p>
+      <div class="g-panel"><h3 data-info="rules">Rules <small>printed as it grew</small></h3><ol class="g-lines g-rules" id="g-boot-rules"></ol><p class="g-dim g-small" id="g-boot-say"></p><div id="g-boot-protected"></div></div>
+      <div class="g-panel g-gold" id="g-keep"><h3 data-info="key">Keep this card</h3><p class="g-badt g-small" id="g-keep-why">Your key lives only in this tab until you save it</p>
         <button class="g-btn gold big" id="g-save-key" type="button">Save my key file</button>
         <a class="g-btn" href="#evals">Next · eval one test case</a></div>
     </div>
@@ -223,9 +223,9 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <h2 id="base-h" class="sr">Base</h2>
   <div class="g-grid g-3">
     <div class="g-col">
-      <div class="g-panel"><h3>Ops log</h3><p class="g-dim g-small">While you were away</p><ul class="g-lines" id="g-away"></ul></div>
-      <div class="g-panel"><h3>Eval runs <span class="g-tag ok">free</span></h3><div id="g-evals-mini"></div></div>
-      <div class="g-panel"><h3>Registry <span class="g-tag ok">read live</span></h3><ul class="g-lines" id="g-ticker"></ul></div>
+      <div class="g-panel"><h3 data-info="opslog">Ops log</h3><p class="g-dim g-small">While you were away</p><ul class="g-lines" id="g-away"></ul></div>
+      <div class="g-panel"><h3 data-info="evals">Eval runs <span class="g-tag ok">free</span></h3><div id="g-evals-mini"></div></div>
+      <div class="g-panel"><h3 data-info="registry">Registry <span class="g-tag ok">read live</span></h3><ul class="g-lines" id="g-ticker"></ul></div>
     </div>
     <div class="g-col g-centre">
       <div class="g-ring" id="g-feat-ring"><canvas class="g-card2" id="g-feat" width="384" height="576" role="img" aria-label="Your featured card"></canvas></div>
@@ -240,16 +240,16 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <p class="g-dim g-small" id="g-feat-note"></p>
     </div>
     <div class="g-col">
-      <div class="g-panel"><h3>Forms</h3><div class="g-forms">
+      <div class="g-panel"><h3 data-info="forms">Forms</h3><div class="g-forms">
         <div class="g-form on">Scorer<small>live</small></div>
         <div class="g-form off">Talker<small>language · coming</small></div>
         <div class="g-form off">Swarm<small>suite · coming</small></div>
         <div class="g-form off">Router<small>hybrid · coming</small></div></div></div>
-      <div class="g-panel"><h3>Mint station <span class="g-tag ok">free</span></h3>
+      <div class="g-panel"><h3 data-info="mint">Mint station <span class="g-tag ok">free</span></h3>
         <a class="g-line k" href="#mint">Mint a DIGI from your table <small>live</small></a>
         <div class="g-line x">Mint an app <small>coming</small></div><div class="g-line x">Mint a node <small>coming</small></div><div class="g-line x">Mint a suite <small>coming</small></div>
         <p class="g-dim g-small">The gate decides · a failed mint mints nothing</p></div>
-      <div class="g-panel"><h3>Skin packs <small>PixelWhisperer</small></h3><div class="g-skins" id="g-skins"></div><p class="g-dim g-small" id="g-skin-note"></p></div>
+      <div class="g-panel"><h3 data-info="skins">Skin packs <small>PixelWhisperer</small></h3><div class="g-skins" id="g-skins"></div><p class="g-dim g-small" id="g-skin-note"></p></div>
     </div>
   </div>
 </section>
@@ -257,15 +257,15 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 <section id="estate-s" class="g-only g-screen" data-screen="estate" aria-labelledby="estate-h">
   <div class="g-grid g-estate">
     <div class="g-col">
-      <div class="g-panel"><h2 id="estate-h" class="g-h">My estate</h2><p class="g-hot">Grow your estate</p></div>
+      <div class="g-panel"><h2 id="estate-h" class="g-h" data-info="estate">My estate</h2><p class="g-hot">Grow your estate</p></div>
       <div class="g-panel"><h3>Stats <small>from your key and this device’s registry</small></h3><dl class="g-stats" id="g-estate-stats"></dl></div>
-      <div class="g-panel"><h3>Overnight</h3><ul class="g-lines" id="g-overnight"></ul><button class="g-btn" id="g-work" type="button" aria-pressed="false">Work overnight</button><p class="g-dim g-small">Keeps only a level that re-runs · inert until checked</p></div>
+      <div class="g-panel"><h3 data-info="overnight">Overnight</h3><ul class="g-lines" id="g-overnight"></ul><button class="g-btn" id="g-work" type="button" aria-pressed="false">Work overnight</button><p class="g-dim g-small">Keeps only a level that re-runs · inert until checked</p></div>
       <button class="g-btn gold big" id="g-snapshot" type="button">Share snapshot</button>
       <div id="g-snap-out" aria-live="polite"></div>
     </div>
     <div class="g-panel g-plotbox"><p class="g-row"><b class="g-okt" data-k="g-plot-open">Plot</b><small class="g-dim">more blocks open more tiles</small></p><canvas id="g-plot" width="680" height="560" role="img" aria-label="Your estate: one block for every card you hold"></canvas><p class="g-dim g-small" id="g-plot-rule"></p></div>
     <div class="g-col">
-      <div class="g-panel"><h3>Districts</h3><ul class="g-lines" id="g-districts"></ul></div>
+      <div class="g-panel"><h3 data-info="districts">Districts</h3><ul class="g-lines" id="g-districts"></ul></div>
       <div class="g-panel"><h3>Legend</h3><ul class="g-legend"><li><span class="g-sw wire"></span>Mesh wire · a consented link</li><li><span class="g-sw fresh"></span>New since your last visit</li><li><span class="g-sw lock"></span>Locked tile · coming</li></ul></div>
       <p class="g-badt g-small">No land sale · never ranked by value</p>
     </div>
@@ -277,7 +277,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="g-col">
       <h2 id="evals-h" class="g-h">Eval runs</h2>
       <div class="g-panel"><h3>Today <span class="g-tag">optional</span></h3><div id="g-today"></div><button class="g-btn hot big" id="g-eval-run" type="button">Eval a test case</button><p class="g-okt g-small">Missing a day loses nothing</p></div>
-      <div class="g-panel"><h3>Missions</h3><ul class="g-lines" id="g-missions"></ul><p class="g-dim g-small">Rewards are titles · never paid</p></div>
+      <div class="g-panel"><h3 data-info="missions">Missions</h3><ul class="g-lines" id="g-missions"></ul><p class="g-dim g-small">Rewards are titles · never paid</p></div>
     </div>
     <div class="g-panel g-span2" id="g-eval-out" aria-live="polite"><p class="g-dim">Press Eval: one real TEST case — a case nothing in the build ever grew or was judged on — then what really happened.</p></div>
   </div>
@@ -359,7 +359,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="g-only g-collection">
     <div class="g-col g-dsets" id="g-dsets" role="tablist" aria-label="Datasets"></div>
     <div class="g-panel g-slots"><h3 id="g-set-h">Collection</h3><div class="g-slotgrid" id="g-slotgrid"></div><p class="g-okt g-small">Sets finish by booting, training, breeding · never buying</p></div>
-    <div class="g-panel g-gaps"><h3>Gaps on record <span class="g-tag cy">from the record</span></h3><p class="g-dim g-small">No card · under the 0.6 bar · best GATE</p><ul class="g-lines" id="g-gaps"></ul><a class="g-btn" href="drop/admission.json">See the admission record</a></div>
+    <div class="g-panel g-gaps"><h3 data-info="bar">Gaps on record <span class="g-tag cy">from the record</span></h3><p class="g-dim g-small">No card · under the 0.6 bar · best GATE</p><ul class="g-lines" id="g-gaps"></ul><a class="g-btn" href="drop/admission.json">See the admission record</a></div>
   </div>
   <div class="row"><button id="work-toggle">Work overnight</button><span class="dim" style="font-size:13px">Every card you own keeps searching for a level while this page is open — the overnight self-improvement, gated: only a re-run gain is kept.</span></div>
   <div id="work-out" aria-live="polite"></div>
@@ -374,7 +374,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         </div>
         <div class="g-only g-pane" role="tabpanel" id="g-pane-rules" aria-labelledby="g-tab-rules" hidden></div>
         <div class="g-only g-pane" role="tabpanel" id="g-pane-reruns" aria-labelledby="g-tab-reruns"><div class="g-tiles" id="g-tiles"></div>
-          <div class="g-panel"><h3>Training run</h3><div class="g-bar"><i id="g-train-bar"></i><span class="g-mark"></span></div><p class="g-small" id="g-train-say">Best gain found · of +0.002 needed</p><p class="g-okt g-small">LV up only after the rerun</p></div></div>
+          <div class="g-panel"><h3 data-info="training">Training run</h3><div class="g-bar"><i id="g-train-bar"></i><span class="g-mark"></span></div><p class="g-small" id="g-train-say">Best gain found · of +0.002 needed</p><p class="g-okt g-small">LV up only after the rerun</p></div></div>
         <div class="g-only g-pane" role="tabpanel" id="g-pane-life" aria-labelledby="g-tab-life" hidden></div>
         <div class="g-only g-acts" role="group" aria-label="What to do with this card">
           <button class="g-btn cy" id="g-a-boot" type="button">Boot</button><button class="g-btn" id="g-a-eval" type="button">Eval</button><button class="g-btn" id="g-a-train" type="button">Train</button><button class="g-btn" id="g-a-breed" type="button">Breed</button>
@@ -401,7 +401,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="send-s" data-screen="send" aria-labelledby="send-h">
-  <h2 id="send-h"><span class="n">03</span>Send a card to a key</h2>
+  <h2 id="send-h" data-info="give"><span class="n">03</span>Send a card to a key</h2>
   <div class="g-grid g-send">
     <div class="g-only g-cardcol"><div class="g-ring" id="g-send-ring"><canvas class="g-card2" id="g-send-card" width="384" height="576" role="img" aria-label="The card you would send"></canvas></div><p class="g-small" id="g-send-which"></p></div>
     <div>
@@ -422,7 +422,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="mesh" data-screen="mesh" aria-labelledby="mesh-h">
-  <h2 id="mesh-h"><span class="n">04</span>The mesh: owned cards answer as one</h2>
+  <h2 id="mesh-h" data-info="mesh"><span class="n">04</span>The mesh: owned cards answer as one</h2>
   <p>Cards of one business — one department each — join a mesh only with a consent their owner signed for the card as it stands (sell it, and it leaves until its new owner consents). Each must answer here and lead a coin on GATE with a bootstrap bound above zero. The mesh fields its best-proven card for each department; the rest wait on the bench with their numbers. Their scores are coupled into one answer by non-negative stacking learned on GATE. Only scores cross between cards — never a record.</p>
   <p>Each card’s <b>share</b> is measured: the mesh’s out-of-fold GATE AUC with it, minus without it, as a part of a million. When the mesh does a job, every owner is credited cases × share in a hash-chained ledger that replays from the shares. <b>Credits are an accounting of contribution, not money</b> — what a credit is worth is the business of whoever runs the mesh.</p>
   <div class="row"><label>Business <select id="mesh-set"><option value="credit">Credit card clients</option><option value="telco">Telecom customers</option><option value="shop">Online shop sessions</option><option value="bank">Bank marketing calls</option><option value="adult">Census adults</option></select></label><button class="go" id="mesh-build">Assemble the mesh</button></div>
@@ -452,12 +452,12 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="g-row"><h2 id="explorer-h" class="g-h">Proof explorer</h2><small class="g-dim">signed log · not a blockchain · replay on this device</small>
     <span class="g-sp"></span><label class="g-search">Find <input id="g-find" placeholder="card id, #serial or key" aria-label="Find a card by id, serial or owner key" /></label><button class="g-btn" id="g-find-go" type="button">Find</button></div>
   <div class="g-grid g-3">
-    <div class="g-panel"><h3>The drop <span class="g-tag cy">from the record</span></h3><dl class="g-stats" id="g-drop-stats"></dl><button class="g-btn cy big" id="g-rerun" type="button">Rerun the drop</button><p class="g-dim g-small">Re-checks every genesis seal here · <span id="g-rerun-out" aria-live="polite"></span></p></div>
+    <div class="g-panel"><h3 data-info="drop">The drop <span class="g-tag cy">from the record</span></h3><dl class="g-stats" id="g-drop-stats"></dl><button class="g-btn cy big" id="g-rerun" type="button">Rerun the drop</button><p class="g-dim g-small">Re-checks every genesis seal here · <span id="g-rerun-out" aria-live="polite"></span></p></div>
     <div class="g-col">
-      <div class="g-panel"><h3>Life · <span id="g-life-name">your card</span></h3><div class="g-tw"><table class="g-table" id="g-life"><thead><tr><th>n</th><th>type</th><th>signer</th><th>prev</th><th>hash</th></tr></thead><tbody></tbody></table></div><p class="g-dim g-small">No price column · nothing here is for sale</p><div id="g-find-out" aria-live="polite"></div></div>
-      <div class="g-panel"><h3>Verify on this device</h3><ol class="g-chain" id="g-chain"></ol><button class="g-btn cy big" id="g-verify" type="button">Verify on this device</button><p class="g-dim g-small" id="g-verify-ms"></p></div>
+      <div class="g-panel"><h3 data-info="life">Life · <span id="g-life-name">your card</span></h3><div class="g-tw"><table class="g-table" id="g-life"><thead><tr><th>n</th><th>type</th><th>signer</th><th>prev</th><th>hash</th></tr></thead><tbody></tbody></table></div><p class="g-dim g-small">No price column · nothing here is for sale</p><div id="g-find-out" aria-live="polite"></div></div>
+      <div class="g-panel"><h3 data-info="verify">Verify on this device</h3><ol class="g-chain" id="g-chain"></ol><button class="g-btn cy big" id="g-verify" type="button">Verify on this device</button><p class="g-dim g-small" id="g-verify-ms"></p></div>
     </div>
-    <div class="g-panel"><h3>Organs <small>sealed before measured</small></h3><ul class="g-lines" id="g-organs"></ul><p class="g-dim g-small">Git proves each was sealed first · every rule is below</p></div>
+    <div class="g-panel"><h3 data-info="organs">Organs <small>sealed before measured</small></h3><ul class="g-lines" id="g-organs"></ul><p class="g-dim g-small">Git proves each was sealed first · every rule is below</p></div>
   </div>
 </section>
 

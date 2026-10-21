@@ -40,6 +40,54 @@ const line = (cls, ...kids) => el('li', { class: cls }, ...kids);
 const RARITY_ORDER = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
 const SET_NAMES = { telco: 'Telco', shop: 'Shop', bank: 'Bank', adult: 'Adult', credit: 'Credit', hospital: 'Hospital' };
 
+// ── the "i" taps: one plain sentence behind every term a screen uses ──────────────────────────────────────────────
+const INFO = {
+  opslog: 'What your cards did since your last visit, and the one thing worth doing next.',
+  evals: 'An eval is one real case the card has never seen: its answer, then what really happened. Optional; skipping a day loses nothing.',
+  missions: 'Things worth trying. They earn titles — nothing else, never money.',
+  registry: 'This device’s ordered record of every card’s life. It is what stops a card being given away twice.',
+  forms: 'The shapes a DIGI takes. Scorer (decisions) is live; Talker, Swarm and Router are coming, and show here only once they are proven.',
+  mint: 'Make a card from your own table: a CSV export with a yes/no column. Your rows never leave this device. If its mind does not reach 0.6, nothing is minted.',
+  skins: 'A skin changes the picture, never the mind. It is signed into the card’s life, so any reader redraws it.',
+  estate: 'One block for every card you hold. More cards open more tiles. It is never sold and never ranked.',
+  overnight: 'While this page stays open, your cards search for levels. A level is kept only after it re-runs; until then nothing changes.',
+  districts: 'Each district is a DIGI form. Only Scorer is built; the others are coming.',
+  bar: 'A department got cards only if its mind ranked unseen cases at least this well (GATE 0.6). These did not, so they have none — kept on the record, not hidden.',
+  training: 'Training is a search for a better mind. It must beat the old one by +0.002 on GATE, and re-run, before the level goes up.',
+  drop: '1,000 genesis cards whose rules were fixed before the first search. Rerun it to check every seal here, from nothing.',
+  life: 'Every event in the card’s life, signed by the right key and linked to the one before. There is no price column: nothing here is for sale.',
+  verify: 'Re-checks the card here, in order: the PNG, its data band, its seals, its signatures, this device’s registry, and every pixel of its face.',
+  organs: 'The build’s claims, each written down and locked before it was measured. 41 of 44 held; the 3 that failed are shown, not hidden.',
+  rules: 'Its whole mind: at most six rules over one department’s columns. Each adds or takes away points; above the line means yes.',
+  key: 'Your key is what makes cards yours. It lives in this tab and in the key file you save — never on a server, never in this browser’s storage. Lose the file and you lose the cards.',
+  gate: 'How well its mind ranks cases it never grew on: 0.5 is a coin toss, 1.0 is perfect. Every genesis card reached 0.6.',
+  boot: 'The page reads the card, checks every seal and every pixel, fetches its public dataset (checked by its hash) and grows its mind here, on your device.',
+  give: 'A give hands the card to another key for good. To get it back, they must give it back. Send the same card twice and the second is refused.',
+  mesh: 'Cards from one business’s departments answering together. Only scores pass between them, never records. Each card’s share is its measured part of a million.',
+  credits: 'Accounting of what your cards measurably added in a mesh. Not money; it cannot be cashed.',
+  test: 'The same measure on cases nothing in the build ever grew on or was chosen by: the honest check.',
+  abstain: 'When its rules cannot read a case, it says “I don’t know” instead of guessing.',
+  lv: 'Levels earned. A level counts only when a new search beats its mind by 0.002 and anyone can re-run it. Rarity follows the level.',
+  gen: 'Generation: 0 for a genesis card; a child is one more than its parents.',
+  owners: 'How many keys it has passed through. Replay checks its whole signed life.',
+};
+/** an "i" button and the sentence it opens, beside the term it explains */
+function infoFor(key) {
+  if (!INFO[key]) return [];
+  const p = el('p', { class: 'g-info', hidden: true }, INFO[key]);
+  const b = el('button', { type: 'button', class: 'g-i', 'aria-expanded': 'false', 'aria-label': 'What is this?', onclick: () => { p.hidden = !p.hidden; b.setAttribute('aria-expanded', String(!p.hidden)); } }, 'i');
+  return [b, p];
+}
+function wireInfo() {
+  for (const n of $$('[data-info]')) {
+    if (n.querySelector(':scope > .g-i')) continue;
+    const [b, p] = infoFor(n.dataset.info);
+    if (!b) continue;
+    n.append(b);
+    if (n.classList.contains('g-chip')) { p.classList.add('g-info-pop'); n.style.position = 'relative'; n.append(p); } else n.after(p);
+  }
+}
+
 // ── the game's own memory: progress, never the key ──────────────────────────────────────────────────────────────────
 const G = { screen: null, skip: false, booting: false, grown: new Map(), tests: new Map(), lifeId: null, plot: null, install: null, sound: false, audio: null,
   st: { v: 1, days: [], seen: null, evals: { day: '', n: 0 }, done: {}, births: { kept: 0, refused: 0 }, refused: 0, searches: {}, log: [] } };
@@ -413,15 +461,15 @@ async function renderInspect() {
   fill($('#g-in-title'), f.title + ' ' + serialLine(v));
   fill($('#g-in-tags'), el('span', { class: 'g-tag ok' }, 'scorer'), el('span', { class: 'g-tag' }, f.rarity + ' lv' + f.stage), el('span', { class: 'g-tag' }, 'gen ' + f.generation), el('span', { class: 'g-tag cy' }, (SET_NAMES[f.dataset] || 'your own') + ' · ' + f.department), el('span', { class: 'g-tag' + (mine ? ' ok' : '') }, whose(v)));
   const gives = d.events.filter((e) => e.type === 'give').length;
-  const tile = (l, val, btn) => el('div', { class: 'g-tile' }, el('span', { class: 'l' }, l), el('span', { class: 'v' }, val), btn || null);
+  const tile = (l, val, btn, info) => { const [i, p] = info ? infoFor(info) : []; return el('div', { class: 'g-tile' }, el('span', { class: 'l' }, l, i || null), el('span', { class: 'v' }, val), p || null, btn || null); };
   const b = (label, fn) => el('button', { type: 'button', onclick: fn }, label);
   fill($('#g-tiles'),
-    tile('GATE AUC', grown ? six(grown.gate) : dec && !v.receipts.length ? six(dec.gate) + ' · declared' : 'boot to measure', b('Rerun', () => bootCard(id))),
-    tile('TEST AUC', test ? six(test.auc) : 'not run here', b('Rerun', () => runTest(id))),
-    tile('Abstain', test ? (test.abstain / test.n * 100).toFixed(1) + '%' : 'not run here', b('Rerun', () => runTest(id))),
-    tile('Rules ≤6', grown ? String(grown.mind.organs.filter((o) => o.body).reduce((n, o) => n + o.body.rules.length, 0)) : 'boot to read'),
-    tile('LV', String(f.stage)), tile('Gen', String(f.generation)),
-    tile('Owners', String(gives + 1), b('Replay', async () => { tab = 'life'; renderTabs(); await api.actVerify(); })));
+    tile('GATE AUC', grown ? six(grown.gate) : dec && !v.receipts.length ? six(dec.gate) + ' · declared' : 'boot to measure', b('Rerun', () => bootCard(id)), 'gate'),
+    tile('TEST AUC', test ? six(test.auc) : 'not run here', b('Rerun', () => runTest(id)), 'test'),
+    tile('Abstain', test ? (test.abstain / test.n * 100).toFixed(1) + '%' : 'not run here', b('Rerun', () => runTest(id)), 'abstain'),
+    tile('Rules ≤6', grown ? String(grown.mind.organs.filter((o) => o.body).reduce((n, o) => n + o.body.rules.length, 0)) : 'boot to read', null, 'rules'),
+    tile('LV', String(f.stage), null, 'lv'), tile('Gen', String(f.generation), null, 'gen'),
+    tile('Owners', String(gives + 1), b('Replay', async () => { tab = 'life'; renderTabs(); await api.actVerify(); }), 'owners'));
   const sr = G.st.searches[id], best = sr ? Math.max(0, sr.best) : 0;
   $('#g-train-bar').style.width = Math.min(100, Math.round((best / 2000) * 100)) + '%';
   fill($('#g-train-say'), sr ? 'Best gain found +' + (best / 1e6).toFixed(4) + ' of +0.0020 needed · ' + sr.tried + ' search' + (sr.tried === 1 ? '' : 'es') : 'No search run here yet · press Train');
@@ -650,6 +698,7 @@ function wire() {
   addEventListener('pagehide', () => { G.st.seen = new Date().toISOString(); saveState(); });
 }
 async function start() {
+  wireInfo();
   if (store.get('digi-plain') === '1') { document.documentElement.classList.add('plain'); setK('g-plain', 'on'); }
   if (store.get('digi-sound') === '1') { G.sound = true; setK('g-sound', 'on'); }
   setK('g-ui-name', document.documentElement.dataset.ui === 'blockcraft' ? 'blockcraft' : 'synthwave');

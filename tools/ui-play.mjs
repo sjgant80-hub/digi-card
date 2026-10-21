@@ -74,6 +74,11 @@ try {
     if (r.text < 80) problems.push('the ' + s + ' screen is nearly empty');
   }
   seen.push('8 screens from the dock');
+  // the "i" taps: every one opens a plain sentence, and closes it again
+  await js(`location.hash = '#base'`); await sleep(500);
+  const taps = await js(`(() => { const all = [...document.querySelectorAll('section[data-screen].on .g-i')]; let ok = 0; for (const b of all) { b.click(); const p = b.closest('[data-info]') ? (b.closest('[data-info]').nextElementSibling || {}) : b.parentElement.nextElementSibling; const shown = p && p.classList && p.classList.contains('g-info') && !p.hidden && p.textContent.length > 20; b.click(); if (shown && p.hidden) ok++; } return [ok, all.length]; })()`);
+  if (!taps || !taps[1] || taps[0] !== taps[1]) problems.push('the base screen’s "i" taps: ' + (taps ? taps[0] + ' of ' + taps[1] : 'none') + ' open and close their sentence');
+  else seen.push(taps[1] + ' “i” taps open and close');
   // an eval: a real TEST case, and what really happened
   await js(`location.hash = '#evals'`); await sleep(500);
   await js(`document.querySelector('#g-eval-run').click()`);
