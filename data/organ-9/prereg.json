@@ -1,0 +1,67 @@
+{
+ "kind": "digi-card.organ-9.prereg",
+ "v": 1,
+ "organ": "the arena: two owned cards fight on one batch both owners’ signatures chose, the better ranking wins, and every duel re-runs",
+ "population": "every set with two or more departments in the drop: 40 seeded pairs of its genesis cards, each card handed to its own demo owner, each pair fighting five duels (1,000 duels); twelve kinds of forgery on the first 20 pairs (240); the ratings of all the duels",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 1,000 duels re-runs, from its receipt, its two cards, the ground and the two signed records, to the very same receipt."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every duel’s batch is 64 distinct GATE rows of its ground, and no duel reads a TEST row."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "All 240 forgeries are refused: an edited challenge, a challenge or acceptance signed by a stranger, an acceptance for another challenge, a stale challenge or acceptance after a give, an edited score, winner or self-play flag in a receipt, a ground of another business, a card fighting itself, an acceptance with an extra field."
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "The ratings of all the duels, computed twice in their order, are identical, and their total is exactly 1,000 points times the number of rated cards."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "In at least 60% of the pairs a majority of five duels decides, the winner is the card with the higher TEST AUC."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "At least 10% of the decided duels are won by the card with the lower GATE AUC: a duel is a fight, not a lookup of the two scores."
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "The median duel takes at most 250 milliseconds on the measuring machine, signatures included."
+  }
+ ],
+ "judgedBy": "tools/judge-9.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "3c239143bdfa5e0b499ada224335947c6a68a8b86eef5bf9ca5fd77eab9304b8",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "2773d17573b26b1a0aabe81e47a8c86d4fd0b83baab44fce20a90d2221d66e26",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "1e238cfa31d315cfdad214cfc3ff309de00550129c40e5e2c043d932a4182ed5",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "src/arena.mjs": "cd9f19b0856a1a1b6f6fc9143462c4f09c9593a1ef4e6bd1119609e1cd5cae0d",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "tools/measure-9.mjs": "713591ca53236662d66bfd600a09e0d78363501811adf776a4e4e9ec14f1f247",
+  "tools/judge-9.mjs": "94fbc32462dcfa09db7c5c5b1d98dc612cfe0cbab250739d79cc3ac392a52a66",
+  "tools/seal-9.mjs": "62134d724157c5b7134f2187502873489157a596aaf34cc010e1caf72484f777"
+ }
+}

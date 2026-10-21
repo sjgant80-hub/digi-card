@@ -42,6 +42,7 @@ export const PAIRS = [
   ['src/claims.mjs', ['test/claims.test.mjs']],
   ['src/drop.mjs', ['test/drop.test.mjs']],
   ['src/cost.mjs', ['test/cost.test.mjs']],
+  ['src/arena.mjs', ['test/arena.test.mjs']],
 ];
 // imported (by the tests) it only lends hiddenSpans and PAIRS; run directly, it is the gate
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) main();
