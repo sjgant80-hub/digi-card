@@ -302,3 +302,9 @@ html.game footer.g-foot { border-top: 4px solid var(--g-rule); color: var(--g-di
 #g-kit-apps li > span { min-width: 0; flex: 1 1 auto; overflow-wrap: anywhere; }
 #g-kit-apps li > span small, #g-kit-depts li small { white-space: normal; display: block; margin-left: 0; }
 #g-kit-take-code, #g-kit-give-to { width: 100%; box-sizing: border-box; }
+
+/* the art engine's pictures around the cards: kit slots, the duel, the raid bosses */
+.g-slotart { width: 112px; height: 128px; image-rendering: pixelated; align-self: center; }
+#g-ar-duelart { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto 8px; image-rendering: pixelated; }
+.g-bossart { display: block; width: 100%; height: auto; image-rendering: pixelated; margin-bottom: 6px; }
+#g-kit-apps li > .g-btn { flex: none; white-space: nowrap; }

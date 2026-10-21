@@ -27,6 +27,9 @@ import { issue as issueCard } from '../src/dossier.mjs';
 import { verify as verifyLife } from '../src/dossier.mjs';
 import { UI_ICONS, DATASET_ICONS, identicon as keyFace } from '../vendor/pixelwhisperer/kards/ui.mjs';
 import { paintEstate, tilesFor } from '../vendor/pixelwhisperer/kards/estate.mjs';
+import { paintSlot } from '../vendor/pixelwhisperer/kards/gear.mjs';
+import { paintDuel } from '../vendor/pixelwhisperer/kards/arena.mjs';
+import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 import { crc32, cat, zlibStored } from '../vendor/dex-frontier/vendor/living-seed/src/card.mjs';
 
@@ -214,6 +217,16 @@ function identicon(canvas, pub) {
   if (f.ok) putRGB(canvas, f.px, 20, 20);
 }
 /** RGB rows onto a canvas of that size */
+/** a painting from the art engine on a canvas, if it painted; a picture that cannot be drawn leaves the canvas as it was */
+function paintOn(canvas, painted) { if (!canvas || !painted || !painted.ok) return false; putRGB(canvas, painted.px, canvas.width, canvas.height); return true; }
+/** the art engine's letters only: A–Z a–z 0–9 space & . - and the apostrophe, cut to length */
+const artText = (s, n) => String(s).replace(/[^A-Za-z0-9 &'.-]/g, '').slice(0, n).trim();
+/** a kit slot, drawn by PixelWhisperer's gear painter: the card or the app item in it, its worth, or an empty well */
+function slotArt(slot, label) {
+  const c = el('canvas', { width: 112, height: 128, class: 'g-slotart', role: 'img', 'aria-label': label });
+  paintOn(c, paintSlot(slot, plotTheme(), 112, 128));
+  return c;
+}
 function putRGB(canvas, px, w, h) {
   canvas.width = w; canvas.height = h;
   const x = canvas.getContext('2d'), img = x.createImageData(w, h);
@@ -659,6 +672,11 @@ function showDuel(r, vA, vB) {
     el('p', { class: 'g-small' }, 'Yours fought ' + kitLine(r.sides.a) + ' · theirs ' + kitLine(r.sides.b)),
     el('p', { class: 'g-small g-dim' }, x.self ? 'Practice: one owner on both sides, so no rating moves' : 'Rating ' + (move >= 0 ? '+' : '') + move + ' → ' + (after[vA.id] ?? 1000)),
     el('p', { class: 'g-small g-dim' }, 'Each side calls yes for its top ' + pos + ' cases (as many yeses as the batch holds) · cyan: only yours called it right · pink: only theirs · grey: both · dark: neither'));
+  const sideArt = (v, sd, k, rating) => ({ id: v.id, rarity: facts(v).rarity, rating: Math.max(0, Math.min(9999, rating)), title: artText(facts(v).title, 16), kit: sd && sd.loadout && k ? { slots: slotsOf(v).nodes, fielded: Math.min(slotsOf(v).nodes, k.fielded.length - 1) } : null });
+  const drawn = paintOn($('#g-ar-duelart'), paintDuel({ left: sideArt(vA, r.sides && r.sides.a, r.kits && r.kits.a, after[vA.id] ?? 1000), right: sideArt(vB, r.sides && r.sides.b, r.kits && r.kits.b, after[vB.id] ?? 1000),
+    cases: r.batch.map((row, k) => [(r.scores.a[k] >= lineA) === (r.y[k] === 1) ? 1 : 0, (r.scores.b[k] >= lineB) === (r.y[k] === 1) ? 1 : 0]), result: x.winner === 'a' ? 'left' : x.winner === 'b' ? 'right' : 'draw' }, plotTheme(), 480, 320));
+  $('#g-ar-duelart').hidden = !drawn;
+  $('#g-ar-duelart').setAttribute('aria-label', 'The duel, drawn: ' + facts(vA).title + ' against ' + facts(vB).title + ', ' + (x.winner === 'a' ? 'yours wins' : x.winner === 'b' ? 'theirs wins' : 'a draw') + ', every case marked');
   $('#g-ar-rerun').disabled = false; $('#g-ar-receipt').disabled = false;
   bleep(you === 'ok' ? 'kept' : you === 'bad' ? 'wrong' : 'abstain');
   renderLadder(); fill($('#g-ar-a-line'), facts(vA).title + ' #' + pad4(vA.serial) + ' · rating ' + (after[vA.id] ?? 1000));
@@ -725,11 +743,16 @@ async function renderRaids() {
   admission ||= await fetch('drop/admission.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
   const bosses = bossesOf(admission), st = raidStanding(bosses, G.st.strikes || []), box = $('#g-rd-bosses');
   if (!bosses.length) return fill(box, el('p', { class: 'g-dim' }, 'The admission record did not load.'));
+  const loot = {};
+  for (const [dom, id] of Object.entries(G.st.loot || {})) { const d = api.lifeOf(id), v = d ? await verify(d) : null; if (v && v.ok) loot[dom] = { id, rarity: facts(v).rarity, title: artText(facts(v).title, 24) }; }
   fill(box, bosses.map((b) => {
-    const r = st.raids[b.domain], mine = (G.st.strikes || []).filter((s) => s.domain === b.domain && s.by === S.me.pub).length, pct = Math.round((r.hp / RAID_BAR) * 100 * 25);
+    const r = st.raids[b.domain], mine = (G.st.strikes || []).filter((s) => s.domain === b.domain && s.by === S.me.pub).length;
     const go = el('button', { type: 'button', class: 'g-btn hot', disabled: R.running.has(b.domain) || r.fallen, onclick: () => raidGo(b, mine) }, R.running.has(b.domain) ? 'Striking…' : r.fallen ? 'Fallen' : 'Strike');
-    return el('div', { class: 'g-boss' + (r.fallen ? ' down' : '') }, el('h3', {}, b.domain.replace('-', ' ')),
-      el('div', { class: 'g-hp', role: 'img', 'aria-label': 'Health ' + six(r.hp) + ' from the bar' }, el('i', { style: 'width:' + Math.min(100, pct) + '%' })),
+    const pic = el('canvas', { width: 240, height: 160, class: 'g-bossart', role: 'img', 'aria-label': b.domain.replace('-', ' ') + ': ' + (r.fallen ? 'fallen' : six(r.hp) + ' from the bar') });
+    const raidArt = { dataset: b.set, department: b.domain.slice(b.set.length + 1), best: r.best, attempts: Math.min(99999, r.strikes) };
+    if ((r.fallen && !loot[b.domain]) || !paintOn(pic, paintRaid(r.fallen ? { ...raidArt, loot: loot[b.domain] } : raidArt, plotTheme(), 240, 160))) pic.hidden = true;
+    return el('div', { class: 'g-boss' + (r.fallen ? ' down' : '') }, pic, el('h3', {}, b.domain.replace('-', ' ')),
+      pic.hidden ? el('div', { class: 'g-hp', role: 'img', 'aria-label': 'Health ' + six(r.hp) + ' from the bar' }, el('i', { style: 'width:' + Math.min(100, Math.round((r.hp / 100000) * 100)) + '%' })) : null,
       el('p', { class: 'g-small' }, r.fallen ? 'Fallen after ' + r.kill.after + ' strike' + (r.kill.after === 1 ? '' : 's') + ' · ' + six(r.kill.gate) + ' by ' + (r.kill.by === S.me.pub ? 'you' : api.short(r.kill.by)) : 'Best ' + six(r.best) + ' · the bar 0.600000 · ' + six(r.hp) + ' to go'),
       el('p', { class: 'g-small g-dim' }, 'Genesis tried ' + b.searched + ' · raid strikes ' + r.strikes + ' (' + mine + ' yours) · ' + Object.keys(r.strikers).length + ' striker' + (Object.keys(r.strikers).length === 1 ? '' : 's')),
       el('div', { class: 'g-row' }, go, r.fallen && r.kill.by === S.me.pub && !G.st.loot?.[b.domain] ? el('button', { type: 'button', class: 'g-btn gold', onclick: () => raidLoot(b) }, 'Seal the loot') : null,
@@ -909,14 +932,15 @@ async function renderKitNodes(v, s) {
     const id = KIT.nodes[i];
     if (id) {
       const m = same.find((x) => x.id === id), w = worth.get(id);
-      out.push(el('div', { class: 'g-kslot full' }, name, el('span', {}, m.f.title + ' #' + pad4(m.v.serial)), el('small', {}, m.f.department + (w ? (w.joined ? ' · worth ' + (w.contribution >= 0 ? '+' : '') + six(w.contribution) : ' · ' + w.why) : ' · measure it to see its worth')),
+      const shown = w && w.joined ? Math.max(-999999, Math.min(999999, w.contribution)) : 0;
+      out.push(el('div', { class: 'g-kslot full' }, slotArt({ kind: 'node', card: { id: m.id, rarity: m.f.rarity }, worth: shown, joined: w ? w.joined : true }, 'Node slot ' + (i + 1) + ': ' + m.f.title + (w ? (w.joined ? ', worth ' + shown + ' millionths' : ', not joined') : '')), name, el('span', {}, m.f.title + ' #' + pad4(m.v.serial)), el('small', {}, m.f.department + (w ? (w.joined ? ' · worth ' + (w.contribution >= 0 ? '+' : '') + six(w.contribution) : ' · ' + w.why) : ' · measure it to see its worth')),
         el('button', { type: 'button', class: 'g-btn', onclick: () => { KIT.nodes.splice(i, 1); KIT.measured = null; renderKit(); } }, 'Take out')));
       continue;
     }
     const free = same.filter((m) => !KIT.nodes.includes(m.id));
-    if (!free.length) { out.push(el('div', { class: 'g-kslot empty' }, name, el('small', {}, 'Empty · no other card of yours on this business yet: mint a node, or Card me'))); continue; }
+    if (!free.length) { out.push(el('div', { class: 'g-kslot empty' }, slotArt({ kind: 'node' }, 'Node slot ' + (i + 1) + ', empty'), name, el('small', {}, 'Empty · no other card of yours on this business yet: mint a node, or Card me'))); continue; }
     const sel = el('select', { 'aria-label': 'A card for node slot ' + (i + 1) }, free.map((m) => el('option', { value: m.id }, m.f.title + ' #' + pad4(m.v.serial) + ' · ' + m.f.department)));
-    out.push(el('div', { class: 'g-kslot empty' }, name, sel, el('button', { type: 'button', class: 'g-btn cy', onclick: () => { KIT.nodes.push(sel.value); KIT.measured = null; renderKit(); } }, 'Put it in')));
+    out.push(el('div', { class: 'g-kslot empty' }, slotArt({ kind: 'node' }, 'Node slot ' + (i + 1) + ', empty'), name, sel, el('button', { type: 'button', class: 'g-btn cy', onclick: () => { KIT.nodes.push(sel.value); KIT.measured = null; renderKit(); } }, 'Put it in')));
   }
   fill($('#g-kit-nodes'), out);
 }
@@ -927,12 +951,12 @@ async function renderKitTools() {
     const h = held.find((x) => x.v.id === KIT.tools[i]), name = el('b', {}, 'Tool slot ' + (i + 1));
     if (!h) {
       const free = held.filter((x) => !KIT.tools.includes(x.v.id));
-      if (!free.length) return el('div', { class: 'g-kslot empty' }, name, el('small', {}, 'Empty · mint an app tool from the list'));
+      if (!free.length) return el('div', { class: 'g-kslot empty' }, slotArt({ kind: 'tool' }, 'Tool slot ' + (i + 1) + ', empty'), name, el('small', {}, 'Empty · mint an app tool from the list'));
       const sel = el('select', { 'aria-label': 'A tool for tool slot ' + (i + 1) }, free.map((x) => el('option', { value: x.v.id }, x.v.body.app)));
-      return el('div', { class: 'g-kslot empty' }, name, sel, el('button', { type: 'button', class: 'g-btn cy', onclick: () => { KIT.tools.push(sel.value); renderKit(); } }, 'Put it in'));
+      return el('div', { class: 'g-kslot empty' }, slotArt({ kind: 'tool' }, 'Tool slot ' + (i + 1) + ', empty'), name, sel, el('button', { type: 'button', class: 'g-btn cy', onclick: () => { KIT.tools.push(sel.value); renderKit(); } }, 'Put it in'));
     }
     const b = h.v.body;
-    return el('div', { class: 'g-kslot full' }, name, el('span', {}, b.app + ' ', el('span', { class: 'g-tag ' + (b.tier === 'proven' ? 'ok' : 'cy') }, b.tier)), el('small', {}, 'commit ' + b.sha.slice(0, 7) + (b.spdx ? ' · ' + b.spdx : '')),
+    return el('div', { class: 'g-kslot full' }, slotArt({ kind: 'tool', item: { id: b.sha.slice(0, 16), tier: b.tier } }, 'Tool slot ' + (i + 1) + ': ' + b.app + ', ' + b.tier), name, el('span', {}, b.app + ' ', el('span', { class: 'g-tag ' + (b.tier === 'proven' ? 'ok' : 'cy') }, b.tier)), el('small', {}, 'commit ' + b.sha.slice(0, 7) + (b.spdx ? ' · ' + b.spdx : '')),
       el('span', { class: 'g-row' }, el('a', { class: 'g-btn', href: b.page || repoOf(b.app), target: '_blank', rel: 'noopener noreferrer' }, 'Open'), el('a', { class: 'g-btn', href: b.run, target: '_blank', rel: 'noopener noreferrer' }, 'Its proof'),
         el('button', { type: 'button', class: 'g-btn', onclick: () => { KIT.tools.splice(i, 1); renderKit(); } }, 'Take out')));
   }));
