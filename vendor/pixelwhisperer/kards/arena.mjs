@@ -36,7 +36,8 @@ function side(x, name) {   // one duellist: { id, rarity, rating, title?, kit? }
 /**
  * Check a duel. duel: { left: { id, rarity, rating 0-9999, title?, kit?: { slots 2-4, fielded 0-slots } }, right: { ... }, cases: [[leftHit, rightHit], ...] (1 to 192,
  * each 0 or 1), decided?: how many cases are decided so far (default all), result?: null | 'left' | 'right' | 'refused' | 'draw',
- * focus?: { at: a decided case (0 to decided - 1), truth?: 0 | 1, scores?: [left, right] in millionths } (the read-back) }.
+ * focus?: { at: a decided case (0 to decided - 1), truth?: 0 | 1, scores?: [left, right], each mind's raw score in millionths, signed }
+ * (the read-back) }.
  * -> { ok: true, d } | { ok: false, why }
  */
 export function checkDuel(x) {
@@ -69,10 +70,11 @@ function focusOf(f, decided) {   // the case a replay reads back: which, its tru
   const { at, truth = null, scores = null } = f;
   if (!Number.isInteger(at) || at < 0 || at >= decided) return no('focus must be on a decided case: at from 0 to decided - 1');
   if (truth !== null && truth !== 0 && truth !== 1) return no('a case\'s truth is 0 or 1');
-  if (scores !== null && (!Array.isArray(scores) || scores.length !== 2 || !scores.every((v) => whole(v, 1000000)))) return no('scores are [left, right], each a whole number of millionths from 0 to 1000000');
+  if (scores !== null && (!Array.isArray(scores) || scores.length !== 2 || !scores.every((v) => Number.isInteger(v) && Math.abs(v) <= 99000000))) return no('scores are [left, right], each a whole number of millionths from -99000000 to 99000000 (the raw score of a mind)');
   return { ok: true, f: { at, truth, scores: scores === null ? null : [scores[0], scores[1]] } };
 }
 const fmt = (n) => div(n, 1000000) + '.' + String(10000 + div(n % 1000000, 100)).slice(1);   // millionths as 0.0000
+const signed = (n) => (n < 0 ? '-' : '') + fmt(Math.abs(n));   // a mind's raw score, which can fall below 0 or run past 1
 
 /** The tally of the decided cases: a side ranked a case better when it hit and the other missed; anything else is a tie.
  *  -> { ok: true, left, right, ties, decided, cases } | { ok: false, why } */
@@ -212,11 +214,12 @@ export function paintDuel(duel, themeId, w, h) {
     if (D.focus) {   // the read-back: the case in focus, ringed on the scoreboard, and how each side did on it in the middle
       const F = D.focus, [a, b] = D.cases[F.at], x = x0 + (F.at % 48) * 4, y = top + div(F.at, 48) * 12;
       rect(cv, x - 1, y - 2, 5, 1, L.text); rect(cv, x - 1, y + 12, 5, 1, L.text); rect(cv, x - 2, y - 2, 1, 15, L.text); rect(cv, x + 4, y - 2, 1, 15, L.text);
-      centred(cv, 'CASE ' + (F.at + 1), 120, 30, L.text, L.shadow, 2);
-      centred(cv, a ? '\u2713' : '\u2717', 92, 50, a ? L.left : L.miss, L.shadow, 2); centred(cv, b ? '\u2713' : '\u2717', 148, 50, b ? L.right : L.miss, L.shadow, 2);
-      if (F.scores) { centred(cv, fmt(F.scores[0]), 92, 67, L.left, L.shadow); centred(cv, fmt(F.scores[1]), 148, 67, L.right, L.shadow); }
-      if (F.truth !== null) centred(cv, F.truth ? 'TRUE: YES' : 'TRUE: NO', 120, 77, L.text, L.shadow);
-      centred(cv, a > b ? 'LEFT RANKED BETTER' : b > a ? 'RIGHT RANKED BETTER' : 'A TIE ON THIS CASE', 120, 88, a > b ? L.left : b > a ? L.right : L.tie, L.shadow);
+      // all of it under the banners and ribbons (they end at row 51) and between the fighters, so an ending never covers it
+      centred(cv, 'CASE ' + (F.at + 1), 120, 52, L.text, L.shadow);
+      centred(cv, a ? '\u2713' : '\u2717', 96, 61, a ? L.left : L.miss, L.shadow, 2); centred(cv, b ? '\u2713' : '\u2717', 144, 61, b ? L.right : L.miss, L.shadow, 2);
+      if (F.scores) { centred(cv, signed(F.scores[0]), 96, 77, L.left, L.shadow); centred(cv, signed(F.scores[1]), 144, 77, L.right, L.shadow); }
+      if (F.truth !== null) centred(cv, F.truth ? 'TRUE: YES' : 'TRUE: NO', 120, 85, L.text, L.shadow);
+      centred(cv, a > b ? 'LEFT RANKED BETTER' : b > a ? 'RIGHT RANKED BETTER' : 'A TIE ON THIS CASE', 120, 93, a > b ? L.left : b > a ? L.right : L.tie, L.shadow);
     }
 
     if (L.lcd) for (const y of span(0, lh)) for (const x of span(0, FW)) {   // the pocket screen: four shades, ordered dither

@@ -959,12 +959,12 @@ async function arenaWatch() {
 function arenaReadBack(r, f, g) {
   const side = (k, name) => { const b = readBack(k, g, f.row); return b.ok ? b.minds.map((m) => el('div', {}, el('p', { class: 'g-small' }, name + ' · ' + (m.score === null ? 'no answer here' : 'score ' + m.score)), el('ul', { class: 'g-lines' }, m.fired.length ? m.fired.map((x) => line(x.w > 0 ? 'k' : 'r', x.feat + ' ' + (x.op === '<=' ? '≤' : '>') + ' ' + x.v, el('small', {}, (x.w > 0 ? '+' : '') + x.w))) : line('x', 'no rule fired')))) : el('p', { class: 'g-badt' }, b.why); };
   fill($('#g-ar-readback'), el('h4', {}, 'Case ' + (f.k + 1) + ' · really ' + (f.y ? 'yes' : 'no')), side(r.kits.a, 'Yours'), side(r.kits.b, 'Theirs'));
-  // the case ringed on the duel's picture (PixelWhisperer's focus), the result banner left off while a case is read (with
-  // both, CASE n and WIN overlap at every size: told to PixelWhisperer 2026-10-22; the panel above says who won): its truth, and both scores when they sit on the 0-to-1
-  // scale the picture reads; a score outside it is told only in the read-back above, never squeezed onto the scale
+  // the case ringed on the duel's picture (PixelWhisperer's focus, f6052a9: the read-back sits under the result banner, and
+  // the scores are each mind's own, signed): its truth and both raw scores — past the ±99 the picture prints, the read-back
+  // above still tells them
   if (A.art) {
-    const onScale = (s) => Number.isFinite(s) && s >= 0 && s <= 1, sc = onScale(f.a.score) && onScale(f.b.score) ? { scores: [Math.round(f.a.score * 1e6), Math.round(f.b.score * 1e6)] } : {};
-    if (paintOn($('#g-ar-duelart'), paintDuel({ ...A.art, result: null, focus: { at: f.k, truth: f.y ? 1 : 0, ...sc } }, plotTheme(), 480, 320))) $('#g-ar-duelart').setAttribute('aria-label', 'The duel, drawn, with case ' + (f.k + 1) + ' ringed: really ' + (f.y ? 'yes' : 'no'));
+    const printable = (s) => Number.isFinite(s) && Math.abs(s) <= 99, sc = printable(f.a.score) && printable(f.b.score) ? { scores: [Math.round(f.a.score * 1e6), Math.round(f.b.score * 1e6)] } : {};
+    if (paintOn($('#g-ar-duelart'), paintDuel({ ...A.art, focus: { at: f.k, truth: f.y ? 1 : 0, ...sc } }, plotTheme(), 480, 320))) $('#g-ar-duelart').setAttribute('aria-label', 'The duel, drawn, with case ' + (f.k + 1) + ' ringed: really ' + (f.y ? 'yes' : 'no'));
   }
 }
 /** the tournament of your cards of one business: seeded, played out from the receipts, each open match one duel away */
