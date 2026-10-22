@@ -1,6 +1,6 @@
-# DIGI Card
+# Kardlings
 
-> A DIGI card is a 384x576 PNG that carries, in its top 16 pixel rows, a sealed recipe for a small working mind (a
+> A Kardling card is a 384x576 PNG that carries, in its top 16 pixel rows, a sealed recipe for a small working mind (a
 > scorecard of at most six readable rules over one department's records), the signed history of its owners, and every
 > level it has earned. Opened on any device, it grows that mind there, offline, and proves its score on cases it never
 > grew on. It can be owned, given (re-signed), fused (a fused card is kept only if it beats both parents) and coupled into a

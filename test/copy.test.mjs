@@ -3,7 +3,8 @@
 // is never quoted without its caveat; and the Kit never offers the money side or the ledger's own apps.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { copyHits, organ10Bare, pageText, offered, shownDesc, sayOutcome, LEFT_OUT, CAVEAT_10, SAID_OUTCOME, SHOWN_AS } from '../src/copy.mjs';
+import { copyHits, organ10Bare, pageText, offered, shownDesc, sayOutcome, LEFT_OUT, CAVEAT_10, SAID_OUTCOME, SHOWN_AS, ORGANS } from '../src/copy.mjs';
+import { readdirSync, existsSync } from 'node:fs';
 import { SETS } from '../src/data.mjs';
 
 const words = (t) => copyHits(t).map((h) => h.word.toLowerCase());
@@ -21,7 +22,7 @@ test('every money word, KCC, an airdrop, a currency sign, alive and living is re
 
 test('only the gate’s own senses pass', () => {
   for (const ok of ['every level it earned', 'Levels earned on it name its hash', 'a level is earned, never printed', '3 levels earned so far', 'rarity is earned',
-    'built on living-seed', 'the National Living Wage floor', 'it never says a DIGI is self-aware, conscious or alive', 'it never claims a DIGI is self-aware, conscious or alive',
+    'built on living-seed', 'the National Living Wage floor', 'it never says a DIGI is self-aware, conscious or alive', 'it never claims a DIGI is self-aware, conscious or alive', 'it never says a Kardling is self-aware, conscious or alive', 'it never claims a Kardling is self-aware, conscious or alive',
     'computed by the kernel from published prices, each sourced and dated', 'Every price is read from data/prices.lock.json (copied from the estate’s price registry, each',
     'Every price this case reads, with its source', 'the cost case, from sourced prices only'])
     assert.deepEqual(words(ok), [], ok);
@@ -31,6 +32,7 @@ test('only the gate’s own senses pass', () => {
   assert.deepEqual(words('a level is earned, and then it earned credit'), ['earned'], 'a word after an allowed sense is not inside it');
   assert.deepEqual(words('it earned credit, then a level is earned'), ['earned'], 'nor one before it');
   assert.deepEqual(words('a DIGI is alive'), ['alive'], 'only the denial passes');
+  assert.deepEqual(words('a Kardling is alive'), ['alive'], 'only the denial passes, under the game\'s new name too');
   assert.deepEqual(words('every price is read here'), ['price']);
 });
 
@@ -75,4 +77,11 @@ test('every business is asked in DIGI’s words, and organs 4 and 5 are shown by
   assert.deepEqual([sayOutcome('shop', 'bought'), sayOutcome('telco', 'left the company'), sayOutcome('constructor', 'x'), sayOutcome('toString', 'y')], ['made a purchase', 'left the company', 'x', 'y']);
   assert.ok(Object.isFrozen(SAID_OUTCOME) && Object.isFrozen(SHOWN_AS));
   assert.deepEqual(SHOWN_AS, { 4: 'fusion', 5: 'giving and ownership' });
+});
+
+test('ORGANS is every organ sealed on disk, so the Proof screen never reads fewer than there are', () => {
+  const data = new URL('../data/', import.meta.url);
+  const sealed = readdirSync(data).filter((d) => /^organ-\d+$/.test(d) && existsSync(new URL(d + '/prereg.json', data)));
+  assert.equal(ORGANS, sealed.length);
+  assert.ok(sealed.every((d) => Number(d.slice(6)) <= ORGANS), 'numbered 1 to ORGANS, none past it');
 });

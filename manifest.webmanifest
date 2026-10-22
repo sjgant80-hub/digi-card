@@ -1,6 +1,6 @@
 {
-  "name": "DIGI Card — a picture that is a working mind you own",
-  "short_name": "DIGI Card",
+  "name": "Kardlings — a picture that is a working mind you own",
+  "short_name": "Kardlings",
   "description": "A PNG card that carries a sealed, re-runnable working mind, its owners and every level it earned; it grows offline on your device.",
   "start_url": "./",
   "scope": "./",

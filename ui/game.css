@@ -130,6 +130,12 @@ html.game button.go, .g-btn.cy { background: var(--g-cy); border-color: var(--g-
 .g-box iframe { width: 100%; height: 420px; border: 2px solid #3d1c72; background: #fff; }
 /* a duel watched back: one block a case, lit as it is reached; tap one to read it back */
 .g-cases { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; margin: 8px 0; } .g-case { aspect-ratio: 1; border: 0; padding: 0; background: #2a1450; cursor: pointer; opacity: .35; } .g-case.seen { opacity: 1; }
+/* the cases are cells, not buttons by size: the game's 44px button rule (padding 0 16px) outranked .g-case and pushed the 16 columns
+   to 782px on a phone (2026-10-22); on a phone they sit 8 to a row, each still a 40px touch target */
+html.game .g-case { min-height: 0; padding: 0; }
+/* a picker in a row may not grow past the row: its longest option set its width, 10px past a phone (the tournament's, empty) */
+html.game .g-row > label { min-width: 0; max-width: 100%; } html.game .g-row > label > select { max-width: 100%; }
+@media (max-width: 560px) { .g-cases { grid-template-columns: repeat(8, 1fr); } }
 .g-case.mine { background: var(--g-cy); } .g-case.theirs { background: #ff2bd6; } .g-case.both { background: #9a9ab0; } .g-case.none { background: #20103a; outline: 1px solid #3d1c72; } .g-case:focus-visible { outline: 3px solid #ffd23c; }
 .g-lines > li.g-two { flex-direction: column; align-items: flex-start; gap: 2px; } .g-lines > li.g-two small { margin-left: 0; white-space: normal; flex: 1 1 auto; }
 .g-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
@@ -335,3 +341,9 @@ html.game footer.g-foot { border-top: 4px solid var(--g-rule); color: var(--g-di
 #g-ar-duelart { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto 8px; image-rendering: pixelated; }
 .g-bossart { display: block; width: 100%; height: auto; image-rendering: pixelated; margin-bottom: 6px; }
 #g-kit-apps li > .g-btn { flex: none; white-space: nowrap; }
+
+/* the estate's doors (PixelWhisperer's estateDoors): the map is tapped through, and the same doors sit under it as links */
+html.game #g-plot { cursor: pointer; }
+.g-doors { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 4px; }
+html.game .g-door { font-family: var(--g-font); font-size: 14px; letter-spacing: .06em; padding: 6px 10px; min-height: 36px; display: inline-flex; align-items: center; border: 2px solid var(--g-rule); color: var(--g-ink); text-decoration: none; background: var(--g-deep); }
+html.game .g-door:hover, html.game .g-door:focus-visible { border-color: #ffd23c; color: #ffd23c; }

@@ -1,10 +1,10 @@
-// back.mjs - PixelWhisperer Kards: the back of a DIGI card. Every card game has a back; a DIGI card's carries the maker's mark,
-// so a maker's cards are known face down.
+// back.mjs - PixelWhisperer Kards: the back of a Kardlings card. Every card game has a back; a Kardlings card's carries the maker's
+// mark, so a maker's cards are known face down.
 //
 // Built by Kar for the PixelWhisperer repo. Powered by the Konomi architecture, created by Thomas Frumkin.
 //
-// A back is the card's own size (192 x 280 logical pixels, the DIGI card's 384 x 560 at 2 x) in every theme: the theme's
-// field and frame, the DIGI emblem, the maker's mark (the identicon of the maker's Ed25519 public key, in a medallion, with
+// A back is the card's own size (192 x 280 logical pixels, the card's 384 x 560 at 2 x) in every theme: the theme's
+// field and frame, the game's emblem (a K, for Kardlings), the maker's mark (the identicon of the maker's Ed25519 public key, in a medallion, with
 // the key written short beneath) and the card's edition number. The field's scatter (stars, ore, clouds, confetti) is
 // thrown with the maker's dice, so one maker's backs match and another maker's differ. Integer arithmetic only,
 // deterministic, total: bad input is { ok: false, why }, never a throw. One source: the canvas and themes come from
@@ -77,17 +77,17 @@ function field(cv, L, r) {   // the theme's ground inside the frame, its scatter
   }
 }
 
-function emblem(cv, L) {   // the DIGI mark: a diamond 120 wide and 88 high, edged, the word across it
+function emblem(cv, L) {   // the game's mark: a diamond 120 wide and 88 high, edged, a K for Kardlings in the middle
   const [fill, edge, ink] = L.emblem;
   for (const [off, c] of L.drop ? [[4, L.drop], [0, 0]] : [[0, 0]]) for (const y of span(44, 133)) for (const x of span(36, 157)) {
     const d = Math.abs(x - 96) * 44 + Math.abs(y - 88) * 60;
     if (d <= 2640) dot(cv, x + off, y + off, off ? c : d > 2400 ? edge : fill);
   }
-  centred(cv, 'DIGI', 78, ink, edge, 3);
+  centred(cv, 'K', 71, ink, edge, 5);
 }
 
 /**
- * Draw a card's back. back as checkBack takes it; themeId one of THEMES; w, h whole numbers from 64 to 1024 (the DIGI card:
+ * Draw a card's back. back as checkBack takes it; themeId one of THEMES; w, h whole numbers from 64 to 1024 (a Kardlings card:
  * 384 x 560). -> { ok: true, px: Uint8Array(w*h*3) RGB rows } | { ok: false, why }. Never throws.
  */
 export function paintBack(back, themeId, w, h) {
@@ -102,7 +102,7 @@ export function paintBack(back, themeId, w, h) {
     L.frame.forEach((col, i) => rect(cv, i * 2, i * 2, LW - i * 4, LH - i * 4, col));
     field(cv, L, r);
     rect(cv, 8, 8, LW - 16, 1, L.frame[2]); rect(cv, 8, LH - 9, LW - 16, 1, L.frame[2]); rect(cv, 8, 8, 1, LH - 16, L.frame[2]); rect(cv, LW - 9, 8, 1, LH - 16, L.frame[2]);
-    centred(cv, 'DIGI CARD', 18, L.text, L.shadow);
+    centred(cv, 'KARDLINGS', 16, L.text, L.shadow, 2);
     emblem(cv, L);
     rect(cv, 64, 151, 64, 76, L.frame[0]); rect(cv, 66, 153, 60, 72, L.frame[1]); rect(cv, 68, 155, 56, 68, L.frame[0]);   // the maker's medallion
     centred(cv, B.maker ? 'MADE BY' : 'UNSIGNED', 140, L.dim, L.shadow);

@@ -597,11 +597,11 @@ function blueprintScene(cv, f, sp, look) {
 const plainLook = (f, th) => ({ ui: th.ui, p: RAR[f.ri], body: th.body, acc: th.acc, dcol: DCOL });   // (the shared rarity palette, grey, green, blue, purple, gold)
 /** Every published theme, by versioned id. APPEND ONLY: a published theme is never changed (a redesign is a new id). */
 export const THEMES = Object.freeze({
-  'synthwave-v1': Object.freeze({ id: 'synthwave-v1', name: 'Synthwave', blurb: 'A neon creature against a striped sun and a perspective grid.', ui: Object.freeze(UI_S), body: SYNTH_BODY, acc: SYNTH_ACC, scene: synthScene }),
-  'blockcraft-v1': Object.freeze({ id: 'blockcraft-v1', name: 'Blockcraft', blurb: 'A blocky voxel creature on a grass island, drawn in isometric blocks.', ui: Object.freeze(UI_B), body: BLOCK_BODY, acc: BLOCK_ACC, scene: blockScene }),
-  'lcd-v1': Object.freeze({ id: 'lcd-v1', name: 'Pocket LCD', blurb: 'A four-shade handheld screen: the creature dithered onto a brick battlefield, in the ramp of its rarity.', look: lcdLook, scene: lcdScene }),
+  'synthwave-v1': Object.freeze({ id: 'synthwave-v1', name: 'Synthwave', blurb: 'A neon Kardling against a striped sun and a perspective grid.', ui: Object.freeze(UI_S), body: SYNTH_BODY, acc: SYNTH_ACC, scene: synthScene }),
+  'blockcraft-v1': Object.freeze({ id: 'blockcraft-v1', name: 'Blockcraft', blurb: 'A Kardling on a grass island, drawn in isometric blocks.', ui: Object.freeze(UI_B), body: BLOCK_BODY, acc: BLOCK_ACC, scene: blockScene }),
+  'lcd-v1': Object.freeze({ id: 'lcd-v1', name: 'Pocket LCD', blurb: 'A four-shade handheld screen: the Kardling dithered onto a brick battlefield, in the ramp of its rarity.', look: lcdLook, scene: lcdScene }),
   'memphis-v1': Object.freeze({ id: 'memphis-v1', name: 'Memphis Pop', blurb: 'Eighties pop: flat colour, confetti, a checker floor, a heavy outline and a hard shadow.', look: memphisLook, scene: memphisScene }),
-  'blueprint-v1': Object.freeze({ id: 'blueprint-v1', name: 'Blueprint', blurb: 'An engineering drawing: the creature ruled voxel by voxel on grid paper, with its dimensions, a title block and its rarity in pencil.', look: blueprintLook, scene: blueprintScene }),
+  'blueprint-v1': Object.freeze({ id: 'blueprint-v1', name: 'Blueprint', blurb: 'An engineering drawing: the Kardling ruled voxel by voxel on grid paper, with its dimensions, a title block and its rarity in pencil.', look: blueprintLook, scene: blueprintScene }),
 });
 
 /** The drawing kit, shared with the estate painter so both draw with one set of primitives: a padded integer canvas, rects,

@@ -228,8 +228,9 @@ try {
     await js(`document.querySelector('#g-kit-auto').click()`);
     if (await until(`/Kitted for you|Nothing of yours lifts it|could not|must/.test(document.querySelector('#g-kit-measure').textContent)`, 120000, 'Kit it for me')) {
       const a = await js(`({ text: document.querySelector('#g-kit-measure').innerText, steps: [...document.querySelectorAll('#g-kit-measure li')].map((l) => l.textContent) })`);
-      if (/Kitted for you/.test(a.text)) (a.steps.length >= 1 && a.steps.every((s) => /adds \+0\.\d{6}/.test(s))) ? seen.push('Kit it for me: ' + a.steps.length + ' step' + (a.steps.length === 1 ? '' : 's') + ', each a measured lift') : problems.push('Kit it for me: ' + a.text.replace(/\s+/g, ' ').slice(0, 160));
-      else if (/Nothing of yours lifts it/.test(a.text)) a.steps.length === 0 ? seen.push('Kit it for me: nothing of yours lifts it, and nothing is put in a slot') : problems.push('Kit it for me listed steps it did not take');
+      // innerText carries the CSS case (the heading is lettered in capitals), so the words are matched case-blind
+      if (/Kitted for you/i.test(a.text)) (a.steps.length >= 1 && a.steps.every((s) => /adds \+0\.\d{6}/.test(s))) ? seen.push('Kit it for me: ' + a.steps.length + ' step' + (a.steps.length === 1 ? '' : 's') + ', each a measured lift') : problems.push('Kit it for me: ' + a.text.replace(/\s+/g, ' ').slice(0, 160));
+      else if (/Nothing of yours lifts it/i.test(a.text)) a.steps.length === 0 ? seen.push('Kit it for me: nothing of yours lifts it, and nothing is put in a slot') : problems.push('Kit it for me listed steps it did not take');
       else problems.push('Kit it for me: ' + a.text.replace(/\s+/g, ' ').slice(0, 160));
       await scan('Kit it for me');
     }
@@ -241,6 +242,15 @@ try {
     if (/could not be drawn/.test(plot) || !/tools 10 · kitted 10/.test(plot)) problems.push('the estate: ' + plot.slice(0, 160));
     else seen.push('the estate drawn from what DIGI holds, its tool and its kit in their districts');
     await scan('the estate'); await shot('estate');
+    // the map's doors (PixelWhisperer's estateDoors): eight real links under it, and a tap on the picture goes through the
+    // door under it — the FUSION landmark, the middle of the five along the bottom, opens the Fusion Lab
+    const doors = await js(`[...document.querySelectorAll('#g-plot-doors a')].map((a) => a.textContent + '>' + a.getAttribute('href')).join(' ')`);
+    if (doors !== 'SCORER>#cards TOOLS>#kit KITTED>#kit ARENA>#arena RAIDS>#raids FUSION>#fusion MINT>#mint PROOF>#proof') problems.push('the estate doors: ' + doors);
+    else {
+      await js(`(() => { const c = document.querySelector('#g-plot'), r = c.getBoundingClientRect(); c.dispatchEvent(new MouseEvent('click', { bubbles: true, clientX: r.left + r.width / 2, clientY: r.top + r.height * 0.9 })); })()`);
+      (await until(`location.hash === '#fusion'`, 5000, 'the FUSION door')) ? seen.push('the estate’s eight doors, and a tap on FUSION opens the Fusion Lab') : problems.push('a tap on the FUSION landmark did not open the Fusion Lab');
+      await js(`location.hash = '#estate'`); await sleep(600);
+    }
     (await js(`(() => { const n = document.querySelector('#g-estate-next'); return !!n && n.getAttribute('href') === '#mint' && n.offsetParent !== null; })()`)) ? seen.push('ESTATE → NEXT · grow your own') : problems.push('the estate shows no NEXT to grow your own');
   }
   // the fusion lab: the DIGI and its minted node, two cards of one business, fused — kept only if the fused card beats
@@ -350,13 +360,18 @@ try {
   else seen.push('classic view and back');
   // phone width: every screen holds without a sideways scroll
   await size(390, 844, true); await sleep(400);
-  const wide = [];
-  for (const s of ['estate', 'base', 'cards', 'kit', 'fusion', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot']) {
+  const wide = [], untitled = [];
+  for (const s of ['estate', 'base', 'cards', 'kit', 'fusion', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot', 'about']) {
     await js(`location.hash = '#${s}'`); await sleep(500);
     const w = await js(`document.documentElement.scrollWidth`);
-    if (w > 392) wide.push(s + ' ' + w + 'px');
+    // a screen too wide names what pushes it: the widest-reaching element, so the next fix starts from the culprit
+    if (w > 392) wide.push(s + ' ' + w + 'px (' + (await js(`(() => { const W = document.documentElement.clientWidth; let best = null, r = 0; for (const n of document.querySelectorAll('section[data-screen].on *')) { const b = n.getBoundingClientRect(); if (b.width && b.right > r && b.right > W) { r = b.right; best = n; } } return best ? best.tagName.toLowerCase() + (best.id ? '#' + best.id : '') + (typeof best.className === 'string' && best.className ? '.' + best.className.trim().split(' ').filter(Boolean).join('.') : '') + ' → ' + Math.round(r) + 'px' : 'none in the screen'; })()`)) + ')');
+    // every screen names itself in the tab (the Fusion Lab and About read "undefined" until 2026-10-22)
+    if (await js(`/^undefined|^ ·|^·/.test(document.title)`)) untitled.push(s);
   }
   if (wide.length) problems.push('wider than a 390 px phone: ' + wide.join(', '));
   else seen.push('every screen fits 390 px');
+  if (untitled.length) problems.push('a screen with no title in the tab: ' + untitled.join(', '));
+  else seen.push('every screen names itself in the tab');
   await done(problems.length ? 1 : 0);
 } catch (e) { problems.push(String((e && e.message) || e)); await done(1); }

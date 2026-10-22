@@ -15,7 +15,7 @@ import { issue, give, addReceipt, reskin, verify, facts, encode } from './src/do
 import { empty, record, replay, standing, dossierOf, hashOf } from './src/registry.mjs';
 import { SETS, openSet, viewOf, departments, ownGround, digest } from './src/data.mjs';
 import { mindOf, answer, caseAt, rerun as rerunLevel, seedsFor, organOf, MARGIN } from './src/mind.mjs';
-import { sayOutcome, SHOWN_AS } from './src/copy.mjs';
+import { sayOutcome, SHOWN_AS, ORGANS } from './src/copy.mjs';
 import { breed, birthCheck } from './src/breed.mjs';
 import { consent, assemble, ask, work, tally } from './src/mesh.mjs';
 import { gate as claimGate, PAGE } from './src/claims.mjs';
@@ -561,7 +561,7 @@ async function ownGrow() {
       if (!kept.ok) return say(out, kept.why, 'bad');
       await renderWallet(); await select(kept.entry ? kept.entry.card : sealed.id);
       emit('minted', { ok: true, id: kept.entry ? kept.entry.card : sealed.id, gate: r.gate });
-      return say(out, 'Your DIGI is grown: GATE AUC ' + auc(r.gate) + ' on ' + g.ds.gateRows.length.toLocaleString() + ' of your rows it never grew on. You are its maker and its owner. Measurements it read: ' + g.used.join(', ') + (g.left.length ? '. Left out (not numbers): ' + g.left.join(', ') : '') + '.', 'ok');
+      return say(out, 'Your Kardling is grown: GATE AUC ' + auc(r.gate) + ' on ' + g.ds.gateRows.length.toLocaleString() + ' of your rows it never grew on. You are its maker and its owner. Measurements it read: ' + g.used.join(', ') + (g.left.length ? '. Left out (not numbers): ' + g.left.join(', ') : '') + '.', 'ok');
     }
     say(out, 'Try ' + (k + 1) + ': ' + (r.ok ? 'the mind it found scores ' + auc(r.gate) + ' on GATE, under the 0.6 bar' : r.why));
   }
@@ -630,7 +630,7 @@ async function costRun() {
     clear(out, el('div', { class: 'kpis' }, kpi(gbp(r.saving.vsHand), 'staff time taken off, 3 years (either AI way)'), kpi(sent.toLocaleString('en-GB'), 'records sent out of the building by renting'), kpi('0', 'records sent out by the card'), kpi(gbp(r.total.card), 'the card’s electricity, 3 years')),
       el('p', {}, el('b', {}, 'Either AI way takes ' + gbp(r.saving.vsHand) + ' of staff time off these cases over three years. Renting sends ' + sent.toLocaleString('en-GB') + ' records out of the building and bills ' + gbp(r.total.rented) + ' (' + r.model.model + '); the card sends none and costs ' + gbp(r.total.card) + ' of electricity.'),
         ' Cheap cloud models are cheap per case — the difference that matters is that every rented answer is a record handed to a processor, and every card answer is not.'),
-      el('div', { class: 'tw' }, el('table', {}, el('thead', {}, el('tr', {}, ['', 'Per case', 'Year 1', 'Year 2', 'Year 3'].map((h) => el('th', {}, h)))), el('tbody', {}, ['hand', 'rented', 'card'].map((k) => el('tr', {}, el('td', {}, { hand: 'By hand', rented: 'Rented model', card: 'DIGI card' }[k]), el('td', { class: 'num' }, gbp(r.perCase[k])), r.years.map((y) => el('td', { class: 'num' }, gbp(y[k])))))))),
+      el('div', { class: 'tw' }, el('table', {}, el('thead', {}, el('tr', {}, ['', 'Per case', 'Year 1', 'Year 2', 'Year 3'].map((h) => el('th', {}, h)))), el('tbody', {}, ['hand', 'rented', 'card'].map((k) => el('tr', {}, el('td', {}, { hand: 'By hand', rented: 'Rented model', card: 'Kardling card' }[k]), el('td', { class: 'num' }, gbp(r.perCase[k])), r.years.map((y) => el('td', { class: 'num' }, gbp(y[k])))))))),
       el('p', { class: 'dim', style: 'font-size:13px' }, 'Measured here: ' + ms.toFixed(4) + ' ms per case (card #' + String(best.serial).padStart(4, '0') + ', ' + best.domain + '). A case sent to a model: about ' + tokensOf(text) + ' tokens in (the record and the question, at about four characters a token), 2 out. Staff and electricity rise with CPI (' + (r.used.cpi * 100).toFixed(1) + '%); token prices are the provider’s today. Sources: ',
         r.used.sources.map((s, k) => [k ? ', ' : '', el('a', { href: s.source }, s.id), ' (' + s.checked + ')']), '.'));
   } catch (e) { say(out, String(e.message || e), 'bad'); }
@@ -688,12 +688,15 @@ async function renderTraces() {
 
 // ── the organs' sealed verdicts ──────────────────────────────────────────────────────────────────────────────────────
 async function renderProof() {
-  const rows = [];
-  for (let k = 1; k <= 10; k++) {
-    const v = await fetch('data/organ-' + k + '/verdict.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
-    const pre = v && (await fetch('data/organ-' + k + '/prereg.json').then((r) => (r.ok ? r.json() : null)).catch(() => null));
+  const rows = [], json = (p) => fetch(p).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  for (let k = 1; k <= ORGANS; k++) {
+    const v = await json('data/organ-' + k + '/verdict.json');
+    const pre = v && (await json('data/organ-' + k + '/prereg.json'));
     if (pre) rows.push(el('tr', {}, el('td', { class: 'num' }, 'organ ' + k), el('td', { colspan: '3' }, SHOWN_AS[k] ? el('b', {}, SHOWN_AS[k] + ' · sealed as: ') : null, el('b', { 'data-quote': 'sealed' }, pre.organ), pre.disclosure ? el('div', { class: 'note' }, pre.disclosure) : null)));
     if (v) for (const x of v.verdicts) rows.push(el('tr', {}, el('td', { class: 'num' }, k + ' · ' + x.id), el('td', { 'data-quote': 'sealed' }, x.claim), el('td', {}, el('span', { class: 'chip ' + (x.pass ? 'pass' : x.kind === 'prediction' ? 'pred' : 'fail') }, x.pass ? 'held' : x.kind === 'prediction' ? 'failed — kept' : 'FAILED')), el('td', { class: 'dim', 'data-quote': 'sealed' }, x.saw)));
+    // a red organ stays red; when a later organ measured its fix, the row under it says which and why (tools/superseded.mjs)
+    const sup = v && v.verdicts.some((x) => !x.pass && x.kind !== 'prediction') && (await json('data/organ-' + k + '/superseded.json'));
+    if (sup && Number.isInteger(sup.by) && Array.isArray(sup.failed)) rows.push(el('tr', {}, el('td', { class: 'num' }, k + ' · fix'), el('td', { colspan: '3', class: 'note' }, 'Organ ' + k + ' failed ' + sup.failed.join(', ') + ', and it stays failed, as sealed. Organ ' + sup.by + ', sealed before it was measured, measured the fix: ' + String(sup.why || ''))));
   }
   if (rows.length) clear($('#proof-rows'), rows);
   const all = rows.length ? [...document.querySelectorAll('#proof-rows .chip')].map((c) => c.textContent) : [];
@@ -730,7 +733,7 @@ function wire() {
       await renderWallet();
       emit('key', { restored: true, cards: back });
       say($('#key-out'), 'Restored: you are ' + short(k.pub) + ' again' + (back ? ', with ' + back + ' card(s) recorded here' : '') + '.', 'ok');
-    } catch (err) { say($('#key-out'), 'That is not a DIGI key file: ' + (/does not match/.test(String(err && err.message)) ? err.message : 'the key in it could not be read') + '. Use the file “Save my key file” saved.', 'bad'); }
+    } catch (err) { say($('#key-out'), 'That is not a Kardlings key file: ' + (/does not match/.test(String(err && err.message)) ? err.message : 'the key in it could not be read') + '. Use the file “Save my key file” saved.', 'bad'); }
   });
   on('#theme-toggle', 'click', () => { const r = document.documentElement, t = r.dataset.theme === 'light' ? 'dark' : 'light'; r.dataset.theme = t; try { localStorage.setItem('digi-theme', t); } catch {} });
 }

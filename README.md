@@ -1,8 +1,8 @@
-# DIGI Card
+# Kardlings
 
 **Live: https://sjgant80-hub.github.io/digi-card/**
 
-A trading card that is a working mind you own. A DIGI card is a 384 × 576 PNG. Its top sixteen pixel rows carry, byte for
+A trading card that is a working mind you own. A Kardling card is a 384 × 576 PNG. Its top sixteen pixel rows carry, byte for
 byte and in plain view, a sealed recipe for a small mind grown on real records (a scorecard of at most six readable
 rules), the signed history of everyone who has owned it, and every level it has earned. Open it on any device and it
 grows that mind there, offline, and proves its score on cases it never saw. Own it, give it, fuse it (a fused card is kept
@@ -22,8 +22,8 @@ The game's own files are `ui/mode.js`, `ui/game.js` and `ui/game.css`, and they 
 ## FallWorld: kit it out, fight, raid — the agent economy as a game, real underneath
 
 Every card is born with an inventory: two node slots (a third once it levels, a fourth at rare) and two tool slots. A
-**node** is another card its owner holds from the same business, for a department the DIGI does not cover; equipped, it
-couples with the DIGI exactly as a mesh couples its members, and joins only if it measurably adds (it must answer, cover
+**node** is another card its owner holds from the same business, for a department the Kardling does not cover; equipped, it
+couples with the Kardling exactly as a mesh couples its members, and joins only if it measurably adds (it must answer, cover
 something new and beat a coin on GATE). Every slot shows what it adds, each left out in turn. A **tool** is one of the estate's 337
 mintable apps, exactly as mint-an-app's records hold it — the commit its own CI passed at and the run that proved it —
 minted as a signed item, handed on by signed gives; it moves no score, and the page says so.
@@ -41,8 +41,9 @@ minted as a signed item, handed on by signed gives; it moves no score, and the p
 
 ## What was proven
 
-Ten organs, each sealed before it was measured (organ 10 is not fully blind: dry-run before the seal; see Proof; git proves the order: `node tools/order.mjs --organ k`), judged by
-their sealed rules alone — **57 of 61 sealed rules held; 4 failed predictions are kept; no property failed.**
+Thirteen organs, each sealed before it was measured (organs 6, 10, 11, 12 and 13 are not fully blind, each disclosing why on Proof; git proves the order: `node tools/order.mjs --organ k`), judged by
+their sealed rules alone — **70 of 76 sealed rules held; 5 failed predictions are kept; 1 property failed and is kept:** organ 12 found two real
+tournament brackets that never named a champion, and organ 13, sealed first, measured the fix (`node tools/superseded.mjs --organ 12`).
 
 | Organ | Result |
 |---|---|
@@ -55,7 +56,10 @@ their sealed rules alone — **57 of 61 sealed rules held; 4 failed predictions 
 | 7 · the drop | decoder #0001 re-runs the genesis; 5/5 posts pass the claim gate, 12/12 overreaching drafts refused; 100/100 card-me claims work |
 | 8 · scale | the mesh climbs as each department joins, in 5/5 businesses; a 10,000-entry registry replays identically in 36.8 s |
 | 9 · the arena | 1,000/1,000 duels re-run to the same receipt; every batch 64 distinct GATE rows, no TEST row read; 240/240 forgeries refused; ratings replay and their total is conserved; the duel winner had the higher TEST AUC in 78.4% of decided pairs; 26.3% of duels were upsets — **failed:** the median duel took 278 ms, over the 250 predicted (measured while a local language model ran on the same laptop) |
-| 10 · the kit and the party (not fully blind: dry-run before the seal; see Proof) | 100/100 kits measure the same twice, what every slot adds exact; 300/300 kit duels re-run; 240/240 forgeries refused; 55/55 party strikes re-run with shares a million; a tool never moved a score; 337/337 app items verify, 1,685/1,685 forged bodies refused · on TEST: 88 of 88 kits that lifted GATE also lifted TEST, the median TEST lift 89% of GATE's; kitted DIGIs won 81.9% of decided duels against their own department's cards alone (48.9% alone); 3 of 5 world bosses fell to a best-card party (telco, adult, credit); 25 of 26 clearing parties held within 0.03 on TEST |
+| 10 · the kit and the party (not fully blind: dry-run before the seal; see Proof) | 100/100 kits measure the same twice, what every slot adds exact; 300/300 kit duels re-run; 240/240 forgeries refused; 55/55 party strikes re-run with shares a million; a tool never moved a score; 337/337 app items verify, 1,685/1,685 forged bodies refused · on TEST: 88 of 88 kits that lifted GATE also lifted TEST, the median TEST lift 89% of GATE's; kitted Kardlings won 81.9% of decided duels against their own department's cards alone (48.9% alone); 3 of 5 world bosses fell to a best-card party (telco, adult, credit); 25 of 26 clearing parties held within 0.03 on TEST |
+| 11 · the campaign and Kit it for me (not fully blind: dry-run before the seal; see Proof) | 100/100 auto-kits the same twice in either order, every step lifting; 20/20 foreign pools never picked another key’s card; 6 chapters hold every boss once; 1,000/1,000 receipt sets read exactly as their bosses fell; 97/97 kits that lifted GATE by 0.005 or more also lifted TEST; 83.8% beat a seeded random kit of the same size on TEST |
+| 12 · watch it back and the tournament (not fully blind: dry-run before the seal; see Proof) | 100/100 duels replay to the very same receipt, case by case; 19,584/19,584 read-backs give the very score the duel used — **failed:** 3 of 5 real brackets named a champion (two stalled on draws: the fix is organ 13), and the higher declared GATE AUC won 58.6% of matches, under the sealed 60% |
+| 13 · the tie rule (not blind: written after organ 12) | 1,000/1,000 receipt sets decided only by the rule, the tie settling 201 of 976 matches; 5/5 real brackets named a champion within 3 duels a match; 35/35 real matches decided by a duel; the higher declared GATE AUC won 71.4% |
 
 Every kernel is witness CLEAN (728/728 mutants killed on GitHub's runner, run 39683361546) and CI re-proves all of it on every push.
 
@@ -109,7 +113,7 @@ or sent by the tools: a person does that.
 | `src/earn.mjs` | the record: a player's releases and measured party shares as entries of the credits ledger |
 | `vendor/mint-an-app/` | mint-an-app's records of the estate's apps (which are mintable, their tier, commit and CI run), byte for byte |
 | `vendor/kcc-mesh/` | the credits ledger and its DIGI gate, byte for byte |
-| `data/organ-*/` | ten organs: sealed claims, records, verdicts |
+| `data/organ-*/` | thirteen organs: sealed claims, records, verdicts (and organ 12’s superseded record) |
 | `drop/` | the manifest, the genesis log, every search |
 | `decoder/v1/` | the exact files that read a card, frozen at the drop |
 

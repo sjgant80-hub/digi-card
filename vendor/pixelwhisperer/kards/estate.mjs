@@ -1,4 +1,4 @@
-// estate.mjs - PixelWhisperer Estate: the isometric blockcraft plot a DIGI player grows, drawn from their verified holdings
+// estate.mjs - PixelWhisperer Estate: the isometric blockcraft plot a Kardlings player grows, drawn from their verified holdings
 // and nothing else, so the same holdings give the same picture (and the shared snapshot can be replayed and checked).
 //
 // Built by Kar for the PixelWhisperer repo. Powered by the Konomi architecture, created by Thomas Frumkin.
@@ -51,6 +51,19 @@ export const ITEM_DISTRICTS = Object.freeze([
   Object.freeze({ id: 'swarm', name: 'SWARM', open: true, i: [6, 12], k: [6, 12], label: [24, 84], inner: [6, 6] }),
   Object.freeze({ id: 'router', name: 'ROUTER', open: true, i: [12, 18], k: [0, 6], label: [98, 28], inner: [12, 5] }),
 ]);
+/** The Kardlings landmarks a plot can show beside its districts, each the door to one of the game's screens. One is drawn only when
+ *  the holdings name it (a screen that does not exist yet is never shown as coming), on its own island in a strip along the bottom. */
+export const LANDMARKS = Object.freeze([
+  Object.freeze({ id: 'arena', name: 'ARENA' }), Object.freeze({ id: 'raids', name: 'RAIDS' }), Object.freeze({ id: 'fusion', name: 'FUSION' }),
+  Object.freeze({ id: 'mint', name: 'MINT' }), Object.freeze({ id: 'proof', name: 'PROOF' }),
+]);
+const LANDMARK_IDS = LANDMARKS.map((l) => l.id);
+function standing(landmarks) {   // the landmarks a plot shows: nothing to add, { landmarks } in their published order, or a refusal
+  if (landmarks === undefined) return { ok: true, add: {} };
+  if (!Array.isArray(landmarks) || new Set(landmarks).size !== landmarks.length || !landmarks.every((l) => LANDMARK_IDS.includes(l))) return no('landmarks must list any of arena, raids, fusion, mint and proof, each once');
+  return { ok: true, add: { landmarks: LANDMARK_IDS.filter((id) => landmarks.includes(id)) } };
+}
+
 /** The published formula: open tiles in a district that holds n blocks (n a whole number), or null for anything else. */
 export function tilesFor(n) { return whole(n, 1000000000) ? Math.min(36, 8 + 2 * n) : null; }
 
@@ -85,13 +98,18 @@ const ITEM_FORMS = FORMS.slice(1), FOR = { app: 'tools', pwa: 'tools', node: 'to
  *   ROUTER the routers; SWARM the swarms, each a consented team of 2 to 36 of the player's own cards), and districts?: the districts to
  *   draw, SCORER and any of the rest (only those are drawn, nothing fenced; an item or swarm must stand in one of them).
  *   On any plot, names?: { <a district drawn>: 1-8 of A-Z 0-9 and space } letters that district with the player's own name in
- *   place of its own (DIGI's KITTED is { swarm: 'KITTED' }); nothing else moves, and without it nothing changes.
+ *   place of its own (the game's KITTED is { swarm: 'KITTED' }); nothing else moves, and without it nothing changes. landmarks?: any of
+ *   arena, raids, fusion, mint and proof (LANDMARKS), each once: each stands on its own island in a strip along the bottom, the door
+ *   to that game screen; names may letter them too.
  * -> { ok: true, h } | { ok: false, why }
  */
 export function checkHoldings(x) {
   try {
     if (typeof x !== 'object' || x === null || Array.isArray(x)) return no('holdings must be an object');
-    const { cards, wires = [], tools = 0, levels = null, snapshot = false, items, swarms, districts, names } = x;
+    const { cards, wires = [], tools = 0, levels = null, snapshot = false, items, swarms, districts, names, landmarks } = x;
+    const S = standing(landmarks);
+    if (!S.ok) return S;
+    const signed = (ids) => lettering(names, [...ids, ...(S.add.landmarks || [])]);   // a name may letter any district or landmark drawn
     const full = items !== undefined || swarms !== undefined || districts !== undefined;
     if (full && Object.prototype.hasOwnProperty.call(x, 'tools')) return no('tools are counted from the items when items or swarms are given');
     if (!Array.isArray(cards) || cards.length > 1000) return no('cards must be an array of at most 1000');
@@ -129,7 +147,7 @@ export function checkHoldings(x) {
     const order = held.map((card) => [String(9 - card.ri) + String(199 - card.stage) + card.id, card]).sort();   // rarest and highest first: they take the tiles nearest the centre
     links.sort();
     const h = { cards: order.map(([, card]) => card), wires: links, tools, levels, snapshot };
-    if (!full) { const n = lettering(names, DISTRICTS.map((d) => d.id)); return n.ok ? { ok: true, h: { ...h, ...n.add } } : n; }
+    if (!full) { const n = signed(DISTRICTS.map((d) => d.id)); return n.ok ? { ok: true, h: { ...h, ...S.add, ...n.add } } : n; }
     const list = items === undefined ? [] : items, teams = swarms === undefined ? [] : swarms, cardIds = new Set(ids);
     if (!Array.isArray(list) || list.length > 1000) return no('items must be an array of at most 1000');
     if (!Array.isArray(teams) || teams.length > 100) return no('swarms must be an array of at most 100');
@@ -167,9 +185,9 @@ export function checkHoldings(x) {
       if (astray) return no('every item must stand in a district drawn: a ' + astray.form + ' stands in ' + FOR[astray.form]);
       if (teamsInOrder.length && !drawn.includes('swarm')) return no('swarms stand in swarm, which is not among the districts drawn');
     }
-    const n = lettering(names, drawn || ITEM_DISTRICTS.map((d) => d.id));
+    const n = signed(drawn || ITEM_DISTRICTS.map((d) => d.id));
     if (!n.ok) return n;
-    return { ok: true, h: { ...h, tools: count('app') + count('pwa') + count('node'), talkers: count('talker'), routers: count('router'), items: all, swarms: teamsInOrder, districts: drawn, ...n.add } };
+    return { ok: true, h: { ...h, tools: count('app') + count('pwa') + count('node'), talkers: count('talker'), routers: count('router'), items: all, swarms: teamsInOrder, districts: drawn, ...S.add, ...n.add } };
   } catch (e) { return no('the holdings could not be read'); }
 }
 
@@ -225,6 +243,45 @@ function line(cv, x0, y0, x1, y1, c) {   // a straight line in whole steps: each
   for (const t of span(0, n + 1)) dot(cv, x0 + div(2 * (x1 - x0) * t + n, 2 * n), y0 + div(2 * (y1 - y0) * t + n, 2 * n), c);
 }
 
+// Where everything stands, for the painter and the doors alike: the scale, the logical canvas, the plan, the plot's top corner,
+// the snapshot's bands and the landmarks' strip. With landmarks the canvas is at least 240 x 200, so the strip has room under the plot.
+function layout(H, w, h) {
+  const LM = H.landmarks || [], strip = LM.length ? 64 : 0, k = Math.max(1, Math.min(div(w, 240), div(h, strip ? 200 : 160))), lw = div(w + k - 1, k), lh = div(h + k - 1, k);
+  const P = H.districts ? planOf(H.districts) : H.items ? ITEM_PLAN : PLAN, band = H.snapshot ? 12 : 0;
+  return { LM, strip, k, lw, lh, P, band, cx: div(lw, 2) - P.shift, oy: div(lh - 128 - 2 * band - strip, 2) + 50 + band - P.lift };
+}
+const slotOf = (G, m) => [div(G.lw * m, G.LM.length), div(G.lw * (m + 1), G.LM.length)];   // a landmark's share of the strip, left to right
+const LIT = [256, 204, 154];
+function landmark(cv, id, x, y) {   // a landmark on its island of 2 x 2 tiles, the island's top corner at (x, y)
+  const at = (i, k, j) => [x + (i - k) * 6, y + (i + k) * 3 - j * 6], top = id === 'arena' ? 0xe8d08a : id === 'raids' ? 0x84848c : 0x9a9aa8;
+  for (const j of [-2, -1]) for (const [i, k] of [[0, 0], [1, 0], [0, 1], [1, 1]]) { const [px, py] = at(i, k, j); cube(cv, px, py, j === -2 ? 0x8a5a33 : top, i * 7 + k * 3 + j, LIT, j === -1 ? 2 : 0, mul(top, 200)); }
+  const [bx, by] = at(0, 0, 0), [ux, uy] = at(0, 0, 1), [tx, ty] = at(0, 0, 2);
+  if (id === 'arena') {   // a little coliseum: low walls on the back three tiles, a gate in the tallest, sand in front, a flag each side
+    for (const [i, k] of [[0, 0], [1, 0], [0, 1]]) { const [px, py] = at(i, k, 0); cube(cv, px, py, 0xc8c0b0, i + k, LIT); }
+    cube(cv, ux, uy, 0xb0a898, 9, LIT);
+    for (const d of [-5, -1, 3]) rect(cv, ux + d, uy + 2, 2, 3, 0x6a6258);
+    for (const [fx, c] of [[-11, 0x3c8cff], [11, 0xff5a3c]]) { rect(cv, x + fx, y - 12, 1, 9, 0x3a3a40); rect(cv, x + fx + 1, y - 12, 4, 3, c); }
+  }
+  if (id === 'raids') {   // a gate tower: three blocks of dark stone, its crenels, a red banner
+    for (const j of [0, 1, 2]) { const [px, py] = at(0, 0, j); cube(cv, px, py, 0x5a5a64, j * 5, LIT); }
+    for (const d of [-6, -2, 2]) rect(cv, tx + d, ty - 3, 3, 3, 0x5a5a64);
+    rect(cv, tx - 1, ty + 7, 3, 8, 0xdc3c32); dot(cv, tx - 1, ty + 15, 0xdc3c32); dot(cv, tx + 1, ty + 15, 0xdc3c32);
+  }
+  if (id === 'fusion') {   // a glass dome on a steel base, a pipe running in from each side
+    cube(cv, bx, by, 0x6a6a72, 3, LIT);
+    [2, 4, 5, 6, 6, 7, 7, 7, 7].forEach((hw, r) => rect(cv, bx - hw, by - 9 + r, 2 * hw + 1, 1, r < 3 ? 0xe0f6ff : 0x9adcff));
+    rect(cv, bx - 12, by + 2, 6, 2, 0x3c8cff); rect(cv, bx + 7, by + 2, 6, 2, 0xff5a3c);
+  }
+  if (id === 'mint') {   // a press: a block of stone, the gold die above it on its screw and bar
+    cube(cv, bx, by, 0x84848c, 1, LIT); cube(cv, tx, ty, 0xf0c84a, 2, LIT);
+    rect(cv, tx - 1, ty - 4, 2, 4, 0x3a3a40); rect(cv, tx - 5, ty - 5, 10, 1, 0x3a3a40);
+  }
+  if (id === 'proof') {   // an obelisk of white stone, a check on its face
+    for (const j of [0, 1, 2]) { const [px, py] = at(0, 0, j); cube(cv, px, py, 0xe8e8f0, j, LIT); }
+    letters(cv, '\u2713', ux - 4, uy + 3, 0x2a9d4a, 0xe8e8f0);
+  }
+}
+
 /**
  * Draw an estate. holdings as checkHoldings takes them; themeId one of THEMES; w, h whole numbers from 64 to 2048.
  * The picture is a pixel-art canvas at the largest whole scale that fits (at least 240 x 160 logical pixels), each logical
@@ -237,7 +294,7 @@ export function paintEstate(holdings, themeId, w, h) {
     if (!c.ok) return c;
     if (typeof themeId !== 'string' || !Object.prototype.hasOwnProperty.call(THEMES, themeId)) return no('unknown theme');
     if (!whole(w, 2048) || !whole(h, 2048) || w < 64 || h < 64) return no('width and height must be whole numbers from 64 to 2048');
-    const H = c.h, L = LOOKS[themeId], k = Math.max(1, Math.min(div(w, 240), div(h, 160))), lw = div(w + k - 1, k), lh = div(h + k - 1, k);
+    const H = c.h, L = LOOKS[themeId], G = layout(H, w, h), { k, lw, lh, P, band, cx, oy } = G;
     const cv = newCanvas(lw, lh), seed = H.cards.reduce((a, card) => Math.imul(a ^ HEX.indexOf(card.id[0]) ^ (HEX.indexOf(card.id[15]) << 4), 0x9e3779b1) >>> 0, H.tools + 1);
     const r = rng(seed, H.cards.length * 31 + H.wires.length);
     rect(cv, 0, 0, lw, lh, L.bg);
@@ -245,7 +302,6 @@ export function paintEstate(holdings, themeId, w, h) {
     if (L.cloud) for (const n of span(0, 3)) { const x = r(lw), y = r(div(lh, 3)); rect(cv, x, y, 28, 5, L.cloud); rect(cv, x + 6, y - 4, 14, 4, L.cloud); }
     if (L.confetti) for (const n of span(0, 30)) rect(cv, r(lw), r(lh), 2, 2, L.confetti[r(4)]);
     if (L.grid) { for (const x of span(4, lw, 8)) rect(cv, x, 0, 1, lh, (x - 4) % 40 ? L.grid[0] : L.grid[1]); for (const y of span(4, lh, 8)) rect(cv, 0, y, lw, 1, (y - 4) % 40 ? L.grid[0] : L.grid[1]); }   // grid paper
-    const P = H.districts ? planOf(H.districts) : H.items ? ITEM_PLAN : PLAN, band = H.snapshot ? 12 : 0, cx = div(lw, 2) - P.shift, oy = div(lh - 128 - 2 * band, 2) + 50 + band - P.lift;
     const pos = (i, j, kk) => [cx + (i - kk) * 6, oy + (i + kk) * 3 - j * 6];
 
     // what stands where: towers in SCORER; the first plot's tool blocks, or each item in its own district; swarms in SWARM
@@ -320,11 +376,17 @@ export function paintEstate(holdings, themeId, w, h) {
       letters(cv, more, cx + d.label[0] - div(width(more), 2), oy + d.label[1] + 10, L.text, L.shadow);
     }
 
+    G.LM.forEach((id, m) => {   // the landmarks, each on its island in the strip along the bottom: the doors to the game's other screens
+      const [x0, x1] = slotOf(G, m), name = (H.names && H.names[id]) || LANDMARKS.find((l) => l.id === id).name;
+      landmark(cv, id, div(x0 + x1, 2), lh - band - G.strip + 22);
+      letters(cv, name, div(x0 + x1, 2) - div(width(name), 2), lh - band - 10, L.text, L.shadow);
+    });
+
     // the snapshot's bands: what it is, and the numbers it was drawn from
     if (H.snapshot) {
       const s = estateStats(holdings), fit = (str) => str.slice(0, div(lw - 8, 6));
       rect(cv, 0, 0, lw, band, L.band); rect(cv, 0, lh - band, lw, band, L.band);
-      letters(cv, fit('MY DIGI ESTATE'), 4, 2, L.bandText, L.band);
+      letters(cv, fit('MY KARDLINGS ESTATE'), 4, 2, L.bandText, L.band);
       const parts = [s.blocks + ' BLOCKS', s.tiles.total + ' TILES', s.links + ' MESH LINKS', ...(s.levels === null ? [] : [s.levels + ' LEVELS RERUN'])];
       const line = parts.reduce((acc, part) => (acc === null ? part : width(acc + ' \u00b7 ' + part) <= lw - 8 ? acc + ' \u00b7 ' + part : acc), null);   // whole items only, as many as fit
       letters(cv, fit(line), 4, lh - band + 2, L.bandText, L.band);
@@ -341,4 +403,47 @@ export function paintEstate(holdings, themeId, w, h) {
     });
     return { ok: true, px, scale: k };
   } catch (e) { return no('the estate could not be painted'); }
+}
+
+/**
+ * Where an estate's doors are in the picture paintEstate draws at w x h, in output pixels: each district drawn (the four corners of
+ * its ground's top face, top, right, bottom and left, the box round them, and the box of its name) and each landmark (its share of
+ * the strip). The game lays a real link over each, or asks estateDoorAt which door a click landed on.
+ * -> { ok: true, scale, doors: [{ id, kind: 'district' | 'landmark', name, open, x, y, w, h, poly?, sign? }] } | { ok: false, why }
+ */
+export function estateDoors(holdings, w, h) {
+  try {
+    const c = checkHoldings(holdings);
+    if (!c.ok) return c;
+    if (!whole(w, 2048) || !whole(h, 2048) || w < 64 || h < 64) return no('width and height must be whole numbers from 64 to 2048');
+    const H = c.h, G = layout(H, w, h), k = G.k, named = (id, own) => (H.names && H.names[id]) || own;
+    const doors = G.P.ds.map((d) => {
+      const poly = [[d.i[0], d.k[0]], [d.i[1], d.k[0]], [d.i[1], d.k[1]], [d.i[0], d.k[1]]].map(([I, K]) => [(G.cx + (I - K) * 6) * k, (G.oy + (I + K) * 3 + 6) * k]);
+      const name = named(d.id, d.name), sx = G.cx + d.label[0] - div(width(name), 2), sy = G.oy + d.label[1];
+      return { id: d.id, kind: 'district', name, open: d.open, x: poly[3][0], y: poly[0][1], w: poly[1][0] - poly[3][0], h: poly[2][1] - poly[0][1], poly, sign: [sx * k, sy * k, (width(name) + 1) * k, 8 * k] };
+    });
+    G.LM.forEach((id, m) => { const [x0, x1] = slotOf(G, m); doors.push({ id, kind: 'landmark', name: named(id, LANDMARKS.find((l) => l.id === id).name), open: true, x: x0 * k, y: (G.lh - G.band - G.strip) * k, w: (x1 - x0) * k, h: G.strip * k }); });
+    return { ok: true, scale: k, doors };
+  } catch (e) { return no('the doors could not be found'); }
+}
+
+/**
+ * Which door a point of the picture paintEstate draws at w x h is on: a landmark's share of the strip, then the ground of a
+ * district (the tile under the point, by the plot's own grid), then a district's name. x, y whole output pixels inside the picture.
+ * -> { ok: true, door: id | null } | { ok: false, why }
+ */
+export function estateDoorAt(holdings, w, h, x, y) {
+  try {
+    const D = estateDoors(holdings, w, h);
+    if (!D.ok) return D;
+    if (!whole(x, w - 1) || !whole(y, h - 1)) return no('x and y must be whole numbers inside the picture');
+    const inBox = ([bx, by, bw, bh]) => x >= bx && y >= by && x < bx + bw && y < by + bh;
+    const lm = D.doors.find((d) => d.kind === 'landmark' && inBox([d.x, d.y, d.w, d.h]));
+    if (lm) return { ok: true, door: lm.id };
+    const G = layout(checkHoldings(holdings).h, w, h), dx = div(x, G.k) - G.cx, dy = div(y, G.k) - G.oy - 6;
+    const i = div(dx + 2 * dy, 12), kk = div(2 * dy - dx, 12), ground = G.P.ds.find((d) => i >= d.i[0] && i < d.i[1] && kk >= d.k[0] && kk < d.k[1]);
+    if (ground) return { ok: true, door: ground.id };
+    const sign = D.doors.find((d) => d.sign && inBox(d.sign));
+    return { ok: true, door: sign ? sign.id : null };
+  } catch (e) { return no('the door could not be found'); }
 }

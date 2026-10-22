@@ -26,7 +26,7 @@ import { seal as sealGenome } from '../vendor/dex-frontier/vendor/living-seed/sr
 import { issue as issueCard } from '../src/dossier.mjs';
 import { verify as verifyLife } from '../src/dossier.mjs';
 import { UI_ICONS, DATASET_ICONS, identicon as keyFace, paintText } from '../vendor/pixelwhisperer/kards/ui.mjs';
-import { paintEstate, tilesFor } from '../vendor/pixelwhisperer/kards/estate.mjs';
+import { paintEstate, tilesFor, estateDoors, estateDoorAt } from '../vendor/pixelwhisperer/kards/estate.mjs';
 import { paintSlot } from '../vendor/pixelwhisperer/kards/gear.mjs';
 import { paintDuel } from '../vendor/pixelwhisperer/kards/arena.mjs';
 import { paintBack } from '../vendor/pixelwhisperer/kards/back.mjs';
@@ -35,7 +35,7 @@ import { campaign, autoKit } from '../src/campaign.mjs';
 import { replay, readBack } from '../src/replay.mjs';
 import { SANDBOX, askedFor, boxable } from '../src/sandbox.mjs';
 import { bracketOf, playOut, DRAWS_TO_TIE } from '../src/tournament.mjs';
-import { offered, shownDesc, sayOutcome, SHOWN_AS } from '../src/copy.mjs';
+import { offered, shownDesc, sayOutcome, SHOWN_AS, ORGANS } from '../src/copy.mjs';
 import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 import { crc32, cat, zlibStored } from '../vendor/dex-frontier/vendor/living-seed/src/card.mjs';
@@ -70,18 +70,18 @@ const INFO = {
   fusion: 'The Fusion lab: two of your cards of one business become one only if the fused card beats both parents on GATE, cases neither grew on, and anyone holding the ground re-runs it. This is model merging and selection: most merges do not beat both parents, and those are refused, never kept.',
   fuse: 'Of one department, the parents’ rule shapes are crossed rule by rule and, half the time, changed once; of two departments, the fused card carries both minds and answers through a coupling learned on GATE. Up to 12 tries run on this device, and the first that beats both is sealed with you as its maker, naming both parents.',
   lineage: 'Who a card was fused from, read from the seals of the cards this device holds. A parent this device does not hold is named by its id, never drawn or guessed.',
-  sandbox: 'A tool runs in a box: a frame that never shares this page’s origin, so it cannot read or change anything of DIGI’s — your cards, this page’s storage — and it never moves a score. Before it opens, its own page is read for what it asked for: the network its security policy lets it reach, and whether it keeps anything in storage (inside the box, its own and empty).',
+  sandbox: 'A tool runs in a box: a frame that never shares this page’s origin, so it cannot read or change anything of the game’s — your cards, this page’s storage — and it never moves a score. Before it opens, its own page is read for what it asked for: the network its security policy lets it reach, and whether it keeps anything in storage (inside the box, its own and empty).',
   replay: 'Watched back: the duel fought again from its own receipt (it must give the very same numbers), then laid out case by case — each side’s call, and whether the case really was a yes. Tap a case to read it back: the very rules of each mind that fired on it.',
   tournament: 'A tournament: your cards of one business in a bracket, seeded by their ratings, the best two apart until the final. Each match is decided by the first duel receipt between exactly those two cards that is not a draw; if their first three duels are all draws, the tie rule sends the higher seed through, so two evenly matched cards can never stall the bracket; a match with neither yet stays open. Duels of your own cards are practice, so the champion is a practice champion: a title, and nothing else.',
   campaign: 'The campaign: each business is a chapter — first the parts of it no card has cracked, nearest the bar first, then the business itself as a world boss. Chapters run with the least left to clear first; a chapter is cleared only when every boss in it has fallen, read from your strikes and party strikes, which anyone can re-run.',
   organ4: 'Organ 4 wrote its rules down and sealed them in git before it fused a single card, then measured them; each verdict here is read from its committed record. A prediction that failed stays on show.',
   registry: 'This device’s ordered record of every card’s life. It is what stops a card being given away twice.',
-  forms: 'The forms a DIGI fights in. Alone: its own mind. Kitted: with your own node cards in its slots. Mesh: with other owners’ cards, each by its owner’s consent. Party: a raid, with friends’ DIGIs. Every one is live.',
+  forms: 'The forms a Kardling fights in. Alone: its own mind. Kitted: with your own node cards in its slots. Mesh: with other owners’ cards, each by its owner’s consent. Party: a raid, with friends’ Kardlings. Every one is live.',
   mint: 'Make a card from your own table: a CSV export with a yes/no column. Your rows never leave this device. If its mind does not reach 0.6, nothing is minted.',
   skins: 'A skin changes the picture, never the mind. It is signed into the card’s life, so any reader redraws it.',
   estate: 'One block for every card you hold. More cards open more tiles. Nothing on it is for sale, and it is never ranked.',
   overnight: 'While this page stays open, your cards search for levels. A level is kept only after it re-runs; until then nothing changes.',
-  districts: 'What your estate holds, by kind: your cards, the DIGIs you have kitted out, the app tools you hold, your mesh links, and the raid bosses you have felled.',
+  districts: 'What your estate holds, by kind: your cards, the Kardlings you have kitted out, the app tools you hold, your mesh links, and the raid bosses you have felled.',
   bar: 'A department got cards only if its mind ranked unseen cases at least this well (GATE 0.6). These did not, so they have none — kept on the record, not hidden.',
   training: 'Training is a search for a better mind. It must beat the old one by +0.002 on GATE, and re-run, before the level goes up.',
   drop: '1,000 genesis cards whose rules were fixed before the first search. Rerun it to check every seal here, from nothing.',
@@ -105,10 +105,10 @@ const INFO = {
   worldboss: 'A whole business, at the best score any lone genesis search reached on it plus 0.010. No card alone has reached it: a party can, of your own cards and friends’ by their owners’ consent. The party’s record names every member card, its owner and its measured share.',
   raids: 'A raid is many players searching one unsolved department, each search signed and re-checkable. The boss’s health is how far the best search so far is from the 0.6 bar. The first strike to clear it fells the boss, and its striker seals the first card of that department — the loot. The best of many tries is luckier than one: the screen always says how many strikes it took.',
   arena: 'Two cards of one business meet on 64 cases both minds were proven on, chosen by both owners’ signatures together. Each side fights as it is kitted: its nodes answer with it, weighed on GATE cases outside the batch; its tools change nothing. The side that ranks the cases better wins. Nothing is staked: a duel moves no card and no credit, and anyone re-runs it from its receipt.',
-  kit: 'Your DIGI’s inventory. Node slots hold your own cards of the same business, which answer with it; tool slots hold app items, which ride with it. Every card has its slots from its issue, and levels open more node slots.',
-  nodes: 'A node is another card of yours from the same business, for a department your DIGI does not cover. It joins only if it measurably adds: it must answer here, cover something new and beat a coin on GATE.',
+  kit: 'Your Kardling’s inventory. Node slots hold your own cards of the same business, which answer with it; tool slots hold app items, which ride with it. Every card has its slots from its issue, and levels open more node slots.',
+  nodes: 'A node is another card of yours from the same business, for a department your Kardling does not cover. It joins only if it measurably adds: it must answer here, cover something new and beat a coin on GATE.',
   tools: 'A tool is one of the estate’s apps whose own CI passed on GitHub’s machines at the commit it names. It opens from here, and it moves no score.',
-  kitted: 'The kitted mind is your DIGI and its nodes coupled into one answer, scored out of fold on GATE. What a slot adds is the score with it, less the score without it.',
+  kitted: 'The kitted mind is your Kardling and its nodes coupled into one answer, scored out of fold on GATE. What a slot adds is the score with it, less the score without it.',
   mintnode: 'Minting a node is one search on a department, from a seed your key fixes, like a raid strike. Only a mind that clears 0.6 on GATE is sealed, with you as its maker.',
   mintapp: 'Minting an app tool signs an item naming that app, its commit and the run that proved it. It is free, and it checks only while the estate’s records list the app exactly so.',
   record: 'Your record in the credits ledger: the release of every card and app tool you made, and the measured share of every card in every party you struck — each recorded only once its proof re-runs here, nothing counted twice. Credits are accounting, not money; the switch that would make any allocation live is off.',
@@ -188,11 +188,11 @@ function soleNext(node) {
   const screen = node && node.closest('section[data-screen]');
   if (screen) for (const n of screen.querySelectorAll('.g-next')) if (n !== node) n.classList.remove('g-next');
 }
-/** DIGI WORLD, lettered by the UI font: 3x for the bar, 2x for a phone */
+/** KARDLINGS, lettered by the UI font: 3x for the bar, 2x for a phone */
 function paintLogo() {
   let painted = 0;
   for (const [id, k] of [['#g-logo-3', 3], ['#g-logo-2', 2]]) {
-    const t = paintText('DIGI WORLD', k, '#ffd23c', '#4a1480'), cv = $(id);
+    const t = paintText('KARDLINGS', k, '#ffd23c', '#4a1480'), cv = $(id);
     if (!t.ok || !cv) continue;
     cv.width = t.w; cv.height = t.h;
     const x = cv.getContext('2d'), img = x.createImageData(t.w, t.h); img.data.set(t.px); x.putImageData(img, 0, 0); painted++;
@@ -236,7 +236,7 @@ const ALIAS = { wallet: 'cards', own: 'mint', open: 'send', drop: 'proof', explo
 const CLASSIC = ['top', 'what', 'worth', 'words', 'start', 'how', 'blueprint', 'business', 'cost', 'paper', 'faq'];
 const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'kit', 'fusion', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
 const DOCK = ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof'];
-const TITLES = { first: 'DIGI', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', kit: 'Kit', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer' };
+const TITLES = { first: 'Kardlings', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', kit: 'Kit', fusion: 'Fusion Lab', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer', about: 'About' };
 
 function route() {
   const h = decodeURIComponent((location.hash || '').slice(1));
@@ -251,7 +251,7 @@ function go(screen, opts = {}) {
   G.screen = screen;
   $$('section[data-screen]').forEach((s) => s.classList.toggle('on', s.dataset.screen === screen));
   $$('#g-dock a').forEach((a) => { if (a.dataset.go === screen || (a.dataset.group || '').split(' ').includes(screen)) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
-  document.title = TITLES[screen] + ' · DIGI Card';
+  document.title = TITLES[screen] + ' · Kardlings';
   if (!opts.keepHash && location.hash !== '#' + screen) history.replaceState(null, '', '#' + screen);
   if (!opts.keepScroll) scrollTo(0, 0);
   const h = $('section[data-screen="' + screen + '"].on h2, section[data-screen="' + screen + '"].on .g-h');
@@ -475,14 +475,14 @@ async function renderEstate() {
   const sets = {};
   for (const h of held) sets[h.f.dataset] = (sets[h.f.dataset] || 0) + 1;
   const kits = held.filter((h) => (G.st.loadouts || {})[h.id]).length, tools = (await heldItems()).length, felled = Object.keys(G.st.loot || {}).length;
-  fill($('#g-districts'), line('k', 'Cards', el('small', {}, String(held.length))), line(kits ? 'k' : '', 'Kitted DIGIs', el('small', {}, String(kits))), line(tools ? 'k' : '', 'App tools', el('small', {}, String(tools))), line(links ? 'k' : '', 'Mesh links', el('small', {}, String(links))), line(felled ? 'k' : '', 'Bosses felled', el('small', {}, String(felled))));
+  fill($('#g-districts'), line('k', 'Cards', el('small', {}, String(held.length))), line(kits ? 'k' : '', 'Kitted Kardlings', el('small', {}, String(kits))), line(tools ? 'k' : '', 'App tools', el('small', {}, String(tools))), line(links ? 'k' : '', 'Mesh links', el('small', {}, String(links))), line(felled ? 'k' : '', 'Bosses felled', el('small', {}, String(felled))));
   const away = G.st.log.filter((x) => G.since && x.t > G.since);
   const bred = away.filter((x) => x.type === 'birth'), kept = bred.filter((x) => x.kept).length;
   fill($('#g-overnight'), line('', away.filter((x) => x.type === 'search').length + ' searches ran'), line('k', away.filter((x) => x.type === 'level').length + ' levels kept · re-run'), line('', bred.length + ' fused · ' + kept + ' kept'), line('r', away.filter((x) => x.type === 'search' && !x.kept).length + ' searches refused'));
   await drawPlot(held);
 }
 /** what the painter is handed: the verified holdings, the consented wires between them, the levels — nothing else */
-/** what the estate holds besides cards: the app tools this key holds, and each DIGI kitted with nodes as a swarm of its cards */
+/** what the estate holds besides cards: the app tools this key holds, and each Kardling kitted with nodes as a swarm of its cards */
 async function worldOf(held) {
   const ids = new Set(held.map((h) => h.id)), items = new Map(), swarms = [];
   for (const { v } of await heldItems()) { const id = v.body.sha.slice(0, 16); if (!items.has(id)) items.set(id, { id, form: 'app', tier: v.body.tier }); }
@@ -501,17 +501,33 @@ function holdingsOf(held, snapshot = false, world = { items: [], swarms: [] }) {
   const ids = new Set(held.map((h) => h.id)), mineIn = S.mesh ? S.mesh.m.members.filter((m) => m.joined && ids.has(m.card)).map((m) => m.card) : [];
   return { cards: held.map((h) => ({ id: h.id, dataset: h.f.dataset, department: String(h.f.department).slice(0, 16), stage: h.f.stage, rarity: h.f.rarity, generation: h.f.generation, fresh: fresh(h.id) })),
     wires: mineIn.slice(1).map((id, k) => [mineIn[k], id]), levels: held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0), snapshot,
-    items: world.items, swarms: world.swarms, districts: ['scorer', 'tools', 'swarm'], names: { swarm: 'KITTED' } };
+    items: world.items, swarms: world.swarms, districts: ['scorer', 'tools', 'swarm'], names: { swarm: 'KITTED' }, ...(snapshot ? {} : { landmarks: LANDMARK_DOORS }) };
+}
+/** the map's doors, each to a screen of the game: the three districts to what they hold, the five landmarks to their own screens */
+const DOOR = Object.freeze({ scorer: 'cards', tools: 'kit', swarm: 'kit', arena: 'arena', raids: 'raids', fusion: 'fusion', mint: 'mint', proof: 'proof' });
+const LANDMARK_DOORS = ['arena', 'raids', 'fusion', 'mint', 'proof'];
+/** a tap on the map goes through the door under it: estateDoorAt reads the plot's own grid, so two districts whose boxes
+ *  overlap never send a tap to the wrong one */
+function plotTap(e) {
+  if (!G.doors) return;
+  const r = e.currentTarget.getBoundingClientRect(), { H, w, h } = G.doors;
+  const x = Math.min(w - 1, Math.max(0, Math.floor(((e.clientX - r.left) * w) / r.width))), y = Math.min(h - 1, Math.max(0, Math.floor(((e.clientY - r.top) * h) / r.height)));
+  const at = estateDoorAt(H, w, h, x, y);
+  if (at.ok && at.door && DOOR[at.door]) location.hash = '#' + DOOR[at.door];
 }
 const plotTheme = () => (document.documentElement.dataset.ui === 'blockcraft' ? 'blockcraft-v1' : 'synthwave-v1');
 async function drawPlot(held) {
   const c = $('#g-plot'), open = tilesFor(held.length), world = await worldOf(held);
   setK('g-plot-open', 'Scorer ' + open + ' tiles · tools ' + tilesFor(world.items.length) + ' · kitted ' + tilesFor(world.swarms.length));
-  fill($('#g-plot-rule'), 'The published rule: a district holding n blocks opens 8 + 2n tiles, up to 36 · SCORER holds your cards, TOOLS your app tools, KITTED each DIGI kitted with its nodes · drawn from your holdings only, by PixelWhisperer’s estate painter');
+  fill($('#g-plot-rule'), 'The published rule: a district holding n blocks opens 8 + 2n tiles, up to 36 · SCORER holds your cards, TOOLS your app tools, KITTED each Kardling kitted with its nodes · drawn from your holdings only, by PixelWhisperer’s estate painter');
   if (!c) return;
-  const art = paintEstate(holdingsOf(held, false, world), plotTheme(), c.width, c.height);
+  const H = holdingsOf(held, false, world), art = paintEstate(H, plotTheme(), c.width, c.height);
   if (!art.ok) return fill($('#g-plot-rule'), 'The estate could not be drawn: ' + art.why);
   putRGB(c, art.px, c.width, c.height);
+  // the same doors, from the same layout the picture was drawn from, as real links for a keyboard or a screen reader
+  const doors = estateDoors(H, c.width, c.height);
+  G.doors = doors.ok ? { H, w: c.width, h: c.height } : null;
+  fill($('#g-plot-doors'), doors.ok ? doors.doors.filter((d) => DOOR[d.id]).map((d) => el('a', { class: 'g-door', href: '#' + DOOR[d.id] }, d.name)) : null);
   G.plot = { held: held.length, open };
 }
 function pngOfCanvas(c) {
@@ -523,7 +539,7 @@ function pngOfCanvas(c) {
 }
 async function shareSnapshot() {
   const held = await holdings(), levels = held.reduce((n, h) => n + h.v.receipts.filter((r) => r.kind === 'level').length, 0);
-  const text = 'My DIGI estate · ' + held.length + ' block' + (held.length === 1 ? '' : 's') + ' · ' + levels + ' level' + (levels === 1 ? '' : 's') + ' re-run · every card re-runs on your device: ' + location.origin + location.pathname;
+  const text = 'My Kardlings estate · ' + held.length + ' block' + (held.length === 1 ? '' : 's') + ' · ' + levels + ' level' + (levels === 1 ? '' : 's') + ' re-run · every card re-runs on your device: ' + location.origin + location.pathname;
   // the snapshot is painted afresh, with its title and stats bands, from the holdings alone
   const snap = el('canvas', { width: 1200, height: 630 }), art = paintEstate(holdingsOf(held, true, await worldOf(held)), plotTheme(), 1200, 630);   // the size a shared link previews at
   if (!art.ok) return fill($('#g-snap-out'), el('p', { class: 'g-badt g-small' }, 'The snapshot could not be drawn: ' + art.why));
@@ -555,7 +571,7 @@ async function renderCards() {
   const grid = $('#g-slotgrid'), slots = [];
   if (openSet === 'custom') {
     for (const h of bySet.custom || []) slots.push(heldSlot(h));
-    if (!slots.length) slots.push(el('div', { class: 'g-slot' }, el('div', { class: 'g-sil' }, 'Mint your first'), el('a', { class: 'g-btn', href: '#mint' }, 'Mint a DIGI from your table')));
+    if (!slots.length) slots.push(el('div', { class: 'g-slot' }, el('div', { class: 'g-sil' }, 'Mint your first'), el('a', { class: 'g-btn', href: '#mint' }, 'Mint a Kardling from your table')));
   } else {
     for (const dpt of admitted[openSet] || []) {
       const dep = dpt.domain.slice(openSet.length + 1), mineHere = (bySet[openSet] || []).filter((h) => h.f.department === dep);
@@ -928,7 +944,7 @@ async function arenaCopy() {
 }
 async function arenaPaste() {
   const o = dec($('#g-ar-code').value), out = $('#g-ar-friend-out');
-  if (!o || !o.card) return fill(out, el('p', { class: 'g-badt' }, 'That is not a DIGI challenge or answer.'));
+  if (!o || !o.card) return fill(out, el('p', { class: 'g-badt' }, 'That is not a Kardlings challenge or answer.'));
   const them = await verifyLife(o.card);
   if (!them.ok) return fill(out, el('p', { class: 'g-badt' }, 'Their card does not check: ' + them.why));
   const kept = await api.keep(o.card);   // their card's life, recorded here like any card opened here
@@ -957,7 +973,7 @@ async function arenaPaste() {
     showDuel(r, v, them);
     return;
   }
-  fill(out, el('p', { class: 'g-badt' }, 'That is not a DIGI challenge or answer.'));
+  fill(out, el('p', { class: 'g-badt' }, 'That is not a Kardlings challenge or answer.'));
 }
 
 // ── play: raids ─────────────────────────────────────────────────────────────────────────────────────────────────
@@ -1051,7 +1067,7 @@ async function raidImport() {
   if (t.hidden || !t.value.trim()) { t.hidden = false; t.value = ''; t.focus(); return fill($('#g-rd-out'), el('p', { class: 'g-small' }, 'Paste a friend’s strikes in the box, then press Add a friend’s strikes again.')); }
   let o = null;
   try { o = JSON.parse(decodeURIComponent(escape(atob(t.value.trim())))); } catch { o = null; }
-  if (!o || o.kind !== 'digi.raid.strikes' || !Array.isArray(o.strikes)) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, 'Those are not DIGI raid strikes.'));
+  if (!o || o.kind !== 'digi.raid.strikes' || !Array.isArray(o.strikes)) return fill($('#g-rd-out'), el('p', { class: 'g-badt' }, 'Those are not Kardlings raid strikes.'));
   const bosses = bossesOf(admission), have = new Set((G.st.strikes || []).map((s) => s.sig));
   let added = 0, refused = 0;
   for (const s of o.strikes.slice(0, 500)) {
@@ -1068,7 +1084,7 @@ async function raidImport() {
 // ── cards: the kit ──────────────────────────────────────────────────────────────────────────────────────────────────
 // Every card carries its slots from birth (slotsOf). The owner fills them here with nodes — its own cards of the same
 // business — and tools — app items — measures the kitted mind on this device, and signs the loadout. A node is minted
-// the way a raid strikes: one search on a department the DIGI lacks, from a seed the owner's key fixes, sealed only if
+// the way a raid strikes: one search on a department the Kardling lacks, from a seed the owner's key fixes, sealed only if
 // it clears 0.6 on GATE. A tool is minted from mint-an-app's records, vendored byte for byte.
 const KIT = { card: null, nodes: [], tools: [], measured: null, tier: 'proven', busy: new Set() };
 let appRecords = null;
@@ -1131,7 +1147,7 @@ async function renderKit() {
   const want = KIT.card || S.sel;
   if (mine.some((m) => m.id === want)) pick.value = want;
   const id = pick.value;
-  if (!id) { fill($('#g-kit-nodes')); fill($('#g-kit-tools')); fill($('#g-kit-line'), 'Card me first: then you have a DIGI to kit out.'); fill($('#g-kit-depts')); return renderKitApps(); }
+  if (!id) { fill($('#g-kit-nodes')); fill($('#g-kit-tools')); fill($('#g-kit-line'), 'Card me first: then you have a Kardling to kit out.'); fill($('#g-kit-depts')); return renderKitApps(); }
   const v = await verify(api.lifeOf(id)), k = await kitOf(v);
   if (KIT.card !== id) {
     KIT.card = id; KIT.measured = null;
@@ -1164,7 +1180,7 @@ async function renderKitNodes(v, s) {
   const out = [];
   for (let i = 0; i < 4; i++) {
     const name = el('b', {}, 'Node slot ' + (i + 1));
-    if (i >= s.nodes) { out.push(el('div', { class: 'g-kslot locked' }, name, el('small', {}, i === 2 ? 'opens when this DIGI levels once' : 'opens at rare: three levels'), el('a', { class: 'g-btn', href: '#cards' }, 'Train it'))); continue; }
+    if (i >= s.nodes) { out.push(el('div', { class: 'g-kslot locked' }, name, el('small', {}, i === 2 ? 'opens when this Kardling levels once' : 'opens at rare: three levels'), el('a', { class: 'g-btn', href: '#cards' }, 'Train it'))); continue; }
     const id = KIT.nodes[i];
     if (id) {
       const m = same.find((x) => x.id === id), w = worth.get(id);
@@ -1206,7 +1222,7 @@ async function renderKitDepts(v) {
   const own = new Set(domainsOf(v)), same = await myCards(set);
   fill($('#g-kit-depts'), deps.map((d) => {
     const short = d.domain.replace(set + '-', ''), held = same.find((m) => m.id !== v.id && domainsOf(m.v).includes(d.domain));
-    if (own.has(d.domain)) return line('k', short, el('small', {}, 'your DIGI’s own'));
+    if (own.has(d.domain)) return line('k', short, el('small', {}, 'your Kardling’s own'));
     if (held) return line('k', short, el('small', {}, 'you hold #' + pad4(held.v.serial) + (KIT.nodes.includes(held.id) ? ' · in a slot' : ' · put it in a slot')));
     if (d.admitted !== true) return line('y', short, el('a', { href: '#raids' }, 'a raid boss · strike it in Raids'));
     const n = (G.st.strikes || []).filter((x) => x.domain === d.domain && x.by === S.me.pub).length;
@@ -1240,7 +1256,7 @@ async function nodeMint(domain) {
   } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
   finally { KIT.busy.delete(domain); renderKit(); }
 }
-/** Kit it for me: the card of yours that lifts this DIGI most, then the next, while one lifts it and a slot is open (src/campaign.mjs) */
+/** Kit it for me: the card of yours that lifts this Kardling most, then the next, while one lifts it and a slot is open (src/campaign.mjs) */
 async function kitAuto() {
   if (!KIT.card) return;
   const v = await verify(api.lifeOf(KIT.card)), out = $('#g-kit-measure'), mine = await myCards(api.setOf(v)), others = mine.filter((m) => m.id !== v.id);
@@ -1275,7 +1291,7 @@ async function kitMeasure() {
   KIT.measured = k; note('kit', { id: v.id, gate: k.gate, lift: k.lift });
   const plus = (m) => (m >= 0 ? '+' : '') + six(m);
   fill(out, el('p', { class: 'g-win ' + (k.lift > 0 ? 'ok' : 'draw') }, 'Kitted ' + six(k.gate)), el('p', {}, 'Alone ' + six(k.alone) + ' · lift ' + plus(k.lift) + ' · out of fold on ' + k.rows.toLocaleString() + ' GATE cases'),
-    el('ul', { class: 'g-lines' }, line('k', 'Your DIGI', el('small', {}, 'adds ' + plus(k.own))), k.slots.map((x, i) => line(x.joined ? 'k' : 'r', 'Node ' + (i + 1) + ' · ' + (x.domains || '–'), el('small', {}, x.joined ? 'adds ' + plus(x.contribution) : x.why)))),
+    el('ul', { class: 'g-lines' }, line('k', 'Your Kardling', el('small', {}, 'adds ' + plus(k.own))), k.slots.map((x, i) => line(x.joined ? 'k' : 'r', 'Node ' + (i + 1) + ' · ' + (x.domains || '–'), el('small', {}, x.joined ? 'adds ' + plus(x.contribution) : x.why)))),
     el('p', { class: 'g-small g-dim' }, 'Adds: the kitted score with it, less the score without it. Whether a lift on GATE holds on TEST, cases nothing here was chosen by, is measured by organ 10, not assumed here.'));
   await renderKitNodes(v, slotsOf(v));
 }
@@ -1332,7 +1348,7 @@ async function itemTake() {
   const rec = await appsLoaded(), out = $('#g-kit-give-out'), box = $('#g-kit-take-code');
   let o = null;
   try { o = JSON.parse(decodeURIComponent(escape(atob(String(box.value || '').trim())))); } catch { o = null; }
-  if (!rec || !o || o.kind !== 'digi.item') return fill(out, el('p', { class: 'g-badt' }, 'That is not a DIGI item.'));
+  if (!rec || !o || o.kind !== 'digi.item') return fill(out, el('p', { class: 'g-badt' }, 'That is not a Kardlings item.'));
   const v = await verifyItem(o.item, rec.apps);
   if (!v.ok) { bleep('refused'); return fill(out, el('p', { class: 'g-badt' }, 'Refused · ' + v.why)); }
   if (v.owner !== S.me.pub) return fill(out, el('p', { class: 'g-badt' }, 'Refused · it is held by another key, not yours'));
@@ -1495,7 +1511,7 @@ async function recordReplay() {
 }
 function recordSave() {
   if (!G.st.record) return;
-  api.download(new TextEncoder().encode(JSON.stringify({ schema: G.st.record.schema, note: 'A DIGI player’s contribution record: the estate’s demo economy, every entry gated where it was made. Internal units, not money; the switch is off.', head: G.st.record.head, log: G.st.record.log }, null, 1)), 'digi-record-' + G.st.record.head.slice(0, 8) + '.json');
+  api.download(new TextEncoder().encode(JSON.stringify({ schema: G.st.record.schema, note: 'A Kardlings player’s contribution record: the estate’s demo economy, every entry gated where it was made. Internal units, not money; the switch is off.', head: G.st.record.head, log: G.st.record.log }, null, 1)), 'digi-record-' + G.st.record.head.slice(0, 8) + '.json');
 }
 const sha256Of = (x) => kccSha(kccCanon(x));
 
@@ -1547,7 +1563,7 @@ async function verifyChain() {
 }
 let organs = null;
 async function renderOrgans() {
-  organs ||= await Promise.all([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(async (k) => {
+  organs ||= await Promise.all(Array.from({ length: ORGANS }, (_, i) => i + 1).map(async (k) => {
     const [v, p] = await Promise.all(['verdict', 'prereg'].map((f) => fetch('data/organ-' + k + '/' + f + '.json').then((r) => (r.ok ? r.json() : null)).catch(() => null)));
     return { k, name: p ? p.organ : 'organ ' + k, blind: !(p && p.disclosure), held: v ? v.verdicts.filter((x) => x.pass).length : 0, all: v ? v.verdicts.length : 0 };
   }));
@@ -1628,7 +1644,7 @@ function wire() {
   on('#g-a-png', 'click', () => api.actDownload());
   on('#g-a-share', 'click', async () => {
     const d = api.lifeOf(S.sel), v = await verify(d), png = await cardOf(d, api.paint), file = new File([png.png], 'digi-' + pad4(v.serial) + '-' + v.id + '.png', { type: 'image/png' });
-    const text = facts(v).title + ' #' + pad4(v.serial) + ' · a DIGI card · open it and every claim re-runs: ' + location.origin + location.pathname + '#send';
+    const text = facts(v).title + ' #' + pad4(v.serial) + ' · a Kardling card · open it and every claim re-runs: ' + location.origin + location.pathname + '#send';
     try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text }); return; } } catch { return; }
     api.download(png.png, file.name);
   });
@@ -1651,7 +1667,7 @@ function wire() {
   const toTab = (t) => () => { tab = t; renderTabs(); };
   on('#g-tab-rules', 'click', toTab('rules')); on('#g-tab-reruns', 'click', toTab('reruns')); on('#g-tab-life', 'click', toTab('life'));
   on('#g-work', 'click', () => api.workOvernight());
-  on('#g-snapshot', 'click', shareSnapshot);
+  on('#g-snapshot', 'click', shareSnapshot); on('#g-plot', 'click', plotTap);
   on('#g-rerun', 'click', () => api.rerunDrop());
   on('#g-verify', 'click', verifyChain);
   on('#g-find-go', 'click', find); on('#g-find', 'keydown', (e) => { if (e.key === 'Enter') find(); });

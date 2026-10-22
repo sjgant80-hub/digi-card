@@ -20,11 +20,19 @@ jobs:
       - name: the game view, played in a headless browser
         run: node tools/ui-play.mjs
         env: { CHROME: /usr/bin/google-chrome }
+      # every failure counts: under bash -e a failing order.mjs early in an && chain did not stop the step, so a later organ
+      # passing could have hidden it (found 2026-10-22). A red organ passes only as SUPERSEDED: its verdict exactly as its
+      # sealed rules give, its failures exactly the ones named, and a later organ, sealed first, holding every property.
       - name: every organ sealed before measured, judged by its sealed rules
         run: |
-          for k in 1 2 3 4 5 6 7 8 9 10; do
-            if [ -f data/organ-$k/verdict.json ]; then node tools/order.mjs --organ $k && node tools/judge-$k.mjs --check; fi
+          fail=0
+          for k in 1 2 3 4 5 6 7 8 9 10 11 12 13; do
+            if [ -f data/organ-$k/verdict.json ]; then
+              node tools/order.mjs --organ $k || fail=1
+              node tools/judge-$k.mjs --check || node tools/superseded.mjs --organ $k || fail=1
+            fi
           done
+          exit $fail
   witness:
     runs-on: ubuntu-latest
     timeout-minutes: 150

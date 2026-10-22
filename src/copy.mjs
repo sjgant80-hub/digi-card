@@ -17,9 +17,12 @@
 //   shownDesc(desc)   → an app's description as the Kit shows it: as written when it uses none of those words, else ''
 //   sayOutcome(set, o) → a business's yes/no question in DIGI's words (the records' own wording, src/data.mjs, is kept)
 //   SHOWN_AS          → the plain name each organ whose sealed title uses other words is shown by, next to that title
+//   ORGANS            → how many organs there are to read
 export const SAID_OUTCOME = Object.freeze({ shop: 'made a purchase', adult: 'has an income over 50K a year' });
 export const sayOutcome = (set, outcome) => (Object.prototype.hasOwnProperty.call(SAID_OUTCOME, set) ? SAID_OUTCOME[set] : outcome);
 export const SHOWN_AS = Object.freeze({ 4: 'fusion', 5: 'giving and ownership' });
+/** how many organs the Proof screen and the explainer read: every one sealed before it was measured (data/organ-1 … 13) */
+export const ORGANS = 13;
 export const LEFT_OUT = Object.freeze(['agora', 'fallherd']);
 export const offered = (app) => typeof app === 'string' && !LEFT_OUT.includes(app) && !/^kcc-/i.test(app);
 export const shownDesc = (desc) => (typeof desc === 'string' && !copyHits(desc).length ? desc : '');
@@ -29,7 +32,7 @@ export const ALLOW = [
   /\brarity is earned\b/gi,
   /\bliving-seed\b/gi,
   /\bNational Living Wage\b/gi,
-  /\bnever (?:says|claims) a DIGI is self-aware, conscious or alive\b/gi,
+  /\bnever (?:says|claims) a (?:DIGI|Kardling) is self-aware, conscious or alive\b/gi,
   /\bpublished prices, each sourced and dated\b/gi,
   /\bEvery price is read from\s+data\/prices\.lock\.json\s+\(copied from the estate’s price registry\b/gi,
   /\bEvery price this case reads, with its source\b/gi,

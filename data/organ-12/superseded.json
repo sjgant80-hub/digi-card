@@ -1,0 +1,7 @@
+{
+ "kind": "digi-card.organ-12.superseded",
+ "v": 1,
+ "by": 13,
+ "failed": ["P3"],
+ "why": "P3 failed because two of its five real brackets never named a champion: every later duel between their cards was a draw. The tie rule (src/tournament.mjs, ecb8d63) settles a match after three drawn duels for the higher seed; organ 13 measured it."
+}

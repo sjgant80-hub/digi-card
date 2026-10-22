@@ -184,7 +184,7 @@ export function paintFusion(fusion, themeId, w, h) {
     });
     letters(cv, 'BEAT ' + fmt(F.beat), 4, 150, L.pt[0], L.pt[1]);
     centred(cv, 'TRY ' + F.decided + '/' + F.tried, 120, 150, L.pt[0], L.pt[1]);
-    const end = V.kept ? 'GATE ' + fmt(V.gate) : V.kept === false && F.best === null ? 'NO LIVE CHILD' : V.kept === false && F.best !== undefined ? 'BEST ' + fmt(F.best) : '';
+    const end = V.kept ? 'GATE ' + fmt(V.gate) : V.kept === false && F.best === null ? 'NO LIVE TRY' : V.kept === false && F.best !== undefined ? 'BEST ' + fmt(F.best) : '';
     letters(cv, end, 236 - width(end), 150, L.pt[0], L.pt[1]);
 
     // the verdict over the chamber
