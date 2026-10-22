@@ -1,0 +1,59 @@
+{
+ "kind": "digi-card.organ-15.prereg",
+ "v": 1,
+ "organ": "the guild: the estates of keys that each consented, drawn together — nobody joins anybody else, a later leave takes a key out, and what a member signs is drawn exactly as signed",
+ "disclosure": "Not fully blind on its properties, and said so: src/guild.mjs was written and gated (witness CLEAN 47/47) before this seal, with tests of these very rules on made-up keys, so P1 to P3 are properties the kernel was built to make true; the measurement tests them at scale on real drop cards, against expected members worked out in the measuring tool apart from the kernel. Before this seal, on 2026-10-22, tools/measure-15.mjs was dry-run twice with SMALL=1 ON OTHER SEEDS (30 guilds, into dry-record.json) to test the tooling, and only its properties were read: the first compared whole results across orders (a refusal’s place in the list moves with its statement, so none matched) and seeded no guild past twelve or of exactly twelve, so the tool now compares members and reasons and makes one guild in twenty exactly twelve and one past twelve; the second held every property. It reads no record row at all.",
+ "population": "400 seeded guilds of demo owners (one in twenty exactly twelve all joining, one in twenty thirteen or fourteen all joining, the rest 1 to 14), each owner’s estate made of 1 to 6 real drop cards as the drop records them (one owner in eight lying about one card’s department), each owner signing 1 to 4 joins and leaves in its own numbering (one in ten signing two different statements under its last number); against every guild an estate changed after signing, a key borrowed, a statement for another guild and a statement with no signature; and 20 members with twenty drop cards each, signing a join",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every guild of at most twelve standing members holds exactly the keys whose highest clean-numbered statement is a join (a number signed two different ways is clean for neither), in the order of their keys, and refuses every attack with its reason; every guild with more than twelve standing is refused, saying how many stand."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every guild is the very same in three orders of its statements."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every member’s estate in every guild draws to exactly the picture of the estate it signed; every honest member’s drop cards match the drop; and every member who signed a drop card with a wrong department is caught by the drop."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "A guild of twelve members is read, every signature checked, in a median under 2,000 ms on the machine that measures it."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "A member with twenty drop cards signs a join whose code, as a player copies it, is under 6,000 characters."
+  }
+ ],
+ "judgedBy": "tools/judge-15.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "6b92bc74ec5450dc1dca5e5f9edff8fbc78373bdd705bddf2c09126ffdf2f533",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "afe6dee22dbf4dab7e7568cfa873613e36ddf72623f773cd547ae460f2c378b0",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "cf4d048d8190e9ff089ca241d81c9af37fcde062a0b0959bbeada83270b87c7c",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "src/guild.mjs": "ae84bff7dfa61e7e5ade1f85353b6ffc0344841ed850b586f8ce1a00818b7bf0",
+  "vendor/pixelwhisperer/kards/estate.mjs": "2fe41054911d757f04a988763536ef49a1783b79ad96248fb152b88bdbee8041",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "tools/measure-15.mjs": "10b25eeb11051989ae3bc16029732dad39dba297c11e4f4d699aca19ab9f63c3",
+  "tools/judge-15.mjs": "8342d86d2e0aeeb3ffd6cfaac2b32d6606c10d61accf6baa4675fdb4d66598a0",
+  "tools/seal-15.mjs": "96ba7b3de7997845c92c67e11379a5359baea175be3219926a5b5ad584d7c654"
+ }
+}
