@@ -367,7 +367,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
           <div id="g-hr-train-out" aria-live="polite"></div></div>
       </div>
       <div class="g-panel"><h3>What it remembers of you <small data-k="g-hr-mem-n"></small></h3>
-        <p class="g-small g-dim">Give it your ChatGPT or Claude history (your chat app’s data export: for ChatGPT, unzip it and choose conversations.json), or write a few lines about you. It is read here, in this tab; only the facts it finds are kept, on this device, and the file is never sent anywhere.</p>
+        <p class="g-small g-dim">Give it your ChatGPT or Claude history (your chat app’s data export: for ChatGPT, unzip it and choose conversations.json), or write a few lines about you. It is read here, in this tab; only the facts it finds are kept, on this device, and the file is never sent anywhere. Add more lines whenever you like; “Forget it all” clears every fact it keeps.</p>
         <label class="g-small">Your chat history <input id="g-hr-mem-file" type="file" accept=".json,application/json"></label>
         <p class="g-small"><b>No export? Let the chat app you already use interview you.</b> Copy the interview, paste it into ChatGPT, Claude or any chat app, answer its five questions, then paste the lines it writes back here. No AI key is needed for this (the idea is dannydotcomdidyos’s).</p>
         <div class="g-row"><button class="g-btn" id="g-hr-interview" type="button">Copy the interview</button></div>
@@ -389,7 +389,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         <div id="g-hr-out" aria-live="polite"></div>
         <details class="g-small" id="g-hr-rc-box" hidden><summary>The receipt: where the answer came from and what it used</summary><pre class="g-rc" id="g-hr-rc"></pre></details></div>
       <div class="g-panel" id="g-hr-key-box" hidden><h3>Power it with your own AI key</h3>
-        <p class="g-small g-dim">Your key is held in this tab only: never in this browser’s storage, never in your key file, and sent only to the provider you pick. Your hero signs a new pass that says it may use the key and the most it may use; it refuses to go past that. It sends one fixed opening every question, the same bytes each time, so the provider can reuse the reading it already did: each answer says how much was reused.</p>
+        <p class="g-small g-dim">Your key is held in this tab only: never in this browser’s storage, never in your key file, and sent only to the provider you pick. Your hero signs a new pass that says it may use the key and the most it may use. When the next question would pass that limit, your hero says so and answers only from its rules and what it remembers; grant it again with a new limit whenever you choose. “Forget the key” takes the key out of this tab at once; granting a different key, or a different limit, signs a new pass. It sends one fixed opening every question, the same bytes each time, so the provider can reuse the reading it already did: each answer says how much was reused.</p>
         <p class="g-small" data-k="g-hr-key-where"></p>
         <label class="g-small">Provider <select id="g-hr-prov" aria-label="The provider your key is for"><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI</option><option value="google">Google (Gemini)</option><option value="openrouter">OpenRouter (many models)</option></select></label>
         <label class="g-small">Model <input id="g-hr-model" list="g-hr-models" type="text" maxlength="120" autocomplete="off"></label><datalist id="g-hr-models"></datalist>
@@ -401,7 +401,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
         <div id="g-hr-key-out" aria-live="polite"></div></div>
       <div class="g-panel"><h3>How your hero works</h3>
         <ol class="g-small">
-          <li><b>Its rules.</b> Its card is a small readable mind grown here from public records. A question about one case is answered from those rules, exactly, offline.</li>
+          <li><b>Its rules.</b> Its card is a small readable mind grown here from public records. A question about one case is answered from those rules, exactly, offline. Ask it “What makes a … ?” (the second question it offers) and it lists every rule it uses, strongest first.</li>
           <li><b>Its memory of you.</b> Facts from your own words, kept on this device (fall-os’s memory, used as it is).</li>
           <li><b>Your key.</b> Anything else, on the provider you chose, inside the limit you signed (fall-os’s pass, used as it is).</li>
           <li><b>Recycling.</b> The same opening every question, so the provider reuses its reading (kar-foldcycle measured a 95% faster read of a repeated opening on a local model).</li>
