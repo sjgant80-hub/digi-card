@@ -1,0 +1,57 @@
+{
+ "kind": "digi-card.organ-17.verdict",
+ "v": 1,
+ "prereg": "9e4a561f8d836572",
+ "record": "cf2f117f63669e00",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "All 120 heroes are crowned and check, each saying exactly the owner, card, business, theme, what it may do (talk first, in order) and limit it was crowned with; and every one of each hero’s 15 tampered copies (six fields each changed and left stale, the same six changed, rehashed and signed by another key in the owner’s name, the signature dropped, one signature character changed, the kind changed) is refused: 1,800 of 1,800.",
+   "pass": true,
+   "saw": "120 of 120 heroes crowned, 120 checked exactly as crowned; 1800 of 1800 tampered copies refused"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "For every hero, its opening is the very same bytes built three times; built with another memory it changes exactly when its pass lets it share what it remembers; and a page grown with turns() keeps every earlier message, the very same objects, at each of 20 questions, and starts a fresh page on the 21st.",
+   "pass": true,
+   "saw": "120 of 120 heroes: the same opening three times, moved by memory exactly when shared (60 share), a page that only grew for 20 questions and started fresh on the 21st"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "For every hero, a pass that may use a key with a seeded limit, walked with 50 seeded question costs: every question goes to the key exactly when the total so far plus its cost stays within the limit (worked out again in the measuring tool, apart from the kernel), and is refused otherwise; the total never passes the limit.",
+   "pass": true,
+   "saw": "120 of 120 limit walls: every one of 50 questions routed to the key exactly when it fit, the total never past the limit (0 mismatches)"
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "For every hero, every question its card’s talker offers and answers from its rules is routed to the rules, never to the key, even with a key ready and its limit untouched; and each of five questions off every business (the weather, a poem, a recipe, a leaking tap, a world cup) is not answered by the rules and is routed to the key.",
+   "pass": true,
+   "saw": "120 of 120 heroes: 360 of 360 questions their rules answer routed to the rules; 600 of 600 off-business questions routed to the key"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "On qwen2.5:7b on this machine, reading a hero’s opening again with another question (warm) takes at least 75% less time than reading it the first time (cold), at the median of the 10 heroes’ two warm reads against their cold reads; the 10 controls (an opening never read before) save less than 25% against cold; and kar-foldcycle’s verdict kernel says WIN.",
+   "pass": true,
+   "saw": "qwen2.5:7b: cold 108465.5 ms, warm 2833 ms (97% less), controls 110034 ms (-1% against cold); kar-foldcycle says WIN"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "The same on llama3.2:1b: warm at least 75% faster than cold at the median, controls under 25%, and WIN.",
+   "pass": true,
+   "saw": "llama3.2:1b: cold 25871 ms, warm 786.5 ms (97% less), controls 27025 ms (-4% against cold); kar-foldcycle says WIN"
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "Every one of the 120 openings is at least 512 tokens by the game’s own counter (characters ÷ 4), the least Anthropic’s newest models cache; and every timed cold read (an opening and a short question) is at least 512 prompt tokens on qwen2.5:7b’s own tokenizer.",
+   "pass": true,
+   "saw": "120 of 120 openings at least 512 tokens by the game’s counter (smallest 656); cold reads on qwen2.5:7b: 664, 748, 718, 771, 691, 729, 689, 708, 672, 703 tokens"
+  }
+ ]
+}
