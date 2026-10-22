@@ -14,7 +14,7 @@ import { readFileSync } from 'node:fs';
 import { copyHits, organ10Bare, pageText } from '../src/copy.mjs';
 
 const at = (p) => readFileSync(new URL('../' + p, import.meta.url), 'utf8');
-const html = at('index.html'), app = at('app.js') + '\n' + at('ui/game.js'), problems = [];   // every script the page runs
+const html = at('index.html'), app = at('app.js') + '\n' + at('ui/game.js') + '\n' + at('ui/first.js'), problems = [];   // every script the page runs
 // what each public text says: the page as it shows, its JSON-LD's strings, and markdown with code spans read as names
 const jsonStrings = (text) => { const out = []; try { (function walk(x) { if (typeof x === 'string') out.push(x); else if (x && typeof x === 'object') Object.values(x).forEach(walk); })(JSON.parse(text)); } catch { /* reported below */ } return out.join('\n'); };
 const ldStrings = jsonStrings((html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/) || [])[1]);
@@ -32,7 +32,7 @@ if (!/id="g-box-frame" sandbox="allow-scripts allow-forms"/.test(html)) problems
 if (/allow-same-origin/.test(html + app)) problems.push('a frame here would share this page’s origin');
 for (const [id, href] of [['g-boot-next', '#kit'], ['g-estate-next', '#mint']]) if (!new RegExp('id="' + id + '" href="' + href + '"').test(html)) problems.push('the first visit’s NEXT from ' + id + ' does not go to ' + href);
 for (const [id, href] of [['g-kit-next', '#arena'], ['g-ar-next', '#estate']]) if (!new RegExp("id: '" + id + "', href: '" + href + "'").test(at('ui/game.js'))) problems.push('the first visit’s NEXT from ' + id + ' does not go to ' + href);
-for (const s of ['ui/game.css', 'ui/mode.js', 'ui/game.js']) if (!html.includes('"' + s + '"')) problems.push('the page does not load ' + s);
+for (const s of ['ui/game.css', 'ui/mode.js', 'ui/game.js', 'ui/first.css', 'ui/first.js']) if (!html.includes('"' + s + '"')) problems.push('the page does not load ' + s);
 const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((x) => x[1]));
 for (const [, id] of app.matchAll(/\$\('#([a-z0-9-]+)'\)/g)) if (!ids.has(id)) problems.push('app.js wires #' + id + ', which the page does not have');
 for (const [, id] of app.matchAll(/on\('#([a-z0-9-]+)'/g)) if (!ids.has(id)) problems.push('app.js listens on #' + id + ', which the page does not have');
@@ -42,10 +42,10 @@ const screens = new Set([...html.matchAll(/data-screen="([a-z]+)"/g)].map((x) =>
 for (const [, h] of html.matchAll(/href="#([a-z0-9-]+)"/g)) if (!ids.has(h) && !screens.has(h)) problems.push('a link goes to #' + h + ', which is neither a section nor a game screen');
 for (const [, s] of html.matchAll(/data-go="([a-z]+)"/g)) if (!screens.has(s)) problems.push('a dock slot goes to the screen ' + s + ', which the page does not have');
 for (const [name, text] of [['the page', html], ['the scripts', app]]) for (const m of text.matchAll(/.{0,40}\b(coming soon|coming|not built yet|not in yet)\b.{0,40}/gi)) problems.push(name + ' marks something “' + m[1] + '”: ' + m[0].trim().slice(0, 90));
-for (const s of ['ui/mode.js', 'ui/game.js']) if (/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(at(s))) problems.push(s + ' writes markup');
+for (const s of ['ui/mode.js', 'ui/game.js', 'ui/first.js']) if (/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(at(s))) problems.push(s + ' writes markup');
 // the estate painter letters fenced districts COMING in its pixels unless it is told which districts to draw: the game asks for DIGI's
 if (!at('ui/game.js').includes("districts: ['scorer', 'tools', 'swarm'], names: { swarm: 'KITTED' }")) problems.push('the estate is not drawn from only the districts DIGI holds with its kitted district lettered KITTED, so its picture would letter COMING or SWARM');
-if (/[£$€]\s?\d|per seat|pricing/i.test(at('ui/game.js'))) problems.push('the game view carries a price');
+if (/[£$€]\s?\d|per seat|pricing/i.test(at('ui/game.js') + at('ui/first.js'))) problems.push('the game view carries a price');
 if (/[£$€]\s?\d|\/mo\b|per seat|priceCurrency|"@type":\s*"Offer"|pricing/i.test(html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, ''))) problems.push('the page carries a price');
 if (!html.includes('Powered by the Konomi architecture, created by Thomas Frumkin')) problems.push('the Konomi credit is missing');
 if (!html.includes('https://www.ai-nativesolutions.com')) problems.push('the supplier is missing');
