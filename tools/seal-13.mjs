@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+// tools/seal-13.mjs — organ 13, THE TIE RULE: the claims, sealed before tools/measure-13.mjs runs.
+import { seal } from './organ.mjs';
+
+seal(13, {
+  organ: 'the tie rule: a match whose first three duels are all draws is settled for the higher seed, so two evenly matched cards can no longer stall a bracket',
+  disclosure: 'Not blind on its main question, and said so: organ 12 (record bdb74be) found two of its five real brackets, telco and adult, that never named a champion because every later duel between their cards was a draw, and the tie rule was written after reading that. So P2 is a property the rule was built to make true, and Q1 is a guess made knowing that three of organ 12’s five brackets needed no tie at all. Organ 13 fights its own brackets of other demo owners and its own seeded receipt sets; none of them had been played before this seal. Before it, on 2026-10-22, tools/measure-13.mjs was dry-run three times with SMALL=1 ON OTHER SEEDS (brackets of 4 with other demo owners, 50 receipt sets from another sampler, into dry-record.json) to test the tooling: the first two showed the receipt sets never set the tie rule a test (0 ties), so a third of the sets were made stubborn (their duels aimed at the bracket’s own first-round pairs, three in four drawn) and the third run saw 11 ties of 69 decided matches; the dry brackets’ champions were printed. None of it is the sealed population. It reads no TEST row at all.',
+  population: 'the five businesses whose drop has cards in two or more departments: one bracket per business of 8 genesis cards, each handed to its own demo owner, every open match fought once a round as a duel until the bracket names a champion; and 1,000 seeded receipt sets of 2 to 16 entrants, half their duels draws, with junk and duels of one owner against itself',
+  rules: [
+    { id: 'P1', kind: 'property', claim: 'Across the 1,000 receipt sets every bracket plays out the same however its entrants are listed; every decided match is decided by the first receipt, in order, naming exactly its two cards that is not a draw when it comes before their third draw, and otherwise by the tie rule at their third draw, for the higher seed; no match is decided while a side of it is open; a champion is named exactly when the final is decided; and the tie rule settles at least one match.' },
+    { id: 'P2', kind: 'property', claim: 'All 5 real brackets play out to a champion that is no practice champion, every decided match by that rule, and no match needing more than 3 duels.' },
+    { id: 'Q1', kind: 'prediction', claim: 'At least 80% of the matches in the 5 real brackets are decided by a duel rather than the tie rule: the arena tells most cards apart, and the tie rule is the exception.' },
+    { id: 'Q2', kind: 'prediction', claim: 'In the 5 real brackets, the card with the higher declared GATE AUC wins at least 60% of the matches between cards of different declared AUC (organ 12 made this prediction and missed at 58.6%; it is made again here on new brackets, not dropped).' },
+  ],
+}, ['src/tournament.mjs', 'src/kit.mjs', 'src/arena.mjs', 'tools/lib.mjs']);

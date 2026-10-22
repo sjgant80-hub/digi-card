@@ -1,0 +1,55 @@
+{
+ "kind": "digi-card.organ-13.prereg",
+ "v": 1,
+ "organ": "the tie rule: a match whose first three duels are all draws is settled for the higher seed, so two evenly matched cards can no longer stall a bracket",
+ "disclosure": "Not blind on its main question, and said so: organ 12 (record bdb74be) found two of its five real brackets, telco and adult, that never named a champion because every later duel between their cards was a draw, and the tie rule was written after reading that. So P2 is a property the rule was built to make true, and Q1 is a guess made knowing that three of organ 12’s five brackets needed no tie at all. Organ 13 fights its own brackets of other demo owners and its own seeded receipt sets; none of them had been played before this seal. Before it, on 2026-10-22, tools/measure-13.mjs was dry-run three times with SMALL=1 ON OTHER SEEDS (brackets of 4 with other demo owners, 50 receipt sets from another sampler, into dry-record.json) to test the tooling: the first two showed the receipt sets never set the tie rule a test (0 ties), so a third of the sets were made stubborn (their duels aimed at the bracket’s own first-round pairs, three in four drawn) and the third run saw 11 ties of 69 decided matches; the dry brackets’ champions were printed. None of it is the sealed population. It reads no TEST row at all.",
+ "population": "the five businesses whose drop has cards in two or more departments: one bracket per business of 8 genesis cards, each handed to its own demo owner, every open match fought once a round as a duel until the bracket names a champion; and 1,000 seeded receipt sets of 2 to 16 entrants, half their duels draws, with junk and duels of one owner against itself",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Across the 1,000 receipt sets every bracket plays out the same however its entrants are listed; every decided match is decided by the first receipt, in order, naming exactly its two cards that is not a draw when it comes before their third draw, and otherwise by the tie rule at their third draw, for the higher seed; no match is decided while a side of it is open; a champion is named exactly when the final is decided; and the tie rule settles at least one match."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "All 5 real brackets play out to a champion that is no practice champion, every decided match by that rule, and no match needing more than 3 duels."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "At least 80% of the matches in the 5 real brackets are decided by a duel rather than the tie rule: the arena tells most cards apart, and the tie rule is the exception."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "In the 5 real brackets, the card with the higher declared GATE AUC wins at least 60% of the matches between cards of different declared AUC (organ 12 made this prediction and missed at 58.6%; it is made again here on new brackets, not dropped)."
+  }
+ ],
+ "judgedBy": "tools/judge-13.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "3c239143bdfa5e0b499ada224335947c6a68a8b86eef5bf9ca5fd77eab9304b8",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "afe6dee22dbf4dab7e7568cfa873613e36ddf72623f773cd547ae460f2c378b0",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "f60d7318fd400955da785c3c4c0ea4d57bb5b25f8dacf4da68df23a2b10cc5f6",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "src/tournament.mjs": "997a335171ed38864dc5e6c0e03ff408e51591ed24eed820638b281f2c661bbf",
+  "src/kit.mjs": "dee8b6cd5040317fd4fb79f962b2073b1d0b3cc493b8a86bf2e745f0a6e7be68",
+  "src/arena.mjs": "cd9f19b0856a1a1b6f6fc9143462c4f09c9593a1ef4e6bd1119609e1cd5cae0d",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "tools/measure-13.mjs": "544115a099b03be6bdc6856a910eff0ca38f31ae64417b7b06148b80d7e5156c",
+  "tools/judge-13.mjs": "12e9c008f2e7635894086db004331fe4c10c2a45105369d926f6e688f19dd403",
+  "tools/seal-13.mjs": "a26b45ab6623153c32506476e9405bdb18451bda093506cd179bedc8190f31c8"
+ }
+}

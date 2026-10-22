@@ -34,7 +34,7 @@ import { paintFusion, paintLineage } from '../vendor/pixelwhisperer/kards/fusion
 import { campaign, autoKit } from '../src/campaign.mjs';
 import { replay, readBack } from '../src/replay.mjs';
 import { SANDBOX, askedFor, boxable } from '../src/sandbox.mjs';
-import { bracketOf, playOut } from '../src/tournament.mjs';
+import { bracketOf, playOut, DRAWS_TO_TIE } from '../src/tournament.mjs';
 import { offered, shownDesc, sayOutcome, SHOWN_AS } from '../src/copy.mjs';
 import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
@@ -72,7 +72,7 @@ const INFO = {
   lineage: 'Who a card was fused from, read from the seals of the cards this device holds. A parent this device does not hold is named by its id, never drawn or guessed.',
   sandbox: 'A tool runs in a box: a frame that never shares this page’s origin, so it cannot read or change anything of DIGI’s — your cards, this page’s storage — and it never moves a score. Before it opens, its own page is read for what it asked for: the network its security policy lets it reach, and whether it keeps anything in storage (inside the box, its own and empty).',
   replay: 'Watched back: the duel fought again from its own receipt (it must give the very same numbers), then laid out case by case — each side’s call, and whether the case really was a yes. Tap a case to read it back: the very rules of each mind that fired on it.',
-  tournament: 'A tournament: your cards of one business in a bracket, seeded by their ratings, the best two apart until the final. Each match is decided by the first duel receipt between exactly those two cards that is not a draw; a match with none yet stays open. Duels of your own cards are practice, so the champion is a practice champion: a title, and nothing else.',
+  tournament: 'A tournament: your cards of one business in a bracket, seeded by their ratings, the best two apart until the final. Each match is decided by the first duel receipt between exactly those two cards that is not a draw; if their first three duels are all draws, the tie rule sends the higher seed through, so two evenly matched cards can never stall the bracket; a match with neither yet stays open. Duels of your own cards are practice, so the champion is a practice champion: a title, and nothing else.',
   campaign: 'The campaign: each business is a chapter — first the parts of it no card has cracked, nearest the bar first, then the business itself as a world boss. Chapters run with the least left to clear first; a chapter is cleared only when every boss in it has fallen, read from your strikes and party strikes, which anyone can re-run.',
   organ4: 'Organ 4 wrote its rules down and sealed them in git before it fused a single card, then measured them; each verdict here is read from its committed record. A prediction that failed stays on show.',
   registry: 'This device’s ordered record of every card’s life. It is what stops a card being given away twice.',
@@ -887,8 +887,15 @@ async function renderTournament() {
   const receipts = G.st.duels || [], b = bracketOf(cards.map((m) => m.id), receipts), p = b.ok ? playOut(b, receipts) : b;
   if (!p.ok) return fill($('#g-tn-rounds'), line('r', p.why));
   const label = (n, total) => (n === total - 1 ? 'Final' : n === total - 2 ? 'Semi-final' : 'Round ' + (n + 1));
+  // drawn duels so far between exactly a match's two cards: at DRAWS_TO_TIE the tie rule sends the higher seed through
+  const drawsOf = (a, b) => receipts.filter((x) => x && x.kind === 'duel' && x.winner === 'draw' && x.a && x.b && ((x.a.card === a && x.b.card === b) || (x.a.card === b && x.b.card === a))).length;
+  const said = (m) => (m.by === 'bye' ? name(m.winner) + ' advances'
+    : m.tie ? name(m.winner) + ' went through on the tie rule: ' + DRAWS_TO_TIE + ' draws, so the higher seed'
+      : name(m.winner) + ' won · duel ' + (m.by + 1));
   fill($('#g-tn-rounds'), p.rounds.flatMap((round, n) => round.map((m) => line(m.open ? 'x' : 'k', label(n, p.rounds.length) + ' · ' + (m.a ? name(m.a) : 'to be decided') + ' v ' + (m.b ? name(m.b) : m.by === 'bye' ? 'a bye' : 'to be decided'),
-    m.open && m.a && m.b ? el('button', { type: 'button', class: 'g-btn', onclick: () => tournamentFight(m.a, m.b) }, 'Fight this match') : el('small', {}, m.open ? 'open' : m.by === 'bye' ? name(m.winner) + ' advances' : name(m.winner) + ' won · duel ' + (m.by + 1))))));
+    m.open && m.a && m.b ? el('span', { class: 'g-row' }, el('button', { type: 'button', class: 'g-btn', onclick: () => tournamentFight(m.a, m.b) }, 'Fight this match'),
+      drawsOf(m.a, m.b) ? el('small', {}, drawsOf(m.a, m.b) + ' of ' + DRAWS_TO_TIE + ' draws before the tie rule') : null)
+      : el('small', {}, m.open ? 'open' : said(m))))));
   fill($('#g-tn-title'), p.champion ? '★ ' + p.title + ': ' + name(p.champion) + ' — a title, and nothing else' : '');
 }
 async function tournamentFight(aId, bId) {

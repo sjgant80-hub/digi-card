@@ -2,7 +2,7 @@
 // receipt between exactly its two cards; an open match holds everything after it; the champion takes a title, nothing else.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { bracketOf, playOut, byId, MAX_ENTRANTS } from '../src/tournament.mjs';
+import { bracketOf, playOut, byId, MAX_ENTRANTS, DRAWS_TO_TIE } from '../src/tournament.mjs';
 import { ratings } from '../src/arena.mjs';
 
 const C = (n) => n.toString(16).padStart(16, '0');
@@ -48,4 +48,39 @@ test('play out: each match decided by the first decisive receipt naming exactly 
   assert.deepEqual([lowBye.rounds[0][0].winner, lowBye.rounds[0][0].by, lowBye.champion], [C(5), 'bye', C(5)], 'a bye on either side');
   for (const [bb, rr] of [[null, []], [{ ok: false }, []], [b, null], [{ ok: true, first: 'x' }, []]]) assert.equal(playOut(bb, rr).why, 'play a bracket out from a list of receipts');
   assert.deepEqual(playOut(b, [null, 5, { kind: 'duel' }, duel(4, 1, 'a')]).rounds[0][0].by, 3, 'junk among the receipts is read past, and counted in their order');
+});
+
+test('the tie rule: three drawn receipts of exactly two cards, nothing decisive before them, and the higher seed advances', () => {
+  // organ 12 (2026-10-22): two minds that score every batch the same draw for ever, and two of five real brackets stalled
+  assert.equal(DRAWS_TO_TIE, 3);
+  const b = bracketOf([C(1), C(2), C(3), C(4)], []);   // seeds 1,2,3,4 · [[1,4],[2,3]]
+  const tied = playOut(b, [duel(1, 4, 'draw'), duel(4, 1, 'draw'), duel(2, 9, 'draw'), duel(1, 4, 'draw')]);
+  assert.deepEqual(tied.rounds[0][0], { a: C(1), b: C(4), winner: C(1), by: 3, open: false, tie: true }, 'the higher seed, at the third draw of exactly its two cards');
+  assert.equal('tie' in playOut(b, [duel(1, 4, 'a')]).rounds[0][0], false, 'a match a receipt decided is no tie');
+  // the higher seed wins the tie on either side of the match
+  const flip = playOut({ ok: true, seeds: [C(4), C(1)], first: [[C(1), C(4)]] }, [duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'draw')]);
+  assert.deepEqual([flip.rounds[0][0].winner, flip.champion, flip.title], [C(4), C(4), 'Champion'], 'the seed decides, not the side');
+  // a decisive receipt among the first three decides as it always did, even after two draws
+  const late = playOut(b, [duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'b')]);
+  assert.deepEqual([late.rounds[0][0].winner, late.rounds[0][0].by, 'tie' in late.rounds[0][0]], [C(4), 2, false]);
+  // after three draws the tie has settled it: a later decisive receipt changes nothing
+  const after = playOut(b, [duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'b')]);
+  assert.deepEqual([after.rounds[0][0].winner, after.rounds[0][0].by, after.rounds[0][0].tie], [C(1), 2, true]);
+  // two draws are not three: the match waits
+  assert.equal(playOut(b, [duel(1, 4, 'draw'), duel(1, 4, 'draw')]).rounds[0][0].open, true);
+  // a drawn receipt of one owner against itself makes the tie practice, as any deciding duel of its kind does
+  const self = playOut({ ok: true, seeds: [C(1), C(4)], first: [[C(1), C(4)]] }, [duel(1, 4, 'draw'), duel(1, 4, 'draw', true), duel(1, 4, 'draw')]);
+  assert.deepEqual([self.champion, self.title, self.practice], [C(1), 'Practice champion', true]);
+  const notSelf = playOut({ ok: true, seeds: [C(1), C(4)], first: [[C(1), C(4)]] }, [duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'draw', true)]);
+  assert.deepEqual([notSelf.title, notSelf.practice], ['Champion', false], 'a self duel after the third draw is not one of the three');
+  // a bracket handed in without its seeds, or without one of these two, cannot say who is higher: the match stays open
+  assert.equal(playOut({ ok: true, first: [[C(1), C(4)]] }, [duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'draw')]).rounds[0][0].open, true);
+  assert.equal(playOut({ ok: true, seeds: [C(1)], first: [[C(1), C(4)]] }, [duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'draw')]).rounds[0][0].open, true);
+  assert.equal(playOut({ ok: true, seeds: [C(4)], first: [[C(1), C(4)]] }, [duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'draw')]).rounds[0][0].open, true);
+  assert.equal(playOut({ ok: true, seeds: 'x', first: [[C(1), C(4)]] }, [duel(1, 4, 'draw'), duel(1, 4, 'draw'), duel(1, 4, 'draw')]).rounds[0][0].open, true);
+  // a whole bracket of minds that cannot be told apart still names a champion: the top seed, every match a tie
+  const all = [], pair = (x, y) => { for (let i = 0; i < 3; i++) all.push(duel(x, y, 'draw')); };
+  pair(1, 4); pair(2, 3); pair(1, 2);
+  const flat = playOut(b, all);
+  assert.deepEqual([flat.champion, flat.title, flat.rounds.flat().every((m) => m.tie === true)], [C(1), 'Champion', true]);
 });
