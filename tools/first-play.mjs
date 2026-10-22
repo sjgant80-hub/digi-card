@@ -82,8 +82,8 @@ try {
   const card = await js(`document.querySelector('.ft').dataset.card`), gate = Number(await js(`document.querySelector('.ft').dataset.gate`));
   const declared = (manifest.cards.find((c) => c.card === card) || {}).gate;
   if (gate !== declared) problems.push('the first Kardling grew GATE ' + gate + ' here, but the drop declared ' + declared);
-  const shown = await js(`document.querySelector('.ft .ft-power b').textContent`);
-  if (shown !== (gate / 10000).toFixed(1)) problems.push('its POWER reads ' + shown + ', not its GATE ' + gate + ' in hundredths');
+  // POWER counts up from the coin toss to what was measured; it must settle on exactly that
+  if (!(await until(`document.querySelector('.ft .ft-power b').textContent === ${JSON.stringify((gate / 10000).toFixed(1))}`, 10000, 'POWER settling on its GATE ' + gate + ' in hundredths'))) await done(1);
   await read('mission 1');
   await press('Fight your first duel');
 
@@ -96,6 +96,7 @@ try {
 
   // 3 · the two as a team against the world boss: three numbers, a team bonus read straight, the boss standing or fallen
   if (!(await until(`document.querySelectorAll('.ft .ft-score b').length === 3`, 180000, 'the team against the world boss'))) await done(1);
+  await until(`document.querySelectorAll('.ft .ft-score b')[1].textContent === (Number(document.querySelector('.ft').dataset.team) / 10000).toFixed(1)`, 10000, 'the team score settling on what was measured');
   const nums = await js(`[...document.querySelectorAll('.ft .ft-score b')].map((b) => b.textContent)`);
   if (!nums.every((n) => /^\d{1,3}\.\d$/.test(n))) problems.push('the team’s numbers are not all read: ' + nums.join(', '));
   await read('mission 3 (boss ' + nums[0] + ', team ' + nums[1] + ', best alone ' + nums[2] + ')');

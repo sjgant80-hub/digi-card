@@ -55,3 +55,11 @@ html.ft-on body { overflow: hidden; }
 .ft-steps { padding-left: 22px; }
 .ft-steps li { margin: 6px 0; line-height: 1.5; }
 @media (max-width: 640px) { .ft-loop { grid-template-columns: 1fr 1fr; } .ft-loop li::after { content: none !important; } }
+.ft-acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.ft-sound { min-height: 40px; }
+.ft-pop { display: inline-block; animation: ft-pop .45s steps(5) both; }
+@keyframes ft-pop { 0% { transform: scale(.4); } 70% { transform: scale(1.25); } 100% { transform: scale(1); } }
+.ft-shake { animation: ft-shake .5s steps(8) both; border-color: var(--g-bad, #ff7a8a) !important; }
+@keyframes ft-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
+.ft-burst { animation: ft-burst .8s steps(8) both; }
+@keyframes ft-burst { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.1); opacity: 1; text-shadow: 0 0 14px var(--g-gold, #ffd23c); } 100% { transform: scale(1); text-shadow: 0 0 4px var(--g-gold, #ffd23c); } }

@@ -18,6 +18,7 @@ import { consent } from '../src/mesh.mjs';
 import { SETS } from '../src/data.mjs';
 import { sayOutcome } from '../src/copy.mjs';
 import { paintDuel } from '../vendor/pixelwhisperer/kards/arena.mjs';
+import { paintBack } from '../vendor/pixelwhisperer/kards/back.mjs';
 import { COMBO } from '../src/build.mjs';   // the game's combo margin, pinned in organ 16: a team must beat its best card by it
 
 const FIRST_DOMAIN = 'telco-account';   // the first card's department: phone customers who leave, the easiest question to picture
@@ -27,6 +28,34 @@ const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const stored = () => { try { return localStorage.getItem(FLAG); } catch { return null; } };
 const store = (v) => { try { localStorage.setItem(FLAG, v); } catch { /* private window: the tutorial simply shows again */ } };
+const pref = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+
+// ── juice: the game's own sound (off until the player turns it on, the same switch the game reads) and moves (none at all
+// when the player asks for reduced motion). Every move shows a number already measured; nothing moves before it is known.
+const TUNES = { flip: [392, 523], right: [988], win: [523, 659, 784, 1047], lose: [330, 262, 196], combo: [523, 659, 784, 1047, 1319, 1568], hit: [196, 147, 110] };
+let audio = null;
+function bleep(name, vol = 0.04) {
+  if (pref('digi-sound') !== '1' || !TUNES[name]) return;
+  try {
+    audio ||= new AudioContext();
+    const t0 = audio.currentTime;
+    TUNES[name].forEach((f, i) => { const o = audio.createOscillator(), g = audio.createGain(); o.type = 'square'; o.frequency.value = f; g.gain.value = vol; o.connect(g); g.connect(audio.destination); o.start(t0 + i * 0.09); o.stop(t0 + i * 0.09 + 0.08); });
+  } catch { /* no sound on this device */ }
+}
+function putPx(cv, px) { const ctx = cv.getContext('2d'), img = ctx.createImageData(cv.width, cv.height); for (let i = 0, j = 0; i < px.length; i += 3, j += 4) { img.data[j] = px[i]; img.data[j + 1] = px[i + 1]; img.data[j + 2] = px[i + 2]; img.data[j + 3] = 255; } ctx.putImageData(img, 0, 0); }
+async function flip(cv, v, d) {   // a card arrives face down, its maker's mark on its back, and turns over
+  const back = paintBack({ maker: v.maker, serial: v.serial }, v.theme, cv.width, cv.height);
+  if (back.ok) putPx(cv, back.px);
+  if (!calm()) { await sleep(500); cv.classList.add('g-flipping'); bleep('flip'); await sleep(180); }
+  await api.drawCard(cv, d);
+  if (!calm()) { await sleep(180); cv.classList.remove('g-flipping'); }
+}
+async function countUp(node, to, from = 500000, ms = 900) {   // a measured number counts up from the coin toss to what it is
+  if (calm() || to == null) { node.textContent = power(to); return; }
+  const t0 = performance.now();
+  for (;;) { const k = Math.min(1, (performance.now() - t0) / ms); node.textContent = power(Math.round(from + (to - from) * k * (2 - k))); if (k >= 1) return; await sleep(30); }
+}
+const juice = (node, cls) => { if (!node || calm()) return; node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };
 function el(tag, attrs = {}, ...kids) {
   const e = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) { if (k === 'class') e.className = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (v !== false && v != null) e.setAttribute(k, v === true ? '' : v); }
@@ -46,7 +75,9 @@ async function open(force = false, page = title) {
   T.stage = el('div', { class: 'ft-stage' });
   T.box = el('div', { class: 'ft', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'ft-h' },
     el('div', { class: 'ft-top' }, el('ol', { class: 'ft-pips', 'aria-label': 'The three missions' }, T.pips),
-      el('button', { class: 'g-btn ft-skip', type: 'button', onclick: () => close('skipped') }, 'Skip the tutorial')),
+      el('div', { class: 'ft-acts' },
+        el('button', { class: 'g-btn ft-sound', type: 'button', 'aria-pressed': String(pref('digi-sound') === '1'), onclick: (e) => { const on = pref('digi-sound') !== '1'; try { localStorage.setItem('digi-sound', on ? '1' : '0'); } catch { /* a preference only */ } e.currentTarget.textContent = 'Sound: ' + (on ? 'on' : 'off'); e.currentTarget.setAttribute('aria-pressed', String(on)); bleep('right'); } }, 'Sound: ' + (pref('digi-sound') === '1' ? 'on' : 'off')),
+        el('button', { class: 'g-btn ft-skip', type: 'button', onclick: () => close('skipped') }, 'Skip the tutorial'))),
     T.stage, T.live);
   document.body.append(T.box);
   document.documentElement.classList.add('ft-on');
@@ -130,22 +161,23 @@ async function mission1() {
   const v = await verify(api.lifeOf(id)), f = facts(v), set = api.setOf(v);
   const cv = el('canvas', { class: 'ft-card', width: 384, height: 576, role: 'img', 'aria-label': 'Your first Kardling card: ' + f.title });
   show(el('h2', { id: 'ft-h', class: 'g-h' }, 'Your first Kardling'), cv, el('p', { class: 'g-dim' }, 'Its mind is growing on the real records, here…'));
-  await api.drawCard(cv, api.lifeOf(id));
+  await flip(cv, v, api.lifeOf(id));
   say('Fetching the ' + SETS[set].title.toLowerCase() + ' records and growing its mind on this device…');
   const g = await api.groundFor(v, (t) => say(t)), m = mindOf(v, g);
   T.set = set; T.ground = g; T.a = { id, v, f, gate: m.gate };
   T.box.dataset.card = id; T.box.dataset.gate = String(m.gate);   // what tools/first-play.mjs checks against the drop's declared GATE
-  const who = SETS[set].title.toLowerCase(), outcome = sayOutcome(set, SETS[set].outcome);
+  const who = SETS[set].title.toLowerCase(), outcome = sayOutcome(set, SETS[set].outcome), pw = el('b', {}, power(500000));
   say('');
   show(el('h2', { id: 'ft-h', class: 'g-h' }, 'Meet ' + f.title + ', your first Kardling'),
     el('div', { class: 'ft-two' }, cv,
       el('div', {},
         el('p', {}, 'Every Kardling is named for the job it does. This one reads the real records of ' + g.ds.y.length.toLocaleString() + ' ' + who + ' (a public dataset, no names in it) and calls one thing: who ' + outcome + '.'),
-        el('div', { class: 'ft-power' }, el('span', {}, 'POWER'), el('b', {}, power(m.gate))),
+        el('div', { class: 'ft-power' }, el('span', {}, 'POWER'), pw),
         el('p', {}, 'Show it two real cases, one that ' + outcome + ' and one that did not: it picks the right one ' + power(m.gate) + ' times in 100.'),
         el('p', { class: 'g-dim g-small' }, 'Measured just now on ' + g.ds.gateRows.length.toLocaleString() + ' cases it never learned from. 50 would be a coin toss; 100 never misses.'),
         el('p', { class: 'ft-real' }, '✓ Checked on this device: its seals, its picture and its score all match what was published, so nobody can fake it.'))),
     go('Fight your first duel →', mission2));
+  countUp(pw, m.gate);
 }
 
 // ── mission 2: a first duel, against a rookie of the same business; the prize is the card that teams best with yours ────────
@@ -179,11 +211,13 @@ async function mission2() {
     paint(k);
     const mine = cases.slice(0, k).filter((c) => c[0]).length, theirs = cases.slice(0, k).filter((c) => c[1]).length;
     tally.textContent = 'Case ' + k + ' of ' + cases.length + ' · yours right ' + mine + ' · theirs right ' + theirs;
+    if (k > 0 && k < cases.length && cases[k - 1][0] && !cases[k - 1][1]) bleep('right', 0.02);
     if (k < cases.length) await sleep(45);
   }
   const won = x.winner === 'a';
   tally.replaceChildren(el('b', { class: won ? 'ft-win' : 'ft-lose' }, won ? 'YOU WIN' : x.winner === 'b' ? 'THE ROOKIE WINS' : 'A DRAW'),
     ' · on these ' + cases.length + ' cases yours scored ' + power(x.a.auc) + ', theirs ' + power(x.b.auc) + '. The duel goes to the better ranking of all ' + cases.length + '; a batch this small swings more than POWER, which was measured on ' + g.ds.gateRows.length.toLocaleString() + ' cases.');
+  juice(tally.firstChild, 'ft-pop'); bleep(won ? 'win' : x.winner === 'b' ? 'lose' : 'right');
   // the prize: of the business's other departments, the card that teams best with yours, measured as a raid party here
   say('Picking your prize: the card of another department that teams best with yours…');
   const boss = await bossOf(set), names = facts(a.v).department, tried = [];
@@ -199,12 +233,12 @@ async function mission2() {
   if (!prize) throw new Error('No second card was left to sign to you on this device.');
   T.mine.add(prize);
   const vP = await verify(api.lifeOf(prize)), cp = el('canvas', { class: 'ft-card ft-small', width: 384, height: 576, role: 'img', 'aria-label': 'Your prize: ' + facts(vP).title });
-  await api.drawCard(cp, api.lifeOf(prize));
   T.b = { id: prize, v: vP, f: facts(vP) }; T.boss = boss;
   say('');
   T.stage.append(el('div', { class: 'ft-prize' }, cp, el('div', {}, el('h3', {}, 'Your prize: ' + facts(vP).title),
     el('p', {}, 'A second Kardling of the same business, from another department: of the ' + tried.length + ' departments tried, the one that teams best with yours.'),
     go('Team them up →', mission3))));
+  flip(cp, vP, api.lifeOf(prize));   // the prize turns over while the next step is already open: a quick click is never lost
   T.stage.querySelector('.ft-prize button').focus();
 }
 async function bossOf(set) {
@@ -228,18 +262,20 @@ async function mission3() {
   const verdict = lift >= COMBO ? el('p', { class: 'ft-combo' }, 'COMBO! Together they beat the best of them by ' + power(lift) + '.')
     : lift > 0 ? el('p', {}, 'A small team bonus, +' + power(lift) + '. A combo needs +' + power(COMBO) + ' or more: keep hunting.')
       : el('p', {}, 'No team bonus this time: together they do no better than the best of them. Teams that add up are rare: that is the hunt.');
+  const bossBox = el('div', {}, el('span', {}, 'THE BOSS'), el('b', {}, power(boss.bar))), teamN = el('b', {}, power(500000)), bestN = el('b', {}, power(500000));
+  T.box.dataset.team = String(r.clear.gate);
   say('');
   show(el('h2', { id: 'ft-h', class: 'g-h' }, 'Team up: against the ' + SETS[set].title.toLowerCase() + ' world boss'),
     el('p', {}, 'A world boss is a whole business at a bar no single search ever reached. Your two Kardlings play as one team, measured on the same real cases.'),
-    el('div', { class: 'ft-score' },
-      el('div', {}, el('span', {}, 'THE BOSS'), el('b', {}, power(boss.bar))),
-      el('div', {}, el('span', {}, 'YOUR TEAM'), el('b', {}, power(r.clear.gate))),
-      el('div', {}, el('span', {}, 'BEST ALONE'), el('b', {}, power(r.best)))),
+    el('div', { class: 'ft-score' }, bossBox, el('div', {}, el('span', {}, 'YOUR TEAM'), teamN), el('div', {}, el('span', {}, 'BEST ALONE'), bestN)),
     el('p', {}, played === 2 ? 'Both of your cards played.' : 'Only one card played: the other added nothing here, so it sat on the bench.'),
     verdict,
     el('p', { class: r.cleared ? 'ft-win' : '' }, r.cleared ? 'THE BOSS FALLS! Your team cleared its bar.' : 'The boss still stands: it needs ' + power(boss.bar) + '. Bigger teams (up to six cards) and stronger cards can take it.'),
     lift >= COMBO ? el('p', { class: 'g-dim g-small' }, 'A combo counts once a second player re-runs it on their own device and gets the very same score. Then it goes in the build book.') : null,
     go('Keep your Kardlings →', finish));
+  await Promise.all([countUp(teamN, r.clear.gate), countUp(bestN, r.best)]);
+  if (r.cleared) { juice(bossBox, 'ft-shake'); bleep('hit'); }
+  if (lift >= COMBO) { await sleep(calm() ? 0 : 300); juice(verdict, 'ft-burst'); bleep('combo'); } else if (r.cleared) bleep('win');
 }
 
 // ── the end of the first game: the key file, and where to go next ────────────────────────────────────────────────────────
