@@ -214,12 +214,12 @@ export function paintDuel(duel, themeId, w, h) {
     if (D.focus) {   // the read-back: the case in focus, ringed on the scoreboard, and how each side did on it in the middle
       const F = D.focus, [a, b] = D.cases[F.at], x = x0 + (F.at % 48) * 4, y = top + div(F.at, 48) * 12;
       rect(cv, x - 1, y - 2, 5, 1, L.text); rect(cv, x - 1, y + 12, 5, 1, L.text); rect(cv, x - 2, y - 2, 1, 15, L.text); rect(cv, x + 4, y - 2, 1, 15, L.text);
-      // all of it under the banners and ribbons (they end at row 51) and between the fighters, so an ending never covers it
-      centred(cv, 'CASE ' + (F.at + 1), 120, 52, L.text, L.shadow);
-      centred(cv, a ? '\u2713' : '\u2717', 96, 61, a ? L.left : L.miss, L.shadow, 2); centred(cv, b ? '\u2713' : '\u2717', 144, 61, b ? L.right : L.miss, L.shadow, 2);
-      if (F.scores) { centred(cv, signed(F.scores[0]), 96, 77, L.left, L.shadow); centred(cv, signed(F.scores[1]), 144, 77, L.right, L.shadow); }
-      if (F.truth !== null) centred(cv, F.truth ? 'TRUE: YES' : 'TRUE: NO', 120, 85, L.text, L.shadow);
-      centred(cv, a > b ? 'LEFT RANKED BETTER' : b > a ? 'RIGHT RANKED BETTER' : 'A TIE ON THIS CASE', 120, 93, a > b ? L.left : b > a ? L.right : L.tie, L.shadow);
+      // all of it under the banners and ribbons (they end at row 51) and between the fighters, so an ending never covers it; the
+      // truth shares the case's line, so each of the four lines has room to breathe
+      centred(cv, 'CASE ' + (F.at + 1) + (F.truth === null ? '' : F.truth ? ' \u00b7 TRUE: YES' : ' \u00b7 TRUE: NO'), 120, 52, L.text, L.shadow);
+      centred(cv, a ? '\u2713' : '\u2717', 96, 62, a ? L.left : L.miss, L.shadow, 2); centred(cv, b ? '\u2713' : '\u2717', 144, 62, b ? L.right : L.miss, L.shadow, 2);
+      if (F.scores) { centred(cv, signed(F.scores[0]), 96, 79, L.left, L.shadow); centred(cv, signed(F.scores[1]), 144, 79, L.right, L.shadow); }
+      centred(cv, a > b ? 'LEFT RANKED BETTER' : b > a ? 'RIGHT RANKED BETTER' : 'A TIE ON THIS CASE', 120, 90, a > b ? L.left : b > a ? L.right : L.tie, L.shadow);
     }
 
     if (L.lcd) for (const y of span(0, lh)) for (const x of span(0, FW)) {   // the pocket screen: four shades, ordered dither
