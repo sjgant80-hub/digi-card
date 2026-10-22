@@ -138,7 +138,7 @@ async function refreshStage(id) { const v = await verify(api.lifeOf(id)); stages
 async function rulesOf(id) { return game.talkerCtx(id); }
 function memoryLines() {
   if (!H.memory) return [];
-  const say = { identity: 'you are', preference: 'you prefer', project: 'you are working on', correction: 'you corrected it that', person: 'you mentioned', entity: 'you often bring up' };
+  const say = { identity: 'you are', preference: 'you prefer', dislike: 'you dislike', project: 'you are working on', correction: 'you corrected it that', person: 'you mentioned', entity: 'you often bring up' };
   const out = [];
   for (const b of BUCKETS) if (b !== 'skin' && Array.isArray(H.memory[b])) for (const fct of H.memory[b]) if (fct && typeof fct.text === 'string') out.push({ w: fct.weight || 0, ts: fct.ts || 0, line: (say[fct.kind] || 'you noted') + ' ' + fct.text });
   return out.sort((x, y) => y.w - x.w || y.ts - x.ts || (x.line < y.line ? -1 : 1)).map((x) => x.line);
@@ -257,6 +257,15 @@ async function memFile(file) {
   // only the facts are kept: the export itself is dropped once it is read
   await addMemory(source, list, 'Read your ' + (source === 'chatgpt' ? 'ChatGPT' : 'Claude') + ' history');
 }
+/** the first conversation: an interview for the chat app the player already uses, its answer in the lines fall-os's memory reads */
+export const INTERVIEW = ['You are helping me introduce myself to my Kardlings hero, a small AI that runs on my own device. Ask me these questions one at a time, and wait for my answer after each:',
+  '1) My first name and the work I do.', '2) Where I am based.', '3) What I am working on or building right now.', '4) How I like answers (short or detailed, plain or technical), and anything I cannot stand.', '5) The people I work with most: their first names and roles.',
+  'Then write ONLY plain lines, one fact per line, each starting with exactly one of: "My name is", "I am a", "I work as", "I am based in", "I am working on", "I prefer", "I dislike", "My colleague is", "My boss is", "My partner is". No other text.'].join('\n');
+async function interview() {
+  const out = $('#g-hr-interview-out');
+  try { await navigator.clipboard.writeText(INTERVIEW); fill(out, el('p', { class: 'g-okt' }, 'Copied. Paste it into your chat app, answer its five questions, then paste the lines it writes into the box below and press Keep these lines.')); }
+  catch { fill(out, el('p', { class: 'g-small' }, 'Copy this into your chat app:'), el('pre', { class: 'g-rc' }, INTERVIEW)); }
+}
 function memNote() {
   const lines = $('#g-hr-mem-note').value.split('\n').map((l) => l.trim()).filter(Boolean).slice(0, 40);
   if (!lines.length) return fill($('#g-hr-mem-out'), el('p', { class: 'g-small g-dim' }, 'Write a line or two first, like “I am a plumber in Leeds” or “I prefer short answers”.'));
@@ -333,7 +342,7 @@ function wire() {
   on('#g-hr-cardme', 'click', async () => { $('#g-hr-cardme').disabled = true; try { await api.cardMe({ quiet: true }); } finally { $('#g-hr-cardme').disabled = false; render(); } }); on('#g-hr-pick', 'change', pickLine);
   on('#g-hr-recrown', 'click', () => { H.recrown = !H.recrown; $('#g-hr-crown-box').hidden = !H.recrown; });
   on('#g-hr-ask', 'click', ask); on('#g-hr-q', 'keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); ask(); } });
-  on('#g-hr-mem-file', 'change', (e) => memFile(e.target.files[0])); on('#g-hr-mem-add', 'click', memNote); on('#g-hr-mem-forget', 'click', memForget);
+  on('#g-hr-mem-file', 'change', (e) => memFile(e.target.files[0])); on('#g-hr-mem-add', 'click', memNote); on('#g-hr-interview', 'click', interview); on('#g-hr-mem-forget', 'click', memForget);
   on('#g-hr-prov', 'change', () => { H.provider = $('#g-hr-prov').value; $('#g-hr-model').value = PROVIDERS[H.provider].models[0]; renderKey(); });
   on('#g-hr-grant', 'click', grant); on('#g-hr-forget-key', 'click', forgetKey);
   on('#g-hr-train', 'click', train);

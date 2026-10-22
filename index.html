@@ -369,6 +369,9 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <div class="g-panel"><h3>What it remembers of you <small data-k="g-hr-mem-n"></small></h3>
         <p class="g-small g-dim">Give it your ChatGPT or Claude history (your chat app’s data export: for ChatGPT, unzip it and choose conversations.json), or write a few lines about you. It is read here, in this tab; only the facts it finds are kept, on this device, and the file is never sent anywhere.</p>
         <label class="g-small">Your chat history <input id="g-hr-mem-file" type="file" accept=".json,application/json"></label>
+        <p class="g-small"><b>No export? Let the chat app you already use interview you.</b> Copy the interview, paste it into ChatGPT, Claude or any chat app, answer its five questions, then paste the lines it writes back here. No AI key is needed for this (the idea is dannydotcomdidyos’s).</p>
+        <div class="g-row"><button class="g-btn" id="g-hr-interview" type="button">Copy the interview</button></div>
+        <div id="g-hr-interview-out" aria-live="polite"></div>
         <label class="g-small" for="g-hr-mem-note">Or a few lines (start them “I am”, “I prefer”, “I am working on”, “My name is”)</label>
         <textarea id="g-hr-mem-note" rows="3" maxlength="4000"></textarea>
         <div class="g-row"><button class="g-btn" id="g-hr-mem-add" type="button">Keep these lines</button><button class="g-btn" id="g-hr-mem-forget" type="button">Forget it all</button></div>

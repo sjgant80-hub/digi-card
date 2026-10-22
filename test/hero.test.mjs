@@ -194,11 +194,17 @@ test('a question about its owner: the kinds of fact it asks for, and an answer f
   assert.deepEqual(kindsAsked('do they like it?'), []);   // not about its owner
   assert.deepEqual(kindsAsked('tell me something'), []);
   assert.deepEqual(kindsAsked(5), []);
-  assert.deepEqual(ASKS_ABOUT.map(([k]) => k), ['preference', 'project', 'person', 'identity']);
+  assert.deepEqual(ASKS_ABOUT.map(([k]) => k), ['dislike', 'preference', 'project', 'person', 'identity']);
+  assert.deepEqual(kindsAsked('what do I dislike?'), ['dislike'], 'dislike is not like');
+  assert.deepEqual(kindsAsked('what do I hate?'), ['dislike']);
+  assert.deepEqual(kindsAsked('what can’t I stand?'), ['dislike']);
+  assert.deepEqual(kindsAsked("what don't I like?"), ['dislike', 'preference']);
   const facts = [{ kind: 'preference', text: 'short answers', weight: 3 }, { kind: 'preference', text: 'tea', weight: 5 }, { kind: 'preference', text: 'boats', weight: 5 },
     { kind: 'preference', text: 'jazz', weight: 1 }, { kind: 'preference', text: 'rain', weight: 'x' }, { kind: 'person', text: 'Dave Smith', weight: 3 }, { kind: 'identity', text: 'a plumber in Leeds', weight: 4 },
     { kind: 'preference', text: '  ', weight: 9 }, { kind: 'preference', text: 5 }, null];
   assert.deepEqual(fromMemory('what do I like?', facts), { ok: true, matched: 3, answer: 'From what you told me: you prefer boats; you prefer tea; you prefer short answers.' });
+  assert.deepEqual(fromMemory('what do I dislike?', [...facts, { kind: 'dislike', text: 'jargon', weight: 3 }]), { ok: true, matched: 1, answer: 'From what you told me: you dislike jargon.' });
+  assert.deepEqual(fromMemory("what don't I like?", [{ kind: 'preference', text: 'tea', weight: 9 }, { kind: 'dislike', text: 'jargon', weight: 1 }]), { ok: true, matched: 2, answer: 'From what you told me: you dislike jargon; you prefer tea.' }, 'the dislike first');
   assert.deepEqual(fromMemory('who is my friend?', facts), { ok: true, matched: 1, answer: 'From what you told me: you mentioned Dave Smith.' });
   assert.deepEqual(fromMemory('who is my friend and what do I like?', facts.slice(4)), { ok: true, matched: 2, answer: 'From what you told me: you prefer rain; you mentioned Dave Smith.' });
   assert.deepEqual(fromMemory('who am I?', facts), { ok: true, matched: 1, answer: 'From what you told me: you are a plumber in Leeds.' });

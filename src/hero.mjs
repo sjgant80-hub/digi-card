@@ -189,12 +189,13 @@ export function route(question, ctx = {}) {
 
 /** the kinds of fact a question about its owner asks for (fall-os's kinds), the specific ones first */
 export const ASKS_ABOUT = Object.freeze([
-  ['preference', /\b(?:prefer|like|love|enjoy|favou?rite|hate|dislike)\b/i],
+  ['dislike', /\b(?:hate|dislike|can.?t (?:\w+ )?stand|don.?t (?:\w+ )?like)\b/i],
+  ['preference', /\b(?:prefer|like|love|enjoy|favou?rite)\b/i],
   ['project', /\b(?:working on|building|project|making|writing|developing)\b/i],
   ['person', /\b(?:friends?|colleagues?|wife|husband|partner|boss|manager|brother|sister|mum|dad|mother|father|who do i know)\b/i],
   ['identity', /\b(?:who am i|what am i|my name|my job|what do i do|work as|where am i)\b/i],
 ]);
-const SAY_KIND = { identity: 'you are', preference: 'you prefer', project: 'you are working on', person: 'you mentioned', correction: 'you corrected me that', entity: 'you often bring up' };
+const SAY_KIND = { identity: 'you are', preference: 'you prefer', dislike: 'you dislike', project: 'you are working on', person: 'you mentioned', correction: 'you corrected me that', entity: 'you often bring up' };
 /** the kinds a question about its owner asks for; a specific kind drops the general "who am I" */
 export function kindsAsked(question) {
   if (typeof question !== 'string' || !ABOUT_ME.test(question)) return [];

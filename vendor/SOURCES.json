@@ -192,7 +192,7 @@
   },
   {
    "repo": "sjgant80-hub/fall-os",
-   "commit": "fa75756aa13b98d2af17151a86c66e1409b1e7ff",
+   "commit": "f4f0927b7853ac3683d09876108763b24645d96d",
    "local": "C:/Users/sjgan/fall-os",
    "files": {
     "vendor/fall-os/kard.mjs": {
@@ -201,7 +201,7 @@
     },
     "vendor/fall-os/seed.mjs": {
      "from": "seed.mjs",
-     "sha256": "170eba7ac359a3c2471c90156fb30cea5ac688fe37ba235ccffae083d03c7c67"
+     "sha256": "1521fddf567ff193cef109a45cb7b8701ae0536cb61c3708f44a8b261365ebf5"
     },
     "vendor/fall-os/organs/estate.mjs": {
      "from": "organs/estate.mjs",
