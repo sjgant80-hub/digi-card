@@ -146,6 +146,11 @@ try {
           else {
             await js(`document.querySelector('#g-ar-watch-out .g-case').click()`);
             (await until(`/Yours · /.test(document.querySelector('#g-ar-readback').textContent) && /Theirs · /.test(document.querySelector('#g-ar-readback').textContent)`, 10000, 'a case read back')) ? seen.push('a duel watched back to the very same receipt, 64 cases, one read back by the rules that fired') : null;
+            // the case read back is ringed on the duel's picture (PixelWhisperer's focus), and another case moves the ring
+            const pic = `(() => { const c = document.querySelector('#g-ar-duelart'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let h = 0; for (let i = 0; i < d.length; i += 7) h = (h * 31 + d[i]) >>> 0; return h; })()`;
+            const one = await js(pic), label = await js(`document.querySelector('#g-ar-duelart').getAttribute('aria-label')`);
+            await js(`document.querySelectorAll('#g-ar-watch-out .g-case')[9].click()`); await sleep(400);
+            (/with case 1 ringed/.test(label) && (await js(pic)) !== one) ? seen.push('the case read back ringed on the duel, the ring moved by another') : problems.push('the duel focus: ' + label);
           }
           await scan('a duel watched back');
         }
@@ -293,6 +298,12 @@ try {
   if (await until(`document.querySelectorAll('#g-cp-chapters li').length > 0`, 30000, 'the campaign')) {
     const cp = await js(`({ n: document.querySelectorAll('#g-cp-chapters li').length, now: [...document.querySelectorAll('#g-cp-chapters li')].filter((l) => / · now/.test(l.textContent)).length, first: (document.querySelector('#g-cp-chapters li') || {}).textContent || '' })`);
     (cp.n === 6 && cp.now === 1 && /^Chapter 1 · /.test(cp.first)) ? seen.push('the campaign: 6 chapters, one now') : problems.push('the campaign: ' + JSON.stringify(cp));
+    // the chapter drawn (PixelWhisperer's paintChapter): the one to play now, then another picked from the list
+    const drawnCh = `(() => { const c = document.querySelector('#g-cp-art'); if (c.hidden) return 0; const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data, s = new Set(); for (let i = 0; i < d.length; i += 4) s.add((d[i] << 16) | (d[i + 1] << 8) | d[i + 2]); return s.size; })()`;
+    const nowArt = await js(drawnCh), nowLabel = await js(`document.querySelector('#g-cp-art').getAttribute('aria-label')`);
+    await js(`(() => { const p = document.querySelector('#g-cp-pick'); p.value = '6'; p.dispatchEvent(new Event('change')); })()`); await sleep(800);
+    const six = await js(drawnCh), sixLabel = await js(`document.querySelector('#g-cp-art').getAttribute('aria-label')`);
+    (nowArt > 20 && /^Chapter 1, drawn: .* · now$/.test(nowLabel) && six > 20 && /^Chapter 6, drawn: \d of \d raid bosses fallen, then its world boss/.test(sixLabel)) ? seen.push('the campaign drawn: the chapter to play now, and another picked') : problems.push('the chapter drawn: ' + JSON.stringify({ nowArt, nowLabel, six, sixLabel }));
     await scan('the campaign');
   }
   // the tournament: the player's telco cards in a bracket, each open match one practice duel away, played to a champion

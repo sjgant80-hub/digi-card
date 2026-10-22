@@ -7,10 +7,12 @@
 // discharge), bank credit, adult employer and credit billing. Each is a 32 x 32 sprite built from rectangles and ellipses,
 // then shaded and outlined by one rule so all eight share a style. A boss's health is its distance to the bar, the
 // published rule bossHealth(best) = max(0, 600000 - best) in millionths of GATE; the bar is full at chance (0.5) and empty
-// at 0.6. When a card's GATE reaches 0.6 the boss falls, and the loot is that first card of its department. Integer
+// at 0.6. When a card's GATE reaches 0.6 the boss falls, and the loot is that first card of its department. The campaign
+// is the raids as chapters, one per business (paintChapter): its department bosses along a path, then its world boss (the
+// business itself, a crest bearing its icon), whose bar is its own (its best lone card's GATE plus 0.010). Integer
 // arithmetic only, deterministic, total: bad input is { ok: false, why }, never a throw. One source: the canvas, palettes
 // and creatures come from kardart.mjs, the lettering from ui.mjs.
-import { RARITIES, RAR, PIXEL, THEMES, creatureFront } from './kardart.mjs';
+import { RARITIES, RAR, PIXEL, THEMES, DATASETS, ICON_ROWS, creatureFront } from './kardart.mjs';
 import { GLYPHS } from './ui.mjs';
 
 const { newCanvas, rect, dot, at, mul, mix, rng, span, div, PAD } = PIXEL;
@@ -235,4 +237,94 @@ export function paintRaid(raid, themeId, w, h) {
     });
     return { ok: true, px, scale: k };
   } catch (e) { return no('the raid could not be painted'); }
+}
+
+/**
+ * Check a chapter of the campaign. chapter: { n: 1-99, set: the business (one of DATASETS), raids: [{ domain: one of this
+ * business's bosses (BOSSES), best: GATE in millionths, fallen: true | false }] (each boss once, in the order they are played),
+ * world: { best: its best lone card's GATE, bar: the GATE a party must clear (above best), fallen }, now?: true for the chapter
+ * to play now }. Whether a boss has fallen is the receipts' word, given; best is the GATE it stands at. -> { ok: true, c } | { ok: false, why }
+ */
+export function checkChapter(x) {
+  try {
+    if (typeof x !== 'object' || x === null || Array.isArray(x)) return no('the chapter must be an object');
+    const { n, set, raids, world, now = false } = x;
+    if (!Number.isInteger(n) || n < 1 || n > 99) return no('n must be a whole number from 1 to 99');
+    if (!DATASETS.includes(set)) return no('set must be one of ' + DATASETS.join(', '));
+    if (!Array.isArray(raids) || raids.length > 5) return no('raids must be an array of at most 5');
+    const out = [];
+    for (const r of raids) {
+      if (typeof r !== 'object' || r === null || Array.isArray(r)) return no('every raid must be an object');
+      const b = BOSSES.find((q) => q.key === r.domain);
+      if (!b || b.dataset !== set) return no('every raid is one of this business\'s bosses: ' + BOSSES.filter((q) => q.dataset === set).map((q) => q.key).join(', '));
+      if (out.some((o) => o.key === b.key)) return no('a boss is raided once: ' + b.key);
+      if (!whole(r.best, 1000000)) return no('a raid\'s best must be a whole number of millionths from 0 to 1000000');
+      if (typeof r.fallen !== 'boolean') return no('a raid\'s fallen must be true or false');
+      out.push({ key: b.key, best: r.best, fallen: r.fallen });
+    }
+    if (typeof world !== 'object' || world === null || Array.isArray(world)) return no('the world boss must be an object');
+    if (!whole(world.best, 1000000) || !whole(world.bar, 1010000) || world.bar <= world.best) return no('the world boss\'s best and bar are whole numbers of millionths, the bar above the best');
+    if (typeof world.fallen !== 'boolean') return no('the world boss\'s fallen must be true or false');
+    if (typeof now !== 'boolean') return no('now must be true or false');
+    const cleared = out.every((r) => r.fallen) && world.fallen;
+    if (cleared && now) return no('a cleared chapter is not the one to play now');
+    return { ok: true, c: { n, set, raids: out, world: { best: world.best, bar: world.bar, fallen: world.fallen }, now, cleared } };
+  } catch (e) { return no('the chapter could not be read'); }
+}
+
+function crest(cv, L, set, cx, foot, k, fallen) {   // a world boss: a shield in the theme's gold bearing its business's icon, k px a cell
+  const w = 20 * k, h = 24 * k, x0 = cx - div(w, 2), y0 = foot - h, edge = fallen ? mul(L.gold, 110) : L.gold, face = fallen ? mul(L.floor, 200) : mul(L.gold, 90);
+  for (const y of span(0, h)) {   // straight sides for two thirds, then a point
+    const cut = Math.max(0, div((y - div(h * 2, 3)) * w, 2 * (h - div(h * 2, 3)) + 1));
+    rect(cv, x0 + cut, y0 + y, w - 2 * cut, 1, edge);
+    rect(cv, x0 + cut + k, y0 + y, Math.max(0, w - 2 * cut - 2 * k), 1, face);
+  }
+  ICON_ROWS[set].forEach((row, y) => Array.from(row).forEach((c, x) => { if (c === '#') rect(cv, x0 + 2 * k + x * k, y0 + 3 * k + y * k, k, k, fallen ? L.dim : L.text); }));
+}
+
+/**
+ * Draw a chapter of the campaign: its title, its department bosses along a path in the order they are played and its world
+ * boss at the end, each with its health on one scale (a bar of 0.1 GATE: a department boss's distance to 0.6, a world boss's to
+ * its own bar), a fallen boss dimmed under a gold check, the next one to beat marked, and the chapter NOW or CLEARED.
+ * chapter as checkChapter takes it; themeId, w, h as paintRaid. -> { ok: true, px, scale } | { ok: false, why }. Never throws.
+ */
+export function paintChapter(chapter, themeId, w, h) {
+  try {
+    const c = checkChapter(chapter);
+    if (!c.ok) return c;
+    if (typeof themeId !== 'string' || !Object.prototype.hasOwnProperty.call(THEMES, themeId)) return no('unknown theme');
+    if (!whole(w, 2048) || !whole(h, 2048) || w < 64 || h < 64) return no('width and height must be whole numbers from 64 to 2048');
+    const C = c.c, L = LOOKS[themeId], k = Math.max(1, Math.min(div(w, 240), div(h, 160))), lw = div(w + k - 1, k), lh = Math.max(160, div(h + k - 1, k));
+    const n = div(lw, W), FW = W * (2 * n + 1), oy = div(lh - 160, 2), full = newCanvas(FW, lh);
+    backdrop(full, L, FW, lh, oy, [DATASETS.indexOf(C.set) * 7919 + C.n, C.raids.length + 3]);
+    const cv = { cw: full.cw, d: full.d.subarray(oy * full.cw + n * W) };
+    const stops = [...C.raids.map((r) => ({ ...r, hp: Math.max(0, 600000 - r.best) })), { key: null, best: C.world.best, fallen: C.world.fallen, hp: C.world.bar - C.world.best }];
+    const m = stops.length, s = m > 3 ? 1 : 2, next = stops.findIndex((q) => !q.fallen);
+    centred(cv, 'CHAPTER ' + C.n, 120, 3, L.text, L.shadow, 2);
+    centred(cv, C.set.toUpperCase(), 120, 20, L.dim, L.shadow);
+    for (const x of span(div(240, 2 * m), 240 - div(240, 2 * m), 4)) rect(cv, x, FLOOR + 1, 2, 1, L.dim);   // the path from boss to boss
+    stops.forEach((q, j) => {
+      const cx = div(240 * (2 * j + 1), 2 * m), half = 15 * s;
+      if (q.key) { const B = BY[q.key]; for (const t of span(0, 1024)) if (B.g[t]) rect(cv, cx - 16 * s + (t % 32) * s, FLOOR - 32 * s + div(t, 32) * s, s, s, inked(L, q.fallen ? mul(B.col[B.g[t]], 110) : B.col[B.g[t]])); }
+      else crest(cv, L, C.set, cx, FLOOR, s + 1, q.fallen);
+      const fill = q.fallen ? 0 : div(Math.min(q.hp, 100000) * (2 * half - 2), 100000);
+      rect(cv, cx - half, FLOOR + 5, 2 * half, 5, L.frame); rect(cv, cx - half + 1, FLOOR + 6, 2 * half - 2, 3, L.barBack); rect(cv, cx - half + 1, FLOOR + 6, fill, 3, L.bar);
+      if (q.fallen) centred(cv, '\u2713', cx, FLOOR - 32 * s - 12, L.gold, L.shadow, s);
+      if (j === next) { rect(cv, cx - 3, FLOOR - 36 * s - 10, 7, 2, L.gold); rect(cv, cx - 2, FLOOR - 36 * s - 8, 5, 1, L.gold); dot(cv, cx, FLOOR - 36 * s - 7, L.gold); centred(cv, 'NEXT', cx, FLOOR + 13, L.gold, L.shadow); }
+      if (!q.key) centred(cv, s > 1 ? 'WORLD BOSS' : 'WORLD', cx, FLOOR + 23, L.text, L.shadow);
+    });
+    if (C.now) { rect(cv, 196, 2, 40, 13, L.bar); centred(cv, 'NOW', 216, 4, L.text, L.shadow); }
+    if (C.cleared) { rect(cv, 0, 144, W, 14, mul(L.gold, 120)); rect(cv, 0, 144, W, 1, L.gold); rect(cv, 0, 157, W, 1, L.gold); centred(cv, 'CHAPTER CLEARED', 120, 147, L.gold, 0x000000); }
+    else letters(cv, stops.filter((q) => q.fallen).length + ' OF ' + m + ' FALLEN', 4, 147, L.text, L.shadow);
+    if (L.lcd) for (const y of span(0, lh)) for (const x of span(0, FW)) {   // the pocket screen: four shades, ordered dither
+      const q = at(full, x, y), v = (((q >> 16) & 255) * 77 + ((q >> 8) & 255) * 150 + (q & 255) * 29) >> 8, s3 = v * 3;
+      dot(full, x, y, L.lcd[(s3 >> 8) + ((s3 & 255) > BAY[((y & 3) << 2) + (x & 3)] ? 1 : 0)]);
+    }
+    const sx = n * W + div(W - lw, 2), px = new Uint8Array(w * h * 3);
+    span(0, h).forEach((y) => {
+      const row = (div(y, k) + PAD) * full.cw + PAD + sx;
+      span(0, w).forEach((x) => { const q = full.d[row + div(x, k)], o = (y * w + x) * 3; px[o] = q >> 16; px[o + 1] = (q >> 8) & 255; px[o + 2] = q & 255; });
+    });
+    return { ok: true, px, scale: k };
+  } catch (e) { return no('the chapter could not be painted'); }
 }

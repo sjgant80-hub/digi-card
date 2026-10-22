@@ -357,3 +357,6 @@ html.game .g-door:hover, html.game .g-door:focus-visible { border-color: #ffd23c
 .g-gd-tile { margin: 0; } .g-gd-tile canvas { width: 100%; height: auto; image-rendering: pixelated; display: block; border: 2px solid var(--g-rule); }
 .g-code, #g-gd-paste { width: 100%; min-width: 0; flex: 1 1 220px; font-family: monospace; font-size: 12px; word-break: break-all; }
 #g-gd-name { flex: 1 1 160px; min-width: 0; }
+
+/* the campaign chapter, drawn by PixelWhisperer's paintChapter: full width of its panel, pixels kept square */
+.g-chapterart { width: 100%; height: auto; image-rendering: pixelated; display: block; margin: 8px 0; border: 2px solid var(--g-rule); }

@@ -7,7 +7,9 @@
 // the batch a side either hit (ranked it right) or missed; the side that hit where the other missed ranked that case
 // better. The scoreboard shows every case: a hit or miss mark for each side and, between them, a block coloured by the
 // side that ranked it better (grey for a tie), filling as cases are decided. The latest case puts a hit or miss marker
-// over each fighter; the end of a duel is a WIN banner over the winner, a DRAW across both, or REFUSED. Integer arithmetic only, deterministic,
+// over each fighter; the end of a duel is a WIN banner over the winner, a DRAW across both, or REFUSED. A replay can hold one
+// decided case in focus (the read-back): it is ringed on the scoreboard, and the middle says how each side did on it, its truth and
+// the two scores when given, and which side ranked it better. Integer arithmetic only, deterministic,
 // total: bad input is { ok: false, why }, never a throw. One source: the canvas, palettes and creatures come from
 // kardart.mjs, the lettering from ui.mjs.
 import { RARITIES, RAR, PIXEL, THEMES, creatureSide } from './kardart.mjs';
@@ -33,7 +35,8 @@ function side(x, name) {   // one duellist: { id, rarity, rating, title?, kit? }
 
 /**
  * Check a duel. duel: { left: { id, rarity, rating 0-9999, title?, kit?: { slots 2-4, fielded 0-slots } }, right: { ... }, cases: [[leftHit, rightHit], ...] (1 to 192,
- * each 0 or 1), decided?: how many cases are decided so far (default all), result?: null | 'left' | 'right' | 'refused' | 'draw' }.
+ * each 0 or 1), decided?: how many cases are decided so far (default all), result?: null | 'left' | 'right' | 'refused' | 'draw',
+ * focus?: { at: a decided case (0 to decided - 1), truth?: 0 | 1, scores?: [left, right] in millionths } (the read-back) }.
  * -> { ok: true, d } | { ok: false, why }
  */
 export function checkDuel(x) {
@@ -55,9 +58,21 @@ export function checkDuel(x) {
     const decided = x.decided === undefined ? marks.length : x.decided;
     if (!whole(decided, marks.length)) return no('decided must be a whole number from 0 to the number of cases');
     if (result !== null && RESULTS.indexOf(result) < 0) return no('result must be left, right, refused, draw or null');
-    return { ok: true, d: { left: L.s, right: R.s, cases: marks, decided, result } };
+    const F = x.focus === undefined ? { ok: true, f: null } : focusOf(x.focus, decided);
+    if (!F.ok) return F;
+    return { ok: true, d: { left: L.s, right: R.s, cases: marks, decided, result, focus: F.f } };
   } catch (e) { return no('the duel could not be read'); }
 }
+
+function focusOf(f, decided) {   // the case a replay reads back: which, its truth and the two scores when known
+  if (typeof f !== 'object' || f === null || Array.isArray(f)) return no('focus must be an object');
+  const { at, truth = null, scores = null } = f;
+  if (!Number.isInteger(at) || at < 0 || at >= decided) return no('focus must be on a decided case: at from 0 to decided - 1');
+  if (truth !== null && truth !== 0 && truth !== 1) return no('a case\'s truth is 0 or 1');
+  if (scores !== null && (!Array.isArray(scores) || scores.length !== 2 || !scores.every((v) => whole(v, 1000000)))) return no('scores are [left, right], each a whole number of millionths from 0 to 1000000');
+  return { ok: true, f: { at, truth, scores: scores === null ? null : [scores[0], scores[1]] } };
+}
+const fmt = (n) => div(n, 1000000) + '.' + String(10000 + div(n % 1000000, 100)).slice(1);   // millionths as 0.0000
 
 /** The tally of the decided cases: a side ranked a case better when it hit and the other missed; anything else is a tie.
  *  -> { ok: true, left, right, ties, decided, cases } | { ok: false, why } */
@@ -156,12 +171,14 @@ export function paintDuel(duel, themeId, w, h) {
     badge(cv, D.left, 45, L); badge(cv, D.right, 194, L);
 
     const sc = { left: done.filter(([a, b]) => a > b).length, right: done.filter(([a, b]) => b > a).length };   // the middle: the tally and where the duel stands
-    centred(cv, 'VS', 120, 32, L.text, L.shadow, 2);
-    const l = String(sc.left), rr = String(sc.right);
-    letters(cv, l, 113 - width(l, 2), 58, L.left, L.shadow, 2); centred(cv, ':', 120, 58, L.text, L.shadow, 2); letters(cv, rr, 128, 58, L.right, L.shadow, 2);
-    centred(cv, D.decided ? 'CASE ' + D.decided + '/' + D.cases.length : 'READY', 120, 84, L.text, L.shadow);
+    if (!D.focus) {
+      centred(cv, 'VS', 120, 32, L.text, L.shadow, 2);
+      const l = String(sc.left), rr = String(sc.right);
+      letters(cv, l, 113 - width(l, 2), 58, L.left, L.shadow, 2); centred(cv, ':', 120, 58, L.text, L.shadow, 2); letters(cv, rr, 128, 58, L.right, L.shadow, 2);
+      centred(cv, D.decided ? 'CASE ' + D.decided + '/' + D.cases.length : 'READY', 120, 84, L.text, L.shadow);
+    }
 
-    if (D.result === null && D.decided) {   // the latest case: a hit or a miss beside each fighter
+    if (D.result === null && D.decided && !D.focus) {   // the latest case: a hit or a miss beside each fighter
       const [a, b] = done[D.decided - 1];
       centred(cv, a ? '\u2713' : '\u2717', 77, 34, a ? L.left : L.miss, L.shadow, 2);
       centred(cv, b ? '\u2713' : '\u2717', 163, 34, b ? L.right : L.miss, L.shadow, 2);
@@ -190,6 +207,16 @@ export function paintDuel(duel, themeId, w, h) {
       rect(cv, cx - 30, 30, 60, 22, col); rect(cv, cx - 30, 30, 60, 2, 0xffffff); rect(cv, cx - 30, 50, 60, 2, mul(col, 150));
       rect(cv, cx - 34, 34, 4, 14, mul(col, 170)); rect(cv, cx + 30, 34, 4, 14, mul(col, 170));
       centred(cv, 'WIN', cx, 32, L.win[0], L.win[1] === null ? mul(col, 110) : L.win[1], 2);
+    }
+
+    if (D.focus) {   // the read-back: the case in focus, ringed on the scoreboard, and how each side did on it in the middle
+      const F = D.focus, [a, b] = D.cases[F.at], x = x0 + (F.at % 48) * 4, y = top + div(F.at, 48) * 12;
+      rect(cv, x - 1, y - 2, 5, 1, L.text); rect(cv, x - 1, y + 12, 5, 1, L.text); rect(cv, x - 2, y - 2, 1, 15, L.text); rect(cv, x + 4, y - 2, 1, 15, L.text);
+      centred(cv, 'CASE ' + (F.at + 1), 120, 30, L.text, L.shadow, 2);
+      centred(cv, a ? '\u2713' : '\u2717', 92, 50, a ? L.left : L.miss, L.shadow, 2); centred(cv, b ? '\u2713' : '\u2717', 148, 50, b ? L.right : L.miss, L.shadow, 2);
+      if (F.scores) { centred(cv, fmt(F.scores[0]), 92, 67, L.left, L.shadow); centred(cv, fmt(F.scores[1]), 148, 67, L.right, L.shadow); }
+      if (F.truth !== null) centred(cv, F.truth ? 'TRUE: YES' : 'TRUE: NO', 120, 77, L.text, L.shadow);
+      centred(cv, a > b ? 'LEFT RANKED BETTER' : b > a ? 'RIGHT RANKED BETTER' : 'A TIE ON THIS CASE', 120, 88, a > b ? L.left : b > a ? L.right : L.tie, L.shadow);
     }
 
     if (L.lcd) for (const y of span(0, lh)) for (const x of span(0, FW)) {   // the pocket screen: four shades, ordered dither

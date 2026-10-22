@@ -39,7 +39,7 @@ import { reply, asks, vocabOf, sayFeature, sayNumber } from '../src/talker.mjs';
 import { mark, MAX_TRIES } from '../src/learn.mjs';
 import { join, leave, guildOf, MAX_STATEMENTS } from '../src/guild.mjs';
 import { offered, shownDesc, sayOutcome, SHOWN_AS, ORGANS } from '../src/copy.mjs';
-import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
+import { paintRaid, paintChapter } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 import { crc32, cat, zlibStored } from '../vendor/dex-frontier/vendor/living-seed/src/card.mjs';
 
@@ -928,8 +928,9 @@ function showDuel(r, vA, vB) {
     el('a', { class: 'g-btn hot big g-next', id: 'g-ar-next', href: '#estate' }, 'Next · see your estate →'), el('p', { class: 'g-teach' }, 'Estate: your portfolio of verified agents.'));
   soleNext($('#g-ar-result').querySelector('.g-next'));
   const sideArt = (v, sd, k, rating) => ({ id: v.id, rarity: facts(v).rarity, rating: Math.max(0, Math.min(9999, rating)), title: artText(facts(v).title, 16), kit: sd && sd.loadout && k ? { slots: slotsOf(v).nodes, fielded: Math.min(slotsOf(v).nodes, k.fielded.length - 1) } : null });
-  const drawn = paintOn($('#g-ar-duelart'), paintDuel({ left: sideArt(vA, r.sides && r.sides.a, r.kits && r.kits.a, after[vA.id] ?? 1000), right: sideArt(vB, r.sides && r.sides.b, r.kits && r.kits.b, after[vB.id] ?? 1000),
-    cases: r.batch.map((row, k) => [(r.scores.a[k] >= lineA) === (r.y[k] === 1) ? 1 : 0, (r.scores.b[k] >= lineB) === (r.y[k] === 1) ? 1 : 0]), result: x.winner === 'a' ? 'left' : x.winner === 'b' ? 'right' : 'draw' }, plotTheme(), 480, 320));
+  A.art = { left: sideArt(vA, r.sides && r.sides.a, r.kits && r.kits.a, after[vA.id] ?? 1000), right: sideArt(vB, r.sides && r.sides.b, r.kits && r.kits.b, after[vB.id] ?? 1000),
+    cases: r.batch.map((row, k) => [(r.scores.a[k] >= lineA) === (r.y[k] === 1) ? 1 : 0, (r.scores.b[k] >= lineB) === (r.y[k] === 1) ? 1 : 0]), result: x.winner === 'a' ? 'left' : x.winner === 'b' ? 'right' : 'draw' };
+  const drawn = paintOn($('#g-ar-duelart'), paintDuel(A.art, plotTheme(), 480, 320));
   $('#g-ar-duelart').hidden = !drawn;
   $('#g-ar-duelart').setAttribute('aria-label', 'The duel, drawn: ' + facts(vA).title + ' against ' + facts(vB).title + ', ' + (x.winner === 'a' ? 'yours wins' : x.winner === 'b' ? 'theirs wins' : 'a draw') + ', every case marked');
   $('#g-ar-rerun').disabled = false; $('#g-ar-receipt').disabled = false; $('#g-ar-watch').disabled = false; $('#g-ar-watchbox').hidden = true;
@@ -958,6 +959,13 @@ async function arenaWatch() {
 function arenaReadBack(r, f, g) {
   const side = (k, name) => { const b = readBack(k, g, f.row); return b.ok ? b.minds.map((m) => el('div', {}, el('p', { class: 'g-small' }, name + ' · ' + (m.score === null ? 'no answer here' : 'score ' + m.score)), el('ul', { class: 'g-lines' }, m.fired.length ? m.fired.map((x) => line(x.w > 0 ? 'k' : 'r', x.feat + ' ' + (x.op === '<=' ? '≤' : '>') + ' ' + x.v, el('small', {}, (x.w > 0 ? '+' : '') + x.w))) : line('x', 'no rule fired')))) : el('p', { class: 'g-badt' }, b.why); };
   fill($('#g-ar-readback'), el('h4', {}, 'Case ' + (f.k + 1) + ' · really ' + (f.y ? 'yes' : 'no')), side(r.kits.a, 'Yours'), side(r.kits.b, 'Theirs'));
+  // the case ringed on the duel's picture (PixelWhisperer's focus), the result banner left off while a case is read (with
+  // both, CASE n and WIN overlap at every size: told to PixelWhisperer 2026-10-22; the panel above says who won): its truth, and both scores when they sit on the 0-to-1
+  // scale the picture reads; a score outside it is told only in the read-back above, never squeezed onto the scale
+  if (A.art) {
+    const onScale = (s) => Number.isFinite(s) && s >= 0 && s <= 1, sc = onScale(f.a.score) && onScale(f.b.score) ? { scores: [Math.round(f.a.score * 1e6), Math.round(f.b.score * 1e6)] } : {};
+    if (paintOn($('#g-ar-duelart'), paintDuel({ ...A.art, result: null, focus: { at: f.k, truth: f.y ? 1 : 0, ...sc } }, plotTheme(), 480, 320))) $('#g-ar-duelart').setAttribute('aria-label', 'The duel, drawn, with case ' + (f.k + 1) + ' ringed: really ' + (f.y ? 'yes' : 'no'));
+  }
 }
 /** the tournament of your cards of one business: seeded, played out from the receipts, each open match one duel away */
 async function renderTournament() {
@@ -1054,6 +1062,15 @@ async function renderCampaign() {
     return line((ch.cleared ? 'k' : ch.n === c.now ? 'm' : 'x') + ' g-two', 'Chapter ' + ch.n + ' · ' + title + (ch.cleared ? ' · cleared' : ch.n === c.now ? ' · now' : ''),
       el('small', {}, (ch.raids.length ? down + ' of ' + ch.raids.length + ' raid boss' + (ch.raids.length === 1 ? '' : 'es') + ' down, then ' : '') + 'its world boss · ' + bosses.join(' → ')));
   }));
+  // the chapter drawn by PixelWhisperer's paintChapter: its bosses on a path, the world boss's crest, health on one scale,
+  // fallen ones under a gold check, as the receipts say — the one to play now unless another is picked
+  const pick = $('#g-cp-pick'), keep = Number(pick.value) || 0;
+  fill(pick, c.chapters.map((ch) => el('option', { value: String(ch.n) }, 'Chapter ' + ch.n + ' · ' + (SETS[ch.set] ? SETS[ch.set].title : ch.set) + (ch.cleared ? ' · cleared' : ch.n === c.now ? ' · now' : ''))));
+  const show = c.chapters.find((ch) => ch.n === keep) || c.chapters.find((ch) => ch.n === c.now) || c.chapters[c.chapters.length - 1];
+  pick.value = String(show.n);
+  const art = paintChapter({ n: show.n, set: show.set, raids: show.raids.map((r) => ({ domain: r.domain, best: r.best, fallen: r.fallen })), world: { best: show.world.best, bar: show.world.bar, fallen: show.world.fallen }, now: show.n === c.now }, plotTheme(), 720, 480);
+  $('#g-cp-art').hidden = !art.ok;
+  if (art.ok) { putRGB($('#g-cp-art'), art.px, 720, 480); $('#g-cp-art').setAttribute('aria-label', 'Chapter ' + show.n + ', drawn: ' + (show.raids.length ? show.raids.filter((r) => r.fallen).length + ' of ' + show.raids.length + ' raid bosses fallen, then its world boss' : 'its world boss alone') + (show.world.fallen ? ' (fallen)' : '') + (show.cleared ? ' · cleared' : show.n === c.now ? ' · now' : '')); }
 }
 async function renderRaids() {
   admission ||= await fetch('drop/admission.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
@@ -1792,6 +1809,7 @@ function wire() {
   on('#g-ar-watch', 'click', arenaWatch);
   on('#g-box-close', 'click', () => { $('#g-box-frame').removeAttribute('src'); $('#g-box').hidden = true; });
   on('#g-tn-set', 'change', () => renderTournament());
+  on('#g-cp-pick', 'change', () => renderCampaign());
   on('#g-tk-card', 'change', () => { TK.id = $('#g-tk-card').value || null; fill($('#g-tk-out')); $('#g-tk-rc-box').hidden = true; renderTalker(); });
   on('#g-tk-ask', 'click', () => talkerAsk());
   on('#g-gd-join', 'click', () => guildSign('join')); on('#g-gd-leave', 'click', () => guildSign('leave')); on('#g-gd-add', 'click', guildAdd); on('#g-gd-all', 'click', guildAll);
