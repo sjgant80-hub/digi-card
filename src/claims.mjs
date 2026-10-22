@@ -15,7 +15,7 @@
 // only as receipts of these kinds, or not at all. Pure apart from the checkers; total: junk is refused, never thrown.
 export const KINDS = ['verified', 'owned', 'grown', 'offline', 'level', 'born', 'mesh', 'drop'];
 export const MAX_POST = 280;
-export const PAGE = 'https://sjgant80-hub.github.io/digi-card/';
+export const PAGE = 'https://sjgant80-hub.github.io/kardlings/';
 export const NEVER = [
   ['self-aware', /self[\s-]*aware/i], ['conscious', /conscious/i], ['sentient', /sentien/i], ['alive', /\balive\b/i], ['feels', /\bfeel(s|ing|ings)?\b/i],
   ['AGI', /\bAGI\b/i], ['superintelligent', /super[\s-]*intelligen/i], ['guaranteed', /guarantee/i], ['risk-free', /risk[\s-]*free/i],

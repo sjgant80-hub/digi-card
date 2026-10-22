@@ -1,6 +1,6 @@
 # Kardlings
 
-**Live: https://sjgant80-hub.github.io/digi-card/**
+**Live: https://sjgant80-hub.github.io/kardlings/**
 
 A trading card that is a working mind you own. A Kardling card is a 384 × 576 PNG. Its top sixteen pixel rows carry, byte for
 byte and in plain view, a sealed recipe for a small mind grown on real records (a scorecard of at most six readable

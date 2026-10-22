@@ -12,7 +12,7 @@ const ok = 'Decoder #0001 grew a credit-collections mind that scores 0.739214 on
 test('a post that rests on claims that re-run, says only their numbers, and shows how to re-run it, passes', async () => {
   assert.deepEqual(await gate(post(ok), checkers), { ok: true, says: ['0.739214', '0001'] });
   assert.deepEqual(KINDS, ['verified', 'owned', 'grown', 'offline', 'level', 'born', 'mesh', 'drop']);
-  assert.equal(PAGE, 'https://sjgant80-hub.github.io/digi-card/');
+  assert.equal(PAGE, 'https://sjgant80-hub.github.io/kardlings/');
   const two = await gate(post('Card 0001 reached level 3, every level re-run. ' + PAGE + '#card=4f2a99c0', [{ kind: 'grown' }, { kind: 'level' }]), checkers);
   assert.deepEqual(two, { ok: true, says: ['0.739214', '0001', '3'] }, 'a link into the page carries no claim');
   assert.ok((await gate(post('1,000 genesis cards. re-run ' + PAGE, [{ kind: 'grown' }]), { grown: holds(['1000']) })).ok, 'a vouched number may be written with commas');

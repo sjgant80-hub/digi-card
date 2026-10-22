@@ -45,7 +45,7 @@ test('what a tool asked for, in plain words: its network, its frames, its storag
 });
 
 test('boxable: an https page on this very address; anything else opens in its own tab', () => {
-  const here = 'https://sjgant80-hub.github.io/digi-card/';
+  const here = 'https://sjgant80-hub.github.io/kardlings/';
   assert.equal(boxable('https://sjgant80-hub.github.io/acg-assessor/', here), true);
   for (const no of ['https://example.com/tool/', 'http://sjgant80-hub.github.io/acg-assessor/', 'https://sjgant80-hub.github.io:8443/x/', 'javascript:alert(1)', 'not a url', null]) assert.equal(boxable(no, here), false, String(no));
   assert.equal(boxable('https://sjgant80-hub.github.io/x/', 'junk'), false);

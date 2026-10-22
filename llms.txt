@@ -6,8 +6,8 @@
 > grew on. It can be owned, given (re-signed), fused (a fused card is kept only if it beats both parents) and coupled into a
 > mesh whose ledger credits each owner by measured contribution. Every claim on it can be re-run.
 
-Live page: https://sjgant80-hub.github.io/digi-card/
-Source: https://github.com/sjgant80-hub/digi-card (MIT — no licence fee)
+Live page: https://sjgant80-hub.github.io/kardlings/
+Source: https://github.com/sjgant80-hub/kardlings (MIT — no licence fee)
 
 ## Key facts
 - The genesis drop: genesis cards across the departments of five public datasets that cleared a 0.6 AUC bar on GATE;

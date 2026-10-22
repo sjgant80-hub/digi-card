@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://sjgant80-hub.github.io/digi-card/sitemap.xml
+Sitemap: https://sjgant80-hub.github.io/kardlings/sitemap.xml
