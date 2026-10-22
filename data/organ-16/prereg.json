@@ -1,0 +1,80 @@
+{
+ "kind": "digi-card.organ-16.prereg",
+ "v": 1,
+ "organ": "builds and combos: Kardlings put to one job together, a combo beating its best part by 0.005 out of fold on GATE, proven by two keys’ re-runs; and the first training build, a build shrunk into one small card kept only if it beats every card it came from",
+ "disclosure": "Not blind on GATE, and said so. src/build.mjs and src/shrink.mjs were written and gated (witness CLEAN, every mutant killed, none baselined) before this seal, with tests of P1 to P4 on made-up records, so the properties are ones the kernels were built to make true; the measurement tests them at scale on the drop’s real cards, with the numbers worked out again in the measuring tool apart from the kernel. Before this seal, on 2026-10-22, the kernels were smoke-run on GATE only: 12 builds a business of one card per department (seeds 777 and up, not the sealed ones) — 52 of 60 were combos on GATE, none an anti-combo, lifts from 0.000231 to 0.090960 — and one shrink on bank, kept at 0.762078 against its best source’s 0.758863 (the teacher 0.762528). That shaped what Q1 to Q5 predict about TEST; no TEST row was read. tools/measure-16.mjs was then dry-run with DRY=1 and SMALL=1 ON OTHER SEEDS (seeds 26000 and up: 2 builds and 1 shrink a business, into dry-record.json, every TEST read replaced by 0). The first dry run was stopped after an hour: the tool expressed every card’s mind again for every row it scored, so it now expresses each once per build (apart from the kernel, as before). It gained ONLY=<business> and MERGE=1, to measure the five businesses side by side and join them in order, and was dry-run that way and as one process, the two records compared field by field. Its properties all held, and its GATE numbers were read (8 of 10 builds combos, 2 plain; 1 of 5 students kept); no TEST row was read.",
+ "population": "For each of the five businesses of the drop, 16 seeded builds of the drop’s own cards (seeds 16000 and up): two or three of its departments, one card each, and in every third build a second card of a department already in it; each measured, measured again by two demo keys (once with its cards reversed and a card of another business among them), proven and attacked — 80 builds. Then in each business the 4 builds with the largest GATE lift, chosen by GATE alone, each shrunk once by a demo trainer into its best part’s department, with the same search from the same seed run on the true answers as its control — 20 shrinks.",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 80 builds measures, and measures again to the very same receipt by a second key’s signed re-run with its cards in reverse order and a card of another business among them, and by a third; its fielding keeps the rule: one part per set of departments, the best GATE fielding it (ties to the lower card id), every benched part named with its reason."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every receipt says exactly what its fielded parts give, worked out again in the measuring tool: its GATE is the out-of-fold judge over the fielded parts’ GATE columns, its best part the largest of their own, its lift the difference, its verdict the sealed cut (a combo at +0.005, an anti-combo at −0.005, one fielded part plain), its name the fielded titles in field order, every part’s contribution the build with it less without it."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every one of the 80 receipts is proven by its two keys’ signed re-runs, the first named as finder; and for every one, a set of re-runs holding the first key twice, a forged signature and two re-runs of another receipt proves nothing, each named."
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "Every one of the 20 shrinks checks deeply here (the search re-run on the teacher’s answers finds the student it carries), its student scores its stated GATE re-expressed on the true answers, it is kept exactly when its GATE is at least 0.002 above its best source’s, its control is the very same search seed, and every kept student at or over 0.6 is a card’s genome."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Of the builds that are combos on GATE, at least 80% also beat their best part on TEST, the cases nothing here selects on."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Over the combos, the median TEST lift is at least half the median GATE lift: a combo keeps most of what it shows on GATE."
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "Of the kept students, at least 70% also beat their best source on TEST."
+  },
+  {
+   "id": "Q4",
+   "kind": "prediction",
+   "claim": "In at least half of the shrinks, the student taught by its build scores at least as well on TEST as the very same search run on the true answers."
+  },
+  {
+   "id": "Q5",
+   "kind": "prediction",
+   "claim": "At least one shrink in five keeps its student."
+  }
+ ],
+ "judgedBy": "tools/judge-16.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "6b92bc74ec5450dc1dca5e5f9edff8fbc78373bdd705bddf2c09126ffdf2f533",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "afe6dee22dbf4dab7e7568cfa873613e36ddf72623f773cd547ae460f2c378b0",
+  "src/claims.mjs": "6819187ef731bade44fb3d6db501876918208e84f8c14f1e674b220dcb91ecee",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "3d1a6b534b65c1275673c5910214b6eb4e78a51da2c945b9afe32821bbb72e16",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "src/build.mjs": "257fb8b88c8f410ab09d32fda2077a16e1b1d4e9f2c8671e9277d80cff4626ca",
+  "src/shrink.mjs": "aea95562211bc0f649813bd32fe9bd5d16b7c1eff55eb5f49d2daab935742457",
+  "src/raid.mjs": "923678b0f5aeeb3ae0cc82c9ca0d3d68e4b2e19d8dbe67cbe6f520ab06bcccdd",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "tools/measure-16.mjs": "fec43af778c8759d0bc3b7e5b9c004a271881f295037d7f1f05bbec3f002e74d",
+  "tools/judge-16.mjs": "4a4ad3d357204be1c8978f682fb6c27f6f1fba17358cd2f0015c0bfdcf87f751",
+  "tools/seal-16.mjs": "e4c49d9eae33bfd0f55c32d3eb3796019a70f08bfda3268a410db3d5095809a1"
+ }
+}

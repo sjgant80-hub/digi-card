@@ -21,8 +21,8 @@
 export const SAID_OUTCOME = Object.freeze({ shop: 'made a purchase', adult: 'has an income over 50K a year' });
 export const sayOutcome = (set, outcome) => (Object.prototype.hasOwnProperty.call(SAID_OUTCOME, set) ? SAID_OUTCOME[set] : outcome);
 export const SHOWN_AS = Object.freeze({ 4: 'fusion', 5: 'giving and ownership' });
-/** how many organs the Proof screen and the explainer read: every one sealed before it was measured (data/organ-1 … 15) */
-export const ORGANS = 15;
+/** how many organs the Proof screen and the explainer read: every one sealed before it was measured (data/organ-1 … 16) */
+export const ORGANS = 16;
 export const LEFT_OUT = Object.freeze(['agora', 'fallherd']);
 export const offered = (app) => typeof app === 'string' && !LEFT_OUT.includes(app) && !/^kcc-/i.test(app);
 export const shownDesc = (desc) => (typeof desc === 'string' && !copyHits(desc).length ? desc : '');
