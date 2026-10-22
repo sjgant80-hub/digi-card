@@ -45,7 +45,7 @@ Any Kardling card can be asked in plain words on its Talker screen. It answers y
 
 ## Builds and combos
 
-A build is a few Kardlings put to one job together: one card per department of a business, the player's own or the drop's. The device measures it on GATE cases none of them grew on: a build that beats its best card by 0.005 or more is a combo, one that does worse by as much an anti-combo, and each card shows what it adds or why it sits on the bench. Two different keys measuring it again to the very same numbers prove it; the first found it. A build can be shrunk into one small card, kept only if it beats every card it came from by 0.002. Nothing is staked.
+A build is a few Kardlings put to one job together: one card per department of a business, the player's own or the drop's. The device measures it on GATE cases none of them grew on: a build that beats its best card by 0.005 or more is a combo, one that does worse by as much an anti-combo, and each card shows what it adds or why it sits on the bench. Two different keys measuring it again to the very same numbers prove it; the first found it. A build can be shrunk into one small card, kept only if it beats every card it came from by 0.002. Nothing is staked. Organ 16 measured it on 80 builds and 20 shrinks: 61 of 68 combos found on GATE also beat their best card on TEST, and — a failed prediction, kept — in 18 of 20 shrinks the same search on the true answers did better than the student the build taught.
 
 ## The guild
 
