@@ -208,7 +208,7 @@ html.game canvas.card, .g-card1, .g-card2, .g-thumb { display: block; image-rend
 .g-skins canvas { width: 72px; height: 105px; image-rendering: pixelated; display: block; }
 
 /* play: the arena */
-.g-subnav { display: flex; gap: 6px; margin: 0 0 12px; } .g-subnav a { padding: 6px 12px; border: 2px solid var(--g-rule); background: var(--g-plate); color: var(--g-ink); text-decoration: none; text-transform: uppercase; font-family: var(--g-font); }
+.g-subnav { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; } .g-subnav a { padding: 6px 12px; border: 2px solid var(--g-rule); background: var(--g-plate); color: var(--g-ink); text-decoration: none; text-transform: uppercase; font-family: var(--g-font); }
 .g-subnav a[aria-current="page"] { border-color: var(--g-cy); background: #0b2a30; }
 .g-batch { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; margin: 10px 0; }
 .g-batch i { display: block; aspect-ratio: 1; background: var(--g-deep); border: 1px solid var(--g-rule); }
@@ -347,3 +347,7 @@ html.game #g-plot { cursor: pointer; }
 .g-doors { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 4px; }
 html.game .g-door { font-family: var(--g-font); font-size: 14px; letter-spacing: .06em; padding: 6px 10px; min-height: 36px; display: inline-flex; align-items: center; border: 2px solid var(--g-rule); color: var(--g-ink); text-decoration: none; background: var(--g-deep); }
 html.game .g-door:hover, html.game .g-door:focus-visible { border-color: #ffd23c; color: #ffd23c; }
+
+/* the talker: its suggested questions wrap as whole buttons, its receipt wraps inside the panel on a phone */
+.g-asks { flex-wrap: wrap; gap: 6px; } html.game .g-ask { font-size: 14px; min-height: 36px; padding: 6px 10px; text-align: left; white-space: normal; height: auto; }
+#g-tk-q { flex: 1 1 200px; min-width: 0; } .g-tk-said { font-size: 17px; line-height: 1.45; } .g-rc { white-space: pre-wrap; word-break: break-word; max-height: 320px; overflow: auto; font-size: 12px; }

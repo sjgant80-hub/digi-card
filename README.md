@@ -41,8 +41,8 @@ minted as a signed item, handed on by signed gives; it moves no score, and the p
 
 ## What was proven
 
-Thirteen organs, each sealed before it was measured (organs 6, 10, 11, 12 and 13 are not fully blind, each disclosing why on Proof; git proves the order: `node tools/order.mjs --organ k`), judged by
-their sealed rules alone — **70 of 76 sealed rules held; 5 failed predictions are kept; 1 property failed and is kept:** organ 12 found two real
+Fourteen organs, each sealed before it was measured (organs 6, 10, 11, 12, 13 and 14 are not fully blind, each disclosing why on Proof; git proves the order: `node tools/order.mjs --organ k`), judged by
+their sealed rules alone — **75 of 81 sealed rules held; 5 failed predictions are kept; 1 property failed and is kept:** organ 12 found two real
 tournament brackets that never named a champion, and organ 13, sealed first, measured the fix (`node tools/superseded.mjs --organ 12`).
 
 | Organ | Result |
@@ -60,8 +60,9 @@ tournament brackets that never named a champion, and organ 13, sealed first, mea
 | 11 · the campaign and Kit it for me (not fully blind: dry-run before the seal; see Proof) | 100/100 auto-kits the same twice in either order, every step lifting; 20/20 foreign pools never picked another key’s card; 6 chapters hold every boss once; 1,000/1,000 receipt sets read exactly as their bosses fell; 97/97 kits that lifted GATE by 0.005 or more also lifted TEST; 83.8% beat a seeded random kit of the same size on TEST |
 | 12 · watch it back and the tournament (not fully blind: dry-run before the seal; see Proof) | 100/100 duels replay to the very same receipt, case by case; 19,584/19,584 read-backs give the very score the duel used — **failed:** 3 of 5 real brackets named a champion (two stalled on draws: the fix is organ 13), and the higher declared GATE AUC won 58.6% of matches, under the sealed 60% |
 | 13 · the tie rule (not blind: written after organ 12) | 1,000/1,000 receipt sets decided only by the rule, the tie settling 201 of 976 matches; 5/5 real brackets named a champion within 3 duels a match; 35/35 real matches decided by a duel; the higher declared GATE AUC won 71.4% |
+| 14 · the talker (not fully blind: hardened and dry-run before the seal; see Proof) | 1,500/1,500 GATE rows said in words read back exactly and answered with the mind’s own label, score and fired rules; 1,500/1,500 with a value left out, 1,500/1,500 with one said twice and 1,250/1,250 off-topic questions abstained; every receipt the same twice; 100% read back in other words and another order; 1,800/1,800 bare column names abstained |
 
-Every kernel is witness CLEAN (728/728 mutants killed on GitHub's runner, run 39683361546) and CI re-proves all of it on every push.
+Every kernel is witness CLEAN (859/859 mutants killed on GitHub’s runner at e8e4925, run 39708732948) and CI re-proves all of it on every push.
 
 ## Run it
 
@@ -113,7 +114,7 @@ or sent by the tools: a person does that.
 | `src/earn.mjs` | the record: a player's releases and measured party shares as entries of the credits ledger |
 | `vendor/mint-an-app/` | mint-an-app's records of the estate's apps (which are mintable, their tier, commit and CI run), byte for byte |
 | `vendor/kcc-mesh/` | the credits ledger and its DIGI gate, byte for byte |
-| `data/organ-*/` | thirteen organs: sealed claims, records, verdicts (and organ 12’s superseded record) |
+| `data/organ-*/` | fourteen organs: sealed claims, records, verdicts (and organ 12’s superseded record) |
 | `drop/` | the manifest, the genesis log, every search |
 | `decoder/v1/` | the exact files that read a card, frozen at the drop |
 

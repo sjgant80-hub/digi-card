@@ -289,6 +289,23 @@ try {
     /Practice champion: #\d{4} /.test(tn.title) && tn.open === 0 ? seen.push('a tournament of your cards played to a practice champion: a title, and nothing else') : problems.push('the tournament: ' + JSON.stringify(tn));
     await scan('the tournament');
   }
+  // the talker: a card asked in plain words — the case it offers answered from its rules, a question off its business
+  // refused, and the missions marked by asking the card again
+  await js(`location.hash = '#talker'`);
+  if (await until(`document.querySelectorAll('#g-tk-asks button').length === 3`, 90000, 'the talker’s questions')) {
+    const said = async (q) => {
+      const before = await js(`document.querySelector('#g-tk-out').textContent`);
+      await js(`(() => { document.querySelector('#g-tk-q').value = ${JSON.stringify(q)}; document.querySelector('#g-tk-ask').click(); })()`);
+      await until(`document.querySelector('#g-tk-out').textContent !== ${JSON.stringify(before)} && !/Reading your question/.test(document.querySelector('#g-tk-out').textContent)`, 60000, 'the talker answering');
+      return js(`({ tag: (document.querySelector('#g-tk-out .g-tag') || {}).textContent || '', said: (document.querySelector('.g-tk-said') || {}).textContent || '', rc: document.querySelector('#g-tk-rc').textContent })`);
+    };
+    const offered = await js(`document.querySelector('#g-tk-asks button').textContent`), a = await said(offered), b = await said('what is the weather like?');
+    (a.tag === 'answered from its rules' && /^(Yes|No) — /.test(a.said) && /"verdict": "VERIFIED"/.test(a.rc)) ? seen.push('the talker answered the case it offers from its rules, with a receipt') : problems.push('the talker on its own case: ' + JSON.stringify(a).slice(0, 200));
+    (b.tag === 'it cannot answer that' && /^I only answer questions about/.test(b.said)) ? seen.push('the talker refused a question off its business') : problems.push('the talker off topic: ' + JSON.stringify(b).slice(0, 200));
+    const learn = await js(`({ n: document.querySelector('[data-k="g-tk-learn-n"]').textContent, done: [...document.querySelectorAll('#g-tk-learn li.k')].map((l) => l.textContent) })`);
+    (/^\d+ of 10$/.test(learn.n) && learn.done.some((t) => /Ask about one case/.test(t)) && learn.done.some((t) => /Ask it what it cannot know/.test(t))) ? seen.push('learn to ask: ' + learn.n + ' missions, marked by asking the card again') : problems.push('learn to ask: ' + JSON.stringify(learn).slice(0, 200));
+    await scan('the talker');
+  }
   // a world boss: the player's own telco cards strike it as a party, and strike again to the very same receipt
   await js(`location.hash = '#raids'`);
   if (await until(`[...document.querySelectorAll('#g-pt-bosses .g-boss h3')].some((h) => /Telecom/.test(h.textContent))`, 30000, 'the world bosses')) {
@@ -361,7 +378,7 @@ try {
   // phone width: every screen holds without a sideways scroll
   await size(390, 844, true); await sleep(400);
   const wide = [], untitled = [];
-  for (const s of ['estate', 'base', 'cards', 'kit', 'fusion', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot', 'about']) {
+  for (const s of ['estate', 'base', 'cards', 'kit', 'fusion', 'talker', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot', 'about']) {
     await js(`location.hash = '#${s}'`); await sleep(500);
     const w = await js(`document.documentElement.scrollWidth`);
     // a screen too wide names what pushes it: the widest-reaching element, so the next fix starts from the culprit

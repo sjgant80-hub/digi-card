@@ -27,13 +27,13 @@ export const MISSIONS = Object.freeze([
   { id: 'a-yes', title: 'Hear it say yes', how: 'Ask about a case it expects to happen: change the values its strongest rules read.', pass: (rs) => rs.some((r) => r.intent === 'ask' && r.verdict === 'VERIFIED' && r.receipt.label === 1) },
   { id: 'decides', title: 'Ask how it decides', how: 'Ask what makes the outcome happen.', pass: (rs) => rs.some((r) => r.intent === 'explain' && r.verdict === 'VERIFIED') },
   { id: 'how-good', title: 'Ask how good it is', how: 'Ask how good or how accurate it is.', pass: (rs) => rs.some((r) => r.intent === 'measure' && r.verdict === 'VERIFIED') },
-  { id: 'left-out', title: 'Leave a value out', how: 'Ask about a case but leave out a value its rules read. It should ask you for it, not guess.', pass: (rs) => rs.some((r) => r.intent === 'ask' && r.verdict === 'ABSTAIN' && Array.isArray(r.receipt.missing) && r.receipt.missing.length > 0) },
+  { id: 'left-out', title: 'Leave a value out', how: 'Ask about a case but leave out a value its rules read. It should ask you for it, not guess.', pass: (rs) => rs.some((r) => r.intent === 'ask' && r.verdict === 'ABSTAIN' && Array.isArray(r.receipt.missing)) },
   { id: 'said-twice', title: 'Say one value twice', how: 'Give one value twice, differently. It should refuse to choose between them.', pass: (rs) => rs.some((r) => r.intent === 'ask' && r.verdict === 'ABSTAIN' && /^You gave /.test(r.text)) },
   { id: 'off-topic', title: 'Ask it what it cannot know', how: 'Ask it something that is not about its business. It should say it cannot answer.', pass: (rs) => rs.some((r) => r.intent === 'other' && r.verdict === 'ABSTAIN') },
   { id: 'flip', title: 'Turn its answer round', how: 'Ask about a case, then ask again with one value changed so it answers the other way.',
-    pass: (rs) => { const asked = rs.filter((r) => r.intent === 'ask' && r.verdict === 'VERIFIED'); return asked.some((a, i) => asked.slice(i + 1).some((b) => a.receipt.label !== b.receipt.label && differ(a.receipt.case, b.receipt.case).length === 1)); } },
+    pass: (rs) => { const asked = rs.filter((r) => r.intent === 'ask' && r.verdict === 'VERIFIED'); return asked.some((a) => asked.some((b) => a.receipt.label !== b.receipt.label && differ(a.receipt.case, b.receipt.case).length === 1)); } },
   { id: 'same-again', title: 'Ask the same thing twice', how: 'Ask the very same question twice. The receipt is the same, word for word: nothing is left to chance.',
-    pass: (rs) => rs.some((a, i) => rs.slice(i + 1).some((b) => a.receipt.q === b.receipt.q && same(a.receipt, b.receipt))) },
+    pass: (rs) => rs.some((a, i) => rs.some((b, j) => i !== j && same(a.receipt, b.receipt))) },
 ]);
 
 /**
@@ -45,7 +45,7 @@ export function mark(questions, ctx) {
   // only a card that can be asked can be learnt on: with no mind or no words every question is refused, which would pass
   // the off-topic mission for a card that was never there
   const askable = asks(ctx).length > 0, rs = askable ? qs.map((q) => reply(q, ctx)) : [];
-  return MISSIONS.map((m) => ({ id: m.id, title: m.title, how: m.how, passed: rs.length > 0 && m.pass(rs) === true }));
+  return MISSIONS.map((m) => ({ id: m.id, title: m.title, how: m.how, passed: m.pass(rs) === true }));
 }
 
 export default mark;

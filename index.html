@@ -152,7 +152,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere.</p>
       <div class="pills">
         <span class="pill hot"><span data-k="drop-total">…</span> genesis cards · decoder #0001</span>
-        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">13 organs, sealed before measured</a></span>
+        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">14 organs, sealed before measured</a></span>
         <span class="pill ok">records never leave your device</span>
         <span class="pill">MIT — no licence fee</span>
       </div>
@@ -278,7 +278,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="kit-s" class="g-only g-screen" data-screen="kit" aria-labelledby="kit-h">
-  <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit" aria-current="page">Kit</a><a href="#fusion">Fusion lab</a></nav>
+  <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit" aria-current="page">Kit</a><a href="#fusion">Fusion lab</a><a href="#talker">Talker</a></nav>
   <div class="g-grid g-3">
     <div class="g-col">
       <h2 id="kit-h" class="g-h" data-info="kit">Kit</h2>
@@ -308,7 +308,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="fusion-s" class="g-only g-screen" data-screen="fusion" aria-labelledby="fusion-h">
-  <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit">Kit</a><a href="#fusion" aria-current="page">Fusion lab</a></nav>
+  <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit">Kit</a><a href="#fusion" aria-current="page">Fusion lab</a><a href="#talker">Talker</a></nav>
   <div class="g-grid g-3">
     <div class="g-col">
       <h2 id="fusion-h" class="g-h" data-info="fusion">Fusion lab</h2>
@@ -328,6 +328,32 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <div class="g-panel"><h3>Second parent</h3><label class="g-small">Card <select id="g-fu-b" aria-label="The second card to fuse"></select></label>
         <div class="g-cardcol"><div class="g-ring" id="g-fu-b-ring"><canvas class="g-card2" id="g-fu-b-face" width="384" height="576" role="img" aria-label="The second parent"></canvas></div></div><p class="g-small" id="g-fu-b-line"></p></div>
       <div class="g-panel"><h3 data-info="organ4">Measured, sealed first</h3><p class="g-small g-dim">Organ 4 sealed these rules before it fused a single card; every verdict below is read from its committed record, the failed one included.</p><ul class="g-lines" id="g-fu-proof"></ul><a class="g-btn" href="#proof">See organ 4 in Proof</a></div>
+    </div>
+  </div>
+</section>
+<section id="talker-s" class="g-only g-screen" data-screen="talker" aria-labelledby="talker-h">
+  <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit">Kit</a><a href="#fusion">Fusion lab</a><a href="#talker" aria-current="page">Talker</a></nav>
+  <div class="g-grid g-2">
+    <div class="g-col">
+      <h2 id="talker-h" class="g-h" data-info="talker">Talker</h2>
+      <div class="g-panel"><h3>Your Kardling</h3><label class="g-small">Card <select id="g-tk-card" aria-label="The card to ask"></select></label>
+        <div class="g-cardcol"><div class="g-ring" id="g-tk-ring"><canvas class="g-card2" id="g-tk-face" width="384" height="576" role="img" aria-label="The card you are asking"></canvas></div></div><p class="g-small" id="g-tk-line"></p></div>
+    </div>
+    <div class="g-col">
+      <div class="g-panel"><h3>Ask it in plain words</h3>
+        <p class="g-hot">It answers only from its own rules, or says it cannot</p>
+        <p class="g-small g-dim">Ask whether one case will happen, giving the values its rules read; ask what makes it happen; or ask how good it is. Every sentence is built from the card’s own rules and the score this device measured: nothing is made up, the same question always gets the same answer, and anything else is an honest “I can’t answer that”, with what it would need.</p>
+        <label class="g-small" for="g-tk-q">Your question</label>
+        <div class="g-row"><input id="g-tk-q" type="text" maxlength="500" autocomplete="off" placeholder="Ask your Kardling…"><button class="g-btn hot g-next" id="g-tk-ask" type="button">Ask</button></div>
+        <p class="g-small g-dim">Or try one it can answer:</p>
+        <div class="g-row g-asks" id="g-tk-asks"></div>
+        <div id="g-tk-out" aria-live="polite"></div>
+        <details class="g-small" id="g-tk-rc-box" hidden><summary>The receipt: what was read, the rules that fired, the mind that answered</summary><pre class="g-rc" id="g-tk-rc" data-quote="gate"></pre></details>
+        <p class="g-teach">The talker: retrieval from a verified model only, with abstention, so it never invents an answer.</p>
+      </div>
+      <div class="g-panel"><h3 data-info="learn">Learn to ask <small data-k="g-tk-learn-n"></small></h3>
+        <p class="g-small g-dim">Ten missions in asking a card that can tell you no. Each is marked by the talker itself: the questions you asked this card are asked of it again, so nothing stored is trusted, and no model judges them.</p>
+        <ul class="g-lines" id="g-tk-learn"></ul></div>
     </div>
   </div>
 </section>
@@ -441,6 +467,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div><dt>Registry</dt> <dd>— the ordered record of cards’ lives that settles a double sale: the first recorded give wins.</dd></div>
     <div><dt>Mesh</dt> <dd>— owned cards of one business answering as one; each card’s share of the credit is measured.</dd></div>
     <div><dt>Watch it back · read-back</dt> <dd>— a duel replayed from its own receipt, case by case, and one case opened to show the very rules of each mind that fired on it: how a head-to-head eval was won, not just that it was.</dd></div>
+    <div><dt>Talker</dt> <dd>— a card asked in plain words: it answers yes or no from the rules that fired, says how it decides and how good it is, and otherwise says it cannot answer and what it would need. It never makes an answer up.</dd></div>
+    <div><dt>Learn to ask</dt> <dd>— ten missions in asking a card that can tell you no, each marked by asking the card again the questions you asked it.</dd></div>
     <div><dt>Tournament</dt> <dd>— an evaluation league: your cards in a bracket, each match a duel that re-runs. A title for the champion, and nothing else.</dd></div>
     <div><dt>Campaign · chapter</dt> <dd>— the raids, read as chapters: each business, its uncracked departments first, then the business itself. A chapter is cleared only when every boss in it has fallen, by receipts anyone can re-run.</dd></div>
     <div><dt>Kit it for me</dt> <dd>— the Kit choosing your Kardling’s nodes by measurement: the card that lifts it most first, then the next, until none lifts it or the slots are full. It is tool selection by ablation, in the open.</dd></div>
@@ -478,7 +506,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="wallet" data-screen="cards" aria-labelledby="wallet-h">
-  <nav class="g-subnav g-only" aria-label="Collection"><a href="#cards" aria-current="page">Collection</a><a href="#kit">Kit</a><a href="#fusion">Fusion lab</a></nav>
+  <nav class="g-subnav g-only" aria-label="Collection"><a href="#cards" aria-current="page">Collection</a><a href="#kit">Kit</a><a href="#fusion">Fusion lab</a><a href="#talker">Talker</a></nav>
   <h2 id="wallet-h"><span class="n">02</span>Your key and collection</h2>
   <p class="sub">The cards whose last signed give names your key, as this device’s registry records them.</p>
   <div class="panel">
@@ -698,6 +726,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <tr><td class="num">src/mesh.mjs</td><td>The mesh: owner consent for this life, the join rule, merit fielding, non-negative coupling, measured shares, a replayable ledger of credits.</td></tr>
       <tr><td class="num">src/arena.mjs</td><td>Duels: both owners sign for their cards as they stand; the batch is drawn from both signatures; the better ranking wins; whole-number ratings from a published table; self-play never rated; nothing staked.</td></tr>
       <tr><td class="num">src/replay.mjs</td><td>The replay: a duel fought again to its very same receipt, then laid out case by case (each side calls yes for as many top cases as the batch holds real yeses, ties to the earlier case); read-back opens one case — every fielded mind’s rules that fired on it, and its score. Organ 12 measured it.</td></tr>
+      <tr><td class="num">src/talker.mjs</td><td>The talker: a question read with its business’s own words (data/vocab.json, every phrase already in the words a question is read in), answered only from the mind’s rules — yes or no with the rules that fired, how it decides, how good it is — or an abstention saying what it would need; a vocabulary or a mind it cannot read is none, and a question past 1,000 characters is refused out loud. Organ 14 measured it.</td></tr>
+      <tr><td class="num">src/learn.mjs</td><td>Learn to ask: ten missions, each a fixed rubric over what the talker answers when the card is asked again the questions it was asked; nothing stored is trusted and no model judges.</td></tr>
       <tr><td class="num">src/tournament.mjs</td><td>The tournament: a bracket seeded by ratings, padded with byes, each match decided by the first duel receipt between exactly its two cards that is not a draw, or, when their first three are all draws, by the tie rule (the higher seed goes through: organ 12 found two evenly matched cards could stall a bracket for ever); an open match holds everything after it; the champion takes a title — practice when any deciding duel was one owner against itself — and a bracket moves no rating, no card and no credit. Organ 12 measured it, and organ 13 the tie rule.</td></tr>
       <tr><td class="num">src/campaign.mjs</td><td>The campaign: each business a chapter — its raid bosses nearest the bar first, then its world boss — run with the least left to clear first, and cleared only by receipts that re-run. Kit it for me: forward selection over your own cards of the business, each step the node that lifts the kitted GATE most, out of fold, while one lifts it and a slot is open; ties to the lower card id. Organ 11 measured both.</td></tr>
       <tr><td class="num">src/kit.mjs</td><td>The kit: slots read off every card from its issue; the owner’s signed loadout for the card and each node as they stand; the kitted mind coupled as the mesh couples, with what each slot adds, each left out in turn; kit duels whose coupling never sees the batch it is judged on.</td></tr>
@@ -872,7 +902,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </footer>
 </div>
 <nav id="g-dock" class="g-only g-dock" aria-label="Screens" data-icons="1">
-  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit fusion"><span class="n">3</span>Collection</a><a href="#arena" data-go="arena" data-group="arena raids evals"><span class="n">4</span>Play</a>
+  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit fusion talker"><span class="n">3</span>Collection</a><a href="#arena" data-go="arena" data-group="arena raids evals"><span class="n">4</span>Play</a>
   <a href="#mint" data-go="mint"><span class="n">5</span>Mint</a><a href="#mesh" data-go="mesh"><span class="n">6</span>Mesh</a><a href="#send" data-go="send"><span class="n">7</span>Send</a><a href="#proof" data-go="proof"><span class="n">8</span>Proof</a>
 </nav>
 <script type="module" src="app.js"></script>

@@ -55,3 +55,18 @@ test('the marking is over the last questions only, re-asked; junk is an unpassed
   }
   assert.deepEqual(passed(['what is the weather like?', 'what is the weather like?']), ['off-topic', 'same-again'], 'with a card to ask, the same questions are lessons');
 });
+
+test('the rubrics hold at their edges: a flip is one column of three, an explanation is never a case, a repeat needs two asks', () => {
+  const V = { ...VOC, columns: { ...VOC.columns, charges: { say: 'monthly charges', kind: 'number', words: ['monthly charges'] } } };
+  const C3 = { ...CTX, voc: V, features: ['tenure', 'paper', 'charges'] };
+  const p3 = (qs) => mark(qs, C3).filter((m) => m.passed).map((m) => m.id);
+  const yes = 'tenure 6, paperless, monthly charges 50: will they leave?';
+  assert.ok(p3([yes, 'tenure 30, paperless, monthly charges 50: will they leave?']).includes('flip'), 'one of three columns changed, the answer turned: a flip');
+  assert.ok(!p3([yes, 'tenure 30, paperless, monthly charges 60: will they leave?']).includes('flip'), 'two of three changed is not one');
+  // an explanation and a refusal carry no case to compare: they are never half of a flip, and marking them never throws
+  assert.deepEqual(p3([yes, 'what makes a customer leave?']), ['a-case', 'a-yes', 'decides']);
+  assert.deepEqual(p3([yes, 'tenure 30: will they leave?']), ['a-case', 'a-yes', 'left-out'], 'a refused case is no half of a flip');
+  // asked once is not asked twice
+  assert.ok(!p3([yes]).includes('same-again'));
+  assert.ok(p3([yes, 'what makes a customer leave?', yes]).includes('same-again'), 'the two asks need not be next to each other');
+});

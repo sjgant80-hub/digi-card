@@ -38,3 +38,7 @@ Stabilization to Dual-Map Ethical Reasoning" (Derivation v0.2), "The Laws of Ent
 Architecture" (2025) and "NEXUS — Distributed Synthetic Intelligence" (2026) — Open Defensive Prior Art (Creative Commons).
 
 Powered by the Konomi architecture, created by Thomas Frumkin. Supplier: AI Native Solutions (https://www.ai-nativesolutions.com).
+
+## The talker
+
+Any Kardling card can be asked in plain words on its Talker screen. It answers yes or no about one case only from the rules that fired, says how it decides and how good it is, and otherwise abstains and says what it would need: it never makes an answer up, and the same question always gets the same answer with a receipt. Organ 14 measured it on 1,500 GATE rows said in words.

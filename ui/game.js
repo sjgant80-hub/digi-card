@@ -35,6 +35,8 @@ import { campaign, autoKit } from '../src/campaign.mjs';
 import { replay, readBack } from '../src/replay.mjs';
 import { SANDBOX, askedFor, boxable } from '../src/sandbox.mjs';
 import { bracketOf, playOut, DRAWS_TO_TIE } from '../src/tournament.mjs';
+import { reply, asks, vocabOf } from '../src/talker.mjs';
+import { mark, MAX_TRIES } from '../src/learn.mjs';
 import { offered, shownDesc, sayOutcome, SHOWN_AS, ORGANS } from '../src/copy.mjs';
 import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
@@ -72,6 +74,8 @@ const INFO = {
   lineage: 'Who a card was fused from, read from the seals of the cards this device holds. A parent this device does not hold is named by its id, never drawn or guessed.',
   sandbox: 'A tool runs in a box: a frame that never shares this page’s origin, so it cannot read or change anything of the game’s — your cards, this page’s storage — and it never moves a score. Before it opens, its own page is read for what it asked for: the network its security policy lets it reach, and whether it keeps anything in storage (inside the box, its own and empty).',
   replay: 'Watched back: the duel fought again from its own receipt (it must give the very same numbers), then laid out case by case — each side’s call, and whether the case really was a yes. Tap a case to read it back: the very rules of each mind that fired on it.',
+  talker: 'The talker: ask your Kardling in plain words. It reads the values your question gives with its business’s own words, then answers yes or no with the rules that fired, says how it decides, or says how good it is, as this device measured it. Anything else, or a question missing a value its rules read, gets an honest “I can’t answer that” and what it would need. It never makes an answer up: the same question always gets the same answer, with a receipt.',
+  learn: 'Learn to ask: ten missions that teach asking a card that can tell you no, from asking about one case to turning its answer round with one value. Each is marked by the talker itself, by asking the card again the questions you asked it: nothing stored is trusted, and no model judges.',
   tournament: 'A tournament: your cards of one business in a bracket, seeded by their ratings, the best two apart until the final. Each match is decided by the first duel receipt between exactly those two cards that is not a draw; if their first three duels are all draws, the tie rule sends the higher seed through, so two evenly matched cards can never stall the bracket; a match with neither yet stays open. Duels of your own cards are practice, so the champion is a practice champion: a title, and nothing else.',
   campaign: 'The campaign: each business is a chapter — first the parts of it no card has cracked, nearest the bar first, then the business itself as a world boss. Chapters run with the least left to clear first; a chapter is cleared only when every boss in it has fallen, read from your strikes and party strikes, which anyone can re-run.',
   organ4: 'Organ 4 wrote its rules down and sealed them in git before it fused a single card, then measured them; each verdict here is read from its committed record. A prediction that failed stays on show.',
@@ -234,9 +238,9 @@ const whose = (v) => (v.owner === S.me.pub ? 'yours' : v.owner === S.maker.pub ?
 // ── screens ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 const ALIAS = { wallet: 'cards', own: 'mint', open: 'send', drop: 'proof', explorer: 'proof', 'send-s': 'send', 'base-s': 'base', 'estate-s': 'estate', 'evals-s': 'evals', 'boot-s': 'boot', 'first-s': 'first' };
 const CLASSIC = ['top', 'what', 'worth', 'words', 'start', 'how', 'blueprint', 'business', 'cost', 'paper', 'faq'];
-const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'kit', 'fusion', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
+const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'kit', 'fusion', 'talker', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
 const DOCK = ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof'];
-const TITLES = { first: 'Kardlings', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', kit: 'Kit', fusion: 'Fusion Lab', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer', about: 'About' };
+const TITLES = { first: 'Kardlings', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', kit: 'Kit', fusion: 'Fusion Lab', talker: 'Talker', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer', about: 'About' };
 
 function route() {
   const h = decodeURIComponent((location.hash || '').slice(1));
@@ -259,7 +263,7 @@ function go(screen, opts = {}) {
   render(screen);
 }
 function render(screen) {
-  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, fusion: renderFusion, arena: () => { renderArena(); renderTournament(); }, raids: () => { renderCampaign(); renderRaids(); renderWorld(); }, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
+  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, fusion: renderFusion, talker: renderTalker, arena: () => { renderArena(); renderTournament(); }, raids: () => { renderCampaign(); renderRaids(); renderWorld(); }, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
   renderTop(); renderRail();
 }
 
@@ -1135,6 +1139,68 @@ async function sideFromCode(v, kit) {
   return { ok: true, v, loadout: kit.loadout, nodes, tools, items: kit.items };
 }
 const domainsOf = (v) => v.genome.organs.map((o) => { const d = decodeSeed(o, { guard: false }); return d.ok ? d.seed.domain : ''; });
+// ── the talker (Phase 7): a card asked in plain words, answering only from its own rules (src/talker.mjs) ───────────
+const TK = { vocab: null, id: null, busy: false };
+/** what the talker answers with: the card's mind as this device grows it (the boot's own steps, kept per card), its
+ *  business's words, the columns the business holds, and the score measured here — or why there is none */
+async function talkerCtx(id) {
+  TK.vocab ||= await fetch('data/vocab.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const v = await verify(api.lifeOf(id)), set = v.ok ? api.setOf(v) : null, voc = TK.vocab && set ? vocabOf(TK.vocab, set) : null;
+  if (!v.ok) return { why: 'This card does not check: ' + v.why };
+  if (!voc) return { why: 'This card’s business has no words here yet: a card grown on your own table is asked through its own columns, in the Kit.' };
+  let grown = G.grown.get(id);
+  const g = await api.groundFor(v);
+  if (!grown) {
+    await api.select(id);
+    grown = await api.actGrow();
+    if (!grown || grown.gate == null) return { why: 'Its mind does not answer on these records: no department of it cleared its bar here.' };
+    G.grown.set(id, grown);
+  }
+  return { ctx: { mind: grown.mind, voc, features: g.ds.features, gate: grown.gate, rows: null } };
+}
+async function renderTalker() {
+  const mine = await myCards(null), pick = $('#g-tk-card');
+  fill(pick, mine.length ? mine.map((m) => el('option', { value: m.id }, m.f.title + ' #' + pad4(m.v.serial))) : el('option', { value: '' }, 'card me first'));
+  if (mine.some((m) => m.id === (TK.id || S.sel))) pick.value = TK.id || S.sel;
+  TK.id = pick.value || null;
+  const m = mine.find((x) => x.id === TK.id), face = $('#g-tk-face');
+  if (m) await show(face, $('#g-tk-ring'), api.lifeOf(m.id));
+  else { face.getContext('2d').clearRect(0, 0, face.width, face.height); $('#g-tk-ring').className = 'g-ring'; }
+  fill($('#g-tk-line'), m ? m.f.title + ' #' + pad4(m.v.serial) + ' · ' + m.f.department + ' · ' + m.f.rarity : 'Card me first: then you have a Kardling to ask.');
+  $('#g-tk-ask').disabled = !m || TK.busy;
+  if (!m) return fill($('#g-tk-asks'));
+  if (!G.grown.has(m.id)) fill($('#g-tk-asks'), el('small', { class: 'g-dim' }, 'Growing its mind here first, as Boot does…'));
+  const c = await talkerCtx(m.id);
+  if (TK.id !== m.id) return;   // another card was chosen while this one grew
+  renderLearn(c.ctx || null);
+  fill($('#g-tk-asks'), c.ctx ? asks(c.ctx).map((q) => el('button', { type: 'button', class: 'g-btn g-ask', onclick: () => { $('#g-tk-q').value = q; talkerAsk(); } }, q)) : el('small', { class: 'g-badt' }, c.why));
+}
+/** the ten missions, marked by asking this card again the questions it was asked (src/learn.mjs) */
+function renderLearn(ctx) {
+  const ms = mark(((G.st.talks || {})[TK.id]) || [], ctx), done = ms.filter((m) => m.passed).length;
+  setK('g-tk-learn-n', done + ' of ' + ms.length);
+  fill($('#g-tk-learn'), ms.map((m) => line((m.passed ? 'k' : '') + ' g-two', (m.passed ? '✓ ' : '') + m.title, el('small', {}, m.how))));
+}
+async function talkerAsk() {
+  const out = $('#g-tk-out'), q = $('#g-tk-q').value.trim();
+  if (TK.busy || !TK.id) return;
+  if (!q) return fill(out, el('p', { class: 'g-small g-dim' }, 'Type a question first, or press one of the questions above.'));
+  TK.busy = true; $('#g-tk-ask').disabled = true;
+  try {
+    fill(out, el('p', { class: 'g-small' }, 'Reading your question with its business’s own words…'));
+    const c = await talkerCtx(TK.id);
+    if (!c.ctx) { fill(out, el('p', { class: 'g-badt' }, c.why)); return; }
+    const r = reply(q, c.ctx), ok = r.verdict === 'VERIFIED';
+    // the question is kept with its card (the last MAX_TRIES), so the missions can ask it of the card again
+    G.st.talks = { ...(G.st.talks || {}), [TK.id]: [...((G.st.talks || {})[TK.id] || []), q].slice(-MAX_TRIES) }; saveState();
+    renderLearn(c.ctx);
+    fill(out, el('p', { class: 'g-row' }, el('span', { class: 'g-tag ' + (ok ? 'ok' : 'cy') }, ok ? 'answered from its rules' : 'it cannot answer that')), el('p', { class: 'g-tk-said' }, r.text));
+    $('#g-tk-rc-box').hidden = false;
+    fill($('#g-tk-rc'), JSON.stringify(r.receipt, null, 1));
+    bleep(ok ? 'kept' : 'abstain');
+  } finally { TK.busy = false; $('#g-tk-ask').disabled = false; }
+}
+
 async function myCards(set) {
   const out = [];
   for (const id of api.mine()) { const w = await verify(api.lifeOf(id)); if (w.ok && api.setOf(w) && (!set || api.setOf(w) === set)) out.push({ id, v: w, f: facts(w) }); }
@@ -1660,6 +1726,9 @@ function wire() {
   on('#g-ar-watch', 'click', arenaWatch);
   on('#g-box-close', 'click', () => { $('#g-box-frame').removeAttribute('src'); $('#g-box').hidden = true; });
   on('#g-tn-set', 'change', () => renderTournament());
+  on('#g-tk-card', 'change', () => { TK.id = $('#g-tk-card').value || null; fill($('#g-tk-out')); $('#g-tk-rc-box').hidden = true; renderTalker(); });
+  on('#g-tk-ask', 'click', () => talkerAsk());
+  on('#g-tk-q', 'keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); talkerAsk(); } });
   on('#g-kit-give', 'click', itemGive); on('#g-kit-take', 'click', itemTake);
   on('#g-rec-go', 'click', recordUpdate); on('#g-rec-replay', 'click', recordReplay); on('#g-rec-save', 'click', recordSave);
   on('#g-ar-copy', 'click', arenaCopy); on('#g-ar-paste', 'click', arenaPaste);
