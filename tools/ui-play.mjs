@@ -251,6 +251,24 @@ try {
       (await until(`location.hash === '#fusion'`, 5000, 'the FUSION door')) ? seen.push('the estate’s eight doors, and a tap on FUSION opens the Fusion Lab') : problems.push('a tap on the FUSION landmark did not open the Fusion Lab');
       await js(`location.hash = '#estate'`); await sleep(600);
     }
+    // the guild: join with this estate, add a friend's join (a key made and signed in the page), refuse a forged copy of
+    // it, then leave — each step by signature alone
+    await js(`(() => { document.querySelector('#g-gd-name').value = 'night-owls'; document.querySelector('#g-gd-join').click(); })()`);
+    if (await until(`/night-owls · 1 member/.test(document.querySelector('[data-k="g-gd-n"]').textContent)`, 20000, 'the guild joined')) {
+      const friend = await js(`(async () => {
+        const G = await import('./src/guild.mjs'), K = await import('./vendor/dex-frontier/vendor/living-seed/vendor/keys/keys.mjs'), k = await K.generate();
+        const c = { id: '00000000000000aa', dataset: 'telco', department: 'customer', stage: 1, rarity: 'common', generation: 0 };
+        const s = (await G.join(k, 'night-owls', { cards: [c], levels: 0, items: [], swarms: [], districts: ['scorer', 'tools', 'swarm'], names: { swarm: 'KITTED' } }, 1)).statement;
+        return { good: btoa(JSON.stringify(s)), forged: btoa(JSON.stringify({ ...s, holdings: { ...s.holdings, levels: 9 } })) };
+      })()`);
+      const add = async (code) => { await js(`(() => { document.querySelector('#g-gd-paste').value = ${JSON.stringify(code)}; document.querySelector('#g-gd-add').click(); })()`); await sleep(1200); return js(`({ n: document.querySelector('[data-k="g-gd-n"]').textContent, out: document.querySelector('#g-gd-out').textContent, tiles: document.querySelectorAll('#g-gd-map canvas').length })`); };
+      const two = await add(friend.good), forged = await add(friend.forged);
+      (/· 2 members$/.test(two.n) && two.tiles === 2) ? seen.push('a guild of two, both estates drawn') : problems.push('the guild with a friend: ' + JSON.stringify(two));
+      (/· 2 members$/.test(forged.n) && /refused: the statement’s signature does not check/.test(forged.out)) ? seen.push('a forged join refused by its signature') : problems.push('the forged join: ' + JSON.stringify(forged));
+      await js(`document.querySelector('#g-gd-leave').click()`);
+      (await until(`/· 1 member$/.test(document.querySelector('[data-k="g-gd-n"]').textContent)`, 20000, 'the guild left')) ? seen.push('a signed leave took this key out') : problems.push('the leave did not take this key out');
+      await scan('the guild');
+    }
     (await js(`(() => { const n = document.querySelector('#g-estate-next'); return !!n && n.getAttribute('href') === '#mint' && n.offsetParent !== null; })()`)) ? seen.push('ESTATE → NEXT · grow your own') : problems.push('the estate shows no NEXT to grow your own');
   }
   // the fusion lab: the DIGI and its minted node, two cards of one business, fused — kept only if the fused card beats
@@ -382,7 +400,7 @@ try {
     await js(`location.hash = '#${s}'`); await sleep(500);
     const w = await js(`document.documentElement.scrollWidth`);
     // a screen too wide names what pushes it: the widest-reaching element, so the next fix starts from the culprit
-    if (w > 392) wide.push(s + ' ' + w + 'px (' + (await js(`(() => { const W = document.documentElement.clientWidth; let best = null, r = 0; for (const n of document.querySelectorAll('section[data-screen].on *')) { const b = n.getBoundingClientRect(); if (b.width && b.right > r && b.right > W) { r = b.right; best = n; } } return best ? best.tagName.toLowerCase() + (best.id ? '#' + best.id : '') + (typeof best.className === 'string' && best.className ? '.' + best.className.trim().split(' ').filter(Boolean).join('.') : '') + ' → ' + Math.round(r) + 'px' : 'none in the screen'; })()`)) + ')');
+    if (w > 392) wide.push(s + ' ' + w + 'px (' + (await js(`(() => { const W = document.documentElement.clientWidth; let best = null, r = 0; for (const n of document.querySelectorAll('section[data-screen].on *')) { const b = n.getBoundingClientRect(); if (b.width && b.right > r && b.right > W) { r = b.right; best = n; } } return best ? best.tagName.toLowerCase() + (best.id ? '#' + best.id : '') + (typeof best.className === 'string' && best.className ? '.' + best.className.trim().split(' ').filter(Boolean).join('.') : '') + ' “' + (best.textContent || '').trim().slice(0, 48) + '” → ' + Math.round(r) + 'px' : 'none in the screen'; })()`)) + ')');
     // every screen names itself in the tab (the Fusion Lab and About read "undefined" until 2026-10-22)
     if (await js(`/^undefined|^ ·|^·/.test(document.title)`)) untitled.push(s);
   }

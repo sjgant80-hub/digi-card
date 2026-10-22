@@ -152,7 +152,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere.</p>
       <div class="pills">
         <span class="pill hot"><span data-k="drop-total">…</span> genesis cards · decoder #0001</span>
-        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">14 organs, sealed before measured</a></span>
+        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">15 organs, sealed before measured</a></span>
         <span class="pill ok">records never leave your device</span>
         <span class="pill">MIT — no licence fee</span>
       </div>
@@ -274,6 +274,18 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <div class="g-panel"><h3 data-info="legend">Legend</h3><ul class="g-legend"><li><span class="g-sw wire"></span>Mesh wire · a consented link</li><li><span class="g-sw fresh"></span>New since your last visit</li><li><span class="g-sw lock"></span>Fenced tile · opens as you hold more cards</li></ul></div>
       <p class="g-badt g-small">No land sale · never ranked by value</p>
     </div>
+  </div>
+  <div class="g-panel g-guild" id="g-guild"><h3 data-info="guild">Guild <small data-k="g-gd-n"></small></h3>
+    <p class="g-small g-dim">Stand with friends: each of you signs a join with your own key, and the guild draws your estates together. Nobody can join anybody else, a later leave takes you out, and a guild moves no card, no rating and no credit: it is a picture of who stands together. Each estate is drawn as its member signed it — a signature proves who said it, not that it is so — and cards of the drop are checked against the drop.</p>
+    <div class="g-row"><label class="g-small" for="g-gd-name">Guild name</label><input id="g-gd-name" type="text" maxlength="32" placeholder="night-owls" autocomplete="off" spellcheck="false"><button class="g-btn hot" id="g-gd-join" type="button">Join with my estate</button><button class="g-btn" id="g-gd-leave" type="button">Leave</button></div>
+    <div id="g-gd-mine" aria-live="polite"></div>
+    <label class="g-small" for="g-gd-paste">A member’s code, or the whole guild’s</label>
+    <div class="g-row"><textarea id="g-gd-paste" rows="2" spellcheck="false"></textarea><button class="g-btn" id="g-gd-add" type="button">Add to the guild</button></div>
+    <div id="g-gd-out" aria-live="polite"></div>
+    <ul class="g-lines" id="g-gd-members"></ul>
+    <div class="g-gd-grid" id="g-gd-map"></div>
+    <div class="g-row"><button class="g-btn" id="g-gd-all" type="button">Copy the whole guild’s codes</button></div>
+    <p class="g-teach">The guild: identity and consent by signature, each member’s own key, never a password or a server.</p>
   </div>
 </section>
 
@@ -467,6 +479,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div><dt>Registry</dt> <dd>— the ordered record of cards’ lives that settles a double sale: the first recorded give wins.</dd></div>
     <div><dt>Mesh</dt> <dd>— owned cards of one business answering as one; each card’s share of the credit is measured.</dd></div>
     <div><dt>Watch it back · read-back</dt> <dd>— a duel replayed from its own receipt, case by case, and one case opened to show the very rules of each mind that fired on it: how a head-to-head eval was won, not just that it was.</dd></div>
+    <div><dt>Guild</dt> <dd>— friends standing together: each signs a join with their own key, carrying their estate, and the guild draws every estate side by side. Nobody joins anybody else; reputation only.</dd></div>
     <div><dt>Talker</dt> <dd>— a card asked in plain words: it answers yes or no from the rules that fired, says how it decides and how good it is, and otherwise says it cannot answer and what it would need. It never makes an answer up.</dd></div>
     <div><dt>Learn to ask</dt> <dd>— ten missions in asking a card that can tell you no, each marked by asking the card again the questions you asked it.</dd></div>
     <div><dt>Tournament</dt> <dd>— an evaluation league: your cards in a bracket, each match a duel that re-runs. A title for the champion, and nothing else.</dd></div>
@@ -726,6 +739,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <tr><td class="num">src/mesh.mjs</td><td>The mesh: owner consent for this life, the join rule, merit fielding, non-negative coupling, measured shares, a replayable ledger of credits.</td></tr>
       <tr><td class="num">src/arena.mjs</td><td>Duels: both owners sign for their cards as they stand; the batch is drawn from both signatures; the better ranking wins; whole-number ratings from a published table; self-play never rated; nothing staked.</td></tr>
       <tr><td class="num">src/replay.mjs</td><td>The replay: a duel fought again to its very same receipt, then laid out case by case (each side calls yes for as many top cases as the batch holds real yeses, ties to the earlier case); read-back opens one case — every fielded mind’s rules that fired on it, and its score. Organ 12 measured it.</td></tr>
+      <tr><td class="num">src/guild.mjs</td><td>The guild: a key joins only by signing a statement naming the guild and carrying its estate as the painter draws it, and leaves by signing a leave; each member’s highest clean-numbered statement stands, and two different statements under one number are neither; forged, borrowed, foreign and malformed statements are refused with their reasons, and a guild past twelve is refused. It moves no card, no rating and no credit. Organ 15 measured it.</td></tr>
       <tr><td class="num">src/talker.mjs</td><td>The talker: a question read with its business’s own words (data/vocab.json, every phrase already in the words a question is read in), answered only from the mind’s rules — yes or no with the rules that fired, how it decides, how good it is — or an abstention saying what it would need; a vocabulary or a mind it cannot read is none, and a question past 1,000 characters is refused out loud. Organ 14 measured it.</td></tr>
       <tr><td class="num">src/learn.mjs</td><td>Learn to ask: ten missions, each a fixed rubric over what the talker answers when the card is asked again the questions it was asked; nothing stored is trusted and no model judges.</td></tr>
       <tr><td class="num">src/tournament.mjs</td><td>The tournament: a bracket seeded by ratings, padded with byes, each match decided by the first duel receipt between exactly its two cards that is not a draw, or, when their first three are all draws, by the tie rule (the higher seed goes through: organ 12 found two evenly matched cards could stall a bracket for ever); an open match holds everything after it; the champion takes a title — practice when any deciding duel was one owner against itself — and a bracket moves no rating, no card and no credit. Organ 12 measured it, and organ 13 the tie rule.</td></tr>

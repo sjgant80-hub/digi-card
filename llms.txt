@@ -42,3 +42,7 @@ Powered by the Konomi architecture, created by Thomas Frumkin. Supplier: AI Nati
 ## The talker
 
 Any Kardling card can be asked in plain words on its Talker screen. It answers yes or no about one case only from the rules that fired, says how it decides and how good it is, and otherwise abstains and says what it would need: it never makes an answer up, and the same question always gets the same answer with a receipt. Organ 14 measured it on 1,500 GATE rows said in words.
+
+## The guild
+
+Friends can stand together in a guild on the estate screen: each signs a join with their own key, carrying their estate, and the guild draws every member's estate side by side. Nobody can join anybody else, a later leave takes a member out, and a guild moves no card, no rating and no credit. A signature proves who said it, not that it is so, so cards of the drop are checked against the drop. Organ 15 measured it on 400 seeded guilds.

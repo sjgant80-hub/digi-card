@@ -26,7 +26,7 @@ jobs:
       - name: every organ sealed before measured, judged by its sealed rules
         run: |
           fail=0
-          for k in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+          for k in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
             if [ -f data/organ-$k/verdict.json ]; then
               node tools/order.mjs --organ $k || fail=1
               node tools/judge-$k.mjs --check || node tools/superseded.mjs --organ $k || fail=1

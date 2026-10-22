@@ -37,6 +37,7 @@ import { SANDBOX, askedFor, boxable } from '../src/sandbox.mjs';
 import { bracketOf, playOut, DRAWS_TO_TIE } from '../src/tournament.mjs';
 import { reply, asks, vocabOf } from '../src/talker.mjs';
 import { mark, MAX_TRIES } from '../src/learn.mjs';
+import { join, leave, guildOf, MAX_STATEMENTS } from '../src/guild.mjs';
 import { offered, shownDesc, sayOutcome, SHOWN_AS, ORGANS } from '../src/copy.mjs';
 import { paintRaid } from '../vendor/pixelwhisperer/kards/raid.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
@@ -76,6 +77,7 @@ const INFO = {
   replay: 'Watched back: the duel fought again from its own receipt (it must give the very same numbers), then laid out case by case — each side’s call, and whether the case really was a yes. Tap a case to read it back: the very rules of each mind that fired on it.',
   talker: 'The talker: ask your Kardling in plain words. It reads the values your question gives with its business’s own words, then answers yes or no with the rules that fired, says how it decides, or says how good it is, as this device measured it. Anything else, or a question missing a value its rules read, gets an honest “I can’t answer that” and what it would need. It never makes an answer up: the same question always gets the same answer, with a receipt.',
   learn: 'Learn to ask: ten missions that teach asking a card that can tell you no, from asking about one case to turning its answer round with one value. Each is marked by the talker itself, by asking the card again the questions you asked it: nothing stored is trusted, and no model judges.',
+  guild: 'A guild: friends standing together. Each of you signs a join with your own key, carrying your estate as you hold it, and the guild draws every member’s estate side by side. Nobody can join anybody else; your later leave takes you out and a later join brings you back. A signature proves who said it, not that it is so, so cards of the drop are checked against the drop. A guild moves no card, no rating and no credit.',
   tournament: 'A tournament: your cards of one business in a bracket, seeded by their ratings, the best two apart until the final. Each match is decided by the first duel receipt between exactly those two cards that is not a draw; if their first three duels are all draws, the tie rule sends the higher seed through, so two evenly matched cards can never stall the bracket; a match with neither yet stays open. Duels of your own cards are practice, so the champion is a practice champion: a title, and nothing else.',
   campaign: 'The campaign: each business is a chapter — first the parts of it no card has cracked, nearest the bar first, then the business itself as a world boss. Chapters run with the least left to clear first; a chapter is cleared only when every boss in it has fallen, read from your strikes and party strikes, which anyone can re-run.',
   organ4: 'Organ 4 wrote its rules down and sealed them in git before it fused a single card, then measured them; each verdict here is read from its committed record. A prediction that failed stays on show.',
@@ -484,6 +486,7 @@ async function renderEstate() {
   const bred = away.filter((x) => x.type === 'birth'), kept = bred.filter((x) => x.kept).length;
   fill($('#g-overnight'), line('', away.filter((x) => x.type === 'search').length + ' searches ran'), line('k', away.filter((x) => x.type === 'level').length + ' levels kept · re-run'), line('', bred.length + ' fused · ' + kept + ' kept'), line('r', away.filter((x) => x.type === 'search' && !x.kept).length + ' searches refused'));
   await drawPlot(held);
+  await renderGuild();
 }
 /** what the painter is handed: the verified holdings, the consented wires between them, the levels — nothing else */
 /** what the estate holds besides cards: the app tools this key holds, and each Kardling kitted with nodes as a swarm of its cards */
@@ -518,6 +521,64 @@ function plotTap(e) {
   const x = Math.min(w - 1, Math.max(0, Math.floor(((e.clientX - r.left) * w) / r.width))), y = Math.min(h - 1, Math.max(0, Math.floor(((e.clientY - r.top) * h) / r.height)));
   const at = estateDoorAt(H, w, h, x, y);
   if (at.ok && at.door && DOOR[at.door]) location.hash = '#' + DOOR[at.door];
+}
+// ── the guild (Phase 8): the estates of keys that each consented, drawn together (src/guild.mjs). Reputation only ──────
+const guildState = () => (G.st.guild ||= { name: '', statements: [], n: 0 });
+const codeOf = (x) => btoa(unescape(encodeURIComponent(JSON.stringify(x))));
+const fromCode = (c) => { try { return JSON.parse(decodeURIComponent(escape(atob(String(c).replace(/\s+/g, ''))))); } catch { return null; } };
+/** my estate as a guild takes it: my plot exactly as the painter draws it here, without the doors of my own game */
+async function myEstate() {
+  const held = await holdings(), h = holdingsOf(held, false, await worldOf(held));
+  delete h.landmarks;
+  return h;
+}
+function guildCode(say, s) {
+  const box = el('textarea', { class: 'g-code', rows: '3', readonly: '', 'aria-label': say }, codeOf(s));
+  fill($('#g-gd-mine'), el('p', { class: 'g-small' }, say), box, el('div', { class: 'g-row' }, el('button', { type: 'button', class: 'g-btn', onclick: async () => { try { await navigator.clipboard.writeText(box.value); bleep('kept'); } catch { box.select(); } } }, 'Copy')));
+}
+async function renderGuild() {
+  const st = guildState(), name = $('#g-gd-name');
+  if (st.name && !name.value) name.value = st.name;
+  if (!st.name) { setK('g-gd-n', ''); fill($('#g-gd-members'), line('', 'No guild yet', el('small', {}, 'name one and join with your estate, then send your code to each friend'))); return fill($('#g-gd-map')); }
+  const g = await guildOf(st.statements, st.name);
+  if (!g.ok) { fill($('#g-gd-out'), el('p', { class: 'g-badt' }, g.why)); return; }
+  setK('g-gd-n', st.name + ' · ' + g.members.length + ' member' + (g.members.length === 1 ? '' : 's'));
+  // a drop card is checked against the drop: its business and department as the drop recorded them
+  const drop = new Map((S.manifest ? S.manifest.cards : []).map((c) => [c.card, c.domain]));
+  fill($('#g-gd-members'), g.members.length ? g.members.map((m) => {
+    const fromDrop = m.holdings.cards.filter((c) => drop.has(c.id)), match = fromDrop.filter((c) => drop.get(c.id) === c.dataset + '-' + c.department).length;
+    return line((m.by === S.me.pub ? 'k ' : '') + 'g-two', (m.by === S.me.pub ? 'You · ' : '') + 'key ' + m.by.slice(0, 8) + '…', el('small', {}, m.cards + ' card' + (m.cards === 1 ? '' : 's') + ' and ' + m.levels + ' level' + (m.levels === 1 ? '' : 's') + ', as signed' + (fromDrop.length ? ' · ' + match + ' of ' + fromDrop.length + ' drop cards match the drop' : '')));
+  }) : line('', 'Nobody stands in ' + st.name + ' yet', el('small', {}, 'join with your estate, or add a member’s code')));
+  fill($('#g-gd-out'), g.refused.length ? el('p', { class: 'g-small g-dim' }, g.refused.length + ' statement' + (g.refused.length === 1 ? '' : 's') + ' refused: ' + [...new Set(g.refused.map((r) => r.why))].join('; ')) : null);
+  fill($('#g-gd-map'), g.members.map((m) => {
+    const cv = el('canvas', { width: '360', height: '240', role: 'img', 'aria-label': 'The estate of key ' + m.by.slice(0, 8) + ', as it signed it' }), art = paintEstate(m.holdings, plotTheme(), 360, 240);
+    if (art.ok) putRGB(cv, art.px, 360, 240);
+    return el('figure', { class: 'g-gd-tile' }, cv, el('figcaption', { class: 'g-small' }, (m.by === S.me.pub ? 'You' : 'key ' + m.by.slice(0, 8) + '…') + ' · ' + m.cards + ' card' + (m.cards === 1 ? '' : 's')));
+  }));
+}
+async function guildSign(act) {
+  const st = guildState(), name = $('#g-gd-name').value.trim().toLowerCase();
+  if (act === 'join' && name !== st.name) { st.name = name; st.statements = []; }   // a new guild starts its own list
+  if (!st.name) return fill($('#g-gd-out'), el('p', { class: 'g-badt' }, 'Name the guild first.'));
+  const n = (st.n || 0) + 1, r = act === 'join' ? await join(S.me, st.name, await myEstate(), n) : await leave(S.me, st.name, n);
+  if (!r.ok) return fill($('#g-gd-out'), el('p', { class: 'g-badt' }, r.why));
+  st.n = n; st.statements = [...st.statements, r.statement].slice(-MAX_STATEMENTS); saveState();
+  guildCode(act === 'join' ? 'Your join, signed with your key. Send this code to each member, and add theirs below:' : 'Your leave, signed. Send it to the members so their guild drops you too:', r.statement);
+  await renderGuild();
+}
+async function guildAdd() {
+  const st = guildState(), got = fromCode($('#g-gd-paste').value), list = Array.isArray(got) ? got : got ? [got] : [];
+  if (!list.length) return fill($('#g-gd-out'), el('p', { class: 'g-badt' }, 'That is not a guild code.'));
+  if (!st.name && list[0] && typeof list[0].guild === 'string') { st.name = list[0].guild; $('#g-gd-name').value = st.name; }
+  const known = new Set(st.statements.map((s) => JSON.stringify(s))), fresh = list.filter((s) => !known.has(JSON.stringify(s)));
+  st.statements = [...st.statements, ...fresh].slice(-MAX_STATEMENTS); saveState();
+  $('#g-gd-paste').value = '';
+  await renderGuild();
+}
+async function guildAll() {
+  const st = guildState();
+  if (!st.statements.length) return fill($('#g-gd-out'), el('p', { class: 'g-badt' }, 'There is nothing in this guild to copy yet.'));
+  guildCode('Every statement this guild holds, signed by each member: give it to a new member so they see the whole guild.', st.statements);
 }
 const plotTheme = () => (document.documentElement.dataset.ui === 'blockcraft' ? 'blockcraft-v1' : 'synthwave-v1');
 async function drawPlot(held) {
@@ -912,7 +973,7 @@ async function renderTournament() {
   const said = (m) => (m.by === 'bye' ? name(m.winner) + ' advances'
     : m.tie ? name(m.winner) + ' went through on the tie rule: ' + DRAWS_TO_TIE + ' draws, so the higher seed'
       : name(m.winner) + ' won · duel ' + (m.by + 1));
-  fill($('#g-tn-rounds'), p.rounds.flatMap((round, n) => round.map((m) => line(m.open ? 'x' : 'k', label(n, p.rounds.length) + ' · ' + (m.a ? name(m.a) : 'to be decided') + ' v ' + (m.b ? name(m.b) : m.by === 'bye' ? 'a bye' : 'to be decided'),
+  fill($('#g-tn-rounds'), p.rounds.flatMap((round, n) => round.map((m) => line((m.open ? 'x' : 'k') + ' g-two', label(n, p.rounds.length) + ' · ' + (m.a ? name(m.a) : 'to be decided') + ' v ' + (m.b ? name(m.b) : m.by === 'bye' ? 'a bye' : 'to be decided'),
     m.open && m.a && m.b ? el('span', { class: 'g-row' }, el('button', { type: 'button', class: 'g-btn', onclick: () => tournamentFight(m.a, m.b) }, 'Fight this match'),
       drawsOf(m.a, m.b) ? el('small', {}, drawsOf(m.a, m.b) + ' of ' + DRAWS_TO_TIE + ' draws before the tie rule') : null)
       : el('small', {}, m.open ? 'open' : said(m))))));
@@ -1728,6 +1789,7 @@ function wire() {
   on('#g-tn-set', 'change', () => renderTournament());
   on('#g-tk-card', 'change', () => { TK.id = $('#g-tk-card').value || null; fill($('#g-tk-out')); $('#g-tk-rc-box').hidden = true; renderTalker(); });
   on('#g-tk-ask', 'click', () => talkerAsk());
+  on('#g-gd-join', 'click', () => guildSign('join')); on('#g-gd-leave', 'click', () => guildSign('leave')); on('#g-gd-add', 'click', guildAdd); on('#g-gd-all', 'click', guildAll);
   on('#g-tk-q', 'keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); talkerAsk(); } });
   on('#g-kit-give', 'click', itemGive); on('#g-kit-take', 'click', itemTake);
   on('#g-rec-go', 'click', recordUpdate); on('#g-rec-replay', 'click', recordReplay); on('#g-rec-save', 'click', recordSave);

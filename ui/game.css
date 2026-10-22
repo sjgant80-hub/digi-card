@@ -351,3 +351,9 @@ html.game .g-door:hover, html.game .g-door:focus-visible { border-color: #ffd23c
 /* the talker: its suggested questions wrap as whole buttons, its receipt wraps inside the panel on a phone */
 .g-asks { flex-wrap: wrap; gap: 6px; } html.game .g-ask { font-size: 14px; min-height: 36px; padding: 6px 10px; text-align: left; white-space: normal; height: auto; }
 #g-tk-q { flex: 1 1 200px; min-width: 0; } .g-tk-said { font-size: 17px; line-height: 1.45; } .g-rc { white-space: pre-wrap; word-break: break-word; max-height: 320px; overflow: auto; font-size: 12px; }
+
+/* the guild: members's estates side by side, as many to a row as fit; codes wrap inside the panel */
+.g-guild { margin-top: 12px; } .g-gd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin: 10px 0; }
+.g-gd-tile { margin: 0; } .g-gd-tile canvas { width: 100%; height: auto; image-rendering: pixelated; display: block; border: 2px solid var(--g-rule); }
+.g-code, #g-gd-paste { width: 100%; min-width: 0; flex: 1 1 220px; font-family: monospace; font-size: 12px; word-break: break-all; }
+#g-gd-name { flex: 1 1 160px; min-width: 0; }
