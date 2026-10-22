@@ -29,7 +29,7 @@ Source: https://github.com/sjgant80-hub/kardlings (MIT — no licence fee)
   money; the switch off).
 
 ## Sections of the page
-- Game screens: Estate · Base · Cards and Kit · Play (Arena, Raids and world bosses, Evals) · Mint · Mesh · Send · Proof and your record
+- Game screens: Estate · Base · Cards and Kit · Play (Arena, Raids and world bosses, Builds, Evals) · Mint · Mesh · Send · Proof and your record
 - What it is · Start here · Wallet · Open a card · The mesh · Your data · The drop · How it works · Blueprint · Proof ·
   For business (cost case computed from sourced prices) · White paper · Questions
 
@@ -42,6 +42,10 @@ Powered by the Konomi architecture, created by Thomas Frumkin. Supplier: AI Nati
 ## The talker
 
 Any Kardling card can be asked in plain words on its Talker screen. It answers yes or no about one case only from the rules that fired, says how it decides and how good it is, and otherwise abstains and says what it would need: it never makes an answer up, and the same question always gets the same answer with a receipt. Organ 14 measured it on 1,500 GATE rows said in words.
+
+## Builds and combos
+
+A build is a few Kardlings put to one job together: one card per department of a business, the player's own or the drop's. The device measures it on GATE cases none of them grew on: a build that beats its best card by 0.005 or more is a combo, one that does worse by as much an anti-combo, and each card shows what it adds or why it sits on the bench. Two different keys measuring it again to the very same numbers prove it; the first found it. A build can be shrunk into one small card, kept only if it beats every card it came from by 0.002. Nothing is staked.
 
 ## The guild
 

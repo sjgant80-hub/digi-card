@@ -360,3 +360,10 @@ html.game .g-door:hover, html.game .g-door:focus-visible { border-color: #ffd23c
 
 /* the campaign chapter, drawn by PixelWhisperer's paintChapter: full width of its panel, pixels kept square */
 .g-chapterart { width: 100%; height: auto; image-rendering: pixelated; display: block; margin: 8px 0; border: 2px solid var(--g-rule); }
+
+/* builds: one picker per department, the verdict said large, the book by job */
+.g-picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 8px 0; }
+.g-pick { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.g-pick select { width: 100%; min-width: 0; }
+.g-verdict { font-size: 1.25rem; letter-spacing: .08em; margin: 8px 0 4px; }
+.g-bookjob h4 { margin: 10px 0 4px; }

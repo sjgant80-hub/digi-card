@@ -40,6 +40,8 @@ import { mark, MAX_TRIES } from '../src/learn.mjs';
 import { join, leave, guildOf, MAX_STATEMENTS } from '../src/guild.mjs';
 import { offered, shownDesc, sayOutcome, SHOWN_AS, ORGANS } from '../src/copy.mjs';
 import { paintRaid, paintChapter } from '../vendor/pixelwhisperer/kards/raid.mjs';
+import { jobsOf, recipeOf, buildId, bookOf, doesJob, ZERO as BUILD_ZERO } from '../src/build.mjs';
+import { studentOf } from '../src/shrink.mjs';
 import { utf8 } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 import { crc32, cat, zlibStored } from '../vendor/dex-frontier/vendor/living-seed/src/card.mjs';
 
@@ -118,6 +120,11 @@ const INFO = {
   mintnode: 'Minting a node is one search on a department, from a seed your key fixes, like a raid strike. Only a mind that clears 0.6 on GATE is sealed, with you as its maker.',
   mintapp: 'Minting an app tool signs an item naming that app, its commit and the run that proved it. It is free, and it checks only while the estate’s records list the app exactly so.',
   record: 'Your record in the credits ledger: the release of every card and app tool you made, and the measured share of every card in every party you struck — each recorded only once its proof re-runs here, nothing counted twice. Credits are accounting, not money; the switch that would make any allocation live is off.',
+  builds: 'A build is a few Kardlings put to one job together. Measured on cases none of them grew on, it either beats its best card — a combo — does worse than it — an anti-combo — or neither. It is a recipe: anyone holding the cards measures it again to the same numbers.',
+  jobs: 'Each business is a job, at the bar its world boss sets: the best any lone search on it reached, plus 0.010. A proven build that reaches the bar does the job.',
+  buildsheet: 'Pick one card for each department, or none: yours, or one of the drop’s. A card that adds nothing measurable sits on the bench, named, with its reason; the rest are coupled into one answer and judged out of fold on GATE.',
+  shrink: 'Training: the build teaches one small card. It answers its own FIT cases yes or no; a search on one department learns those answers; the student, judged against what really happened, is kept only if it beats every card it came from by 0.002.',
+  buildbook: 'What this device has seen proven: each build measured again to the very same numbers by two different keys. The biggest lift first; the first key to prove it found it.',
   ladder: 'Ratings from the duels this device has seen, in order, from a published table — the same on every device. Self-play is never rated.',
 };
 /** an "i" button and the sentence it opens, beside the term it explains */
@@ -240,9 +247,9 @@ const whose = (v) => (v.owner === S.me.pub ? 'yours' : v.owner === S.maker.pub ?
 // ── screens ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 const ALIAS = { wallet: 'cards', own: 'mint', open: 'send', drop: 'proof', explorer: 'proof', 'send-s': 'send', 'base-s': 'base', 'estate-s': 'estate', 'evals-s': 'evals', 'boot-s': 'boot', 'first-s': 'first' };
 const CLASSIC = ['top', 'what', 'worth', 'words', 'start', 'how', 'blueprint', 'business', 'cost', 'paper', 'faq'];
-const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'kit', 'fusion', 'talker', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof'];
+const SCREENS = ['first', 'boot', 'estate', 'base', 'cards', 'kit', 'fusion', 'talker', 'arena', 'raids', 'builds', 'evals', 'mint', 'mesh', 'send', 'proof'];
 const DOCK = ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof'];
-const TITLES = { first: 'Kardlings', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', kit: 'Kit', fusion: 'Fusion Lab', talker: 'Talker', arena: 'Arena', raids: 'Raids', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer', about: 'About' };
+const TITLES = { first: 'Kardlings', boot: 'Boot', estate: 'My estate', base: 'Base', cards: 'Cards', kit: 'Kit', fusion: 'Fusion Lab', talker: 'Talker', arena: 'Arena', raids: 'Raids', builds: 'Builds', evals: 'Eval runs', mint: 'Mint station', mesh: 'Mesh', send: 'Send', proof: 'Proof explorer', about: 'About' };
 
 function route() {
   const h = decodeURIComponent((location.hash || '').slice(1));
@@ -265,7 +272,7 @@ function go(screen, opts = {}) {
   render(screen);
 }
 function render(screen) {
-  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, fusion: renderFusion, talker: renderTalker, arena: () => { renderArena(); renderTournament(); }, raids: () => { renderCampaign(); renderRaids(); renderWorld(); }, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
+  ({ first: renderFirst, estate: renderEstate, base: renderBase, cards: renderCards, kit: renderKit, fusion: renderFusion, talker: renderTalker, arena: () => { renderArena(); renderTournament(); }, raids: () => { renderCampaign(); renderRaids(); renderWorld(); }, builds: renderBuilds, evals: renderEvals, mint: () => {}, mesh: renderMesh, send: renderSend, proof: renderProof }[screen] || (() => {}))();
   renderTop(); renderRail();
 }
 
@@ -1587,6 +1594,240 @@ async function partyAgain(b) {
 }
 
 
+// ── builds and combos (src/build.mjs, src/shrink.mjs; organ 16): Kardlings put to one job together, measured here ────────
+// A build is a recipe of cards for one business: yours, the drop's, and those a friend's build code carried. The worker
+// measures it with the kernel (each card must answer and beat a coin on GATE, one per set of departments, coupled and
+// judged out of fold), signs your re-run of it and proves it (two distinct keys), shrinks it into one small card, and
+// checks a shrink deeply — so the page never freezes on the bigger businesses. Your key goes to the worker for a job that
+// signs, as the page holds it, and is not kept there. Receipts, re-runs and shrinks are kept on this device.
+const BD = { set: null, picks: {}, also: '', from: null, cur: null, busy: false, shrunk: null };
+const bdOut = () => $('#g-bd-out');
+const deptsOf = (set) => [...new Set((S.manifest ? S.manifest.cards : []).map((c) => c.domain).filter((d) => d.startsWith(set + '-')))].sort();
+const bdKeys = () => ({ pub: S.me.pub, priv: S.me.priv });
+/** the build work, in the worker: the cards sent as their lives, checked there */
+const bdWork = (msg, ids) => api.work({ op: 'build', set: BD.set, own: null, dossiers: ids.map((id) => api.lifeOf(id)), ...msg });
+const bdEntries = () => (G.st.builds ||= []);
+const bdEntry = (id) => bdEntries().find((e) => e.id === id) || null;
+const whoseCard = (v) => (v.owner === S.me.pub ? 'yours' : v.owner === S.maker.pub ? 'the drop' : 'key ' + api.short(v.owner));
+const VERDICT = { combo: '★ COMBO FOUND', anti: '✗ ANTI-COMBO', plain: 'PLAIN' };
+const signed = (x) => (x > 0 ? '+' : '') + six(x);
+
+async function renderBuilds() {
+  admission ||= await fetch('drop/admission.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const jobs = jobsOf(admission), book = bookOf(bdEntries().filter((e) => e.proof).map((e) => ({ receipt: e.receipt, proof: e.proof }))), setOf = (data) => data.split(':')[0];
+  const bestOf = (set) => Object.entries(book.ok ? book.jobs : {}).filter(([data]) => setOf(data) === set).map(([, j]) => j).reduce((b, j) => (j.best !== null && (b === null || j.best > b) ? j.best : b), null);
+  fill($('#g-bd-jobs'), jobs.length ? jobs.map((j) => {
+    const best = bestOf(j.set), done = bdEntries().find((e) => e.proof && e.proof.proven && doesJob(e.receipt, j));
+    return line((done ? 'k ' : '') + 'g-two', (SETS[j.set] ? SETS[j.set].title : j.set) + ' · the bar ' + six(j.bar), el('small', {}, done ? '★ done by ' + done.receipt.name + ' at ' + six(done.receipt.gate) : best === null ? 'no proven build here yet · the best lone search reached ' + six(j.best) : 'best proven build ' + six(best) + ' · ' + six(j.bar - best) + ' to go'));
+  }) : line('x', 'The admission record did not load.'));
+  const pick = $('#g-bd-set');
+  if (!pick.options.length) fill(pick, jobs.map((j) => el('option', { value: j.set }, SETS[j.set] ? SETS[j.set].title : j.set)));
+  BD.set ||= (S.sel && api.lifeOf(S.sel) ? api.setOf(await verify(api.lifeOf(S.sel))) : null) || (jobs[0] && jobs[0].set);
+  if (BD.set) pick.value = BD.set;
+  await renderBuildPicks();
+  renderBuildBook(book);
+  renderBuildButtons();
+}
+
+/** a select per department: none, your cards of it, then the drop's best and a few more of it; and one for anything else */
+async function renderBuildPicks() {
+  const set = BD.set, box = $('#g-bd-picks');
+  if (!set) return fill(box, el('p', { class: 'g-dim g-small' }, 'Pick a job.'));
+  const mine = await myCards(set), drop = S.manifest.cards.filter((c) => S.reg.cards[c.card] && S.reg.cards[c.card].owner === S.maker.pub);
+  const single = (m) => { const d = domainsOf(m.v); return d.length === 1 ? d[0] : null; };
+  const rows = deptsOf(set).map((dom) => {
+    const own = mine.filter((m) => single(m) === dom), pool = drop.filter((c) => c.domain === dom).sort((a, b) => b.gate - a.gate || a.serial - b.serial);
+    const options = [el('option', { value: '' }, '— none —'), ...own.map((m) => el('option', { value: m.id }, 'yours · ' + m.f.title + ' #' + pad4(m.v.serial))),
+      ...[...pool.slice(0, 6), ...pool.slice(6).filter((c, k) => k % 13 === 0).slice(0, 4)].map((c) => el('option', { value: c.card }, 'the drop · #' + pad4(c.serial) + ' · GATE ' + four(c.gate)))];
+    const s = el('select', { 'aria-label': 'The ' + dom.slice(set.length + 1) + ' card of the build', onchange: (e) => { BD.picks[dom] = e.target.value; renderBuildButtons(); } }, options);
+    if (BD.picks[dom] === undefined) BD.picks[dom] = own.length ? own[0].id : pool.length ? pool[0].card : '';
+    if (!options.some((o) => o.value === BD.picks[dom])) s.append(el('option', { value: BD.picks[dom] }, 'from a build · ' + BD.picks[dom].slice(0, 8)));
+    s.value = BD.picks[dom];
+    return el('label', { class: 'g-small g-pick' }, dom.slice(set.length + 1), s);
+  });
+  const others = mine.filter((m) => !single(m));
+  const also = el('select', { 'aria-label': 'One more card of the build', onchange: (e) => { BD.also = e.target.value; renderBuildButtons(); } }, [el('option', { value: '' }, '— none —'), ...others.map((m) => el('option', { value: m.id }, 'yours · ' + m.f.title + ' #' + pad4(m.v.serial)))]);
+  if (BD.also && !others.some((m) => m.id === BD.also)) also.append(el('option', { value: BD.also }, 'from a build · ' + BD.also.slice(0, 8)));
+  also.value = BD.also;
+  fill(box, el('div', { class: 'g-picks' }, ...rows, el('label', { class: 'g-small g-pick' }, 'also', also)),
+    el('p', { class: 'g-small g-dim' }, BD.from ? 'A fork of build ' + BD.from.slice(0, 8) + ' · change a card and measure it' : 'Also: a fused card of yours, which knows more than one department'));
+}
+const bdPicked = () => [...new Set([...deptsOf(BD.set).map((d) => BD.picks[d]), BD.also].filter(Boolean))];
+
+function renderBuildButtons() {
+  const e = BD.cur ? bdEntry(BD.cur) : null, mine = e && e.reruns.some((x) => x.by === S.me.pub);
+  $('#g-bd-go').disabled = BD.busy || bdPicked().length < 2;
+  $('#g-bd-sign').disabled = BD.busy || !e || mine;
+  $('#g-bd-sign').textContent = mine ? 'Re-run signed ✓' : 'Sign my re-run';
+  $('#g-bd-copy').disabled = BD.busy || !e;
+  $('#g-bd-fork').disabled = BD.busy || !e;
+  $('#g-bd-shrink').disabled = BD.busy || !e || e.receipt.fielded < 2;
+  const dom = $('#g-bd-dom'), keep = dom.value;
+  fill(dom, e ? deptsOf(setOfData(e.receipt.data)).map((d) => el('option', { value: d }, d.slice(setOfData(e.receipt.data).length + 1))) : el('option', { value: '' }, 'measure a build first'));
+  if (e) dom.value = keep && [...dom.options].some((o) => o.value === keep) ? keep : (e.receipt.parts.find((p) => p.joined && p.alone === e.receipt.best) || e.receipt.parts.find((p) => p.joined)).domains.split('+')[0];
+}
+const setOfData = (data) => String(data).split(':')[0];
+
+async function buildGo() {
+  if (BD.busy) return;
+  const ids = bdPicked(), out = bdOut();
+  if (ids.length < 2) return fill(out, el('p', { class: 'g-small' }, 'Pick two cards or more.'));
+  BD.busy = true; renderBuildButtons();
+  try {
+    fill(out, el('p', { class: 'g-small' }, 'Fetching the ' + BD.set + ' records (checked by their hash)…'));
+    const g = await api.groundOf(BD.set, (t) => fill(out, el('p', { class: 'g-small' }, t))), vs = [];
+    for (const id of ids) { const v = await verify(api.lifeOf(id)); if (!v.ok) return fill(out, el('p', { class: 'g-badt' }, 'A card does not check: ' + v.why)); vs.push(v); }
+    const r = recipeOf(vs, g, BD.from || BUILD_ZERO);
+    if (!r.ok) return fill(out, el('p', { class: 'g-badt' }, r.why));
+    fill(out, el('p', { class: 'g-small' }, 'Measuring on this device: each card must answer here and beat a coin on GATE, one card per set of departments; the fielded ones are coupled and judged on GATE cases none of them grew on…'));
+    const m = await bdWork({ do: 'measure', build: r.build }, ids);
+    if (!m.ok) { bleep('refused'); return fill(out, el('p', { class: 'g-badt' }, 'The build could not be measured: ' + m.why)); }
+    const id = buildId(r.build);
+    if (!bdEntry(id)) G.st.builds = [...bdEntries(), { id, build: r.build, receipt: m.receipt, ids, reruns: [], proof: null, shrinks: [] }].slice(-60);
+    BD.cur = id; note('build', { verdict: m.receipt.verdict, lift: m.receipt.lift }); saveState();
+    showBuild(bdEntry(id));
+    bleep(m.receipt.verdict === 'combo' ? 'level' : 'refused');
+  } catch (e) { fill(out, el('p', { class: 'g-badt' }, String(e.message || e))); }
+  finally { BD.busy = false; renderBuildButtons(); renderBuildBook(); }
+}
+
+/** a build's receipt, said: the verdict, its name, the build against its best card, every card fielded or benched, its proof */
+async function showBuild(e) {
+  const r = e.receipt, vOf = new Map();
+  for (const id of e.ids) { const v = await verify(api.lifeOf(id)); if (v.ok) vOf.set(id, v); }
+  const proof = e.proof, n = proof ? proof.keys.length : 0;
+  fill(bdOut(), el('p', { class: 'g-verdict ' + (r.verdict === 'combo' ? 'g-okt' : r.verdict === 'anti' ? 'g-badt' : '') }, VERDICT[r.verdict]),
+    el('p', {}, el('b', {}, r.name)),
+    el('p', { class: 'g-small' }, 'The build scores ' + six(r.gate) + ' on GATE, out of fold · its best card alone ' + six(r.best) + ' · ' + (r.lift >= 0 ? 'lift ' : 'drop ') + signed(r.lift) + ' (a combo needs +0.005, an anti-combo is −0.005 or worse) · ' + r.n.toLocaleString() + ' cases'),
+    el('ul', { class: 'g-lines' }, r.parts.map((p) => { const v = vOf.get(p.card); return line((p.joined ? 'k' : 'x') + ' g-two', (v ? '#' + pad4(v.serial) + ' ' : '') + p.title + (v ? ' · ' + whoseCard(v) : ''),
+      el('small', {}, p.joined ? (p.domains + ' · its GATE ' + six(p.gate) + ' · alone in the build ' + six(p.alone) + ' · adds ' + signed(p.contribution)) : ('on the bench: ' + p.why))); })),
+    el('p', { class: 'g-small ' + (proof && proof.proven ? 'g-okt' : 'g-dim') }, proof && proof.proven ? '★ Proven: ' + n + ' different keys measured it again to the very same numbers · found by ' + (proof.finder === S.me.pub ? 'you' : api.short(proof.finder)) : 'Re-runs signed: ' + n + (e.reruns.some((x) => x.by === S.me.pub) ? ' (yours among them)' : '') + ' · proven once two different keys have'),
+    el('p', { class: 'g-small g-dim' }, 'Build ' + e.id.slice(0, 12) + (e.build.from !== BUILD_ZERO ? ' · a fork of ' + e.build.from.slice(0, 12) : '') + ' · the receipt re-runs from the cards anyone holds'));
+  renderShrinks(e);
+}
+
+async function buildSign() {
+  const e = bdEntry(BD.cur), out = bdOut();
+  if (!e || BD.busy) return;
+  BD.busy = true; renderBuildButtons();
+  try {
+    out.append(el('p', { class: 'g-small' }, 'Measuring it again here before your key signs…'));
+    const s = await bdWork({ do: 'sign', build: e.build, receipt: e.receipt, reruns: e.reruns, keys: bdKeys() }, e.ids);
+    if (!s.ok) { bleep('refused'); return out.append(el('p', { class: 'g-badt' }, 'Not signed: ' + s.why)); }
+    e.reruns = [...e.reruns, s.rerun]; e.proof = s.proof.ok ? s.proof : null;
+    note('rerun', { proven: !!(e.proof && e.proof.proven) }); saveState();
+    await showBuild(e);
+    bleep(e.proof && e.proof.proven ? 'level' : 'kept');
+  } catch (err) { out.append(el('p', { class: 'g-badt' }, String(err.message || err))); }
+  finally { BD.busy = false; renderBuildButtons(); renderBuildBook(); renderBuilds(); }
+}
+
+async function buildCopy() {
+  const e = bdEntry(BD.cur);
+  if (!e) return;
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify({ kind: 'digi.build', build: e.build, receipt: e.receipt, cards: e.ids.map((id) => api.lifeOf(id)), reruns: e.reruns }))));
+  try { await navigator.clipboard.writeText(code); bdOut().append(el('p', { class: 'g-okt g-small' }, 'Copied the build: its recipe, its receipt, its cards’ lives and the re-runs signed so far. A friend measures it again on their device and signs: two keys prove it.')); }
+  catch { const t = $('#g-bd-code'); t.hidden = false; t.value = code; bdOut().append(el('p', { class: 'g-small' }, 'Copy the text above and send it.')); }
+}
+
+async function buildImport() {
+  const t = $('#g-bd-code'), out = bdOut();
+  if (t.hidden || !t.value.trim()) { t.hidden = false; t.value = ''; t.focus(); return fill(out, el('p', { class: 'g-small' }, 'Paste a friend’s build code in the box, then press Add a build code again.')); }
+  let o = null;
+  try { o = JSON.parse(decodeURIComponent(escape(atob(t.value.trim())))); } catch { o = null; }
+  if (!o || o.kind !== 'digi.build' || !o.build || !o.receipt || !Array.isArray(o.cards) || !Array.isArray(o.reruns)) return fill(out, el('p', { class: 'g-badt' }, 'That is not a Kardlings build code.'));
+  BD.busy = true; renderBuildButtons();
+  try {
+    const ids = [];
+    for (const d of o.cards.slice(0, 8)) { const v = await verifyLife(d); if (!v.ok) return fill(out, el('p', { class: 'g-badt' }, 'A card of the build does not check: ' + v.why)); await api.keep(d); ids.push(v.id); }
+    BD.set = setOfData(o.receipt.data); $('#g-bd-set').value = BD.set;
+    fill(out, el('p', { class: 'g-small' }, 'Measuring their build again here, and checking the re-runs they signed…'));
+    const p = await bdWork({ do: 'proof', build: o.build, receipt: o.receipt, reruns: o.reruns.slice(0, 16) }, ids);
+    if (!p.ok) { bleep('refused'); return fill(out, el('p', { class: 'g-badt' }, 'Their build does not measure again here: ' + p.why)); }
+    const id = buildId(o.build), have = bdEntry(id), kept = o.reruns.filter((x) => p.keys.includes(x.by) && !(have && have.reruns.some((y) => y.by === x.by)));
+    if (have) { have.reruns = [...have.reruns, ...kept]; have.proof = p; }
+    else G.st.builds = [...bdEntries(), { id, build: o.build, receipt: o.receipt, ids, reruns: o.reruns.filter((x) => p.keys.includes(x.by)), proof: p, shrinks: [] }].slice(-60);
+    BD.cur = id; for (const dom of deptsOf(BD.set)) BD.picks[dom] = ''; BD.also = '';
+    for (const pt of o.build.parts) { const part = o.receipt.parts.find((x) => x.card === pt.card), d = part && part.domains && !part.domains.includes('+') ? part.domains : null; if (d && !BD.picks[d]) BD.picks[d] = pt.card; else BD.also ||= pt.card; }
+    t.value = ''; t.hidden = true; saveState();
+    await renderBuildPicks(); await showBuild(bdEntry(id));
+    out.prepend(el('p', { class: 'g-okt g-small' }, '✓ Measured again here: the very same receipt · ' + p.keys.length + ' signed re-run' + (p.keys.length === 1 ? '' : 's') + ' checked' + (p.refused.length ? ' · ' + p.refused.length + ' refused (' + [...new Set(p.refused)].join(', ') + ')' : '') + (p.keys.includes(S.me.pub) ? '' : ' · sign yours to add a key')));
+  } catch (err) { fill(out, el('p', { class: 'g-badt' }, String(err.message || err))); }
+  finally { BD.busy = false; renderBuildButtons(); renderBuildBook(); renderBuilds(); }
+}
+
+function buildFork() {
+  const e = bdEntry(BD.cur);
+  if (!e) return;
+  BD.from = e.id; BD.cur = null;
+  fill(bdOut(), el('p', { class: 'g-small' }, 'Forking build ' + e.id.slice(0, 12) + ': change a card, then measure it. The fork names the build it came from.'));
+  renderBuildPicks().then(renderBuildButtons);   // the buttons read the picks: draw them once the picks are there
+}
+
+/** the build book: what is proven on this device, by job — combos by lift, anti-combos by drop, plain counted */
+function renderBuildBook(b) {
+  const book = b || bookOf(bdEntries().filter((e) => e.proof).map((e) => ({ receipt: e.receipt, proof: e.proof }))), box = $('#g-bd-book');
+  const jobs = book.ok ? Object.entries(book.jobs) : [];
+  if (!jobs.length) return fill(box, el('p', { class: 'g-dim g-small' }, 'Nothing proven on this device yet. Measure a build, sign your re-run, and send its code to a friend to sign theirs: two different keys make it proven.'));
+  fill(box, jobs.map(([data, j]) => el('div', { class: 'g-bookjob' }, el('h4', {}, SETS[setOfData(data)] ? SETS[setOfData(data)].title : setOfData(data)),
+    el('ol', { class: 'g-lines' }, [...j.combos.map((c) => line('k g-two', '★ ' + c.name, el('small', {}, six(c.gate) + ' · lift ' + signed(c.lift) + ' · found by ' + (c.finder === S.me.pub ? 'you' : api.short(c.finder)) + ' · ' + c.keys + ' keys'))),
+      ...j.anti.map((c) => line('x g-two', '✗ ' + c.name, el('small', {}, six(c.gate) + ' · drop ' + signed(c.lift) + ' · together they do worse than the best of them'))),
+      j.plain ? line('g-two', j.plain + ' plain build' + (j.plain === 1 ? '' : 's'), el('small', {}, 'proven, and neither a combo nor an anti-combo')) : null].filter(Boolean)))));
+}
+
+// ── shrink: one small card taught by the build ─────────────────────────────────────────────────────────────────────
+function renderShrinks(e) {
+  const box = $('#g-bd-shrink-out'), seal = $('#g-bd-seal'), last = e && e.shrinks.length ? e.shrinks[e.shrinks.length - 1] : null;
+  seal.hidden = !(last && last.kept && last.by === S.me.pub && !last.sealed && studentOf(last).ok);
+  if (!e || !e.shrinks.length) return fill(box, el('p', { class: 'g-dim g-small' }, e ? 'Not shrunk yet. The search takes a little while on the bigger businesses; the page stays free.' : 'Measure a build first.'));
+  fill(box, el('ul', { class: 'g-lines' }, e.shrinks.slice(-5).map((s) => line((s.kept ? 'k' : 'x') + ' g-two', (s.kept ? '★ kept · ' : 'not kept · ') + s.domain.slice(setOfData(s.data).length + 1) + ' student ' + six(s.gate),
+    el('small', {}, 'its best source ' + six(s.best) + ' · the teacher ' + six(s.teacher) + ' · ' + (s.kept ? 'beats every card it came from by ' + six(s.gate - s.best) : 'needs ' + six(s.best + 2000) + ' to be kept') + (s.sealed ? ' · sealed as your card' : '') + (s.deep ? ' · ' + s.deep : ''))))));
+}
+
+async function buildShrink() {
+  const e = bdEntry(BD.cur), box = $('#g-bd-shrink-out');
+  if (!e || BD.busy) return;
+  const domain = $('#g-bd-dom').value, k = e.shrinks.filter((s) => s.by === S.me.pub && s.domain === domain).length;
+  BD.busy = true; renderBuildButtons();
+  const t0 = Date.now(), tick = setInterval(() => fill(box, el('p', { class: 'g-small' }, 'Shrink ' + (k + 1) + ' into ' + domain + ': the build answers its FIT cases, a search learns those answers — ' + Math.round((Date.now() - t0) / 1000) + ' s')), 500);
+  try {
+    const r = await bdWork({ do: 'shrink', build: e.build, domain, k, keys: bdKeys() }, e.ids);
+    clearInterval(tick);
+    if (!r.ok) { bleep('refused'); return fill(box, el('p', { class: 'g-badt' }, 'Not shrunk: ' + r.why)); }
+    e.shrinks = [...e.shrinks, r.shrink].slice(-20);
+    note('shrink', { kept: r.shrink.kept, gate: r.shrink.gate }); saveState();
+    renderShrinks(e);
+    box.prepend(el('p', { class: r.shrink.kept ? 'g-okt' : '' }, r.shrink.kept ? '★ Kept: one small card at ' + six(r.shrink.gate) + ' on GATE, past every card it came from — seal it as your own' : 'Not kept: the student scored ' + six(r.shrink.gate) + ' against its best source’s ' + six(r.shrink.best) + '. Try again: each try searches from a new seed your key fixes.'),
+      el('div', { class: 'g-row' }, el('button', { type: 'button', class: 'g-btn', onclick: (ev) => { ev.currentTarget.disabled = true; ev.currentTarget.textContent = 'Checking…'; shrinkCheck(e, r.shrink); } }, 'Check it deeply')));
+    bleep(r.shrink.kept ? 'level' : 'refused');
+  } catch (err) { clearInterval(tick); fill(box, el('p', { class: 'g-badt' }, String(err.message || err))); }
+  finally { BD.busy = false; renderBuildButtons(); }
+}
+
+async function shrinkCheck(e, s) {
+  const box = $('#g-bd-shrink-out');
+  box.prepend(el('p', { class: 'g-small' }, 'Checking deeply: the build measured again, and the search run again on the teacher’s answers…'));
+  const c = await bdWork({ do: 'check-shrink', build: e.build, shrink: s }, e.ids);
+  s.deep = c.ok ? 'checked deeply here ✓' : 'did not check: ' + c.why; saveState();
+  renderShrinks(e);
+}
+
+async function shrinkSeal() {
+  const e = bdEntry(BD.cur), s = e && e.shrinks.length ? e.shrinks[e.shrinks.length - 1] : null, box = $('#g-bd-shrink-out');
+  const g = studentOf(s);
+  if (!g.ok) return fill(box, el('p', { class: 'g-badt' }, g.why));
+  const sealed = await sealGenome(g.genome, S.me);
+  if (!sealed.ok) return fill(box, el('p', { class: 'g-badt' }, sealed.why));
+  const serial = 1 + Object.values(S.reg.cards).filter((c) => c.maker === S.me.pub).reduce((m, c) => Math.max(m, c.serial), 0);
+  const c = await issueCard(sealed.text, S.me, { serial, to: S.me.pub, theme: 'synthwave-v1', generation: 0 });
+  const kept = c.ok ? await api.keep(c.dossier) : c;
+  if (!kept.ok) return fill(box, el('p', { class: 'g-badt' }, kept.why));
+  s.sealed = true; note('minted', { id: kept.entry ? kept.entry.card : sealed.id }); saveState();
+  await api.renderWallet();
+  renderShrinks(e);
+  box.prepend(el('p', { class: 'g-okt' }, '★ Sealed: the student is a card of yours, with you as its maker. It is in your collection.'));
+}
+
 // ── proof: your record, in the estate's contribution ledger ──────────────────────────────────────────────────────
 // The record is the estate's economy (src/earn.mjs): it begins from the estate's genesis, takes the drop's release of
 // every genesis card you field, your own release of every card and app tool you made, and a value for every card of
@@ -1810,6 +2051,9 @@ function wire() {
   on('#g-box-close', 'click', () => { $('#g-box-frame').removeAttribute('src'); $('#g-box').hidden = true; });
   on('#g-tn-set', 'change', () => renderTournament());
   on('#g-cp-pick', 'change', () => renderCampaign());
+  on('#g-bd-set', 'change', () => { BD.set = $('#g-bd-set').value; BD.picks = {}; BD.also = ''; BD.from = null; BD.cur = null; fill(bdOut()); renderBuildButtons(); renderBuildPicks().then(renderBuildButtons); });
+  on('#g-bd-go', 'click', buildGo); on('#g-bd-sign', 'click', buildSign); on('#g-bd-copy', 'click', buildCopy); on('#g-bd-fork', 'click', buildFork); on('#g-bd-import', 'click', buildImport);
+  on('#g-bd-shrink', 'click', buildShrink); on('#g-bd-seal', 'click', shrinkSeal);
   on('#g-tk-card', 'change', () => { TK.id = $('#g-tk-card').value || null; fill($('#g-tk-out')); $('#g-tk-rc-box').hidden = true; renderTalker(); });
   on('#g-tk-ask', 'click', () => talkerAsk());
   on('#g-gd-join', 'click', () => guildSign('join')); on('#g-gd-leave', 'click', () => guildSign('leave')); on('#g-gd-add', 'click', guildAdd); on('#g-gd-all', 'click', guildAll);

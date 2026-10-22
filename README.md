@@ -35,6 +35,12 @@ minted as a signed item, handed on by signed gives; it moves no score, and the p
   key; the first strike to clear 0.6 seals that department's first card. A whole business is a **world boss** at its
   best lone genesis search plus 0.010; a **party** of owners' cards, each by its owner's signed consent, strikes it
   together, and the receipt names every member's measured share (in millionths, a million between them).
+- **Builds and combos** (`src/build.mjs`, `src/shrink.mjs`): a build is a few Kardlings put to one job (a business at its
+  world boss's bar) — anyone's cards, since a measurement needs nobody's consent. Its parts field by the party's join rule,
+  are coupled and judged out of fold on GATE; a build that beats its best card by 0.005 is a combo, one that falls short of
+  it by as much an anti-combo, and two distinct keys' signed re-runs prove it, the first named its finder, into the build
+  book. A build can be shrunk into one small card: the build teaches on FIT, a search learns its answers, and the student
+  is kept only if it beats every card it came from by 0.002 on GATE, then sealed as its trainer's card.
 - **The record** (`src/earn.mjs`): every card and tool a player makes, and every party share they measure, written into
   the credits ledger (its code vendored byte for byte under `vendor/`), begun from the estate's very
   genesis so a reconcile counts each entry once; internal units, not money; the switch is off.
@@ -115,7 +121,7 @@ or sent by the tools: a person does that.
 | `src/earn.mjs` | the record: a player's releases and measured party shares as entries of the credits ledger |
 | `vendor/mint-an-app/` | mint-an-app's records of the estate's apps (which are mintable, their tier, commit and CI run), byte for byte |
 | `vendor/kcc-mesh/` | the credits ledger and its DIGI gate, byte for byte |
-| `data/organ-*/` | fifteen organs: sealed claims, records, verdicts (and organ 12’s superseded record) |
+| `data/organ-*/` | sixteen organs: sealed claims, records, verdicts (and organ 12’s superseded record) |
 | `drop/` | the manifest, the genesis log, every search |
 | `decoder/v1/` | the exact files that read a card, frozen at the drop |
 

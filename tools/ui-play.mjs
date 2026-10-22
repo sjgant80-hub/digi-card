@@ -351,6 +351,44 @@ try {
       }
     }
   }
+  // builds and combos: a telecom build of the drop's cards (one per department) measured in the worker, every card with
+  // what it adds; this key's re-run signed; a friend's key's re-run (made and signed in the page) added from a build code
+  // proves it, shown done on the job board and in the build book; then the build shrunk into one small card, by its numbers
+  await js(`location.hash = '#builds'`);
+  if (await until(`document.querySelector('#g-bd-set') && [...document.querySelector('#g-bd-set').options].some((o) => o.value === 'telco') && document.querySelectorAll('#g-bd-jobs li').length > 0`, 30000, 'the build sheet and the job board')) {
+    await js(`(() => { const s = document.querySelector('#g-bd-set'); s.value = 'telco'; s.dispatchEvent(new Event('change')); })()`);
+    await until(`!document.querySelector('#g-bd-go').disabled && [...document.querySelectorAll('#g-bd-picks select')].filter((s) => s.value).length >= 2`, 30000, 'the telecom build sheet');
+    await js(`document.querySelector('#g-bd-go').click()`);
+    if (await until(`/COMBO FOUND|ANTI-COMBO|PLAIN|could not be measured/.test(document.querySelector('#g-bd-out').textContent)`, 120000, 'a build measured')) {
+      const b = await js(`({ out: document.querySelector('#g-bd-out').innerText, parts: document.querySelectorAll('#g-bd-out li').length })`), kind = /COMBO FOUND/.test(b.out) ? 'a combo' : /ANTI-COMBO/.test(b.out) ? 'an anti-combo' : 'plain';
+      (/The build scores \d\.\d{6} on GATE, out of fold · its best card alone \d\.\d{6}/.test(b.out) && b.parts >= 2 && /adds [+−-]?\d/.test(b.out)) ? seen.push('a build measured in the worker: ' + kind + ', ' + b.parts + ' cards, each with what it adds') : problems.push('the build: ' + b.out.replace(/\s+/g, ' ').slice(0, 180));
+      await scan('a build');
+      await js(`document.querySelector('#g-bd-sign').click()`);
+      if (await until(`document.querySelector('#g-bd-sign').textContent.includes('✓')`, 120000, 'this key’s re-run signed')) {
+        const code = await js(`(async () => {
+          navigator.clipboard.writeText = () => Promise.reject(new Error('no clipboard here'));
+          document.querySelector('#g-bd-copy').click(); await new Promise((r) => setTimeout(r, 600));
+          const o = JSON.parse(decodeURIComponent(escape(atob(document.querySelector('#g-bd-code').value))));
+          const B = await import('./src/build.mjs'), K = await import('./vendor/dex-frontier/vendor/living-seed/vendor/keys/keys.mjs'), C = await import('./vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs'), k = await K.generate();
+          const f = { type: B.RERUN, receipt: B.receiptId(o.receipt), by: k.pub };
+          return btoa(unescape(encodeURIComponent(JSON.stringify({ ...o, reruns: [...o.reruns, { ...f, sig: await K.sign(k, C.utf8(C.canonical(f))) }] }))));
+        })()`);
+        await js(`(() => { const t = document.querySelector('#g-bd-code'); t.hidden = false; t.value = ${JSON.stringify(code)}; document.querySelector('#g-bd-import').click(); })()`);
+        if (await until(`/★ Proven: 2 different keys/.test(document.querySelector('#g-bd-out').textContent) || /does not measure again|not a Kardlings build code/.test(document.querySelector('#g-bd-out').textContent)`, 120000, 'the build proven')) {
+          const p = await js(`({ out: document.querySelector('#g-bd-out').innerText, book: document.querySelector('#g-bd-book').innerText, jobs: document.querySelector('#g-bd-jobs').innerText })`);
+          (/★ Proven: 2 different keys measured it again to the very same numbers · found by you/.test(p.out) && /Telecom customers/.test(p.book) && /2 keys|3 keys/.test(p.book + p.out) && /Measured again here: the very same receipt/.test(p.out))
+            ? seen.push('a build proven by two keys’ re-runs, found by this key, in the build book' + (kind === 'a combo' ? ' as a combo' : ''))
+            : problems.push('the proof: ' + p.out.replace(/\s+/g, ' ').slice(0, 180) + ' · book: ' + p.book.replace(/\s+/g, ' ').slice(0, 80));
+        }
+      }
+      await js(`document.querySelector('#g-bd-shrink').click()`);
+      if (await until(`/Kept: one small card|Not kept: the student|Not shrunk: /.test(document.querySelector('#g-bd-shrink-out').textContent)`, 300000, 'a shrink')) {
+        const s = await js(`document.querySelector('#g-bd-shrink-out').innerText`);
+        (/its best source \d\.\d{6} · the teacher \d\.\d{6}/.test(s) && /Kept: one small card|Not kept: the student scored \d\.\d{6}/.test(s)) ? seen.push('a build shrunk into one small card: ' + (/Kept: one small card/.test(s) ? 'kept' : 'not kept') + ', said with its numbers') : problems.push('the shrink: ' + s.replace(/\s+/g, ' ').slice(0, 180));
+        await scan('a shrink');
+      }
+    }
+  }
   // the record: brought up to date through every gate, then replayed from nothing
   await js(`location.hash = '#proof'`);
   if (await until(`document.querySelector('#g-rec-go')`, 20000, 'the record panel')) {
@@ -407,7 +445,7 @@ try {
   // phone width: every screen holds without a sideways scroll
   await size(390, 844, true); await sleep(400);
   const wide = [], untitled = [];
-  for (const s of ['estate', 'base', 'cards', 'kit', 'fusion', 'talker', 'arena', 'raids', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot', 'about']) {
+  for (const s of ['estate', 'base', 'cards', 'kit', 'fusion', 'talker', 'arena', 'raids', 'builds', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot', 'about']) {
     await js(`location.hash = '#${s}'`); await sleep(500);
     const w = await js(`document.documentElement.scrollWidth`);
     // a screen too wide names what pushes it: the widest-reaching element, so the next fix starts from the culprit

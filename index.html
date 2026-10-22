@@ -152,7 +152,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere.</p>
       <div class="pills">
         <span class="pill hot"><span data-k="drop-total">…</span> genesis cards · decoder #0001</span>
-        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">15 organs, sealed before measured</a></span>
+        <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">16 organs, sealed before measured</a></span>
         <span class="pill ok">records never leave your device</span>
         <span class="pill">MIT — no licence fee</span>
       </div>
@@ -372,7 +372,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="arena-s" class="g-only g-screen" data-screen="arena" aria-labelledby="arena-h">
-  <nav class="g-subnav" aria-label="Play"><a href="#arena" aria-current="page">Arena</a><a href="#raids">Raids</a><a href="#evals">Eval runs</a></nav>
+  <nav class="g-subnav" aria-label="Play"><a href="#arena" aria-current="page">Arena</a><a href="#raids">Raids</a><a href="#builds">Builds</a><a href="#evals">Eval runs</a></nav>
   <div class="g-grid g-3">
     <div class="g-col">
       <h2 id="arena-h" class="g-h" data-info="arena">Arena</h2>
@@ -410,7 +410,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </section>
 
 <section id="raids-s" class="g-only g-screen" data-screen="raids" aria-labelledby="raids-h">
-  <nav class="g-subnav" aria-label="Play"><a href="#arena">Arena</a><a href="#raids" aria-current="page">Raids</a><a href="#evals">Eval runs</a></nav>
+  <nav class="g-subnav" aria-label="Play"><a href="#arena">Arena</a><a href="#raids" aria-current="page">Raids</a><a href="#builds">Builds</a><a href="#evals">Eval runs</a></nav>
   <div class="g-row"><h2 id="raids-h" class="g-h" data-info="raids">Raids</h2><span class="g-sp"></span><button class="g-btn" id="g-rd-share" type="button">Copy my strikes</button><button class="g-btn" id="g-rd-import" type="button">Add a friend’s strikes</button></div>
   <p class="g-small g-dim">Each boss is one part of a business that no card has cracked: when the drop was made, no search found a mind there scoring 0.6 (the score a card must reach to exist — 0.5 is a coin toss). Strike it: your device runs one search for a mind, from a starting number your key fixes, and signs the result. The best strike so far sets its health. Score 0.6 or more and the boss falls — and you seal the first card of that department, with you as its maker.</p>
   <div class="g-panel g-campaign"><h3 data-info="campaign">Campaign <small>the raids as chapters, read from your receipts</small></h3><label class="g-small">Chapter <select id="g-cp-pick" aria-label="The chapter to draw"></select></label><canvas class="g-chapterart" id="g-cp-art" width="720" height="480" role="img" aria-label="The chapter, drawn"></canvas><ol class="g-lines" id="g-cp-chapters"></ol></div>
@@ -424,8 +424,28 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="g-bosses" id="g-pt-bosses"></div>
 </section>
 
+<section id="builds-s" class="g-only g-screen" data-screen="builds" aria-labelledby="builds-h">
+  <nav class="g-subnav" aria-label="Play"><a href="#arena">Arena</a><a href="#raids">Raids</a><a href="#builds" aria-current="page">Builds</a><a href="#evals">Eval runs</a></nav>
+  <div class="g-row"><h2 id="builds-h" class="g-h" data-info="builds">Builds</h2><span class="g-sp"></span><button class="g-btn" id="g-bd-import" type="button">Add a build code</button></div>
+  <p class="g-small g-dim">A build is a few Kardlings put to one job together: yours, the drop’s and friends’. Your device measures it on cases none of them grew on. If the build beats its best card by 0.005 or more, it is a combo; if it does worse by as much, an anti-combo. Two different keys measuring it again to the very same numbers prove it, and the first of them found it. Nothing is staked and nothing changes hands: a build is a recipe anyone can measure.</p>
+  <textarea id="g-bd-code" rows="3" aria-label="A build code, pasted or copied" placeholder="a friend’s build code, pasted here" hidden></textarea>
+  <div class="g-panel"><h3 data-info="jobs">Job board <small>each business at its world boss’s bar</small></h3><ol class="g-lines" id="g-bd-jobs"></ol></div>
+  <div class="g-panel"><h3 data-info="buildsheet">Build sheet <small>one card for each department, or none</small></h3>
+      <div class="g-row"><label class="g-small">Job <select id="g-bd-set" aria-label="The job the build is for"></select></label></div>
+      <div id="g-bd-picks"></div>
+      <div class="g-row"><button class="g-btn hot big g-next" id="g-bd-go" type="button">Measure the build</button><button class="g-btn" id="g-bd-sign" type="button" disabled>Sign my re-run</button><button class="g-btn" id="g-bd-copy" type="button" disabled>Copy the build code</button><button class="g-btn" id="g-bd-fork" type="button" disabled>Fork it</button></div>
+      <p class="g-teach">Builds: putting minds together for a job, and measuring whether the whole beats its best part.</p>
+      <div id="g-bd-out" aria-live="polite"></div></div>
+  <div class="g-panel"><h3 data-info="shrink">Shrink it <small>one small card taught by the build</small></h3>
+      <p class="g-small g-dim">The build teaches: on the cases its cards grew on, it says yes or no. A search on one department learns those answers, and the student is judged against what really happened. It is kept only if it beats every card it came from by 0.002.</p>
+      <div class="g-row"><label class="g-small">Department <select id="g-bd-dom" aria-label="The department the student is grown on"></select></label></div>
+      <div class="g-row"><button class="g-btn cy" id="g-bd-shrink" type="button" disabled>Shrink the build</button><button class="g-btn gold" id="g-bd-seal" type="button" hidden>Seal the student</button></div>
+      <div id="g-bd-shrink-out" aria-live="polite"></div></div>
+  <div class="g-panel"><h3 data-info="buildbook">Build book <small>what is proven on this device, by job</small></h3><div id="g-bd-book"></div></div>
+</section>
+
 <section id="evals-s" class="g-only g-screen" data-screen="evals" aria-labelledby="evals-h">
-  <nav class="g-subnav" aria-label="Play"><a href="#arena">Arena</a><a href="#raids">Raids</a><a href="#evals" aria-current="page">Eval runs</a></nav>
+  <nav class="g-subnav" aria-label="Play"><a href="#arena">Arena</a><a href="#raids">Raids</a><a href="#builds">Builds</a><a href="#evals" aria-current="page">Eval runs</a></nav>
   <div class="g-grid g-3">
     <div class="g-col">
       <h2 id="evals-h" class="g-h">Eval runs</h2>
@@ -480,6 +500,10 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div><dt>Registry</dt> <dd>— the ordered record of cards’ lives that settles a double sale: the first recorded give wins.</dd></div>
     <div><dt>Mesh</dt> <dd>— owned cards of one business answering as one; each card’s share of the credit is measured.</dd></div>
     <div><dt>Watch it back · read-back</dt> <dd>— a duel replayed from its own receipt, case by case, and one case opened to show the very rules of each mind that fired on it: how a head-to-head eval was won, not just that it was.</dd></div>
+    <div><dt>Build</dt> <dd>— a few Kardlings put to one job together: a recipe of cards anyone holding them can measure again. Each card must measurably add, or it sits on the bench, named.</dd></div>
+    <div><dt>Combo · anti-combo</dt> <dd>— a build that beats its best card by 0.005 or more on GATE, out of fold; an anti-combo does worse than its best card by as much. Proven once two different keys measure it again to the same numbers.</dd></div>
+    <div><dt>Shrink</dt> <dd>— a training build: the build teaches one small card on its own FIT cases, and the card is kept only if it beats every card it came from by 0.002 on GATE.</dd></div>
+    <div><dt>Build book</dt> <dd>— the proven builds of each job on your device, the biggest lift first, each with the key that found it.</dd></div>
     <div><dt>Guild</dt> <dd>— friends standing together: each signs a join with their own key, carrying their estate, and the guild draws every estate side by side. Nobody joins anybody else; reputation only.</dd></div>
     <div><dt>Talker</dt> <dd>— a card asked in plain words: it answers yes or no from the rules that fired, says how it decides and how good it is, and otherwise says it cannot answer and what it would need. It never makes an answer up.</dd></div>
     <div><dt>Learn to ask</dt> <dd>— ten missions in asking a card that can tell you no, each marked by asking the card again the questions you asked it.</dd></div>
@@ -516,6 +540,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <li><b>Kit it out.</b> In Collection → Kit, put another card of yours from the same business in a node slot (or press “Mint a node”: one search from your key, sealed only if it clears 0.6), mint an app tool from the estate’s proven apps, press Measure to see the kitted score and what each slot adds, then Equip.</li>
     <li><b>Watch it back.</b> After a duel, “Watch it back” fights it again from its receipt — the very same numbers, or it says so — then plays it case by case; tap any case to read it back by the rules that fired, and it is ringed on the duel’s picture with what really happened. Put up to eight of your cards of one business in a tournament: each match is one duel, the champion takes a title.</li>
     <li><b>Fight, then raid.</b> In Play → Arena, fight a drop card or a friend’s (a friend code carries your kit); re-fight it to see the very same receipt. In Play → Raids, strike a department nobody has solved, or gather a party — your own cards and friends’ — against a whole business.</li>
+    <li><b>Build for a job.</b> In Play → Builds, pick one card for each department of a business — yours or the drop’s — and press Measure: your device says whether the build beats its best card (a combo), does worse (an anti-combo), or neither, and what each card adds. Sign your re-run, copy the build code to a friend to sign theirs — two keys prove it, and it goes in the Build book — then shrink it into one small card, kept only if it beats every card it came from.</li>
     <li><b>Stand together.</b> On your estate, name a guild and join with your estate; send your code to friends and add theirs, and the guild draws every member’s estate side by side. Nobody can join anybody else, and a guild moves no card, no rating and no credit.</li>
     <li><b>Put cards to work together</b> in <a href="#mesh">the mesh</a>, or <b>grow your own</b> from <a href="#own">your own table</a>. Then <a href="#drop">re-run the whole drop</a> from decoder #0001.</li>
   </ol>
@@ -718,6 +743,22 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <rect class="dg-box" x="510" y="16" width="370" height="96" rx="8"/><text class="dg-t" x="524" y="40">a duel</text><text class="dg-s" x="524" y="60">both owners sign; 64 GATE cases drawn from both signatures;</text><text class="dg-s" x="524" y="76">each kit weighed on the cases outside the batch; the better</text><text class="dg-s" x="524" y="92">ranking wins — and the receipt re-runs to the same numbers</text>
     <rect class="dg-box dg-hot" x="510" y="138" width="370" height="96" rx="8"/><text class="dg-t" x="524" y="162">a raid</text><text class="dg-s" x="524" y="182">a department no search solved: signed strikes, the first to</text><text class="dg-s" x="524" y="198">clear 0.6 seals its first card · a whole business: a party,</text><text class="dg-s" x="524" y="214">by consent, each member’s measured share on the record</text>
   </svg></div>
+  <h3>6 · Builds, combos and the shrink</h3>
+  <div class="diagram"><svg viewBox="0 0 900 270" role="img" aria-label="A build of cards measured on GATE, judged a combo, an anti-combo or plain, proven by two keys, and shrunk into one small card">
+    <rect class="dg-box" x="20" y="20" width="170" height="100" rx="8"/><text class="dg-t" x="34" y="44">the parts</text><text class="dg-s" x="34" y="64">one card per department:</text><text class="dg-s" x="34" y="80">yours, the drop’s, or a</text><text class="dg-s" x="34" y="96">friend’s build code’s</text>
+    <path class="dg-a" d="M192,70 L232,70"/>
+    <rect class="dg-box dg-ok" x="232" y="20" width="200" height="100" rx="8"/><text class="dg-t" x="246" y="44">the build, measured</text><text class="dg-s" x="246" y="64">each must beat a coin; one per</text><text class="dg-s" x="246" y="80">set of departments; coupled,</text><text class="dg-s" x="246" y="96">judged out of fold on GATE</text>
+    <path class="dg-a" d="M434,70 L474,70"/>
+    <rect class="dg-box dg-hot" x="474" y="20" width="190" height="100" rx="8"/><text class="dg-t" x="488" y="44">its verdict</text><text class="dg-s" x="488" y="64">build − its best card alone:</text><text class="dg-s" x="488" y="80">+0.005 or more: a combo</text><text class="dg-s" x="488" y="96">−0.005 or worse: an anti-combo</text>
+    <path class="dg-a" d="M666,70 L706,70"/>
+    <rect class="dg-box" x="706" y="20" width="174" height="100" rx="8"/><text class="dg-t" x="720" y="44">proven</text><text class="dg-s" x="720" y="64">two different keys measure</text><text class="dg-s" x="720" y="80">it again to the very same</text><text class="dg-s" x="720" y="96">numbers; the first found it</text>
+    <path class="dg-a" d="M332,122 C332,150 332,150 332,160"/>
+    <rect class="dg-box dg-hot" x="232" y="160" width="648" height="96" rx="8"/><text class="dg-t" x="246" y="184">the shrink: one small card taught by the build</text><text class="dg-s" x="246" y="204">the build answers its FIT cases yes or no (coupled on FIT only, so it never sees a GATE answer);</text><text class="dg-s" x="246" y="220">a search on one department learns those answers; the student is judged against what really happened,</text><text class="dg-s" x="246" y="236">and kept only if it beats every card it came from by 0.002 — then it is sealed as a card of yours</text>
+  </svg></div>
+  <div class="grid two">
+    <div class="panel"><h3>Traced from a real run</h3><p>Three of the drop’s census cards — #0266 (person), #0762 (work) and #0013 (tax) — measured as a build: <b>0.890793</b> on GATE out of fold, against <b>0.811465</b> for the best of them alone, so a combo of <b>+0.079328</b> on 8,140 cases. Person adds +0.086613, work +0.042017, tax +0.018125. Press Measure on the same three cards and the same numbers come back. Shrunk once into one person card by the key that traced it, the student scored 0.805510 against its best source’s 0.813871: not kept, and said so (a shrink’s search starts from its trainer’s own key, so yours finds its own student).</p></div>
+    <div class="panel"><h3>Why two keys, and why the shrink can say no</h3><p>A measurement is a claim until someone else gets the same numbers from the same cards; two keys make it one anyone can check, not a vote (a key is not a person). The student must beat its sources on cases it was never taught on — the cases the build was never fitted on either — so a shrink that does not help is refused with its numbers, never kept for looking good on what it learned from.</p></div>
+  </div>
   <h3>5 · Levelling up, fusing, the mesh and the registry</h3>
   <div class="grid two">
     <div class="panel"><h3>A level</h3><p>A <b>search</b> (seed-library’s evolution: 40 candidates, 30 generations, on FIT) finds a scorecard. If it beats the mind it would replace by 0.002 on GATE, the owner signs a receipt into the card: the found mind in fixed form, the search that found it, the data’s hash, and both scores in millionths. <b>Re-running it</b> re-expresses both minds on the same bytes and demands the very same numbers (milliseconds); a deep re-run repeats the search and demands the very same mind.</p></div>
@@ -742,6 +783,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
       <tr><td class="num">src/mesh.mjs</td><td>The mesh: owner consent for this life, the join rule, merit fielding, non-negative coupling, measured shares, a replayable ledger of credits.</td></tr>
       <tr><td class="num">src/arena.mjs</td><td>Duels: both owners sign for their cards as they stand; the batch is drawn from both signatures; the better ranking wins; whole-number ratings from a published table; self-play never rated; nothing staked.</td></tr>
       <tr><td class="num">src/replay.mjs</td><td>The replay: a duel fought again to its very same receipt, then laid out case by case (each side calls yes for as many top cases as the batch holds real yeses, ties to the earlier case); read-back opens one case — every fielded mind’s rules that fired on it, and its score. Organ 12 measured it.</td></tr>
+      <tr><td class="num">src/build.mjs</td><td>Builds and combos: jobs from the admission record; a build’s parts fielded by the join rule (beat a coin, one per set of departments, ties to the lower id), coupled and judged out of fold on GATE; combo, anti-combo or plain by the sealed cut; named from its parts; a signed re-run, a proof by two distinct keys, and the build book.</td></tr>
+      <tr><td class="num">src/shrink.mjs</td><td>The shrink: the teacher coupled on FIT alone, its answers cut to FIT’s own share of yeses; a search on one department learns them, from a seed the trainer’s key fixes; the student judged on the true GATE, kept only by 0.002 over its best source; checked shallow and deep.</td></tr>
       <tr><td class="num">src/guild.mjs</td><td>The guild: a key joins only by signing a statement naming the guild and carrying its estate as the painter draws it, and leaves by signing a leave; each member’s highest clean-numbered statement stands, and two different statements under one number are neither; forged, borrowed, foreign and malformed statements are refused with their reasons, and a guild past twelve is refused. It moves no card, no rating and no credit. Organ 15 measured it.</td></tr>
       <tr><td class="num">src/talker.mjs</td><td>The talker: a question read with its business’s own words (data/vocab.json, every phrase already in the words a question is read in), answered only from the mind’s rules — yes or no with the rules that fired, how it decides, how good it is — or an abstention saying what it would need; a vocabulary or a mind it cannot read is none, and a question past 1,000 characters is refused out loud. Organ 14 measured it.</td></tr>
       <tr><td class="num">src/learn.mjs</td><td>Learn to ask: ten missions, each a fixed rubric over what the talker answers when the card is asked again the questions it was asked; nothing stored is trusted and no model judges.</td></tr>
@@ -776,11 +819,13 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="panel role"><h4>Finance</h4><p>The cost case below is computed by the kernel from published prices, each sourced and dated: by hand at the National Living Wage floor, rented from the cloud model you pick (the cheapest by default), or on the machine you already run. No new hardware, no per-seat fee, no token bill — and no record handed to a processor. Setup is opening a page or hosting static files; there is no service to maintain.</p></div>
     <div class="panel role"><h4>Operations</h4><p>Every queue — collections, retention, campaign lists — is ranked the moment the records land, with the rules that put each case at the top shown beside it. A mind that cannot clear its bar abstains rather than guess, so your people see where it knows and where it does not.</p></div>
     <div class="panel role"><h4>Technology and security</h4><p>No server, no API key, no egress: the page and the kernels are static files. Every card is checked before it is read — CRCs, Ed25519 seals, every signature, the face redrawn and compared. The code is mutation-gated, vendored byte for byte at pinned commits, served under a strict Content-Security-Policy.</p></div>
-    <div class="panel role"><h4>Department heads</h4><p>Grow a card from your own export (a CSV, any yes/no outcome, up to sixteen measured columns). You are its maker and owner. It levels overnight on your data, couples with other teams’ cards by consent, and is credited for what it measurably adds — without any team ever seeing another’s records.</p></div>
+    <div class="panel role"><h4>Department heads</h4><p>Grow a card from your own export (a CSV, any yes/no outcome, up to sixteen measured columns). You are its maker and owner. It levels overnight on your data, couples with other teams’ cards by consent, and is credited for what it measurably adds — without any team ever seeing another’s records. Before teams rely on each other, a build measures whether your cards together beat the best of them, and what each one adds.</p></div>
     <div class="panel role"><h4>The people who use it</h4><p>Six rules you can read, not a black box: each answer lists the rules that fired. The card says yes, no, or “I don’t know this case” — and the person stays the decision-maker, with the evidence in front of them.</p></div>
   </div>
-  <h3>The arena and the raids, at work</h3>
+  <h3>The arena, the raids and builds, at work</h3>
   <div class="grid two">
+    <div class="panel"><h4>Know when a team of models beats your best one</h4><p>Before anyone runs three models together, the build sheet says — on cases none of them was grown on — whether the team beats the best of them, by how much, and what each member adds; a member that adds nothing measurable is benched and named. When the team does worse than its best member, it says that too. Two different people re-running it to the same numbers prove it, and the proof is a receipt your auditors re-run.</p></div>
+    <div class="panel"><h4>Shrink a team into one small model you own</h4><p>The team teaches one small model on its own training cases; the small model is kept only if it beats every model it came from on cases it never learned from. What you keep is six readable rules in your own column names, cheap to run anywhere — and when shrinking does not help, the sheet says so with its numbers instead of keeping a model that only looked good on what it was taught.</p></div>
     <div class="panel"><h4>Settle “whose model is better” on evidence</h4><p>Two teams, or your current model and a card, meet in the arena: both sides sign, the cases come from both signatures so neither picks them, and the result is a receipt your auditors re-run. A team’s kit — its own cards of other departments — shows exactly what each addition adds before anyone relies on it.</p></div>
     <div class="panel"><h4>Put many hands on an unsolved problem</h4><p>A department whose records do not yet predict the outcome becomes a raid: every analyst’s search is signed and seeded by their own key, so nobody repeats anybody’s work, and every strike is re-checked on arrival. A whole-business goal becomes a world boss a party of teams can only clear together — and the record names each team’s measured share of the result.</p></div>
   </div>
@@ -870,11 +915,13 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <p>A card’s slots are read off its checked dossier — two node slots, a third at stage 1, a fourth at stage 3, and two tool slots — so every card ever issued has them and no card’s bytes change. A loadout is signed by the owner for the card and every node as they stand. The kitted mind is the Kardling and its nodes, coupled by non-negative stacking on GATE and judged out of fold; a node joins only if it answers, covers a department nothing fielded covers, and leads a coin with a paired-bootstrap bound above zero. A tool is an app item: one of the estate’s mintable apps, exactly as mint-an-app’s vendored records hold it, carrying the commit and the CI run that proved it; it moves no score.</p>
     <h3>12 · The arena and the raids</h3>
     <p>A duel is agreed by both owners: a challenge and an acceptance, each signed for a card as it stands and the hash of its loadout. The batch is 64 GATE rows ordered by the hash of both signed records, so neither side chooses it; each kitted mind is weighed on the GATE rows outside the batch and scored on it; the higher AUC wins; the receipt re-runs. A raid boss is a department of the drop’s admission record that no genesis search took past the bar; a strike is one search from a seed the striker’s key and number fix, carried with the mind it found, re-checked in milliseconds. A world boss is a whole business at its best lone genesis search plus 0.010; a party strike is a mesh of consenting owners’ cards, and its receipt names each fielded card, its owner and its share in millionths. Nothing is staked.</p>
-    <h3>13 · What was measured</h3>
-    <p>Ten organs, each sealed before it was measured (organ 10 is not fully blind: dry-run before the seal; see Proof), are in <a href="#proof">Proof</a>, with every rule’s verdict read live from the committed records — the ones that failed included. Not everything held. One example: the shop’s TEST cases are its holiday months, and its minds rank them less well than the months they were judged on — the shop-context department’s median TEST AUC fell under the 0.6 bar its cards cleared on GATE. That result is kept as sealed, not tuned away.</p>
-    <h3>14 · Limits</h3>
+    <h3>13 · Builds and the shrink</h3>
+    <p>A build is a recipe of cards for one business. Measured, its parts are fielded by the party’s join rule without consents — a measurement needs nobody’s leave: each must answer and beat a coin on GATE with a paired-bootstrap bound above zero, and the best-proven card fields each set of departments, the rest benched by name. The fielded parts are coupled by non-negative stacking, and the build’s GATE AUC is judged out of fold over four folds, as is each part’s alone, so the lift — the build less its best part — compares like with like. A lift of +0.005 or more is a combo, −0.005 or less an anti-combo, anything between plain; a receipt is proven when two distinct keys sign re-runs of it that measure exactly the same, and the first of them found it. The shrink distils a build into one card: the teacher is the fielded parts coupled on FIT alone, its yes or no cut to FIT’s own share of yeses; a search on one department chooses rules by how well they give the teacher’s answers; the student, re-expressed on the true answers like any card, is kept only if its GATE beats its best source’s by 0.002. Organ 16 measures, on 80 builds and 20 shrinks of the drop’s cards, whether either holds on TEST, and sets every student beside the same search run on the true answers.</p>
+    <h3>14 · What was measured</h3>
+    <p>Sixteen organs, each sealed before it was measured (several are not fully blind — dry-run, or their kernel gated, before the seal, and each says so; see Proof), are in <a href="#proof">Proof</a>, with every rule’s verdict read live from the committed records — the ones that failed included. Not everything held. One example: the shop’s TEST cases are its holiday months, and its minds rank them less well than the months they were judged on — the shop-context department’s median TEST AUC fell under the 0.6 bar its cards cleared on GATE. That result is kept as sealed, not tuned away.</p>
+    <h3>15 · Limits</h3>
     <p>The minds are small by design: readable, fast and provable, not the most accurate models one could fit; pooled gradient-boosted trees beat them in dex-frontier’s measurements. A level is adopted on GATE, and how it holds on TEST is measured, not assumed. The registry’s keeper decides only the order of arrivals. The drop on this page is sealed with a public demo key; the real drop is sealed by its owner’s own key.</p>
-    <h3>15 · Credits</h3>
+    <h3>16 · Credits</h3>
     <p>Powered by the Konomi architecture, created by Thomas Frumkin. Built on living-seed (genome, germination, gate, card primitives), dex-frontier (departments, coupling, statistics), seed-library (the ribosome) and PixelWhisperer Kards (the art engine) — all in the estate, vendored byte for byte.</p>
     <p>The Kardlings game draws on the Guided Entropy Principle (GEP) of <b>Gary W. Floyd, Lumiea Systems Research Division — ThunderStruck Service LLC</b> (New Caney, Texas), published as Open Defensive Prior Art (Creative Commons):</p>
     <ul>
@@ -919,7 +966,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </footer>
 </div>
 <nav id="g-dock" class="g-only g-dock" aria-label="Screens" data-icons="1">
-  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit fusion talker"><span class="n">3</span>Collection</a><a href="#arena" data-go="arena" data-group="arena raids evals"><span class="n">4</span>Play</a>
+  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit fusion talker"><span class="n">3</span>Collection</a><a href="#arena" data-go="arena" data-group="arena raids builds evals"><span class="n">4</span>Play</a>
   <a href="#mint" data-go="mint"><span class="n">5</span>Mint</a><a href="#mesh" data-go="mesh"><span class="n">6</span>Mesh</a><a href="#send" data-go="send"><span class="n">7</span>Send</a><a href="#proof" data-go="proof"><span class="n">8</span>Proof</a>
 </nav>
 <script type="module" src="app.js"></script>
