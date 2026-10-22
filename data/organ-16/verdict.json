@@ -1,0 +1,71 @@
+{
+ "kind": "digi-card.organ-16.verdict",
+ "v": 1,
+ "prereg": "e1776febad80aece",
+ "record": "6ef94ea7381aad72",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 80 builds measures, and measures again to the very same receipt by a second key’s signed re-run with its cards in reverse order and a card of another business among them, and by a third; its fielding keeps the rule: one part per set of departments, the best GATE fielding it (ties to the lower card id), every benched part named with its reason.",
+   "pass": true,
+   "saw": "80 of 80 builds measured again to the very same receipt by two keys (once reversed, with a card of another business among them), every fielding by the rule"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every receipt says exactly what its fielded parts give, worked out again in the measuring tool: its GATE is the out-of-fold judge over the fielded parts’ GATE columns, its best part the largest of their own, its lift the difference, its verdict the sealed cut (a combo at +0.005, an anti-combo at −0.005, one fielded part plain), its name the fielded titles in field order, every part’s contribution the build with it less without it.",
+   "pass": true,
+   "saw": "80 of 80 receipts say exactly what their fielded parts give, worked out again apart from the kernel: GATE, best part, lift, verdict, name, every part’s contribution"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every one of the 80 receipts is proven by its two keys’ signed re-runs, the first named as finder; and for every one, a set of re-runs holding the first key twice, a forged signature and two re-runs of another receipt proves nothing, each named.",
+   "pass": true,
+   "saw": "80 of 80 proven by the two keys, the first named the finder; 80 of 80 attack sets (a key twice, a forged signature, two re-runs of another receipt) proved nothing and were each named"
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "Every one of the 20 shrinks checks deeply here (the search re-run on the teacher’s answers finds the student it carries), its student scores its stated GATE re-expressed on the true answers, it is kept exactly when its GATE is at least 0.002 above its best source’s, its control is the very same search seed, and every kept student at or over 0.6 is a card’s genome.",
+   "pass": true,
+   "saw": "20 of 20 shrinks checked deeply (the search on the teacher’s answers finds the student), the student scoring its stated GATE, kept exactly by the 0.002 rule, its control the very same seed, and a kept student a card’s genome"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Of the builds that are combos on GATE, at least 80% also beat their best part on TEST, the cases nothing here selects on.",
+   "pass": true,
+   "saw": "61 of 68 combos found on GATE also beat their best part on TEST (89.7%)"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Over the combos, the median TEST lift is at least half the median GATE lift: a combo keeps most of what it shows on GATE.",
+   "pass": true,
+   "saw": "68 combos: median lift 0.028471 on GATE, 0.015616 on TEST"
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "Of the kept students, at least 70% also beat their best source on TEST.",
+   "pass": true,
+   "saw": "3 of 4 kept students also beat their best source on TEST (75%)"
+  },
+  {
+   "id": "Q4",
+   "kind": "prediction",
+   "claim": "In at least half of the shrinks, the student taught by its build scores at least as well on TEST as the very same search run on the true answers.",
+   "pass": false,
+   "saw": "2 of 20 students taught by their build scored at least the same search on the true answers on TEST (10%)"
+  },
+  {
+   "id": "Q5",
+   "kind": "prediction",
+   "claim": "At least one shrink in five keeps its student.",
+   "pass": true,
+   "saw": "4 of 20 shrinks kept their student (20%)"
+  }
+ ]
+}
