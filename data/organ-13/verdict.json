@@ -1,0 +1,36 @@
+{
+ "kind": "digi-card.organ-13.verdict",
+ "v": 1,
+ "prereg": "c34a7a43f529f7a7",
+ "record": "20f3b1f42271b2ce",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Across the 1,000 receipt sets every bracket plays out the same however its entrants are listed; every decided match is decided by the first receipt, in order, naming exactly its two cards that is not a draw when it comes before their third draw, and otherwise by the tie rule at their third draw, for the higher seed; no match is decided while a side of it is open; a champion is named exactly when the final is decided; and the tie rule settles at least one match.",
+   "pass": true,
+   "saw": "1000 of 1000 receipt sets played out the same however entered; 1000 decided every match by its first decisive receipt before the third draw, or by the tie rule at the third draw to the higher seed; 1000 never decided a match with a side open; 1000 named a champion exactly when the final was decided; the tie rule settled 201 of 976 decided matches"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "All 5 real brackets play out to a champion that is no practice champion, every decided match by that rule, and no match needing more than 3 duels.",
+   "pass": true,
+   "saw": "5 of 5 real brackets played out to a champion that is no practice champion, every match by the rule and within 3 duels"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "At least 80% of the matches in the 5 real brackets are decided by a duel rather than the tie rule: the arena tells most cards apart, and the tie rule is the exception.",
+   "pass": true,
+   "saw": "35 of 35 real matches were decided by a duel, not the tie rule (100%)"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "In the 5 real brackets, the card with the higher declared GATE AUC wins at least 60% of the matches between cards of different declared AUC (organ 12 made this prediction and missed at 58.6%; it is made again here on new brackets, not dropped).",
+   "pass": true,
+   "saw": "25 of 35 bracket matches were won by the card with the higher declared GATE AUC (71.4%)"
+  }
+ ]
+}

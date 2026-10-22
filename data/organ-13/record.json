@@ -1,0 +1,398 @@
+{
+ "kind": "digi-card.organ-13.record",
+ "v": 1,
+ "drawsToTie": 3,
+ "sets": [
+  "telco",
+  "shop",
+  "bank",
+  "adult",
+  "credit"
+ ],
+ "brackets": [
+  {
+   "set": "telco",
+   "ok": true,
+   "champion": 378,
+   "practice": false,
+   "title": "Champion",
+   "duels": 7,
+   "draws": 0,
+   "ruled": true,
+   "matches": [
+    {
+     "a": 378,
+     "b": 662,
+     "gateA": 766902,
+     "gateB": 672077,
+     "winner": 378,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 182,
+     "b": 94,
+     "gateA": 661394,
+     "gateB": 805750,
+     "winner": 94,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 902,
+     "b": 332,
+     "gateA": 659167,
+     "gateB": 666685,
+     "winner": 902,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 573,
+     "b": 422,
+     "gateA": 734026,
+     "gateB": 666736,
+     "winner": 573,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 378,
+     "b": 94,
+     "gateA": 766902,
+     "gateB": 805750,
+     "winner": 378,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 902,
+     "b": 573,
+     "gateA": 659167,
+     "gateB": 734026,
+     "winner": 573,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 378,
+     "b": 573,
+     "gateA": 766902,
+     "gateB": 734026,
+     "winner": 378,
+     "tie": false,
+     "fought": 1
+    }
+   ]
+  },
+  {
+   "set": "shop",
+   "ok": true,
+   "champion": 441,
+   "practice": false,
+   "title": "Champion",
+   "duels": 7,
+   "draws": 0,
+   "ruled": true,
+   "matches": [
+    {
+     "a": 231,
+     "b": 455,
+     "gateA": 918629,
+     "gateB": 657918,
+     "winner": 231,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 725,
+     "b": 97,
+     "gateA": 622993,
+     "gateB": 604154,
+     "winner": 97,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 907,
+     "b": 560,
+     "gateA": 609692,
+     "gateB": 670519,
+     "winner": 560,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 82,
+     "b": 441,
+     "gateA": 606087,
+     "gateB": 916793,
+     "winner": 441,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 231,
+     "b": 97,
+     "gateA": 918629,
+     "gateB": 604154,
+     "winner": 231,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 560,
+     "b": 441,
+     "gateA": 670519,
+     "gateB": 916793,
+     "winner": 441,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 231,
+     "b": 441,
+     "gateA": 918629,
+     "gateB": 916793,
+     "winner": 441,
+     "tie": false,
+     "fought": 1
+    }
+   ]
+  },
+  {
+   "set": "bank",
+   "ok": true,
+   "champion": 54,
+   "practice": false,
+   "title": "Champion",
+   "duels": 7,
+   "draws": 0,
+   "ruled": true,
+   "matches": [
+    {
+     "a": 593,
+     "b": 355,
+     "gateA": 612450,
+     "gateB": 762508,
+     "winner": 593,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 473,
+     "b": 533,
+     "gateA": 600623,
+     "gateB": 622437,
+     "winner": 533,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 820,
+     "b": 700,
+     "gateA": 756444,
+     "gateB": 765372,
+     "winner": 820,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 54,
+     "b": 638,
+     "gateA": 686854,
+     "gateB": 610871,
+     "winner": 54,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 593,
+     "b": 533,
+     "gateA": 612450,
+     "gateB": 622437,
+     "winner": 593,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 820,
+     "b": 54,
+     "gateA": 756444,
+     "gateB": 686854,
+     "winner": 54,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 593,
+     "b": 54,
+     "gateA": 612450,
+     "gateB": 686854,
+     "winner": 54,
+     "tie": false,
+     "fought": 1
+    }
+   ]
+  },
+  {
+   "set": "adult",
+   "ok": true,
+   "champion": 86,
+   "practice": false,
+   "title": "Champion",
+   "duels": 7,
+   "draws": 0,
+   "ruled": true,
+   "matches": [
+    {
+     "a": 86,
+     "b": 523,
+     "gateA": 807504,
+     "gateB": 627980,
+     "winner": 86,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 56,
+     "b": 987,
+     "gateA": 799171,
+     "gateB": 747282,
+     "winner": 56,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 431,
+     "b": 881,
+     "gateA": 805444,
+     "gateB": 805050,
+     "winner": 431,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 763,
+     "b": 207,
+     "gateA": 632076,
+     "gateB": 751843,
+     "winner": 207,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 86,
+     "b": 56,
+     "gateA": 807504,
+     "gateB": 799171,
+     "winner": 86,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 431,
+     "b": 207,
+     "gateA": 805444,
+     "gateB": 751843,
+     "winner": 207,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 86,
+     "b": 207,
+     "gateA": 807504,
+     "gateB": 751843,
+     "winner": 86,
+     "tie": false,
+     "fought": 1
+    }
+   ]
+  },
+  {
+   "set": "credit",
+   "ok": true,
+   "champion": 826,
+   "practice": false,
+   "title": "Champion",
+   "duels": 7,
+   "draws": 0,
+   "ruled": true,
+   "matches": [
+    {
+     "a": 194,
+     "b": 195,
+     "gateA": 630282,
+     "gateB": 737770,
+     "winner": 195,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 419,
+     "b": 44,
+     "gateA": 626852,
+     "gateB": 638369,
+     "winner": 44,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 989,
+     "b": 376,
+     "gateA": 625497,
+     "gateB": 643245,
+     "winner": 376,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 826,
+     "b": 466,
+     "gateA": 646959,
+     "gateB": 638214,
+     "winner": 826,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 195,
+     "b": 44,
+     "gateA": 737770,
+     "gateB": 638369,
+     "winner": 44,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 376,
+     "b": 826,
+     "gateA": 643245,
+     "gateB": 646959,
+     "winner": 826,
+     "tie": false,
+     "fought": 1
+    },
+    {
+     "a": 44,
+     "b": 826,
+     "gateA": 638369,
+     "gateB": 646959,
+     "winner": 826,
+     "tie": false,
+     "fought": 1
+    }
+   ]
+  }
+ ],
+ "synthetic": {
+  "sets": 1000,
+  "twice": 1000,
+  "decidedOk": 1000,
+  "openOk": 1000,
+  "championOk": 1000,
+  "ties": 201,
+  "decided": 976
+ }
+}
