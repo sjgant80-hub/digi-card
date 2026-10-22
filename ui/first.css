@@ -1,0 +1,42 @@
+/* ui/first.css — the first game (ui/first.js): one panel over the game view, in the game's own colours and type. */
+html.ft-on body { overflow: hidden; }
+.ft { position: fixed; inset: 0; z-index: 2000; overflow-y: auto; background: var(--g-bg, #120626); color: var(--g-ink, #fff);
+  font-family: var(--g-text, inherit); padding: 16px; box-sizing: border-box; }
+.ft-top { max-width: 760px; margin: 0 auto 12px; display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.ft-pips { display: flex; gap: 8px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+.ft-pips li { padding: 4px 10px; border: 2px solid var(--g-rule, #4a1a80); color: var(--g-mute, #a898d0); font-size: 14px; }
+.ft-pips li b { color: inherit; }
+.ft-pips li.now { border-color: var(--g-hot, #ff2bd6); color: var(--g-ink, #fff); }
+.ft-pips li.done { border-color: var(--g-ok, #7dff8a); color: var(--g-ok, #7dff8a); }
+.ft-skip { min-height: 40px; }
+.ft-stage { max-width: 760px; margin: 0 auto; background: var(--g-panel, #1a0836); border: 2px solid var(--g-rule, #4a1a80); padding: 20px; box-sizing: border-box; }
+.ft-stage p { line-height: 1.5; }
+.ft-title { font-size: 56px; letter-spacing: 4px; color: var(--g-gold, #ffd23c); text-shadow: 4px 4px 0 var(--g-hot-lo, #7a0e66); margin: 8px 0; text-align: center; }
+.ft-tag { font-size: 20px; text-align: center; margin: 0 0 16px; }
+.ft-three { margin: 0 0 20px; padding-left: 20px; }
+.ft-three li { margin: 8px 0; line-height: 1.5; }
+.ft-stage button.hot { display: block; width: 100%; margin: 16px 0 8px; }
+.ft-two { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+.ft-two > div { flex: 1 1 260px; min-width: 0; }
+.ft-card { width: 192px; height: auto; image-rendering: pixelated; border: 2px solid var(--g-rule, #4a1a80); }
+.ft-card.ft-small { width: 128px; }
+.ft-duel { width: 100%; max-width: 480px; height: auto; image-rendering: pixelated; display: block; margin: 8px 0; }
+.ft-power { display: flex; align-items: baseline; gap: 12px; margin: 12px 0; }
+.ft-power span { color: var(--g-dim, #c9b8f0); font-size: 18px; letter-spacing: 2px; }
+.ft-power b { font-size: 48px; color: var(--g-cy, #2be8ff); }
+.ft-real { color: var(--g-ok, #7dff8a); }
+.ft-win { color: var(--g-ok, #7dff8a); font-size: 22px; }
+.ft-lose { color: var(--g-bad, #ff7a8a); font-size: 22px; }
+.ft-combo { color: var(--g-gold, #ffd23c); font-size: 26px; }
+.ft-prize { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-top: 16px; border-top: 2px solid var(--g-rule, #4a1a80); padding-top: 16px; }
+.ft-prize > div { flex: 1 1 260px; min-width: 0; }
+.ft-score { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+.ft-score > div { flex: 1 1 140px; border: 2px solid var(--g-rule, #4a1a80); padding: 8px 12px; }
+.ft-score span { display: block; color: var(--g-dim, #c9b8f0); font-size: 14px; letter-spacing: 2px; }
+.ft-score b { font-size: 36px; color: var(--g-cy, #2be8ff); }
+.ft-doors { padding-left: 20px; }
+.ft-doors li { margin: 8px 0; line-height: 1.5; }
+.ft-doors a { color: var(--g-cy, #2be8ff); }
+.ft-live { max-width: 760px; margin: 12px auto 0; min-height: 1.5em; }
+@media (max-width: 480px) { .ft-title { font-size: 40px; } .ft-power b { font-size: 40px; } .ft-score b { font-size: 28px; } .ft-stage { padding: 14px; } }
+@media (prefers-reduced-motion: reduce) { .ft * { transition: none !important; animation: none !important; } }

@@ -20,6 +20,9 @@ jobs:
       - name: the game view, played in a headless browser
         run: node tools/ui-play.mjs
         env: { CHROME: /usr/bin/google-chrome }
+      - name: the first game, played from nothing as a brand-new player (three missions on the real kernels)
+        run: node tools/first-play.mjs
+        env: { CHROME: /usr/bin/google-chrome }
       # every failure counts: under bash -e a failing order.mjs early in an && chain did not stop the step, so a later organ
       # passing could have hidden it (found 2026-10-22). A red organ passes only as SUPERSEDED: its verdict exactly as its
       # sealed rules give, its failures exactly the ones named, and a later organ, sealed first, holding every property.
