@@ -1,0 +1,43 @@
+{
+ "kind": "digi-card.organ-14.verdict",
+ "v": 1,
+ "prereg": "59754067f4493617",
+ "record": "46a650e44fc2c76e",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 30 GATE rows said in words, asked of each of the 10 cards of every business, is answered from the rules: read back exactly on every column the rules read, and answered with the very label, score and fired rules the mind itself gives for that row. Nothing is added and nothing is changed.",
+   "pass": true,
+   "saw": "1500 of 1500 GATE rows said in words, asked of 50 cards of 5 businesses, were read back exactly on every column the rules read and answered with the mind’s own label, score and fired rules"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every question with a value its rules read left out abstains, naming exactly the columns missing; every question with one of them said twice differently abstains; and every one of the 25 off-topic questions abstains. None of them gets a yes or a no.",
+   "pass": true,
+   "saw": "1500 of 1500 questions with a value its rules read left out abstained naming exactly what was missing; 1500 of 1500 with one said twice differently abstained; 1250 of 1250 off-topic questions abstained"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every question asked twice gets the very same receipt, and every question a card offers to be asked is answered.",
+   "pass": true,
+   "saw": "1500 of 1500 questions asked twice gave the very same receipt; 150 of 150 of the questions each card offers were answered"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "At least 99% of the rows said with other words (any of a column’s phrases, any of a level’s) in another order are still read back exactly and answered as P1.",
+   "pass": true,
+   "saw": "1500 of 1500 rows said with other words in another order were read back exactly (100%)"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "At least 95% of the questions that only name a column (what is it, tell me about it) abstain: naming a column is not asking about a case.",
+   "pass": true,
+   "saw": "1800 of 1800 questions that only name a column abstained (100%)"
+  }
+ ]
+}
