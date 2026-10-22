@@ -18,9 +18,9 @@ import { consent } from '../src/mesh.mjs';
 import { SETS } from '../src/data.mjs';
 import { sayOutcome } from '../src/copy.mjs';
 import { paintDuel } from '../vendor/pixelwhisperer/kards/arena.mjs';
+import { COMBO } from '../src/build.mjs';   // the game's combo margin, pinned in organ 16: a team must beat its best card by it
 
 const FIRST_DOMAIN = 'telco-account';   // the first card's department: phone customers who leave, the easiest question to picture
-const COMBO = 5000;                      // the game's combo margin (src/build.mjs COMBO): a team must beat its best card by 0.005
 const FLAG = 'kardlings-first-game';
 const power = (m) => (m == null ? '–' : (m / 10000).toFixed(1));   // GATE AUC in millionths, read as POWER out of 100
 const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -36,9 +36,9 @@ function el(tag, attrs = {}, ...kids) {
 
 const T = { box: null, stage: null, pips: [], live: null, busy: false, mine: new Set(), set: null, ground: null, a: null, b: null, boss: null };
 
-/** open the first game: on a first visit only, unless asked for by name (#first-game) */
-async function open(force = false) {
-  if (T.box) return;
+/** open the first game: on a first visit only, unless asked for by name (#first-game, or #what-is-it for the guide) */
+async function open(force = false, page = title) {
+  if (T.box) { page(); return; }
   await ready;
   if (!force && (stored() || api.mine().length > 0 || !document.documentElement.classList.contains('game'))) return;
   T.live = el('p', { class: 'ft-live g-dim g-small', 'aria-live': 'polite' });
@@ -50,13 +50,15 @@ async function open(force = false) {
     T.stage, T.live);
   document.body.append(T.box);
   document.documentElement.classList.add('ft-on');
-  title();
+  page();
 }
 function close(how) {
   if (!T.box) return;
   store(how);
   T.box.remove(); T.box = null;
   document.documentElement.classList.remove('ft-on');
+  // asked for by name, it leaves the address on a real screen, so a reload does not open it again
+  if (location.hash === '#first-game' || location.hash === '#what-is-it') location.replace('#' + (api.mine().length ? 'estate' : 'first'));
 }
 function step(k) { T.pips.forEach((p, j) => { p.className = j < k ? 'done' : j === k ? 'now' : ''; p.setAttribute('aria-current', j === k ? 'step' : 'false'); }); }
 const say = (t) => { if (T.live) T.live.textContent = t; };
@@ -82,10 +84,41 @@ function title() {
       el('li', {}, el('b', {}, 'A duel'), ' puts two Kardlings on the same real cases: the better caller wins.'),
       el('li', {}, el('b', {}, 'A team'), ' that beats its best player is a combo. Those are rare, and they are the game.')),
     go('Play', mission1),
+    el('button', { class: 'g-btn ft-what', type: 'button', onclick: guide }, 'What is Kardlings? (one page, plain words)'),
     el('p', { class: 'g-dim g-small' }, 'Free · no account · everything runs on this device · about five minutes'),
     el('details', { class: 'ft-why' }, el('summary', {}, 'Too good to be true?'),
       el('p', {}, 'There is no server and no demo video. The page fetches public datasets (each named, with its fingerprint, on the Proof screen), grows each Kardling’s mind on this device, and checks every score against the one that was published before anyone played.'),
       el('p', {}, 'A Kardling’s mind is not a black box: it is at most six if-then rules you can read, like “a customer on a month-to-month contract for under 18 months”. Every duel and every team result can be run again on any device to the very same numbers.')));
+}
+
+// ── the guide: what Kardlings is, what it does, where it runs, how to start and how to build a team, in plain words ─────────
+function guide() {
+  step(-1);
+  const box = (t, d) => el('li', {}, el('b', {}, t), el('span', {}, d));
+  const fresh = api.mine().length === 0;
+  show(el('h2', { id: 'ft-h', class: 'g-h' }, 'What is Kardlings?'),
+    el('h3', {}, 'What it is'),
+    el('p', {}, 'A free card game in your browser. Every card is a Kardling: a pixel creature with a tiny AI inside. The AI is at most six if-then rules you can read, learned from a real public dataset, and it answers one yes-or-no question about real cases. There are six businesses:'),
+    el('ul', { class: 'ft-sets' }, Object.keys(SETS).map((s) => el('li', {}, el('b', {}, SETS[s].title), ': who ' + sayOutcome(s, SETS[s].outcome)))),
+    el('p', {}, 'Its POWER says how good it is: shown one case where the answer is yes and one where it is no, how often in 100 it ranks them the right way round. 50 is a coin toss; 100 never misses.'),
+    el('h3', {}, 'What you do'),
+    el('ol', { class: 'ft-loop' }, box('1 · Collect', 'Press Card me: a Kardling is signed to you.'), box('2 · Duel', 'Two Kardlings answer the same real cases; the better one wins.'),
+      box('3 · Team up', 'Put up to six together for a job. If the team beats its best card, it is a combo.'), box('4 · Prove', 'A friend re-runs your team on their device. Same numbers: proven, and into the build book.')),
+    el('h3', {}, 'Where it runs'),
+    el('p', {}, 'Right here, in this browser, at this address. Nothing to install, no account, and nothing you do is sent anywhere: the datasets are fetched once from this site, and every card is grown and checked on your device. Your cards live in this browser. Your key file is what makes them yours: save it to play on another device.'),
+    el('h3', {}, 'How to start'),
+    el('p', {}, 'Play the five-minute tutorial: it gives you two Kardlings, a first duel and a first team. Then save your key file.'),
+    el('h3', {}, 'How to build a team for a job'),
+    el('ol', { class: 'ft-steps' },
+      el('li', {}, 'Open Play, then Builds.'),
+      el('li', {}, 'Pick a job: a business, and the bar its world boss sets.'),
+      el('li', {}, 'Pick your cards: one for each department, or none (six at most).'),
+      el('li', {}, 'Press Measure the build. Your device scores the team on cases none of its cards learned from, and each card alone on the same cases.'),
+      el('li', {}, 'If the team beats its best card by ' + power(COMBO) + ' or more, it is a combo. Press Sign my re-run, copy the build code and send it to a friend.'),
+      el('li', {}, 'Your friend presses Add a build code and re-runs it. When a second key gets the very same numbers, the combo is proven and goes in the build book, with the face of the key that found it.')),
+    el('h3', {}, 'Why it matters'),
+    el('p', {}, 'Which small AIs, put together, really do a job better? Kardlings answers that with numbers anyone can run again on their own machine. A business can grow cards on its own table the same way: Mint, in the game.'),
+    fresh ? go('Play the tutorial →', mission1) : el('button', { class: 'g-btn hot big g-next', type: 'button', onclick: () => close('done') }, 'Back to the game'));
 }
 
 // ── mission 1: your first Kardling, and what its POWER means ──────────────────────────────────────────────────────────────
@@ -213,7 +246,7 @@ async function mission3() {
 function finish() {
   step(3);
   T.box.dataset.held = String(api.mine().length);
-  const doors = [['arena', 'Arena', 'Duel any Kardling of your business. Win to climb the ladder.'], ['raids', 'Raids', 'The world bosses: build a team that clears the bar.'],
+  const doors = [['arena', 'Arena', 'Duel any Kardling of your business. Win to climb the ladder.'], ['raids', 'Raids', 'The world bosses: build a team that clears the bar.'], ['builds', 'Builds', 'Put Kardlings to a job, measure the team, prove a combo with a second key.'],
     ['fusion', 'Fusion lab', 'Fuse your two cards: kept only if the new card beats both.'], ['kit', 'Kit', 'Give your Kardling parts and tools; each one must add.'], ['estate', 'Estate', 'Your world: every card you hold is a block on your plot.']];
   show(el('h2', { id: 'ft-h', class: 'g-h' }, 'Keep your Kardlings'),
     el('p', {}, 'Your cards are signed to a key made on this device. Save your key file: it is what makes them yours next time. No account, no email: it stays with you.'),
@@ -225,5 +258,5 @@ function finish() {
 
 // a card taken any other way closes the first game; #first-game opens it again
 addEventListener('digi', (e) => { const d = e.detail || {}; if (T.box && !T.busy && ((d.type === 'card' && !T.mine.has(d.id)) || (d.type === 'key' && d.restored))) close('skipped'); });
-addEventListener('hashchange', () => { if (location.hash === '#first-game') open(true); });
-open(location.hash === '#first-game');
+addEventListener('hashchange', () => { if (location.hash === '#first-game') open(true); else if (location.hash === '#what-is-it') open(true, guide); });
+open(location.hash === '#first-game' || location.hash === '#what-is-it', location.hash === '#what-is-it' ? guide : title);

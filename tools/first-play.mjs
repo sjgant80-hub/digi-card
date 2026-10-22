@@ -69,7 +69,13 @@ try {
   // the title: a brand-new player sees the first game, not the classic first screen
   if (!(await until(`!!document.querySelector('.ft .ft-title')`, 90000, 'the first game to open on a first visit'))) await done(1);
   await read('the title');
-  await press('Play');
+  // the guide: what it is, what you do, where it runs, how to start, how to build a team, in plain words; then into the tutorial
+  await press('What is Kardlings?');
+  const GUIDE = ['What it is', 'What you do', 'Where it runs', 'How to start', 'How to build a team for a job'];
+  if (!(await until(`[...document.querySelectorAll('.ft h3')].map((h) => h.textContent).join('|') === ${JSON.stringify(GUIDE.concat('Why it matters').join('|'))}`, 10000, 'the guide and its six headings'))) await done(1);
+  if ((await js(`document.querySelectorAll('.ft .ft-loop li').length`)) !== 4) problems.push('the guide does not draw the four-step loop');
+  await read('the guide');
+  await press('Play the tutorial');
 
   // 1 · your first Kardling: its POWER is its GATE grown here, and the very GATE the drop declared for that card
   if (!(await until(`!!document.querySelector('.ft .ft-power') && document.querySelector('.ft').dataset.gate`, 120000, 'the first Kardling and its POWER'))) await done(1);
@@ -103,6 +109,12 @@ try {
   await press('Start playing');
   if (!(await until(`location.hash === '#estate' && !document.querySelector('.ft') && document.querySelector('section[data-screen="estate"].on')`, 30000, 'the estate after the first game'))) await done(1);
   seen.push('the estate');
+  // a player who holds cards opens the guide by name and goes back to the game from it
+  await js(`location.hash = '#what-is-it'`);
+  if (!(await until(`!!document.querySelector('.ft .ft-loop') && [...document.querySelectorAll('.ft button')].some((b) => b.textContent.trim() === 'Back to the game')`, 30000, '#what-is-it opening the guide for a player who holds cards'))) await done(1);
+  await press('Back to the game');
+  if (!(await until(`!document.querySelector('.ft')`, 10000, 'the guide closing'))) await done(1);
+  seen.push('#what-is-it, then back');
   await send('Page.reload');
   await sleep(4000);
   if (!(await until(`document.documentElement.classList.contains('game') && !!document.querySelector('section[data-screen].on')`, 90000, 'the second visit'))) await done(1);

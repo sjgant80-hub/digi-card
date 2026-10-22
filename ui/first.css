@@ -43,3 +43,15 @@ html.ft-on body { overflow: hidden; }
 .ft-why { margin-top: 12px; border-top: 2px solid var(--g-rule, #4a1a80); padding-top: 10px; }
 .ft-why summary { cursor: pointer; color: var(--g-cy, #2be8ff); }
 .ft-why p { color: var(--g-dim, #c9b8f0); font-size: 15px; }
+.ft-what { display: block; width: 100%; margin: 0 0 8px; min-height: 44px; }
+.ft-stage h3 { color: var(--g-gold, #ffd23c); margin: 20px 0 6px; font-size: 18px; letter-spacing: 1px; }
+.ft-sets { padding-left: 20px; margin: 6px 0; }
+.ft-sets li { margin: 4px 0; }
+.ft-loop { list-style: none; padding: 0; margin: 8px 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; counter-reset: none; }
+.ft-loop li { border: 2px solid var(--g-rule, #4a1a80); padding: 10px; position: relative; }
+.ft-loop li b { display: block; color: var(--g-cy, #2be8ff); margin-bottom: 4px; }
+.ft-loop li span { color: var(--g-dim, #c9b8f0); font-size: 14px; line-height: 1.4; }
+.ft-loop li:not(:last-child)::after { content: '→'; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: var(--g-hot, #ff2bd6); }
+.ft-steps { padding-left: 22px; }
+.ft-steps li { margin: 6px 0; line-height: 1.5; }
+@media (max-width: 640px) { .ft-loop { grid-template-columns: 1fr 1fr; } .ft-loop li::after { content: none !important; } }
