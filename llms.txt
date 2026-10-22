@@ -16,7 +16,7 @@ Source: https://github.com/sjgant80-hub/kardlings (MIT — no licence fee)
 - Ownership: the last signed give names the owner; a double sale is refused by the registry (first recorded give wins).
 - No card is neural; records never leave the device; nothing is sent anywhere, except what you ask your hero on your own AI key, which goes only to the provider you picked (Anthropic, OpenAI, Google or OpenRouter, inside a limit the owner signs).
 - Every kernel is mutation-gated (witness); every organ was sealed before it was measured (git proves the order).
-- The page opens as a pixel game view built from the cards' own art engine: eight screens (Estate, Base, Cards,
+- The page opens as a pixel game view built from the cards' own art engine: nine screens (Hero, Estate, Base, Cards,
   Evals, Mint, Mesh, Send, Proof) over the same kernels; the classic document view holds the full explanation.
 - A player's key is never kept in browser storage: it lives in the open tab and in the key file they save.
 - FallWorld, the agent economy as a game: every card is born with two node slots (more as it levels) and two tool slots.
@@ -38,6 +38,10 @@ Stabilization to Dual-Map Ethical Reasoning" (Derivation v0.2), "The Laws of Ent
 Architecture" (2025) and "NEXUS — Distributed Synthetic Intelligence" (2026) — Open Defensive Prior Art (Creative Commons).
 
 Powered by the Konomi architecture, created by Thomas Frumkin. Supplier: AI Native Solutions (https://www.ai-nativesolutions.com).
+
+## The hero
+
+A player's hero is one of their cards, crowned with a pass they sign (fall-os's kard format, vendored): which card, what it may do (talk; share what it remembers; use the player's own AI key) and the most of that key it may ever use. A question goes to the card's rules first (exact, offline), then to what it remembers of its player (facts from their own words, kept on the device), and only then to the player's own key (Anthropic, OpenAI, Google or OpenRouter) inside the limit. On a key it sends one fixed opening every question so the provider can reuse its reading; each answer says what was reused. The page's CSP allows only this site and those four providers. Kernel: src/hero.mjs (mutation-gated). Screen: ui/hero.js.
 
 ## The talker
 

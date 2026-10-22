@@ -12,12 +12,32 @@ Everything on the live page is this repository's mutation-gated code running in 
 datasets. Nothing is mocked; nothing is sent anywhere, except what you ask your hero on your own AI key, which goes only to the provider you picked.
 
 The page opens as a game, built from the same blocks as the cards (PixelWhisperer Kards' palettes, rarity rings and
-pixel lettering). Its dock holds eight screens: Estate, Base, Cards (with each card's Kit), Play (the Arena, the Raids and
-Evals), Mint, Mesh, Send and Proof (with your record). Card me hands you
+pixel lettering). Its dock holds nine screens: Hero (your crowned card), Estate, Base, Cards (with each card's Kit), Play (the Arena, the
+Raids and Evals), Mint, Mesh, Send and Proof (with your record). Card me hands you
 a telco card, and Boot reads it, checks it, grows its mind and counts up to the score your device computed beside the
 one the drop declared. The classic document view (Menu → Classic view) holds the full explanation, the brochure and
 the white paper. Your key is never kept in the browser's storage: it lives in the tab and in the key file you save.
 The game's own files are `ui/mode.js`, `ui/game.js` and `ui/game.css`, and they change no kernel.
+
+## The hero
+
+Your hero is one of your cards, crowned: the one you talk to, teach about you, train and power with your own AI key. Its
+class is its card's business (a telecom card is a Telecom Tactician). Crowning signs a pass in fall-os's kard format
+with your key (`vendor/fall-os/kard.mjs`, used as it is): which card, what the hero may do (talk; share what it
+remembers with your key's provider; use your key) and the most of your key it may ever use. Nothing signed can raise
+that limit, and the pass travels in your key file; your AI key does not (it is held in the open tab only).
+
+A question goes to the cheapest place that can answer it exactly: the card's own rules first (the talker, offline, with
+a receipt), then what the hero remembers of you (facts found in your own words by fall-os's memory, `vendor/fall-os/
+seed.mjs`, kept on this device: your ChatGPT or Claude history is read in the tab and never kept or sent), and only then
+your own key (Anthropic, OpenAI, Google or OpenRouter), inside the pass's limit. On a key the hero sends one fixed opening
+every question, the same bytes each time, and a page that only grows, so the provider can reuse the reading it already
+did (kar-foldcycle's recycling: Anthropic is told to cache the opening; the others cache repeated openings themselves).
+Every answer says where it came from, and an answer on a key says what it read, what the provider reused and what is left
+of the limit. The page's Content-Security-Policy allows this site and those four provider addresses, nothing else.
+Training is the card's own level-up: a new mind is kept only if it beats the old by 0.002 on cases it never saw.
+
+The rules are `src/hero.mjs` (mutation-gated, every mutant killed, none baselined); the screen is `ui/hero.js`.
 
 ## FallWorld: kit it out, fight, raid — the agent economy as a game, real underneath
 
@@ -47,8 +67,8 @@ minted as a signed item, handed on by signed gives; it moves no score, and the p
 
 ## What was proven
 
-Fifteen organs, each sealed before it was measured (organs 6, 10, 11, 12, 13, 14 and 15 are not fully blind, each disclosing why on Proof; git proves the order: `node tools/order.mjs --organ k`), judged by
-their sealed rules alone — **80 of 86 sealed rules held; 5 failed predictions are kept; 1 property failed and is kept:** organ 12 found two real
+Seventeen organs, each sealed before it was measured (organs 6 and 10 to 17 are not fully blind, each disclosing why on Proof; git proves the order: `node tools/order.mjs --organ k`), judged by
+their sealed rules alone — **95 of 102 sealed rules held; 6 failed predictions are kept; 1 property failed and is kept:** organ 12 found two real
 tournament brackets that never named a champion, and organ 13, sealed first, measured the fix (`node tools/superseded.mjs --organ 12`).
 
 | Organ | Result |
@@ -69,6 +89,7 @@ tournament brackets that never named a champion, and organ 13, sealed first, mea
 | 14 · the talker (not fully blind: hardened and dry-run before the seal; see Proof) | 1,500/1,500 GATE rows said in words read back exactly and answered with the mind’s own label, score and fired rules; 1,500/1,500 with a value left out, 1,500/1,500 with one said twice and 1,250/1,250 off-topic questions abstained; every receipt the same twice; 100% read back in other words and another order; 1,800/1,800 bare column names abstained |
 | 15 · the guild (not fully blind: the kernel was gated before the seal; see Proof) | 379/379 guilds stood exactly as their keys signed, all 1,895 attacks refused with their reasons, 21/21 past twelve refused; the same in any order; every estate drawn exactly as signed; 274/274 members who signed a drop card wrongly caught by the drop; a guild of twelve read in a median 16 ms |
 | 16 · builds and combos, and the shrink (not blind on GATE: smoke- and dry-run before the seal; see Proof) | 80/80 builds measured again to the very same receipt by two keys and worked out again apart from the kernel; 80/80 proven, 80/80 attack sets refused; 20/20 shrinks checked deeply. 61 of 68 combos found on GATE beat their best card on TEST (89.7%; median lift 0.028 on GATE, 0.016 on TEST); 3 of 4 kept students beat their best source on TEST; **failed, kept:** only 2 of 20 taught students matched the same search on the true answers on TEST |
+| 17 · the hero (not fully blind: the kernel was gated and played before the seal; see Proof) | 120/120 heroes crowned and checked exactly; 1,800/1,800 tampered passes refused; the opening the same bytes every time and a page that only grows; the limit wall exact over 6,000 routed questions; 360/360 questions its rules answer kept on the rules, 600/600 off-business questions sent to the key; a repeated opening read 97% faster on a local 7B and 1B (controls: nothing saved) |
 
 Every kernel is witness CLEAN (1,082/1,082 mutants killed on GitHub’s runner at 8062362, run 39722326600) and CI re-proves all of it on every push.
 
@@ -122,7 +143,7 @@ or sent by the tools: a person does that.
 | `src/earn.mjs` | the record: a player's releases and measured party shares as entries of the credits ledger |
 | `vendor/mint-an-app/` | mint-an-app's records of the estate's apps (which are mintable, their tier, commit and CI run), byte for byte |
 | `vendor/kcc-mesh/` | the credits ledger and its DIGI gate, byte for byte |
-| `data/organ-*/` | sixteen organs: sealed claims, records, verdicts (and organ 12’s superseded record) |
+| `data/organ-*/` | seventeen organs: sealed claims, records, verdicts (and organ 12’s superseded record) |
 | `drop/` | the manifest, the genesis log, every search |
 | `decoder/v1/` | the exact files that read a card, frozen at the drop |
 

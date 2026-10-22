@@ -14,6 +14,7 @@ import { reply, sayRule, asks } from '../src/talker.mjs';
 import { MAX_TURNS, classOf, crown, heroOk, opening, route, kindsAsked, fromMemory, costOf, turns, usedOf, levelOf, STEPS } from '../src/hero.mjs';
 import { parseExport, extractFacts, dedupe, bucket, recall, BUCKETS } from '../vendor/fall-os/seed.mjs';
 import { sayOutcome } from '../src/copy.mjs';
+import { paintHero } from '../vendor/pixelwhisperer/kards/hero.mjs';
 import { SETS } from '../src/data.mjs';
 
 const $ = (s) => document.querySelector(s);
@@ -49,7 +50,8 @@ async function loadHero() {
   try { const p = JSON.parse(localStorage.getItem('kardlings-hero-provider') || 'null'); if (p && PROVIDERS[p.provider]) { H.provider = p.provider; H.model = typeof p.model === 'string' && p.model ? p.model : PROVIDERS[p.provider].models[0]; } } catch {}
 }
 const st = () => game.state();
-const acts = () => ((st().hero) ||= { asked: 0, keyed: 0 });
+/** what this hero has done: its own questions answered and key answers, kept per crowned card (a new hero starts at none) */
+const acts = () => { const all = (st().heroActs ||= {}), id = heroCard() || '-'; return (all[id] ||= { asked: 0, keyed: 0 }); };
 /** the hero's card, if this key still holds it */
 const heroCard = () => (H.ok && H.ok.ok && H.ok.owner === S.me.pub && api.mine().includes(H.ok.card) ? H.ok.card : null);
 
@@ -115,6 +117,17 @@ function renderLevel() {
   const lv = levelOf({ crowned: !!id, asked: a.asked, remembered: H.memory ? memoryLines().length : 0, trained: id ? stageOf(id) : 0, keyed: a.keyed, geared: id && (st().loadouts || {})[id] ? 1 : 0 });
   setK('g-hr-level', 'LEVEL ' + lv.level + ' of ' + lv.of); setK('g-hr-title', lv.title); setK('g-hr-next', lv.next);
   fill($('#g-hr-steps'), STEPS.map((s, i) => el('li', { class: lv.lit[i] ? 'k' : '' }, (lv.lit[i] ? '✓ ' : '') + s.title)));
+  if (id) plate(id, lv.lit);
+}
+/** the hero's plate, drawn by PixelWhisperer from the hero's own record: its crest, its name, its class, its gems */
+async function plate(id, lit) {
+  const v = await verify(api.lifeOf(id)), name = facts(v).title.replace(/[^A-Za-z0-9 &.'-]/g, '').slice(0, 22).trim() || 'Hero', c = $('#g-hr-plate');
+  const r = paintHero({ name, title: H.ok.cls.title, set: H.ok.set, lit }, game.theme(), c.width, c.height);
+  if (!r.ok) return;
+  const ctx = c.getContext('2d'), img = ctx.createImageData(c.width, c.height);
+  for (let i = 0, j = 0; i < r.px.length; i += 3, j += 4) { img.data[j] = r.px[i]; img.data[j + 1] = r.px[i + 1]; img.data[j + 2] = r.px[i + 2]; img.data[j + 3] = 255; }
+  ctx.putImageData(img, 0, 0);
+  c.setAttribute('aria-label', 'Your hero’s plate: ' + name + ', a ' + H.ok.cls.title + ', level ' + r.level + ' of 6');
 }
 let stages = new Map();
 const stageOf = (id) => stages.get(id) || 0;

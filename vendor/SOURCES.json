@@ -107,7 +107,7 @@
   },
   {
    "repo": "sjgant80-hub/pixelwhisperer",
-   "commit": "4ad5afdc849ff0a1bd2b0cc6e1efe52f78401ebd",
+   "commit": "4556c14ff9a37883656b8780ea231186bd3c17f8",
    "local": "C:/Users/sjgan/pixelwhisperer",
    "files": {
     "vendor/pixelwhisperer/kards/kardart.mjs": {
@@ -153,6 +153,10 @@
     "vendor/pixelwhisperer/kards/fusion.mjs": {
      "from": "kards/fusion.mjs",
      "sha256": "c70682fd3c53dc24fab1d09676ff9d469dbc6732236d1fe6c3ced32b43329ed7"
+    },
+    "vendor/pixelwhisperer/kards/hero.mjs": {
+     "from": "kards/hero.mjs",
+     "sha256": "4f6f8253a5e12f4768949bb9730c5911e2b365cb5b4d12175e0148764a7e7843"
     }
    }
   },

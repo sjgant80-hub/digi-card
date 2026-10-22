@@ -367,3 +367,6 @@ html.game .g-door:hover, html.game .g-door:focus-visible { border-color: #ffd23c
 .g-pick select { width: 100%; min-width: 0; }
 .g-verdict { font-size: 1.25rem; letter-spacing: .08em; margin: 8px 0 4px; }
 .g-bookjob h4 { margin: 10px 0 4px; }
+
+/* the hero’s plate: PixelWhisperer’s pixels, kept crisp and never wider than its panel */
+.g-hr-plate { display: block; width: 100%; max-width: 384px; height: auto; image-rendering: pixelated; margin: 0 auto 8px; }

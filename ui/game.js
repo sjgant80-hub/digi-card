@@ -30,6 +30,7 @@ import { paintEstate, tilesFor, estateDoors, estateDoorAt } from '../vendor/pixe
 import { paintSlot } from '../vendor/pixelwhisperer/kards/gear.mjs';
 import { paintDuel } from '../vendor/pixelwhisperer/kards/arena.mjs';
 import { paintBack } from '../vendor/pixelwhisperer/kards/back.mjs';
+import { HERO_ICON } from '../vendor/pixelwhisperer/kards/hero.mjs';
 import { paintFusion, paintLineage } from '../vendor/pixelwhisperer/kards/fusion.mjs';
 import { campaign, autoKit } from '../src/campaign.mjs';
 import { replay, readBack } from '../src/replay.mjs';
@@ -2098,8 +2099,8 @@ function wire() {
   addEventListener('pagehide', () => { G.st.seen = new Date().toISOString(); saveState(); });
 }
 /** the dock wears PixelWhisperer's own icons */
-const DOCK_ICON = { arena: 'evals', hero: 'voice' };   // Play holds the arena, the raids and the evals: it wears the evals icon; the hero talks
-function dockIcons() { for (const a of $$('#g-dock a')) { const icon = UI_ICONS[a.dataset.go] || UI_ICONS[DOCK_ICON[a.dataset.go]]; if (icon && !a.querySelector('canvas')) a.prepend(iconCanvas(icon, 2, '#2be8ff')); } }
+const DOCK_ICON = { arena: 'evals' };   // Play holds the arena, the raids and the evals: it wears the evals icon (the hero wears its crown)
+function dockIcons() { for (const a of $$('#g-dock a')) { const icon = a.dataset.go === 'hero' ? HERO_ICON : UI_ICONS[a.dataset.go] || UI_ICONS[DOCK_ICON[a.dataset.go]]; if (icon && !a.querySelector('canvas')) a.prepend(iconCanvas(icon, 2, '#2be8ff')); } }
 async function start() {
   dockIcons(); paintLogo();
   wireInfo();
@@ -2122,4 +2123,4 @@ async function start() {
 start();
 
 /** what the hero screen (ui/hero.js) shares with this one: the talker's grown minds, the cards, the state, the sounds */
-export const game = { talkerCtx, myCards, show, bleep, saveState, state: () => G.st, forgetGrown: (id) => G.grown.delete(id), go };
+export const game = { talkerCtx, myCards, show, bleep, saveState, state: () => G.st, forgetGrown: (id) => G.grown.delete(id), go, theme: () => plotTheme() };

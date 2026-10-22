@@ -60,6 +60,7 @@ Seal and record are pushed together (CI must never see a prereg without its verd
 | 14 | the talker | b185ff6 | 7710b6c | 5/5 | none | not fully blind (its disclosure says how) |
 | 15 | the guild | a65f318 | f27eeea | 5/5 | none | not fully blind (its disclosure says how) · record carries timings |
 | 16 | builds and combos, and the first training build (the shrink) | 6d3788a | 17940f3 | 8/9 | Q4 (the taught student matched the plain search on TEST in only 2 of 20) | not fully blind (GATE seen before the seal: its disclosure says how) · record carries timings |
+| 17 | the hero: the signed pass, the router (rules, memory, key within its limit), the fixed opening and recycling | a77e1cb | 401494a | 7/7 | none | not fully blind (its disclosure says how) · record carries timings |
 
 To re-verify any organ (fast, no measurement): `node tools/order.mjs --organ k` (the seal came first, every pinned file
 unchanged between seal and record) then `node tools/judge-k.mjs --check` (the committed verdict is exactly what the sealed
@@ -98,6 +99,25 @@ contribution ledger's code).
 - The old Pages address /digi-card/ answers 404 (GitHub redirects repository URLs after a rename, not Pages). Do not make
   a repository named digi-card: it would end the rename redirect other repositories' CI checkouts ride on.
 - Words: `src/copy.mjs` is the words gate. KCC words, money words and "alive/living" never appear on a public surface.
+
+## The hero (organ 17)
+
+`src/hero.mjs` (the pass a crowning signs, as fall-os's kard; the fixed opening; the router: rules, then memory, then key
+inside the limit; the page that only grows; every provider's usage read one way; the level lit by what the hero did) and
+`ui/hero.js` (the Hero screen, first in the dock). Vendored for it: `vendor/fall-os/` (kard.mjs, seed.mjs and the hash they
+share, organs/estate.mjs, byte for byte at fall-os fa75756) and `vendor/kar-foldcycle/foldcycle.mjs` (the recycling verdict,
+f8faf8e). Traps:
+- **The AI key is never stored**: not in IndexedDB, not in localStorage, not in the key file. Only the hero's signed pass
+  is kept (IndexedDB 'hero', and in the key file). The provider and model names are kept in localStorage (not secret).
+- **The CSP allows exactly four provider addresses** besides this site; `tools/page-check.mjs` refuses any other, and
+  refuses any other host named in `ui/hero.js`. Every “nothing is sent” on the page names the one exception.
+- **A key page only grows**: Anthropic's assistant turns are kept as returned (thinking blocks included) and appended,
+  never edited, so earlier thinking stays valid and the cache stays warm; a page starts fresh after 20 questions or when
+  the opening changes. A declined answer adds nothing to the page.
+- **ui-play stands the provider in**: it replaces fetch for api.anthropic.com in the page, so no key and no question
+  leaves the machine, and reads every request back (fixed opening, cache marker, fallback header, key not in the body).
+- The memory keeps only facts (fall-os's buckets), never the export it read; the twelve heaviest go to a provider only
+  when the pass allows 'remember'.
 
 ## Builds and combos (organ 16)
 
