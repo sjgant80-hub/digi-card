@@ -40,3 +40,6 @@ html.ft-on body { overflow: hidden; }
 .ft-live { max-width: 760px; margin: 12px auto 0; min-height: 1.5em; }
 @media (max-width: 480px) { .ft-title { font-size: 40px; } .ft-power b { font-size: 40px; } .ft-score b { font-size: 28px; } .ft-stage { padding: 14px; } }
 @media (prefers-reduced-motion: reduce) { .ft * { transition: none !important; animation: none !important; } }
+.ft-why { margin-top: 12px; border-top: 2px solid var(--g-rule, #4a1a80); padding-top: 10px; }
+.ft-why summary { cursor: pointer; color: var(--g-cy, #2be8ff); }
+.ft-why p { color: var(--g-dim, #c9b8f0); font-size: 15px; }

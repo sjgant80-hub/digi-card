@@ -82,7 +82,10 @@ function title() {
       el('li', {}, el('b', {}, 'A duel'), ' puts two Kardlings on the same real cases: the better caller wins.'),
       el('li', {}, el('b', {}, 'A team'), ' that beats its best player is a combo. Those are rare, and they are the game.')),
     go('Play', mission1),
-    el('p', { class: 'g-dim g-small' }, 'Free · no account · everything runs on this device · about five minutes'));
+    el('p', { class: 'g-dim g-small' }, 'Free · no account · everything runs on this device · about five minutes'),
+    el('details', { class: 'ft-why' }, el('summary', {}, 'Too good to be true?'),
+      el('p', {}, 'There is no server and no demo video. The page fetches public datasets (each named, with its fingerprint, on the Proof screen), grows each Kardling’s mind on this device, and checks every score against the one that was published before anyone played.'),
+      el('p', {}, 'A Kardling’s mind is not a black box: it is at most six if-then rules you can read, like “a customer on a month-to-month contract for under 18 months”. Every duel and every team result can be run again on any device to the very same numbers.')));
 }
 
 // ── mission 1: your first Kardling, and what its POWER means ──────────────────────────────────────────────────────────────
