@@ -1,0 +1,43 @@
+{
+ "kind": "digi-card.organ-15.verdict",
+ "v": 1,
+ "prereg": "e6376060f5dc18cf",
+ "record": "9901187d2d921317",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every guild of at most twelve standing members holds exactly the keys whose highest clean-numbered statement is a join (a number signed two different ways is clean for neither), in the order of their keys, and refuses every attack with its reason; every guild with more than twelve standing is refused, saying how many stand.",
+   "pass": true,
+   "saw": "379 of 379 guilds stood exactly as the keys signed, every one of their 1895 attacks refused with its reason; 21 of 21 guilds past twelve were refused"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every guild is the very same in three orders of its statements.",
+   "pass": true,
+   "saw": "379 of 379 guilds were the very same in three orders of their statements"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every member’s estate in every guild draws to exactly the picture of the estate it signed; every honest member’s drop cards match the drop; and every member who signed a drop card with a wrong department is caught by the drop.",
+   "pass": true,
+   "saw": "379 of 379 guilds drew every member’s estate exactly as it signed it; 379 had every honest member’s drop cards match the drop; 274 of 274 members who signed a drop card wrongly were caught by the drop"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "A guild of twelve members is read, every signature checked, in a median under 2,000 ms on the machine that measures it.",
+   "pass": true,
+   "saw": "a guild of twelve was read in a median 16 ms (24 guilds of twelve timed)"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "A member with twenty drop cards signs a join whose code, as a player copies it, is under 6,000 characters.",
+   "pass": true,
+   "saw": "a member with twenty drop cards signs a code of at most 3512 characters (20 codes)"
+  }
+ ]
+}
