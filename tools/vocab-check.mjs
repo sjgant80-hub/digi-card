@@ -3,13 +3,13 @@
 // exactly once (a column of its own, or a member of one family); a flag only ever holds 0 or 1, a yes/no/unknown only 0,
 // 0.5 or 1; every value a levels column holds has a word; a family's members are 0 or 1 with at most one 1 a row, and a
 // row with none has a word for that; every phrase the reader looks for names one thing; and every case of every
-// department, said in words by src/chat.mjs, reads back as that very case (on a fixed sample of 400 rows a department,
+// department, said in words by src/talker.mjs, reads back as that very case (on a fixed sample of 400 rows a department,
 // its first 40 plus a stride over the rest).
 //   node tools/vocab-check.mjs   → VOCAB OK | VOCAB BROKEN (exit 1)
 import { readFileSync } from 'node:fs';
 import { ground } from './lib.mjs';
 import { SETS, departments, viewOf } from '../src/data.mjs';
-import { vocabOf, sayCase, parse } from '../src/chat.mjs';
+import { vocabOf, sayCase, parse } from '../src/talker.mjs';
 
 const vocab = JSON.parse(readFileSync(new URL('../data/vocab.json', import.meta.url), 'utf8')), problems = [];
 let cases = 0;

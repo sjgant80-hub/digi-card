@@ -1,7 +1,7 @@
-// src/chat.mjs — DIGI CHAT: a card's verified mind, asked in words — and abstaining whenever its rules cannot answer.
+// src/talker.mjs — THE TALKER: a card's verified mind, asked in words — and abstaining whenever its rules cannot answer.
 //
-// A chat card carries a scorer's mind (its genome is a sealed scorecard, as any card's) and its form says it is put to
-// work in conversation (src/dossier.mjs: form 'chat'). Any card can be asked: the chat reads the question with the
+// A talker card carries a scorer's mind (its genome is a sealed scorecard, as any card's) and its form says it is put to
+// work in conversation (src/dossier.mjs: form 'talker'). Any card can be asked: the talker reads the question with the
 // department's vocabulary (data/vocab.json — each column's plain name, unit and how its values are said, read off the
 // loaders' own encodings) and does one of four things:
 //   ask      "would a customer with tenure 30, monthly charges 80 and a two year contract leave?" — it reads the values the
@@ -20,8 +20,10 @@ import { answer } from './mind.mjs';
 import { sha256Hex } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/sha256.mjs';
 import { canonical } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
 
-export const RECEIPT = 'digi.chat.v1';
-export const MAX_Q = 500;
+export const RECEIPT = 'digi.talker.v1';
+/** the longest question read: a full GATE row of the widest business said in words is 626 characters (hospital, measured
+ *  2026-10-22), so 1,000 holds any of them with room to spare; a longer one is refused out loud, never quietly cut */
+export const MAX_Q = 1000;
 const isObj = (x) => Object.prototype.toString.call(x) === '[object Object]';
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const round = (x) => Math.round(x * 1e6) / 1e6;
@@ -52,13 +54,34 @@ export function sayExact(x) {
 /** a question as the reader sees it: lower case, thousands separators gone, a comma or semicolon a clause mark (|), and
  *  everything but words, numbers and - . = : $ | a space */
 export function norm(q) {
-  return ' ' + String(q).toLowerCase().replace(/[‘’]/g, '\x27').replace(/(\d),(\d{3})/g, '$1$2').replace(/[,;]/g, ' | ').replace(/[^a-z0-9.\-=:$\x27| ]/g, ' ').replace(/\s+/g, ' ').trim() + ' ';
+  const s = typeof q === 'string' ? q : typeof q === 'number' ? String(q) : '';
+  return ' ' + s.toLowerCase().replace(/[‘’]/g, '\x27').replace(/(\d),(\d{3})/g, '$1$2').replace(/[,;]/g, ' | ').replace(/[^a-z0-9.\-=:$\x27| ]/g, ' ').replace(/\s+/g, ' ').trim() + ' ';
 }
+
+const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+const isText = (s) => typeof s === 'string' && s.length > 0;
+/** a phrase the reader can find: not empty, and already in the words a question is read in, so nothing ever matches an
+ *  empty phrase (found 2026-10-22: a level said by '' looped for ever) and no phrase is one no question can contain */
+const isPhrase = (w) => isText(w) && norm(w).trim() === w;
+const phrases = (a) => Array.isArray(a) && a.length > 0 && a.every(isPhrase);
+const KINDS = ['number', 'flag', 'tri', 'levels'];
+/** a vocabulary the talker can read, checked whole: anything else is no vocabulary, and the talker abstains (found
+ *  2026-10-22: a fuzz of damaged vocabularies and minds threw in every function that took one) */
+function wellFormed(voc) {
+  return isObj(voc) && isText(voc.thing) && isText(voc.outcome) && isObj(voc.columns) && isObj(voc.groups)
+    && Object.values(voc.columns).every((c) => isObj(c) && KINDS.includes(c.kind) && isText(c.say) && phrases(c.words)
+      && (c.unit === undefined || typeof c.unit === 'string') && (c.bare === undefined || (c.bare === true && c.kind === 'levels') || c.bare === false)
+      && (c.kind === 'levels' ? isObj(c.levels) && Object.keys(c.levels).length > 0 && Object.entries(c.levels).every(([w, v]) => isPhrase(w) && Number.isFinite(v)) : c.levels === undefined))
+    && Object.values(voc.groups).every((g) => isObj(g) && isText(g.say) && isObj(g.members) && Object.keys(g.members).length > 0
+      && Object.values(g.members).every(phrases) && (g.none === undefined || phrases(g.none)) && (g.words === undefined || phrases(g.words)));
+}
+/** a rule the talker can say: a column, a cut on one side of it, a weight */
+const isRule = (r) => isObj(r) && isText(r.feat) && Number.isFinite(r.v) && Number.isFinite(r.w);
 
 /** the vocabulary of one business, or null */
 export function vocabOf(vocab, set) {
-  const v = isObj(vocab) && isObj(vocab.sets) && Object.prototype.hasOwnProperty.call(vocab.sets, set) ? vocab.sets[set] : null;
-  return v && isObj(v.columns) && isObj(v.groups) ? v : null;
+  const v = isObj(vocab) && isObj(vocab.sets) && typeof set === 'string' && own(vocab.sets, set) ? vocab.sets[set] : null;
+  return wellFormed(v) ? v : null;
 }
 
 const NUM = '(-?\\d+(?:\\.\\d+)?)';
@@ -113,7 +136,7 @@ function valueAt(c, q, a, b, free, back) {
  */
 export function parse(question, voc, features) {
   const out = { case: {}, said: {}, conflicts: [] };
-  if (typeof question !== 'string' || !voc || !Array.isArray(features)) return out;
+  if (typeof question !== 'string' || !wellFormed(voc) || !Array.isArray(features)) return out;
   const q = norm(question.slice(0, MAX_Q)), read = new Uint8Array(q.length), cands = [];
   // every character a phrase or a value has been read from is marked: nothing is read twice
   const free = (a, b) => read.subarray(a, b).every((r) => !r);
@@ -123,7 +146,7 @@ export function parse(question, voc, features) {
     out.case[feat] = value; out.said[feat] = said;
   };
   for (const f of features) {
-    const c = isObj(voc.columns[f]) ? voc.columns[f] : null;
+    const c = typeof f === 'string' && own(voc.columns, f) ? voc.columns[f] : null;
     if (!c) continue;
     for (const w of c.words) cands.push({ w, f, c });
     if (c.bare) for (const [w, v] of Object.entries(c.levels)) cands.push({ w, f, c, bare: v });
@@ -156,27 +179,42 @@ export function parse(question, voc, features) {
 
 const EXPLAIN = /(?<![a-z])(why|explain|how do you (?:decide|work|choose)|what (?:makes|drives|matters|decides)|which (?:rules?|columns?|factors?)|your rules|the rules)(?![a-z])/;
 const MEASURE = /(?<![a-z])(how (?:good|accurate|well|reliable|often)|accuracy|auc|can i trust|trustworthy)(?![a-z])/;
-/** what a question asks: a case it gives values for, how it decides, how good it is, or something else */
-export function intentOf(question, parsed) {
-  if (parsed && Object.keys(parsed.case).length) return 'ask';
-  const q = norm(question);
-  if (MEASURE.test(q)) return 'measure';
-  if (EXPLAIN.test(q)) return 'explain';
+const YOU = /(?<![a-z])(?:you|your|yours|yourself|this card)(?![a-z])/;
+/** a question about this card or its business: it says you or your, or names the business's thing, or a word of five
+ *  letters or more of its outcome. Found 2026-10-22: "what makes a good pizza?" was answered with the card's rules and
+ *  "how good is the weather?" with its score, because the phrasing alone decided. */
+function onTopic(q, voc) {
+  if (YOU.test(q)) return true;
+  const words = [voc.thing, ...voc.outcome.split(' ').filter((w) => w.length >= 5)].map((w) => norm(w).trim()).filter(Boolean);
+  return words.some((w) => new RegExp('(?<![a-z0-9])' + esc(w)).test(q));
+}
+/**
+ * What a question asks: a case it gives values for, how it decides, how good it is, or something else. Given the
+ * business's vocabulary, how it decides and how good it is are only asked by a question about the card or its business.
+ */
+export function intentOf(question, parsed, voc) {
+  if (isObj(parsed) && isObj(parsed.case) && Object.keys(parsed.case).length) return 'ask';
+  const q = norm(question), about = !wellFormed(voc) || onTopic(q, voc);
+  if (MEASURE.test(q) && about) return 'measure';
+  if (EXPLAIN.test(q) && about) return 'explain';
   return 'other';
 }
 
 /** how a column is named in words: its own say, or its family's */
 export function sayFeature(feat, voc) {
-  if (isObj(voc.columns[feat])) return voc.columns[feat].say;
-  for (const g of Object.values(voc.groups)) if (Object.prototype.hasOwnProperty.call(g.members, feat)) return g.say + ' ' + g.members[feat][0];
+  if (!isText(feat)) return '';
+  if (!wellFormed(voc)) return feat;
+  if (own(voc.columns, feat)) return voc.columns[feat].say;
+  for (const g of Object.values(voc.groups)) if (own(g.members, feat)) return g.say + ' ' + g.members[feat][0];
   return feat;
 }
 
 /** one value, as words say it */
 export function sayValue(feat, value, voc) {
-  const c = isObj(voc.columns[feat]) ? voc.columns[feat] : null;
+  if (!isText(feat)) return '';
+  const c = wellFormed(voc) && own(voc.columns, feat) ? voc.columns[feat] : null;
   if (!c) {
-    for (const g of Object.values(voc.groups)) if (Object.prototype.hasOwnProperty.call(g.members, feat)) return (value === 1 ? '' : 'not ') + g.members[feat][0];
+    if (wellFormed(voc)) for (const g of Object.values(voc.groups)) if (own(g.members, feat)) return (value === 1 ? '' : 'not ') + g.members[feat][0];
     return feat + ' ' + sayNumber(value);
   }
   if (c.kind === 'number') return c.words[0] + ' ' + sayExact(value);
@@ -187,10 +225,11 @@ export function sayValue(feat, value, voc) {
 
 /** one rule, in words: "when tenure is at or below 12 months" */
 export function sayRule(rule, voc) {
-  const c = isObj(voc.columns[rule.feat]) ? voc.columns[rule.feat] : null, above = rule.op === '>';
+  if (!isRule(rule)) return '';
+  const ok = wellFormed(voc), c = ok && own(voc.columns, rule.feat) ? voc.columns[rule.feat] : null, above = rule.op === '>';
   const cut = (above ? ' is above ' : ' is at or below ') + sayNumber(rule.v);
   if (!c) {
-    for (const g of Object.values(voc.groups)) if (Object.prototype.hasOwnProperty.call(g.members, rule.feat)) {
+    if (ok) for (const g of Object.values(voc.groups)) if (own(g.members, rule.feat)) {
       const member = g.members[rule.feat][0];
       return yesNoCut(rule.v) ? 'when the ' + g.say + (above ? ' is ' : ' is not ') + member : 'when ' + g.say + ' ' + member + cut + ' (no 0, yes 1)';
     }
@@ -207,9 +246,10 @@ export function sayRule(rule, voc) {
 /** a case as a question in words (the gate's held-out questions are written this way) */
 export function sayCase(x, voc, features) {
   const done = new Set(), parts = [];
+  if (!isObj(x) || !wellFormed(voc) || !Array.isArray(features)) return parts;
   for (const f of features) {
-    if (done.has(f) || !Object.prototype.hasOwnProperty.call(x, f)) continue;
-    const g = Object.values(voc.groups).find((gr) => Object.prototype.hasOwnProperty.call(gr.members, f));
+    if (typeof f !== 'string' || done.has(f) || !own(x, f)) continue;
+    const g = Object.values(voc.groups).find((gr) => own(gr.members, f));
     if (g) {
       const members = Object.keys(g.members).filter((m) => features.includes(m));
       members.forEach((m) => done.add(m));
@@ -236,7 +276,23 @@ function exampleOf(live, voc) {
   }
   return x;
 }
-const mindHash = (mind) => sha256Hex(canonical(mind.organs.filter((o) => o.state === 'live').map((o) => o.fixed || o.recipe)));
+const mindHash = (mind) => { try { return sha256Hex(canonical(mind.organs.filter((o) => isObj(o) && o.state === 'live').map((o) => o.fixed || o.recipe || null))); } catch { return null; } };
+/** a mind the talker can answer with: its organs a list, every live one with a body of rules it can say and a line */
+const readable = (mind) => isObj(mind) && Array.isArray(mind.organs) && Number.isFinite(mind.threshold)
+  && mind.organs.every((o) => !isObj(o) || o.state !== 'live' || (isObj(o.body) && Array.isArray(o.body.rules) && o.body.rules.every(isRule)));
+
+/**
+ * Three questions this mind can answer, in its business's own words: a case built from its own rules (every column they
+ * read, so it is answered, never refused), what makes the outcome, and how good it is. [] for a mind or a vocabulary
+ * the talker cannot read, or a mind with no live department.
+ */
+export function asks(ctx) {
+  if (!isObj(ctx) || !wellFormed(ctx.voc) || !readable(ctx.mind) || !Array.isArray(ctx.features)) return [];
+  const live = ctx.mind.organs.filter((o) => isObj(o) && o.state === 'live');
+  if (!live.length) return [];
+  const { thing, outcome } = ctx.voc, parts = sayCase(exampleOf(live, ctx.voc), ctx.voc, ctx.features);
+  return [...(parts.length ? ['A ' + thing + ' with ' + parts.join(', ') + ': will they ' + outcome + '?'] : []), 'What makes a ' + thing + ' ' + outcome + '?', 'How good are you?'];
+}
 
 /**
  * Answer a question with a mind: ctx { mind (src/mind.mjs mindOf), voc (vocabOf), features (the columns the mind's
@@ -245,16 +301,22 @@ const mindHash = (mind) => sha256Hex(canonical(mind.organs.filter((o) => o.state
  */
 export function reply(question, ctx) {
   const q = typeof question === 'string' ? question.slice(0, MAX_Q) : '';
-  const base = (intent, verdict, text, more = {}) => ({ verdict, intent, text, receipt: { kind: RECEIPT, q, intent, verdict, mind: ctx && ctx.mind && Array.isArray(ctx.mind.organs) ? mindHash(ctx.mind) : null, ...more } });
-  if (!ctx || !ctx.voc || !ctx.mind || !Array.isArray(ctx.mind.organs) || !Array.isArray(ctx.features)) return base('other', 'ABSTAIN', 'I have no mind or vocabulary here to answer with.');
-  const { mind, voc } = ctx, thing = voc.thing, outcome = voc.outcome, live = mind.organs.filter((o) => o.state === 'live');
+  const base = (intent, verdict, text, more = {}) => ({ verdict, intent, text, receipt: { kind: RECEIPT, q, intent, verdict, mind: isObj(ctx) && isObj(ctx.mind) && Array.isArray(ctx.mind.organs) ? mindHash(ctx.mind) : null, ...more } });
+  if (!isObj(ctx) || !wellFormed(ctx.voc) || !readable(ctx.mind) || !Array.isArray(ctx.features)) return base('other', 'ABSTAIN', 'I have no mind or vocabulary here to answer with.');
+  // found 2026-10-22: a question past the limit was cut short without a word, and a value said at its end went unread
+  if (typeof question === 'string' && question.length > MAX_Q) return base('other', 'ABSTAIN', 'Your question is longer than the ' + MAX_Q.toLocaleString('en-GB') + ' characters I read. Ask again with only the values my rules read.');
+  const { mind, voc } = ctx, thing = voc.thing, outcome = voc.outcome, live = mind.organs.filter((o) => isObj(o) && o.state === 'live');
   if (!live.length) return base('other', 'ABSTAIN', 'My mind does not answer on these records: no department of it cleared its bar here.');
-  const parsed = parse(q, voc, ctx.features), intent = intentOf(q, parsed);
+  const parsed = parse(q, voc, ctx.features), intent = intentOf(q, parsed, voc);
   if (intent === 'ask') {
     if (parsed.conflicts.length) return base('ask', 'ABSTAIN', 'You gave ' + parsed.conflicts.map((f) => sayFeature(f, voc)).join(' and ') + ' two different values. Say each once and I will answer.', { case: parsed.case });
     const need = [...new Set(live.flatMap((o) => o.body.rules.map((r) => r.feat)))], missing = need.filter((f) => !Object.prototype.hasOwnProperty.call(parsed.case, f));
-    if (missing.length) return base('ask', 'ABSTAIN', 'I can’t answer that yet: my rules also read ' + [...new Set(missing.map((f) => sayFeature(f, voc)))].join(', ') + '. Tell me those and I will.', { case: parsed.case, missing });
-    const a = answer(mind, parsed.case);
+    // a family is asked for once by its own name: a person says one job, not whether they are each job in turn
+    const askFor = (f) => { const g = Object.values(voc.groups).find((gr) => own(gr.members, f)); return g ? g.say : sayFeature(f, voc); };
+    if (missing.length) return base('ask', 'ABSTAIN', 'I can’t answer that yet: my rules also read ' + [...new Set(missing.map(askFor))].join(', ') + '. Tell me those and I will.', { case: parsed.case, missing });
+    // the mind answers with only its readable organs; a coupling it cannot compute is an abstention, never a throw
+    let a;
+    try { a = answer({ ...mind, organs: mind.organs.filter(isObj) }, parsed.case); } catch { a = { verdict: 'ABSTAIN', why: 'my mind could not be read on this case' }; }
     if (a.verdict !== 'VERIFIED') return base('ask', 'ABSTAIN', 'I can’t answer that: ' + a.why + '.', { case: parsed.case });
     const yes = a.label === 1, fired = a.fired.map((r) => sayRule(r, voc) + ' (' + signed(r.w) + ')');
     const text = (yes ? 'Yes — I expect this ' + thing + ' to ' + outcome : 'No — I don’t expect this ' + thing + ' to ' + outcome) + ': its score is ' + sayNumber(a.score) + ', ' + (yes ? 'above' : 'at or below') + ' my line of ' + sayNumber(a.threshold) + '. ' + (fired.length ? 'The rules that fired: ' + fired.join('; ') + '.' : 'None of my rules fired.');

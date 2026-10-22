@@ -37,6 +37,8 @@ export const ALLOW = [
   /\bEvery price is read from\s+data\/prices\.lock\.json\s+\(copied from the estate’s price registry\b/gi,
   /\bEvery price this case reads, with its source\b/gi,
   /\bfrom sourced prices\b/gi,
+  // a named economic statistic the bank's records hold (a column the talker says by name), not a price of anything
+  /\bconsumer price index\b/gi,
 ];
 export const CAVEAT_10 = 'not fully blind: dry-run before the seal; see Proof';
 const ORGAN_10 = [

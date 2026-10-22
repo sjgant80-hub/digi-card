@@ -1,9 +1,9 @@
-// chat.test.mjs — a card asked in words: it reads the values a question gives with its department's vocabulary, answers
+// talker.test.mjs — a card asked in words: it reads the values a question gives with its department's vocabulary, answers
 // yes or no with the rules that fired, says its rules and its score, and abstains on anything else — never a guess.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { parse, reply, intentOf, vocabOf, sayRule, sayValue, sayFeature, sayCase, sayNumber, norm, order, RECEIPT, MAX_Q } from '../src/chat.mjs';
+import { parse, reply, intentOf, vocabOf, sayRule, sayValue, sayFeature, sayCase, sayNumber, norm, order, asks, RECEIPT, MAX_Q } from '../src/talker.mjs';
 import { answer } from '../src/mind.mjs';
 import { sha256Hex } from '../vendor/dex-frontier/vendor/living-seed/vendor/seed-library/sha256.mjs';
 import { canonical } from '../vendor/dex-frontier/vendor/living-seed/vendor/keys/canon.mjs';
@@ -36,7 +36,7 @@ test('words and numbers as the reader sees them', () => {
   const vocab = JSON.parse(readFileSync(new URL('../data/vocab.json', import.meta.url), 'utf8'));
   assert.equal(vocabOf(vocab, 'telco').thing, 'customer');
   for (const bad of [[null, 'telco'], [vocab, 'nope'], [{ sets: { x: { columns: 1, groups: {} } } }, 'x'], [{ sets: 'x' }, 'x'], [vocab, 'constructor']]) assert.equal(vocabOf(...bad), null);
-  assert.equal(MAX_Q, 500);
+  assert.equal(MAX_Q, 1000);
   assert.deepEqual([order('a', 'b'), order('b', 'a'), order('a', 'a')], [-1, 1, 0], 'a three-way compare, 0 only for the same text');
 });
 
@@ -63,7 +63,7 @@ test('parse: numbers after or before their names, flags, yes/no/unknown, levels 
   assert.deepEqual(parse('tenure 3', VOC, ['charges']).case, {}, 'only the columns given');
   for (const [q, v, f] of [[5, VOC, FEATS], ['tenure 3', null, FEATS], ['tenure 3', VOC, 'x']]) assert.deepEqual(parse(q, v, f), { case: {}, said: {}, conflicts: [] });
   assert.deepEqual(parse('tenure 3', { ...VOC, columns: { ...VOC.columns, tenure: 'x' } }, FEATS).case, {});
-  assert.deepEqual(parse('x'.repeat(600) + ' tenure 3', VOC, FEATS).case, {}, 'only the first 500 characters are read');
+  assert.deepEqual(parse('x'.repeat(1100) + ' tenure 3', VOC, FEATS).case, {}, 'only the first 1,000 characters are read');
   assert.deepEqual(p('without paperless, with personal loan').case, { paper: 0, loan: 1 }, 'a clause mark and a with end a negation');
   assert.deepEqual(p('without paperless and personal loan yes').case, { paper: 0, loan: 1 });
   assert.deepEqual(p('personal loan unknown, without paperless').case, { loan: 0.5, paper: 0 }, 'an unknown is its own clause');
@@ -135,14 +135,14 @@ test('reply: its rules in words, its measured score, and nothing else', () => {
   const m = reply('how good are you?', CTX);
   assert.deepEqual([m.verdict, m.text, m.receipt.gate], ['VERIFIED', 'On 1,761 cases I never grew on, I rank a real yes above a real no 0.712345 of the time (GATE AUC: 0.5 is a coin toss, 1 is perfect). Ask me about a customer and check me against what really happened.', 712345]);
   assert.match(reply('how good are you?', { ...CTX, rows: null }).text, /^On cases I never grew on/);
-  assert.equal(reply('how accurate', { ...CTX, gate: null }).text, 'My score has not been measured on this device yet: grow me here first.');
+  assert.equal(reply('how accurate are you', { ...CTX, gate: null }).text, 'My score has not been measured on this device yet: grow me here first.');
   const other = reply('what is the weather like?', CTX);
   assert.deepEqual([other.verdict, other.intent], ['ABSTAIN', 'other']);
   assert.equal(other.text, 'I only answer questions about whether a customer will leave, from my rules. Ask me about one — “a customer with tenure 12, with paperless billing, contract month-to-month: will they leave?” — or ask what makes a customer leave, or how good I am.');
   assert.deepEqual(other.receipt, { kind: RECEIPT, q: 'what is the weather like?', intent: 'other', verdict: 'ABSTAIN', mind: hash });
-  const sorted = reply('explain', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'total', op: '>', v: 1, w: 1 }, { feat: 'charges', op: '>', v: 1, w: -1 }], threshold: 0 } }] } });
+  const sorted = reply('explain your rules', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'total', op: '>', v: 1, w: 1 }, { feat: 'charges', op: '>', v: 1, w: -1 }], threshold: 0 } }] } });
   assert.match(sorted.text, /strongest first: when monthly charges is above 1 dollars a month, it is less likely \(-1\); when total charges is above 1, it is more likely \(\+1\)\./, 'equal weights by name');
-  const level = reply('explain', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'total', op: '>', v: 1, w: 0 }, { feat: 'charges', op: '>', v: 1, w: -1 }], threshold: 0 } }] } });
+  const level = reply('explain your rules', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'total', op: '>', v: 1, w: 0 }, { feat: 'charges', op: '>', v: 1, w: -1 }], threshold: 0 } }] } });
   assert.match(level.text, /it is less likely \(-1\); when total charges is above 1, it is no more or less likely \(0\)\./, 'a weight of 0 leans neither way');
   const fam = reply('hello', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'job_admin', op: '>', v: 0.5, w: 1 }], threshold: 0 } }] } });
   assert.equal(fam.text, 'I only answer questions about whether a customer will leave, from my rules. Ask me about one — “a customer with job admin: will they leave?” — or ask what makes a customer leave, or how good I am.', 'a family rule is shown with its own member');
@@ -157,7 +157,134 @@ test('reply: no mind, a dormant mind, junk — an abstention, never a throw', ()
   const dormant = reply('tenure 3', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], state: 'cut' }] } });
   assert.deepEqual([dormant.verdict, dormant.text], ['ABSTAIN', 'My mind does not answer on these records: no department of it cleared its bar here.']);
   for (const q of [null, 5, {}, '']) assert.equal(reply(q, CTX).verdict, 'ABSTAIN');
-  assert.equal(reply('x'.repeat(700), CTX).receipt.q.length, 500);
+  assert.equal(MAX_Q, 1000);
+  const long = reply('x'.repeat(1001), CTX);
+  assert.deepEqual([long.verdict, long.intent, long.text, long.receipt.q.length], ['ABSTAIN', 'other', 'Your question is longer than the 1,000 characters I read. Ask again with only the values my rules read.', 1000], 'past the limit is refused out loud, never cut short');
+  assert.notEqual(reply('x'.repeat(1000), CTX).text, long.text, 'a question of exactly the limit is read');
   const abstained = reply('tenure 3, contract two year, paperless', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [], threshold: 1 } }, { state: 'live', domain: 'toy-b', fixed: 'f2', body: { rules: [{ feat: 'tenure', op: '>', v: 1, w: 1 }], threshold: 0 } }], coupling: { weights: [0, 1, 1], mean: [0, 0], sd: [1, 1] } } });
   assert.equal(abstained.verdict, 'VERIFIED', 'a coupled mind answers through its coupling');
+});
+
+// ── a vocabulary or a mind the talker cannot read is no vocabulary and no mind: it abstains, never throws, never loops ──
+// (2026-10-22: a fuzz of 206,663 calls threw in every function that took a damaged vocabulary or mind, and a level said
+// by an empty phrase looped for ever; tools/ fuzz now 0 throws)
+const damaged = (fn) => { const v = JSON.parse(JSON.stringify(VOC)); fn(v); return v; };
+const BROKEN = {
+  'a level said by an empty phrase': damaged((v) => { v.columns.contract.levels[''] = 3; }),
+  'a phrase no question can contain': damaged((v) => { v.columns.tenure.words.push('time, as a customer'); }),
+  'a phrase in capitals': damaged((v) => { v.columns.tenure.words.push('Tenure'); }),
+  'a word list that is not a list': damaged((v) => { v.columns.tenure.words = 'tenure'; }),
+  'no words': damaged((v) => { v.columns.tenure.words = []; }),
+  'an unknown kind': damaged((v) => { v.columns.tenure.kind = 'date'; }),
+  'no name to say': damaged((v) => { v.columns.tenure.say = ''; }),
+  'a unit that is not words': damaged((v) => { v.columns.tenure.unit = 5; }),
+  'levels on a number': damaged((v) => { v.columns.tenure.levels = { a: 1 }; }),
+  'no levels on levels': damaged((v) => { delete v.columns.contract.levels; }),
+  'empty levels': damaged((v) => { v.columns.contract.levels = {}; }),
+  'a level worth no number': damaged((v) => { v.columns.contract.levels['one year'] = 'one'; }),
+  'bare on a number': damaged((v) => { v.columns.tenure.bare = true; }),
+  'bare that is not yes or no': damaged((v) => { v.columns.month.bare = 'yes'; }),
+  'a column that is not a record': damaged((v) => { v.columns.tenure = 'tenure'; }),
+  'a family with no members': damaged((v) => { v.groups.job.members = {}; }),
+  'a member with no words': damaged((v) => { v.groups.job.members.job_tech = []; }),
+  'a none that is not a list': damaged((v) => { v.groups.job.none = 'unknown'; }),
+  'family words not a list': damaged((v) => { v.groups.job.words = 'job'; }),
+  'a family with no name': damaged((v) => { v.groups.job.say = 7; }),
+  'no thing': damaged((v) => { v.thing = ''; }),
+  'no outcome': damaged((v) => { v.outcome = null; }),
+  'no groups': damaged((v) => { v.groups = null; }),
+};
+test('a damaged vocabulary is no vocabulary: refused whole, every reader abstains, nothing throws or loops', () => {
+  assert.equal(vocabOf({ sets: { t: VOC } }, 't'), VOC, 'the well-formed one is taken');
+  assert.deepEqual(parse('tenure 6', VOC, FEATS).case, { tenure: 6 });
+  for (const [why, v] of Object.entries(BROKEN)) {
+    assert.equal(vocabOf({ sets: { t: v } }, 't'), null, why);
+    assert.deepEqual(parse('tenure 6, a two year contract, job admin', v, FEATS), { case: {}, said: {}, conflicts: [] }, why);
+    assert.deepEqual([reply('tenure 6', { ...CTX, voc: v }).verdict, reply('tenure 6', { ...CTX, voc: v }).text], ['ABSTAIN', 'I have no mind or vocabulary here to answer with.'], why);
+    assert.deepEqual(sayCase({ tenure: 6 }, v, FEATS), [], why);
+    assert.equal(sayFeature('tenure', v), 'tenure', why);
+    assert.equal(sayValue('tenure', 6, v), 'tenure 6', why);
+    assert.equal(sayRule(RULES[0], v), 'when tenure is at or below 12', why);
+  }
+  assert.equal(vocabOf({ sets: { t: VOC } }, 5), null, 'a business is named by its name');
+  assert.equal(vocabOf({ sets: Object.create({ t: VOC }) }, 't'), null, 'only the business the file itself holds');
+  assert.equal(vocabOf({ sets: { t: damaged((v) => { v.columns.tenure.bare = false; }) } }, 't') !== null, true, 'bare: false is plain words');
+});
+test('a mind the talker cannot read is no mind; junk of every shape to every reader is an answer, never a throw', () => {
+  for (const mind of [{ ...MIND, threshold: 'x' }, { ...MIND, organs: [{ state: 'live', body: null }] }, { ...MIND, organs: [{ state: 'live', body: { rules: 'x' } }] }, { ...MIND, organs: [{ state: 'live', body: { rules: [{ feat: 'tenure', op: '>', v: 'x', w: 1 }] } }] }, { ...MIND, organs: [{ state: 'live', body: { rules: [{ feat: '', op: '>', v: 1, w: 1 }] } }] }, { ...MIND, organs: [{ state: 'live', body: { rules: [{ feat: 'tenure', op: '>', v: 1, w: NaN }] } }] }]) {
+    assert.deepEqual([reply('tenure 6', { ...CTX, mind }).verdict, reply('tenure 6', { ...CTX, mind }).text], ['ABSTAIN', 'I have no mind or vocabulary here to answer with.']);
+  }
+  // a null organ among live ones is no organ, not a crash: the live one still answers
+  const withNull = reply('tenure 6, a two year contract, paperless', { ...CTX, mind: { ...MIND, organs: [null, ...MIND.organs] } });
+  assert.equal(withNull.verdict, 'VERIFIED');
+  // a coupling the mind cannot compute is an abstention
+  const coupled = reply('tenure 6, a two year contract, paperless', { ...CTX, mind: { ...MIND, coupling: { bad: true }, organs: [...MIND.organs, { ...MIND.organs[0], domain: 'toy-b', fixed: 'f2' }] } });
+  assert.equal(coupled.verdict, 'ABSTAIN');
+  assert.match(coupled.text, /I can’t answer that/);
+  const sym = Symbol('q'), boom = { toString() { throw new Error('no'); } };
+  for (const x of [undefined, null, 0, NaN, '', [], {}, sym, boom, () => 1]) {
+    assert.equal(typeof norm(x), 'string');
+    assert.equal(typeof intentOf(x, x), 'string');
+    assert.equal(sayFeature(x, VOC), '');
+    assert.equal(sayValue(x, 1, VOC), '');
+    assert.equal(sayRule(x, VOC), '');
+    assert.deepEqual(sayCase(x, VOC, FEATS), []);
+    assert.deepEqual(sayCase({ tenure: 6 }, VOC, x), []);
+    assert.equal(reply(x, x).verdict, 'ABSTAIN');
+    assert.deepEqual(parse(x, VOC, FEATS).case, {});
+    assert.deepEqual(parse('tenure 6', VOC, x).case, {});
+  }
+  assert.equal(norm(12.5), ' 12.5 ', 'a number is read as its digits');
+  assert.equal(intentOf('how good are you?', { case: 'x' }), 'measure', 'a parse whose case is not a record asks nothing');
+  assert.deepEqual(parse('tenure 6', VOC, [null, 7, 'constructor', 'tenure']).case, { tenure: 6 }, 'names that are not columns are passed over');
+  assert.deepEqual(sayCase({ tenure: 6, constructor: 1 }, VOC, ['constructor', 'tenure']), ['constructor 1', 'tenure 6'], 'a column the vocabulary does not name is said by its own name, never read off the prototype');
+});
+
+test('the receipt names the mind by its live organs alone, each by its fixed form or else its recipe', () => {
+  const mixed = reply('tenure 6', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], state: 'cut', fixed: 'f9' }, ...MIND.organs] } });
+  assert.equal(mixed.receipt.mind, hash, 'a dormant organ is not part of the mind that answered');
+  const byRecipe = reply('tenure 6', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], fixed: undefined }] } });
+  assert.equal(byRecipe.receipt.mind, sha256Hex(canonical(['r1'])), 'an organ with no fixed form is named by its recipe');
+  const neither = reply('tenure 6', { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], fixed: undefined, recipe: undefined }] } });
+  assert.equal(neither.receipt.mind, sha256Hex(canonical([null])), 'and with neither, by nothing — never a throw');
+});
+
+test('asks: three questions the mind can answer, the first a case its own rules read whole, and so answered', () => {
+  const q = asks(CTX);
+  assert.equal(q.length, 3);
+  assert.deepEqual(q.slice(1), ['What makes a customer leave?', 'How good are you?']);
+  assert.match(q[0], /^A customer with .+: will they leave\?$/);
+  const r = q.map((x) => reply(x, CTX));
+  assert.deepEqual(r.map((x) => [x.intent, x.verdict]), [['ask', 'VERIFIED'], ['explain', 'VERIFIED'], ['measure', 'VERIFIED']], 'each is answered, none refused');
+  // a mind whose rules read no column of the business has no case to offer, only the other two
+  const off = { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'tenure', op: '>', v: 3, w: 1 }], threshold: 1 } }] }, features: ['charges'] };
+  assert.deepEqual(asks(off), ['What makes a customer leave?', 'How good are you?']);
+  for (const bad of [null, {}, { ...CTX, voc: null }, { ...CTX, mind: null }, { ...CTX, features: 'x' }, { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], state: 'cut' }] } }]) assert.deepEqual(asks(bad), []);
+  assert.deepEqual(asks({ ...CTX, mind: { ...MIND, organs: [null, MIND.organs[0]] } }).length, 3, 'a null organ is passed over');
+});
+
+test('a family missing from a question is asked for once, by its own name', () => {
+  const famMind = { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'tenure', op: '<=', v: 12, w: 1 }, { feat: 'job_tech', op: '>', v: 0.5, w: 1 }, { feat: 'job_admin', op: '>', v: 0.5, w: -1 }], threshold: 0.5 } }] };
+  const r = reply('a customer with tenure 6: will they leave?', { ...CTX, mind: famMind });
+  assert.equal(r.text, 'I can’t answer that yet: my rules also read job. Tell me those and I will.');
+  assert.deepEqual(r.receipt.missing, ['job_tech', 'job_admin'], 'the receipt still names every column');
+  assert.equal(reply('a customer with tenure 6 and job admin: will they leave?', { ...CTX, mind: famMind }).verdict, 'VERIFIED', 'said once, the family is read whole');
+});
+
+test('how it decides and how good it is are asked only about the card or its business', () => {
+  const i = (q) => intentOf(q, parse(q, VOC, FEATS), VOC);
+  // 2026-10-22: the phrasing alone decided, so a pizza got the card's rules and the weather its score
+  assert.deepEqual(['what makes a good pizza?', 'how good is the weather?', 'why is the sky blue?', 'what is the accuracy of a clock?', 'explain quantum physics', 'why?'].map(i), ['other', 'other', 'other', 'other', 'other', 'other']);
+  assert.deepEqual(['why do customers leave?', 'what makes a customer leave', 'How good are you?', 'what is your AUC', 'explain your rules', 'how do you decide', 'can I trust this card?', 'how accurate are you about leaving?'].map(i), ['explain', 'explain', 'measure', 'measure', 'explain', 'explain', 'measure', 'measure']);
+  // a word of the outcome counts when it is five letters or more; shorter words are too common to tell the topic
+  const V3 = { ...VOC, outcome: 'pay a big bill' };
+  assert.equal(intentOf('what makes a big day?', null, V3), 'other', 'big and day are under five letters');
+  assert.equal(intentOf('why do people pay?', null, V3), 'other');
+  assert.equal(intentOf('what makes a bill go up?', null, { ...VOC, outcome: 'raise the bills' }), 'other', 'the outcome word is bills: a bill alone does not name it');
+  assert.equal(intentOf('what makes them raise it?', null, { ...VOC, outcome: 'raise the bills' }), 'explain', 'raise names the outcome');
+  // without a vocabulary the phrasing alone still reads, as before
+  assert.equal(intentOf('what makes a good pizza?', null), 'explain');
+  assert.equal(intentOf('what makes a good pizza?', null, { ...VOC, thing: '' }), 'explain', 'a vocabulary that is not well formed is no vocabulary');
+  // and reply holds to it: off-topic is an abstention, never the card's rules or score
+  for (const q of ['what makes a good pizza?', 'how good is the weather?']) assert.deepEqual([reply(q, CTX).intent, reply(q, CTX).verdict], ['other', 'ABSTAIN'], q);
 });

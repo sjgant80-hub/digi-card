@@ -1,0 +1,59 @@
+{
+ "kind": "digi-card.organ-14.prereg",
+ "v": 1,
+ "organ": "the talker: a card asked in plain words answers only from its own rules, or says it cannot, and never invents an answer",
+ "disclosure": "Not fully blind, and said so: the kernel was hardened before this seal by a fuzz of damaged vocabularies and minds (no drop card, no GATE row), and its topic rule was written after seeing that a pizza got a card’s rules; tools/vocab-check.mjs had already said 9,200 cases of the six businesses in words and read them back exactly, so P1 is a property the vocabulary was built to make true. Before this seal, on 2026-10-22, tools/measure-14.mjs was dry-run with SMALL=1 ON OTHER SEEDS (2 cards a business, 3 rows each, into dry-record.json) to test the tooling, and only its properties were read. The first dry run found 28 of 30 rows not read back and 10 of 30 said-twice questions answered: a full credit row said in words is 568 characters and the talker read only the first 500, so a value at the end went unread without a word. The limit was raised to 1,000 (the longest full row, hospital’s, is 626) and a longer question is now refused out loud; the second dry run held every property. The 25 off-topic questions were fixed in the measuring tool before it first ran. It reads no TEST row at all.",
+ "population": "every business of the drop that has words in data/vocab.json (telco, shop, bank, adult and credit; hospital has words but no drop cards): 10 drop cards a business, each grown on its business’s ground as this device grows it, each asked about 30 GATE rows said in words, the same rows with one value its rules read left out and with one said twice differently, 25 fixed off-topic questions, the questions it offers, the rows said with other words in another order, and two questions that only name each column",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 30 GATE rows said in words, asked of each of the 10 cards of every business, is answered from the rules: read back exactly on every column the rules read, and answered with the very label, score and fired rules the mind itself gives for that row. Nothing is added and nothing is changed."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every question with a value its rules read left out abstains, naming exactly the columns missing; every question with one of them said twice differently abstains; and every one of the 25 off-topic questions abstains. None of them gets a yes or a no."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every question asked twice gets the very same receipt, and every question a card offers to be asked is answered."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "At least 99% of the rows said with other words (any of a column’s phrases, any of a level’s) in another order are still read back exactly and answered as P1."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "At least 95% of the questions that only name a column (what is it, tell me about it) abstain: naming a column is not asking about a case."
+  }
+ ],
+ "judgedBy": "tools/judge-14.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "6b92bc74ec5450dc1dca5e5f9edff8fbc78373bdd705bddf2c09126ffdf2f533",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "afe6dee22dbf4dab7e7568cfa873613e36ddf72623f773cd547ae460f2c378b0",
+  "src/claims.mjs": "75ba9b51372e7063059543a51b33ab25bb8d9ecc77ca9fbb6e35ccaa66c32338",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "cf4d048d8190e9ff089ca241d81c9af37fcde062a0b0959bbeada83270b87c7c",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "src/talker.mjs": "b09835164619ab5e2f990785b754d7fd41f333b8f9ea8ff18d569d5893ed8046",
+  "data/vocab.json": "3c6260f9d1502f09f8d3b0d5e44321e58ac8006a2dcee980cb5bca3077b5d1be",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "tools/measure-14.mjs": "cddbb2da932c39cbdf607bc15c3af159ef143ec3aa58aa1b8092acb9d4521cfb",
+  "tools/judge-14.mjs": "4c21c675d52cc33c3d6e4f5dc00d9533ead32a32edc987b92cdc3c0ccb655367",
+  "tools/seal-14.mjs": "77ed7d526741d3a5dda29334bb7462b76161b44e89bab745907303a3f8a7f4a7"
+ }
+}

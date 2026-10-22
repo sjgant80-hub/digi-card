@@ -168,30 +168,30 @@ test('facts: the dataset and department from the genome’s organ, rarity by sta
   assert.equal(cut.department, 'abcdefghijklmno', 'a join cut at sixteen drops its dangling hyphen');
 });
 
-test('a form is signed in the issue: a card is version 1 byte for byte, a chat version 2; decoder #0001 refuses version 2', async () => {
+test('a form is signed in the issue: a card is version 1 byte for byte, a talker version 2; decoder #0001 refuses version 2', async () => {
   const maker = await key('maker'), alice = await key('alice'), eve = await key('eve'), g = await genomeOf(maker);
   const opts = { serial: 1, to: alice.pub, theme: 'synthwave-v1' };
   const v1 = (await issue(g, maker, opts)).dossier, card = (await issue(g, maker, { ...opts, form: 'card' })).dossier;
   assert.deepEqual(card, v1, 'form card is the version 1 card, byte for byte');
   assert.deepEqual([v1.v, Object.prototype.hasOwnProperty.call(v1.events[0], 'form'), (await verify(v1)).form], [1, false, 'card']);
-  assert.deepEqual(FORMS, ['card', 'chat']);
-  const chat = (await issue(g, maker, { ...opts, form: 'chat' })).dossier, vc = await verify(chat);
-  assert.deepEqual([chat.v, chat.events[0].form, vc.ok, vc.form, vc.owner, vc.serial, vc.id], [2, 'chat', true, 'chat', alice.pub, 1, (await verify(v1)).id]);
-  assert.deepEqual(decode(encode(chat)).dossier, chat);
-  for (const f of ['scorer', 'suite-node', 'hybrid', '', 5, null]) assert.equal((await issue(g, maker, { ...opts, form: f })).why, 'the form is one of card, chat', String(f));
-  const given = (await give(chat, alice, eve.pub)).dossier, vg = await verify(given);
-  assert.deepEqual([vg.ok, vg.owner, vg.form], [true, eve.pub, 'chat'], 'a chat card lives as any card');
-  const e0 = chat.events[0], reissue = async (over) => { const f = { ...Object.fromEntries(Object.entries(e0).filter(([k]) => k !== 'sig')), ...over }; for (const k of Object.keys(f)) if (f[k] === undefined) delete f[k]; return { ...f, sig: await sign(maker, utf8(canonical(f))) }; };
+  assert.deepEqual(FORMS, ['card', 'talker']);
+  const tk = (await issue(g, maker, { ...opts, form: 'talker' })).dossier, vc = await verify(tk);
+  assert.deepEqual([tk.v, tk.events[0].form, vc.ok, vc.form, vc.owner, vc.serial, vc.id], [2, 'talker', true, 'talker', alice.pub, 1, (await verify(v1)).id]);
+  assert.deepEqual(decode(encode(tk)).dossier, tk);
+  for (const f of ['scorer', 'suite-node', 'hybrid', '', 5, null]) assert.equal((await issue(g, maker, { ...opts, form: f })).why, 'the form is one of card, talker', String(f));
+  const given = (await give(tk, alice, eve.pub)).dossier, vg = await verify(given);
+  assert.deepEqual([vg.ok, vg.owner, vg.form], [true, eve.pub, 'talker'], 'a talker card lives as any card');
+  const e0 = tk.events[0], reissue = async (over) => { const f = { ...Object.fromEntries(Object.entries(e0).filter(([k]) => k !== 'sig')), ...over }; for (const k of Object.keys(f)) if (f[k] === undefined) delete f[k]; return { ...f, sig: await sign(maker, utf8(canonical(f))) }; };
   const cases = [
-    [{ ...chat, events: [{ ...e0, form: 'card' }] }, 'event 0’s signature does not check'],
-    [{ ...chat, events: [await reissue({ form: 'card' })] }, 'a version 2 card names a form other than card: one of chat'],
-    [{ ...chat, events: [await reissue({ form: 'hybrid' })] }, 'a version 2 card names a form other than card: one of chat'],
-    [{ ...chat, events: [await reissue({ form: 7 })] }, 'a version 2 card names a form other than card: one of chat'],
-    [{ ...chat, v: 1 }, 'event 0 is not a dossier event'],
+    [{ ...tk, events: [{ ...e0, form: 'card' }] }, 'event 0’s signature does not check'],
+    [{ ...tk, events: [await reissue({ form: 'card' })] }, 'a version 2 card names a form other than card: one of talker'],
+    [{ ...tk, events: [await reissue({ form: 'hybrid' })] }, 'a version 2 card names a form other than card: one of talker'],
+    [{ ...tk, events: [await reissue({ form: 7 })] }, 'a version 2 card names a form other than card: one of talker'],
+    [{ ...tk, v: 1 }, 'event 0 is not a dossier event'],
     [{ ...v1, events: [await reissue({ form: undefined, type: 'issue2' })] }, 'event 0 is not a dossier event'],
-    [{ ...chat, events: [await reissue({ type: 'issue2' })] }, 'event 0 is not a dossier event'],
+    [{ ...tk, events: [await reissue({ type: 'issue2' })] }, 'event 0 is not a dossier event'],
   ];
   for (const [d, why] of cases) assert.equal((await verify(d)).why, why, why);
-  assert.equal((await verifyV1(chat)).why, 'not a version 1 dossier', 'decoder #0001 refuses a version 2 card in plain words');
+  assert.equal((await verifyV1(tk)).why, 'not a version 1 dossier', 'decoder #0001 refuses a version 2 card in plain words');
   assert.equal((await verifyV1(v1)).ok, true, 'and still reads every version 1 card');
 });

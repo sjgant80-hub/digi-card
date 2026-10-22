@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+// tools/seal-14.mjs — organ 14, THE TALKER: the claims, sealed before tools/measure-14.mjs runs.
+import { seal } from './organ.mjs';
+
+seal(14, {
+  organ: 'the talker: a card asked in plain words answers only from its own rules, or says it cannot, and never invents an answer',
+  disclosure: 'Not fully blind, and said so: the kernel was hardened before this seal by a fuzz of damaged vocabularies and minds (no drop card, no GATE row), and its topic rule was written after seeing that a pizza got a card’s rules; tools/vocab-check.mjs had already said 9,200 cases of the six businesses in words and read them back exactly, so P1 is a property the vocabulary was built to make true. Before this seal, on 2026-10-22, tools/measure-14.mjs was dry-run with SMALL=1 ON OTHER SEEDS (2 cards a business, 3 rows each, into dry-record.json) to test the tooling, and only its properties were read. The first dry run found 28 of 30 rows not read back and 10 of 30 said-twice questions answered: a full credit row said in words is 568 characters and the talker read only the first 500, so a value at the end went unread without a word. The limit was raised to 1,000 (the longest full row, hospital’s, is 626) and a longer question is now refused out loud; the second dry run held every property. The 25 off-topic questions were fixed in the measuring tool before it first ran. It reads no TEST row at all.',
+  population: 'every business of the drop that has words in data/vocab.json (telco, shop, bank, adult and credit; hospital has words but no drop cards): 10 drop cards a business, each grown on its business’s ground as this device grows it, each asked about 30 GATE rows said in words, the same rows with one value its rules read left out and with one said twice differently, 25 fixed off-topic questions, the questions it offers, the rows said with other words in another order, and two questions that only name each column',
+  rules: [
+    { id: 'P1', kind: 'property', claim: 'Every one of the 30 GATE rows said in words, asked of each of the 10 cards of every business, is answered from the rules: read back exactly on every column the rules read, and answered with the very label, score and fired rules the mind itself gives for that row. Nothing is added and nothing is changed.' },
+    { id: 'P2', kind: 'property', claim: 'Every question with a value its rules read left out abstains, naming exactly the columns missing; every question with one of them said twice differently abstains; and every one of the 25 off-topic questions abstains. None of them gets a yes or a no.' },
+    { id: 'P3', kind: 'property', claim: 'Every question asked twice gets the very same receipt, and every question a card offers to be asked is answered.' },
+    { id: 'Q1', kind: 'prediction', claim: 'At least 99% of the rows said with other words (any of a column’s phrases, any of a level’s) in another order are still read back exactly and answered as P1.' },
+    { id: 'Q2', kind: 'prediction', claim: 'At least 95% of the questions that only name a column (what is it, tell me about it) abstain: naming a column is not asking about a case.' },
+  ],
+}, ['src/talker.mjs', 'data/vocab.json', 'tools/lib.mjs']);

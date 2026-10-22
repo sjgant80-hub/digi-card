@@ -30,7 +30,7 @@
    "groups": {}
   },
   "shop": {
-   "thing": "session", "outcome": "buy",
+   "thing": "session", "outcome": "make a purchase",
    "columns": {
     "Administrative": { "say": "administrative pages", "kind": "number", "unit": "pages", "words": ["administrative pages", "admin pages"] },
     "Administrative_Duration": { "say": "time on administrative pages", "kind": "number", "unit": "seconds", "words": ["time on administrative pages", "seconds on administrative pages", "administrative duration"] },
@@ -67,7 +67,7 @@
     "previous": { "say": "contacts before this campaign", "kind": "number", "unit": "contacts", "words": ["contacts before this campaign", "previous contacts", "earlier contacts"] },
     "poutcome": { "say": "outcome of the previous campaign", "kind": "levels", "words": ["outcome of the previous campaign", "previous outcome", "last campaign outcome"], "levels": { "nonexistent": 0, "none": 0, "failure": 1, "failed": 1, "success": 2, "succeeded": 2 } },
     "emp.var.rate": { "say": "employment variation rate", "kind": "number", "unit": "a quarterly rate", "words": ["employment variation rate", "employment variation"] },
-    "cons.price.idx": { "say": "consumer price index", "kind": "number", "unit": "an index", "words": ["consumer price index", "price index"] },
+    "cons.price.idx": { "say": "consumer price index", "kind": "number", "unit": "an index", "words": ["consumer price index", "cpi"] },
     "cons.conf.idx": { "say": "consumer confidence index", "kind": "number", "unit": "an index", "words": ["consumer confidence index", "consumer confidence"] },
     "euribor3m": { "say": "3-month euribor rate", "kind": "number", "unit": "percent", "words": ["3-month euribor", "three month euribor", "euribor rate", "euribor"] },
     "nr.employed": { "say": "number employed", "kind": "number", "unit": "thousands, quarterly", "words": ["number employed", "number of employees"] }
@@ -78,7 +78,7 @@
    }
   },
   "adult": {
-   "thing": "person", "outcome": "earn over 50K a year",
+   "thing": "person", "outcome": "have an income over 50K a year",
    "columns": {
     "age": { "say": "age", "kind": "number", "unit": "years", "words": ["age", "aged", "years old"] },
     "male": { "say": "sex", "kind": "levels", "words": ["sex", "gender"], "levels": { "male": 1, "man": 1, "female": 0, "woman": 0 } },
@@ -93,7 +93,7 @@
     "marital": { "say": "marital status", "words": ["marital status"], "none": ["married to a member of the armed forces"], "members": { "marital_Married-civ-spouse": ["married"], "marital_Never-married": ["never married", "never-married", "single"], "marital_Divorced": ["divorced"], "marital_Separated": ["separated"], "marital_Widowed": ["widowed"], "marital_Married-spouse-absent": ["spouse absent", "married with the spouse absent"] } },
     "relationship": { "say": "relationship in the household", "words": ["relationship"], "none": ["other relative"], "members": { "rel_Husband": ["husband"], "rel_Wife": ["wife"], "rel_Own-child": ["own child", "a child in the household"], "rel_Not-in-family": ["not in family", "not in a family"], "rel_Unmarried": ["unmarried"] } },
     "occupation": { "say": "occupation", "words": ["occupation", "works as", "job"], "none": ["armed forces or unknown occupation", "armed forces", "unknown occupation"], "members": { "occ_Tech-support": ["tech support", "technical support"], "occ_Craft-repair": ["craft repair", "craft-repair", "craft"], "occ_Other-service": ["other service"], "occ_Sales": ["sales"], "occ_Exec-managerial": ["executive", "managerial", "manager"], "occ_Prof-specialty": ["professional", "prof specialty"], "occ_Handlers-cleaners": ["handler", "cleaner", "handlers cleaners"], "occ_Machine-op-inspct": ["machine operator", "machine op", "inspector"], "occ_Adm-clerical": ["clerical", "admin clerical", "office clerk"], "occ_Farming-fishing": ["farming", "fishing", "farmer", "fisher"], "occ_Transport-moving": ["transport", "moving", "driver"], "occ_Priv-house-serv": ["private household service", "house service", "domestic service"], "occ_Protective-serv": ["protective service", "security guard", "police"] } },
-    "employer": { "say": "employer", "words": ["employer", "works for", "workclass", "sector"], "none": ["never worked or unknown employer", "never worked", "unknown employer"], "members": { "work_Private": ["private sector", "a private company", "private"], "work_Self-emp-not-inc": ["self-employed not incorporated", "self-employed, not incorporated", "self-employed"], "work_Self-emp-inc": ["self-employed incorporated", "own incorporated business"], "work_Federal-gov": ["federal government"], "work_Local-gov": ["local government", "local council"], "work_State-gov": ["state government"], "work_Without-pay": ["without pay", "unpaid"] } }
+    "employer": { "say": "employer", "words": ["employer", "works for", "workclass", "sector"], "none": ["never worked or unknown employer", "never worked", "unknown employer"], "members": { "work_Private": ["private sector", "a private company", "private"], "work_Self-emp-not-inc": ["self-employed not incorporated", "self-employed"], "work_Self-emp-inc": ["self-employed incorporated", "own incorporated business"], "work_Federal-gov": ["federal government"], "work_Local-gov": ["local government", "local council"], "work_State-gov": ["state government"], "work_Without-pay": ["without pay", "unpaid"] } }
    }
   },
   "credit": {

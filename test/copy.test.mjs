@@ -32,6 +32,9 @@ test('only the gate’s own senses pass', () => {
   assert.deepEqual(words('a level is earned, and then it earned credit'), ['earned'], 'a word after an allowed sense is not inside it');
   assert.deepEqual(words('it earned credit, then a level is earned'), ['earned'], 'nor one before it');
   assert.deepEqual(words('a DIGI is alive'), ['alive'], 'only the denial passes');
+  assert.deepEqual(words('when consumer price index is above 93.2'), [], 'the bank’s named statistic is said by its name');
+  assert.deepEqual(words('the price index'), ['price'], 'only the whole name: a price index alone is still a price');
+  assert.deepEqual(words('consumer price'), ['price'], 'and a consumer price is a price');
   assert.deepEqual(words('a Kardling is alive'), ['alive'], 'only the denial passes, under the game\'s new name too');
   assert.deepEqual(words('every price is read here'), ['price']);
 });

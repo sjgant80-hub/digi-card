@@ -15,7 +15,7 @@
 // its form, so the form is signed by the maker and nobody can relabel a card; a reader that knows only version 1 (decoder
 // #0001) refuses it in plain words instead of misreading it. FORMS holds only the forms this repository can put to work:
 //   card     a scorer: it scores and ranks its department's cases, and abstains where its rules cannot read one
-//   chat     a talker: the same verified mind, answering questions in words (src/chat.mjs), and abstaining otherwise
+//   talker   the same verified mind, answering questions in words (src/talker.mjs), and abstaining otherwise
 //
 // Ownership is the chain: the owner is whoever the last give names. A card alone cannot stop its owner signing it away
 // twice — two chains that share a beginning are a double sale — so the registry (src/registry.mjs) settles it: the first
@@ -35,7 +35,7 @@ export const MAX_EVENTS = 40;           // a card's life fits its band; a longer
 export const MAX_BYTES = 18000;         // the dossier's canonical text in UTF-8 bytes, at most (the card's band holds 18,426)
 export const DATASETS = ['telco', 'shop', 'bank', 'adult', 'hospital', 'credit'];
 export const RARITY = [[10, 'legendary'], [6, 'epic'], [3, 'rare'], [1, 'uncommon'], [0, 'common']];   // by stage, highest first
-export const FORMS = ['card', 'chat'];   // the forms a card can carry; 'card' is version 1, every other form version 2
+export const FORMS = ['card', 'talker'];   // the forms a card can carry; 'card' is version 1, every other form version 2
 
 const PUB = /^[0-9a-f]{64}$/, SIG = /^[0-9a-f]{128}$/, THEME = /^[a-z][a-z0-9]{1,15}-v[1-9][0-9]{0,2}$/;
 /** a plain record with exactly these keys (one test: arrays, null and every primitive fail it) */
