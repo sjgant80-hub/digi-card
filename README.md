@@ -9,7 +9,7 @@ grows that mind there, offline, and proves its score on cases it never saw. Own 
 only if it beats both parents), put it to work with other cards in a mesh — and re-run every claim yourself.
 
 Everything on the live page is this repository's mutation-gated code running in your browser on six real public
-datasets. Nothing is mocked; nothing is sent anywhere.
+datasets. Nothing is mocked; nothing is sent anywhere, except what you ask your hero on your own AI key, which goes only to the provider you picked.
 
 The page opens as a game, built from the same blocks as the cards (PixelWhisperer Kards' palettes, rarity rings and
 pixel lettering). Its dock holds eight screens: Estate, Base, Cards (with each card's Kit), Play (the Arena, the Raids and

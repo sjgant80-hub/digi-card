@@ -2,7 +2,8 @@
 
 The game repository (sjgant80-hub/kardlings, renamed from digi-card on 2026-10-22; live at
 https://sjgant80-hub.github.io/kardlings/). Everything here is checkable from the repository itself; nothing needs a
-server, a key of anyone's, or a network beyond fetching this repository's own files.
+server, a key of anyone's, or a network beyond fetching this repository's own files. (A player may give their hero their
+own AI key: then, and only then, their browser talks to the one provider they picked — see The hero below.)
 
 ## The gate — run before every push, all of it
 

@@ -1,7 +1,8 @@
 // app.js — THE DIGI CARD, as you use it: your key, your wallet, the drop, a card someone hands you, the mesh, your own
 // table. Every button runs the mutation-gated kernels in src/ (and the vendored ones they stand on) in this browser; the
 // slow searches run the same kernels in worker.js. Nothing is mocked and nothing is sent anywhere: the only network this
-// page uses is fetching its own files (the drop, the data, the decoder) from the site it came from.
+// page uses is fetching its own files (the drop, the data, the decoder) from the site it came from, and, only for a hero
+// its owner gave their own AI key, that one provider (ui/hero.js).
 //
 // What is kept on this device (IndexedDB, this browser only): the lives you have signed or received since the drop, which
 // levels this device has already re-run, and your own tables only if you ask. NOT your key: it lives in this tab until you
@@ -126,8 +127,8 @@ function renderMe() {
 }
 /** the key file: your key and every card you hold, the one thing that makes them yours on another visit or device */
 async function saveKeyFile() {
-  const hex = await exportPriv(S.me), cards = mine().map(lifeOf);
-  download(utf8(JSON.stringify({ kind: 'digi-card.wallet', key: { pub: S.me.pub, pkcs8: hex }, cards })), 'digi-wallet-' + S.me.pub.slice(0, 8) + '.json');
+  const hex = await exportPriv(S.me), cards = mine().map(lifeOf), hero = await load('hero');   // the hero's signed pass travels too (never an AI key)
+  download(utf8(JSON.stringify({ kind: 'digi-card.wallet', key: { pub: S.me.pub, pkcs8: hex }, cards, ...(hero ? { hero } : {}) })), 'digi-wallet-' + S.me.pub.slice(0, 8) + '.json');
   S.keySaved = true; renderMe(); emit('key', { saved: true, cards: cards.length });
   return cards.length;
 }
@@ -730,6 +731,7 @@ function wire() {
       S.me = k; S.keySaved = true; renderMe();   // held in this tab only: the file is where it lives
       let back = 0;
       for (const d of Array.isArray(j.cards) ? j.cards : []) if ((await keep(d)).ok) back++;
+      if (j.hero && typeof j.hero === 'object') await save('hero', j.hero);   // checked by the hero screen before it is used
       await renderWallet();
       emit('key', { restored: true, cards: back });
       say($('#key-out'), 'Restored: you are ' + short(k.pub) + ' again' + (back ? ', with ' + back + ' card(s) recorded here' : '') + '.', 'ok');

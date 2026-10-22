@@ -136,7 +136,7 @@ function guide() {
     el('ol', { class: 'ft-loop' }, box('1 · Collect', 'Press Card me: a Kardling is signed to you.'), box('2 · Duel', 'Two Kardlings answer the same real cases; the better one wins.'),
       box('3 · Team up', 'Put up to six together for a job. If the team beats its best card, it is a combo.'), box('4 · Prove', 'A friend re-runs your team on their device. Same numbers: proven, and into the build book.')),
     el('h3', {}, 'Where it runs'),
-    el('p', {}, 'Right here, in this browser, at this address. Nothing to install, no account, and nothing you do is sent anywhere: the datasets are fetched once from this site, and every card is grown and checked on your device. Your cards live in this browser. Your key file is what makes them yours: save it to play on another device.'),
+    el('p', {}, 'Right here, in this browser, at this address. Nothing to install, no account, and nothing you do is sent anywhere unless you give your hero your own AI key: the datasets are fetched once from this site, and every card is grown and checked on your device. Your cards live in this browser. Your key file is what makes them yours: save it to play on another device.'),
     el('h3', {}, 'How to start'),
     el('p', {}, 'Play the five-minute tutorial: it gives you two Kardlings, a first duel and a first team. Then save your key file.'),
     el('h3', {}, 'How to build a team for a job'),

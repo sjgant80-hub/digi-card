@@ -1,0 +1,1151 @@
+{
+ "kind": "digi-card.organ-17.record",
+ "v": 1,
+ "small": true,
+ "sets": [
+  "adult",
+  "bank",
+  "credit",
+  "shop",
+  "telco"
+ ],
+ "heroes": [
+  {
+   "set": "adult",
+   "card": "04b8d957aa238438",
+   "serial": 702,
+   "caps": [
+    "talk"
+   ],
+   "budget": 0,
+   "crownMs": 5,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 692,
+   "openingHash": "850d79c8852d1d8713af24da519bc0a34764643f64e0e6f165244061e98fecbe",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 36936,
+    "spent": 36780,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "adult",
+   "card": "b1c5b1e837ba3e3a",
+   "serial": 222,
+   "caps": [
+    "remember"
+   ],
+   "budget": 0,
+   "crownMs": 4,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 727,
+   "openingHash": "245c77ac252bfa9cbca6d47ed063574e2e81d070bc5c5bbf3a1d853f7eef1f80",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 75147,
+    "spent": 75079,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "adult",
+   "card": "d0add3c0df1878cf",
+   "serial": 176,
+   "caps": [
+    "key"
+   ],
+   "budget": 59609,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 683,
+   "openingHash": "d4d5e5414f291e2302c9f2ed4cc8a5849799783723eba267b6d7f0346d97dc80",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 43821,
+    "spent": 43487,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "adult",
+   "card": "d9739dcf45299fc4",
+   "serial": 658,
+   "caps": [
+    "remember",
+    "key"
+   ],
+   "budget": 23959,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 689,
+   "openingHash": "4313dee301ee67e51876aa9da3381d08a0a1c1b25d23a4e0613822709225e02d",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 23339,
+    "spent": 23259,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "bank",
+   "card": "5f1c729a7fedbad8",
+   "serial": 564,
+   "caps": [
+    "talk"
+   ],
+   "budget": 0,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 667,
+   "openingHash": "30c437f5554bdbe67b5c2377b8ed3a7abdb669b95ff992764fe6b7516b873d92",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 64313,
+    "spent": 64295,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "bank",
+   "card": "ac0e6dc49259a7ad",
+   "serial": 623,
+   "caps": [
+    "remember"
+   ],
+   "budget": 0,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 724,
+   "openingHash": "c00898642d57245d346cb1b83a6612660d5a5ba64037d8c832403e9a13404471",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 52008,
+    "spent": 51994,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "bank",
+   "card": "162e8d3f46d0d8a1",
+   "serial": 520,
+   "caps": [
+    "key"
+   ],
+   "budget": 75414,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 692,
+   "openingHash": "2ea33740c04cdbb6f620b4f01a2171d1dcc06d4d9739f3ceb6158b6b2459aec1",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 52262,
+    "spent": 51783,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "bank",
+   "card": "893feb4e8dd2f6ed",
+   "serial": 954,
+   "caps": [
+    "remember",
+    "key"
+   ],
+   "budget": 2504,
+   "crownMs": 0,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 707,
+   "openingHash": "dcc70fd7e8a944e602153594f421c78a6bc6d49538481152a54fe95e9bb05dcd",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 13698,
+    "spent": 13694,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "credit",
+   "card": "0e0547e6f1e84b65",
+   "serial": 345,
+   "caps": [
+    "talk"
+   ],
+   "budget": 0,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 738,
+   "openingHash": "c3e847574bd0256dafc685f2505d5cc71cb45bdac293c5cc41e9c8c62f2676a3",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 55697,
+    "spent": 55378,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "credit",
+   "card": "c08feb2c8236193a",
+   "serial": 464,
+   "caps": [
+    "remember"
+   ],
+   "budget": 0,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 710,
+   "openingHash": "e36a863f07c8e5a362472719d5af1836f7cf42db73df99be1adee6949e5c0324",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 20824,
+    "spent": 20780,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "credit",
+   "card": "d8c206132de9a916",
+   "serial": 571,
+   "caps": [
+    "key"
+   ],
+   "budget": 53353,
+   "crownMs": 4,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 706,
+   "openingHash": "cf2e40efc758b4a96354f2579ab2f40649e609df3bff873a1ba2b67993ec870c",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 52563,
+    "spent": 52431,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "credit",
+   "card": "1f84b0338c142731",
+   "serial": 779,
+   "caps": [
+    "remember",
+    "key"
+   ],
+   "budget": 25339,
+   "crownMs": 0,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 743,
+   "openingHash": "7ce6bddb408241410f252ffdeda94d26387af2e9a4c6466101262d1d9327c3cb",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 94655,
+    "spent": 94414,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "shop",
+   "card": "6c3456db0eab6b7d",
+   "serial": 890,
+   "caps": [
+    "talk"
+   ],
+   "budget": 0,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 692,
+   "openingHash": "53c87a1b5c5f4586e89c568755676301b5246d36ae614d07de1a35e1904ca26b",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 45935,
+    "spent": 45662,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "shop",
+   "card": "a47752a5e5fc60f0",
+   "serial": 95,
+   "caps": [
+    "remember"
+   ],
+   "budget": 0,
+   "crownMs": 0,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 729,
+   "openingHash": "511bb86bf75669dbd75b8ae803dd4bb936c0739f2ef7cc16bff53cbcc7e2f25d",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 83002,
+    "spent": 82328,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "shop",
+   "card": "00f9b9b254c65ffd",
+   "serial": 231,
+   "caps": [
+    "key"
+   ],
+   "budget": 41315,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 682,
+   "openingHash": "83315a8b18320306e296fa1503a7f1f9e9b25fe8f7f5ed27a549371e44e575a5",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 71785,
+    "spent": 71451,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "shop",
+   "card": "75b8f11ac86f7ee3",
+   "serial": 636,
+   "caps": [
+    "remember",
+    "key"
+   ],
+   "budget": 52502,
+   "crownMs": 0,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 741,
+   "openingHash": "df9f490d124d3cebc055937a734958763b2c0ff2111c020dd3c69e991d3c91c5",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 39011,
+    "spent": 38566,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "telco",
+   "card": "4afdfe8b6b0f62b5",
+   "serial": 887,
+   "caps": [
+    "talk"
+   ],
+   "budget": 0,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 635,
+   "openingHash": "f906d5c0733dc69cd60145947e77caed5df14b7158bd8275f7ef784baea4b132",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 96752,
+    "spent": 96568,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "telco",
+   "card": "1975102d9d535079",
+   "serial": 649,
+   "caps": [
+    "remember"
+   ],
+   "budget": 0,
+   "crownMs": 0,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 730,
+   "openingHash": "f135d2c0ab609213f74cf5ddfa15f4d94daefc89a6d12e4d06c24c864ca1e562",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 22860,
+    "spent": 22722,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "telco",
+   "card": "f5f44532e810120a",
+   "serial": 317,
+   "caps": [
+    "key"
+   ],
+   "budget": 70799,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 661,
+   "openingHash": "d48d13ddee267ee298b66d76e70b300f19f73086ba44f3b69efb467ac4fe5926",
+   "stable": true,
+   "memoryMoves": false,
+   "memoryShared": false,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 27420,
+    "spent": 26776,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  },
+  {
+   "set": "telco",
+   "card": "85f6cf7165e6f766",
+   "serial": 213,
+   "caps": [
+    "remember",
+    "key"
+   ],
+   "budget": 77498,
+   "crownMs": 1,
+   "crowned": true,
+   "why": "",
+   "checks": true,
+   "tampers": 15,
+   "refused": 15,
+   "openingTokens": 707,
+   "openingHash": "7e35b9c797fa40053b811085f139232b34a901c1e8b3a65aad50abd964283b3b",
+   "stable": true,
+   "memoryMoves": true,
+   "memoryShared": true,
+   "appendOnly": true,
+   "freshAt": 20,
+   "wall": {
+    "budget": 43664,
+    "spent": 43513,
+    "mismatches": 0,
+    "over": false
+   },
+   "offered": 3,
+   "verified": 3,
+   "ruled": 3,
+   "off": 5,
+   "offAbstained": 5,
+   "offKeyed": 5
+  }
+ ],
+ "recycling": [
+  {
+   "model": "qwen2.5:7b",
+   "rows": [
+    {
+     "set": "adult",
+     "hero": 0,
+     "coldMs": 108453,
+     "coldTokens": 695,
+     "warmMs": [
+      2729,
+      3437
+     ],
+     "warmTokens": [
+      691,
+      692
+     ],
+     "controlMs": 127185,
+     "controlTokens": 682
+    },
+    {
+     "set": "adult",
+     "hero": 1,
+     "coldMs": 130771,
+     "coldTokens": 735,
+     "warmMs": [
+      3043,
+      3331
+     ],
+     "warmTokens": [
+      731,
+      732
+     ],
+     "controlMs": 124882,
+     "controlTokens": 693
+    },
+    {
+     "set": "bank",
+     "hero": 0,
+     "coldMs": 116965,
+     "coldTokens": 653,
+     "warmMs": [
+      2884,
+      3564
+     ],
+     "warmTokens": [
+      649,
+      650
+     ],
+     "controlMs": 123388,
+     "controlTokens": 700
+    },
+    {
+     "set": "bank",
+     "hero": 1,
+     "coldMs": 123698,
+     "coldTokens": 716,
+     "warmMs": [
+      2846,
+      3451
+     ],
+     "warmTokens": [
+      712,
+      713
+     ],
+     "controlMs": 114703,
+     "controlTokens": 692
+    },
+    {
+     "set": "credit",
+     "hero": 0,
+     "coldMs": 125986,
+     "coldTokens": 724,
+     "warmMs": [
+      2713,
+      3137
+     ],
+     "warmTokens": [
+      720,
+      721
+     ],
+     "controlMs": 112685,
+     "controlTokens": 706
+    },
+    {
+     "set": "credit",
+     "hero": 1,
+     "coldMs": 104338,
+     "coldTokens": 710,
+     "warmMs": [
+      2842,
+      3197
+     ],
+     "warmTokens": [
+      706,
+      707
+     ],
+     "controlMs": 106020,
+     "controlTokens": 752
+    },
+    {
+     "set": "shop",
+     "hero": 0,
+     "coldMs": 112466,
+     "coldTokens": 688,
+     "warmMs": [
+      2758,
+      3372
+     ],
+     "warmTokens": [
+      684,
+      685
+     ],
+     "controlMs": 110939,
+     "controlTokens": 698
+    },
+    {
+     "set": "shop",
+     "hero": 1,
+     "coldMs": 111269,
+     "coldTokens": 732,
+     "warmMs": [
+      2889,
+      3689
+     ],
+     "warmTokens": [
+      728,
+      729
+     ],
+     "controlMs": 109831,
+     "controlTokens": 772
+    },
+    {
+     "set": "telco",
+     "hero": 0,
+     "coldMs": 89745,
+     "coldTokens": 624,
+     "warmMs": [
+      1920,
+      2756
+     ],
+     "warmTokens": [
+      620,
+      621
+     ],
+     "controlMs": 100364,
+     "controlTokens": 660
+    },
+    {
+     "set": "telco",
+     "hero": 1,
+     "coldMs": 112144,
+     "coldTokens": 726,
+     "warmMs": [
+      2806,
+      3017
+     ],
+     "warmTokens": [
+      722,
+      723
+     ],
+     "controlMs": 103914,
+     "controlTokens": 698
+    }
+   ],
+   "cold": [
+    108453,
+    130771,
+    116965,
+    123698,
+    125986,
+    104338,
+    112466,
+    111269,
+    89745,
+    112144
+   ],
+   "warm": [
+    2729,
+    3437,
+    3043,
+    3331,
+    2884,
+    3564,
+    2846,
+    3451,
+    2713,
+    3137,
+    2842,
+    3197,
+    2758,
+    3372,
+    2889,
+    3689,
+    1920,
+    2756,
+    2806,
+    3017
+   ],
+   "control": [
+    127185,
+    124882,
+    123388,
+    114703,
+    112685,
+    106020,
+    110939,
+    109831,
+    100364,
+    103914
+   ],
+   "verdict": {
+    "verdict": "WIN",
+    "why": "recycling the cached prefix cut prefill latency 97% (112305ms cold -> 2953ms warm) — the saving is the recomputed prefill avoided",
+    "coldMedian": 112305,
+    "warmMedian": 2953,
+    "savingMs": 109352,
+    "savingPct": 97,
+    "nCold": 10,
+    "nWarm": 20,
+    "thresholdPct": 20,
+    "controlMedian": 111812,
+    "controlSavingPct": 0,
+    "controlHolds": true
+   }
+  },
+  {
+   "model": "llama3.2:1b",
+   "rows": [
+    {
+     "set": "adult",
+     "hero": 0,
+     "coldMs": 26596,
+     "coldTokens": 696,
+     "warmMs": [
+      551,
+      651
+     ],
+     "warmTokens": [
+      692,
+      693
+     ],
+     "controlMs": 25885,
+     "controlTokens": 684
+    },
+    {
+     "set": "adult",
+     "hero": 1,
+     "coldMs": 31108,
+     "coldTokens": 737,
+     "warmMs": [
+      716,
+      878
+     ],
+     "warmTokens": [
+      733,
+      734
+     ],
+     "controlMs": 31139,
+     "controlTokens": 695
+    },
+    {
+     "set": "bank",
+     "hero": 0,
+     "coldMs": 24836,
+     "coldTokens": 659,
+     "warmMs": [
+      561,
+      625
+     ],
+     "warmTokens": [
+      655,
+      656
+     ],
+     "controlMs": 22488,
+     "controlTokens": 696
+    },
+    {
+     "set": "bank",
+     "hero": 1,
+     "coldMs": 26519,
+     "coldTokens": 721,
+     "warmMs": [
+      735,
+      823
+     ],
+     "warmTokens": [
+      717,
+      718
+     ],
+     "controlMs": 31599,
+     "controlTokens": 696
+    },
+    {
+     "set": "credit",
+     "hero": 0,
+     "coldMs": 32882,
+     "coldTokens": 728,
+     "warmMs": [
+      642,
+      834
+     ],
+     "warmTokens": [
+      724,
+      725
+     ],
+     "controlMs": 25751,
+     "controlTokens": 704
+    },
+    {
+     "set": "credit",
+     "hero": 1,
+     "coldMs": 25477,
+     "coldTokens": 703,
+     "warmMs": [
+      688,
+      744
+     ],
+     "warmTokens": [
+      699,
+      700
+     ],
+     "controlMs": 28742,
+     "controlTokens": 741
+    },
+    {
+     "set": "shop",
+     "hero": 0,
+     "coldMs": 29834,
+     "coldTokens": 688,
+     "warmMs": [
+      807,
+      872
+     ],
+     "warmTokens": [
+      684,
+      685
+     ],
+     "controlMs": 26512,
+     "controlTokens": 694
+    },
+    {
+     "set": "shop",
+     "hero": 1,
+     "coldMs": 23360,
+     "coldTokens": 730,
+     "warmMs": [
+      562,
+      649
+     ],
+     "warmTokens": [
+      726,
+      727
+     ],
+     "controlMs": 28124,
+     "controlTokens": 757
+    },
+    {
+     "set": "telco",
+     "hero": 0,
+     "coldMs": 25839,
+     "coldTokens": 632,
+     "warmMs": [
+      750,
+      837
+     ],
+     "warmTokens": [
+      628,
+      629
+     ],
+     "controlMs": 26101,
+     "controlTokens": 667
+    },
+    {
+     "set": "telco",
+     "hero": 1,
+     "coldMs": 23296,
+     "coldTokens": 728,
+     "warmMs": [
+      482,
+      562
+     ],
+     "warmTokens": [
+      724,
+      725
+     ],
+     "controlMs": 23005,
+     "controlTokens": 703
+    }
+   ],
+   "cold": [
+    26596,
+    31108,
+    24836,
+    26519,
+    32882,
+    25477,
+    29834,
+    23360,
+    25839,
+    23296
+   ],
+   "warm": [
+    551,
+    651,
+    716,
+    878,
+    561,
+    625,
+    735,
+    823,
+    642,
+    834,
+    688,
+    744,
+    807,
+    872,
+    562,
+    649,
+    750,
+    837,
+    482,
+    562
+   ],
+   "control": [
+    25885,
+    31139,
+    22488,
+    31599,
+    25751,
+    28742,
+    26512,
+    28124,
+    26101,
+    23005
+   ],
+   "verdict": {
+    "verdict": "WIN",
+    "why": "recycling the cached prefix cut prefill latency 97% (26179ms cold -> 702ms warm) — the saving is the recomputed prefill avoided",
+    "coldMedian": 26179,
+    "warmMedian": 702,
+    "savingMs": 25477,
+    "savingPct": 97,
+    "nCold": 10,
+    "nWarm": 20,
+    "thresholdPct": 20,
+    "controlMedian": 26306.5,
+    "controlSavingPct": 0,
+    "controlHolds": true
+   }
+  }
+ ]
+}

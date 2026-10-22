@@ -313,7 +313,7 @@ html.game footer.g-foot { border-top: 4px solid var(--g-rule); color: var(--g-di
   .g-span2 { grid-column: auto; }
   .g-dsets { flex-direction: row; flex-wrap: wrap; } .g-dsets button { width: auto; flex: 1 1 140px; }
   .g-card1, html.game #detail-card { width: 192px; height: 288px; }
-  .g-dock { gap: 2px; padding: 4px 2px; } .g-dock a { width: calc((100vw - 18px) / 8); height: 52px; font-size: 0; letter-spacing: 0; flex-direction: column; } .g-dock a .n { font-size: 10px; }
+  .g-dock { gap: 2px; padding: 4px 2px; } .g-dock a { width: calc((100vw - 20px) / 9); height: 52px; font-size: 0; letter-spacing: 0; flex-direction: column; } .g-dock a .n { font-size: 10px; }
   .g-dock a .g-icon { width: 32px; height: 32px; }
   .g-hero { font-size: 27px; } .g-btn.huge { font-size: 36px; min-height: 80px; padding: 0 28px; }
   .g-big { font-size: 36px; } h2, html.game .g-h { font-size: 22px; }

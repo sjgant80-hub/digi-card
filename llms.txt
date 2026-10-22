@@ -14,7 +14,7 @@ Source: https://github.com/sjgant80-hub/kardlings (MIT — no licence fee)
   decoder #0001 re-runs the whole drop (it names the decoder's hash and the genesis log's head).
 - A level is earned only by a search that beats the mind by 0.002 AUC on GATE; its receipt re-runs exactly.
 - Ownership: the last signed give names the owner; a double sale is refused by the registry (first recorded give wins).
-- Nothing is neural; nothing is sent anywhere; records never leave the device.
+- No card is neural; records never leave the device; nothing is sent anywhere, except what you ask your hero on your own AI key, which goes only to the provider you picked (Anthropic, OpenAI, Google or OpenRouter, inside a limit the owner signs).
 - Every kernel is mutation-gated (witness); every organ was sealed before it was measured (git proves the order).
 - The page opens as a pixel game view built from the cards' own art engine: eight screens (Estate, Base, Cards,
   Evals, Mint, Mesh, Send, Proof) over the same kernels; the classic document view holds the full explanation.

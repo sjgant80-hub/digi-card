@@ -2,7 +2,7 @@
 // tools/page-check.mjs — the live page's own gate (the estate's ui-gate rules for this page): every element the scripts
 // wire exists in the page and every slot the page shows is filled by a script; every internal link lands on a section or
 // a game screen; the product carries no price of its own; the Konomi credit and the supplier are on it; the CSP allows
-// only this site; the JSON-LD parses; nothing a script sets from a card is written as markup; and the game view's dock
+// only this site and the four AI providers a hero may use with its owner's own key; the JSON-LD parses; nothing a script sets from a card is written as markup; and the game view's dock
 // reaches a real screen from every slot, and nothing on the page or in its scripts is marked coming: a full build has no
 // "not in yet" list, so a form, recipe or district is on a screen only once it works. The page, its JSON-LD, llms.txt,
 // the README's prose and the posts use none of the words DIGI's copy never uses (src/copy.mjs); none of them quotes
@@ -14,7 +14,7 @@ import { readFileSync } from 'node:fs';
 import { copyHits, organ10Bare, pageText } from '../src/copy.mjs';
 
 const at = (p) => readFileSync(new URL('../' + p, import.meta.url), 'utf8');
-const html = at('index.html'), app = at('app.js') + '\n' + at('ui/game.js') + '\n' + at('ui/first.js'), problems = [];   // every script the page runs
+const html = at('index.html'), app = at('app.js') + '\n' + at('ui/game.js') + '\n' + at('ui/first.js') + '\n' + at('ui/hero.js'), problems = [];   // every script the page runs
 // what each public text says: the page as it shows, its JSON-LD's strings, and markdown with code spans read as names
 const jsonStrings = (text) => { const out = []; try { (function walk(x) { if (typeof x === 'string') out.push(x); else if (x && typeof x === 'object') Object.values(x).forEach(walk); })(JSON.parse(text)); } catch { /* reported below */ } return out.join('\n'); };
 const ldStrings = jsonStrings((html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/) || [])[1]);
@@ -32,7 +32,7 @@ if (!/id="g-box-frame" sandbox="allow-scripts allow-forms"/.test(html)) problems
 if (/allow-same-origin/.test(html + app)) problems.push('a frame here would share this page’s origin');
 for (const [id, href] of [['g-boot-next', '#kit'], ['g-estate-next', '#mint']]) if (!new RegExp('id="' + id + '" href="' + href + '"').test(html)) problems.push('the first visit’s NEXT from ' + id + ' does not go to ' + href);
 for (const [id, href] of [['g-kit-next', '#arena'], ['g-ar-next', '#estate']]) if (!new RegExp("id: '" + id + "', href: '" + href + "'").test(at('ui/game.js'))) problems.push('the first visit’s NEXT from ' + id + ' does not go to ' + href);
-for (const s of ['ui/game.css', 'ui/mode.js', 'ui/game.js', 'ui/first.css', 'ui/first.js']) if (!html.includes('"' + s + '"')) problems.push('the page does not load ' + s);
+for (const s of ['ui/game.css', 'ui/mode.js', 'ui/game.js', 'ui/first.css', 'ui/first.js', 'ui/hero.js']) if (!html.includes('"' + s + '"')) problems.push('the page does not load ' + s);
 const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((x) => x[1]));
 for (const [, id] of app.matchAll(/\$\('#([a-z0-9-]+)'\)/g)) if (!ids.has(id)) problems.push('app.js wires #' + id + ', which the page does not have');
 for (const [, id] of app.matchAll(/on\('#([a-z0-9-]+)'/g)) if (!ids.has(id)) problems.push('app.js listens on #' + id + ', which the page does not have');
@@ -42,10 +42,10 @@ const screens = new Set([...html.matchAll(/data-screen="([a-z]+)"/g)].map((x) =>
 for (const [, h] of html.matchAll(/href="#([a-z0-9-]+)"/g)) if (!ids.has(h) && !screens.has(h)) problems.push('a link goes to #' + h + ', which is neither a section nor a game screen');
 for (const [, s] of html.matchAll(/data-go="([a-z]+)"/g)) if (!screens.has(s)) problems.push('a dock slot goes to the screen ' + s + ', which the page does not have');
 for (const [name, text] of [['the page', html], ['the scripts', app]]) for (const m of text.matchAll(/.{0,40}\b(coming soon|coming|not built yet|not in yet)\b.{0,40}/gi)) problems.push(name + ' marks something “' + m[1] + '”: ' + m[0].trim().slice(0, 90));
-for (const s of ['ui/mode.js', 'ui/game.js', 'ui/first.js']) if (/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(at(s))) problems.push(s + ' writes markup');
+for (const s of ['ui/mode.js', 'ui/game.js', 'ui/first.js', 'ui/hero.js']) if (/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(at(s))) problems.push(s + ' writes markup');
 // the estate painter letters fenced districts COMING in its pixels unless it is told which districts to draw: the game asks for DIGI's
 if (!at('ui/game.js').includes("districts: ['scorer', 'tools', 'swarm'], names: { swarm: 'KITTED' }")) problems.push('the estate is not drawn from only the districts DIGI holds with its kitted district lettered KITTED, so its picture would letter COMING or SWARM');
-if (/[£$€]\s?\d|per seat|pricing/i.test(at('ui/game.js') + at('ui/first.js'))) problems.push('the game view carries a price');
+if (/[£$€]\s?\d|per seat|pricing/i.test(at('ui/game.js') + at('ui/first.js') + at('ui/hero.js'))) problems.push('the game view carries a price');
 if (/[£$€]\s?\d|\/mo\b|per seat|priceCurrency|"@type":\s*"Offer"|pricing/i.test(html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, ''))) problems.push('the page carries a price');
 if (!html.includes('Powered by the Konomi architecture, created by Thomas Frumkin')) problems.push('the Konomi credit is missing');
 if (!html.includes('https://www.ai-nativesolutions.com')) problems.push('the supplier is missing');
@@ -57,9 +57,14 @@ for (const [name, text] of [['the page', html], ['NOTICE', at('NOTICE')], ['READ
   if (/Gary Floyd/.test(text)) problems.push(name + ' names him without his middle initial (Gary W. Floyd)');
 }
 for (const paper of ['Dual-Map Ethical Reasoning', 'The Laws of Entropy-Time', 'Dream State Architecture', 'NEXUS']) if (!html.includes(paper)) problems.push('the page does not name Gary W. Floyd’s paper “' + paper + '”');
-if (!/default-src 'self'; script-src 'self';/.test(html)) problems.push('the CSP is not this-site-only');
+// the CSP: this site only, except that a hero its owner gave their own AI key may reach exactly the four providers
+const PROVIDER_HOSTS = ['api.anthropic.com', 'api.openai.com', 'generativelanguage.googleapis.com', 'openrouter.ai'];
+const CSP = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' " + PROVIDER_HOSTS.map((h) => 'https://' + h).join(' ') + "; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'";
+if ((html.match(/http-equiv="Content-Security-Policy" content="([^"]*)"/) || [])[1] !== CSP) problems.push('the CSP is not this site plus the four AI providers, exactly');
+for (const [, host] of at('ui/hero.js').matchAll(/https:\/\/([a-z0-9.-]+)/g)) if (!PROVIDER_HOSTS.includes(host)) problems.push('the hero reaches ' + host + ', which is not one of the four providers');
+for (const s of ['app.js', 'ui/game.js', 'ui/first.js', 'worker.js']) if (/\bfetch\(\s*['"`]https?:/.test(at(s))) problems.push(s + ' fetches from another site');
 try { JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]); } catch { problems.push('the JSON-LD does not parse'); }
 if (/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(app)) problems.push('app.js writes markup');
 if (!/<meta name="viewport" content="width=device-width, initial-scale=1"/.test(html)) problems.push('no mobile viewport');
-console.log(problems.length ? 'PAGE BROKEN · ' + problems.join('; ') : 'PAGE OK · ' + ids.size + ' elements, ' + set.size + ' live slots, ' + screens.size + ' screens, every link lands, no price, credited, this-site-only CSP');
+console.log(problems.length ? 'PAGE BROKEN · ' + problems.join('; ') : 'PAGE OK · ' + ids.size + ' elements, ' + set.size + ' live slots, ' + screens.size + ' screens, every link lands, no price, credited, CSP this site plus the four AI providers a hero may use');
 process.exit(problems.length ? 1 : 0);

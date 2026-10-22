@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.anthropic.com https://api.openai.com https://generativelanguage.googleapis.com https://openrouter.ai; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kardlings — a picture that is a working mind you own</title>
 <meta name="description" content="A Kardling card is a PNG that carries, in plain view, a sealed recipe for a small working mind grown on real records, its owners and every level it earned. It grows that mind on your device, offline, proves its score on cases it never saw, and can be owned, given, fused and coupled — every claim re-runs." />
@@ -150,7 +150,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div>
       <h1><span class="x">KARD</span><span class="y">LINGS</span></h1>
       <p class="lede"><b>A trading card that is a working mind you own.</b> The picture carries — in plain view, in its top strip of pixels — a sealed recipe for a small mind grown on real records, the signed history of everyone who has owned it, and every level it has earned. Open it on any device and it grows that mind there, offline, and proves its score on cases it never saw. Own it. Give it. Fuse it. Put it to work with others. Every claim on it re-runs.</p>
-      <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere.</p>
+      <p class="tag">Everything on this page is the real, mutation-gated code, running in your browser on six real public datasets. Nothing is mocked, and nothing you do here is sent anywhere, except what you ask your hero on your own AI key, which goes only to the provider you picked.</p>
       <div class="pills">
         <span class="pill hot"><span data-k="drop-total">…</span> genesis cards · decoder #0001</span>
         <span class="pill ok"><a href="#proof" style="color:inherit;text-decoration:none" data-k="proof-tally">16 organs, sealed before measured</a></span>
@@ -184,7 +184,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 <section id="first-s" class="g-only g-screen" data-screen="first" aria-labelledby="first-h">
   <div class="g-first">
     <h2 id="first-h" class="g-hero">A card that is a mind you own</h2>
-    <p class="g-lead">It runs on this device · nothing you do here is sent anywhere</p>
+    <p class="g-lead">It runs on this device · nothing you do here is sent anywhere unless you give your hero your own AI key</p>
     <button class="g-btn hot huge g-next" id="g-first-cardme" type="button" aria-label="Card me: get your first Kardling card, free" disabled>Card me</button>
     <p class="g-teach">A card is an agent whose mind you own: grown on real records, proven on cases it never saw.</p>
     <p class="g-dim g-small" id="g-first-status" aria-live="polite">Checking the 1,000 genesis cards here, from nothing…</p>
@@ -345,6 +345,69 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     </div>
   </div>
 </section>
+<section id="hero-s" class="g-only g-screen" data-screen="hero" aria-labelledby="hero-h">
+  <div class="g-grid g-2">
+    <div class="g-col">
+      <h2 id="hero-h" class="g-h" data-info="hero">Your hero</h2>
+      <div class="g-panel" id="g-hr-crown-box"><h3>Crown your hero</h3>
+        <p class="g-small">Your hero is one of your cards, crowned: the one you talk to, teach about you, train and power. Its class is its card’s business. You sign its pass with your key, and the pass travels in your key file.</p>
+        <label class="g-small">Card <select id="g-hr-pick" aria-label="The card to crown"></select></label>
+        <p class="g-small" id="g-hr-class-line"></p>
+        <div class="g-row"><button class="g-btn hot g-next" id="g-hr-crown" type="button">Crown it</button><button class="g-btn hot g-next" id="g-hr-cardme" type="button" hidden>Card me</button></div>
+        <div id="g-hr-crown-out" aria-live="polite"></div></div>
+      <div id="g-hr-main" hidden>
+        <div class="g-panel"><h3><span data-k="g-hr-name"></span> · <span data-k="g-hr-class"></span></h3>
+          <div class="g-cardcol"><div class="g-ring" id="g-hr-ring"><canvas class="g-card2" id="g-hr-face" width="384" height="576" role="img" aria-label="Your hero’s card"></canvas></div></div>
+          <p class="g-small" id="g-hr-line"></p><p class="g-small" data-k="g-hr-job"></p><p class="g-row" id="g-hr-can"></p>
+          <p class="g-row"><b class="g-okt" data-k="g-hr-level"></b> <span data-k="g-hr-title"></span></p>
+          <ul class="g-lines g-hr-steps" id="g-hr-steps"></ul>
+          <p class="g-hot" data-k="g-hr-next"></p>
+          <div class="g-row"><button class="g-btn" id="g-hr-train" type="button">Train it</button><button class="g-btn" id="g-hr-recrown" type="button">Crown another card</button></div>
+          <div id="g-hr-train-out" aria-live="polite"></div></div>
+      </div>
+      <div class="g-panel"><h3>What it remembers of you <small data-k="g-hr-mem-n"></small></h3>
+        <p class="g-small g-dim">Give it your ChatGPT or Claude history (your chat app’s data export: for ChatGPT, unzip it and choose conversations.json), or write a few lines about you. It is read here, in this tab; only the facts it finds are kept, on this device, and the file is never sent anywhere.</p>
+        <label class="g-small">Your chat history <input id="g-hr-mem-file" type="file" accept=".json,application/json"></label>
+        <label class="g-small" for="g-hr-mem-note">Or a few lines (start them “I am”, “I prefer”, “I am working on”, “My name is”)</label>
+        <textarea id="g-hr-mem-note" rows="3" maxlength="4000"></textarea>
+        <div class="g-row"><button class="g-btn" id="g-hr-mem-add" type="button">Keep these lines</button><button class="g-btn" id="g-hr-mem-forget" type="button">Forget it all</button></div>
+        <div id="g-hr-mem-out" aria-live="polite"></div>
+        <ul class="g-lines" id="g-hr-mem-list"></ul></div>
+    </div>
+    <div class="g-col">
+      <div class="g-panel" id="g-hr-talk-box" hidden><h3>Talk to your hero</h3>
+        <p class="g-hot">Its own rules first, then what it remembers of you, then your key</p>
+        <p class="g-small g-dim">A question its card’s rules answer exactly is answered here, free and offline, with a receipt. A question about you is answered from what it remembers, here. Anything else goes to your own AI key, if you gave it one, inside the limit you signed; every answer says where it came from.</p>
+        <label class="g-small" for="g-hr-q">Your question</label>
+        <div class="g-row"><input id="g-hr-q" type="text" maxlength="1000" autocomplete="off" placeholder="Ask your hero…"><button class="g-btn hot" id="g-hr-ask" type="button">Ask</button></div>
+        <p class="g-small g-dim">Or try one:</p>
+        <div class="g-row g-asks" id="g-hr-asks"></div>
+        <div id="g-hr-out" aria-live="polite"></div>
+        <details class="g-small" id="g-hr-rc-box" hidden><summary>The receipt: where the answer came from and what it used</summary><pre class="g-rc" id="g-hr-rc"></pre></details></div>
+      <div class="g-panel" id="g-hr-key-box" hidden><h3>Power it with your own AI key</h3>
+        <p class="g-small g-dim">Your key is held in this tab only: never in this browser’s storage, never in your key file, and sent only to the provider you pick. Your hero signs a new pass that says it may use the key and the most it may use; it refuses to go past that. It sends one fixed opening every question, the same bytes each time, so the provider can reuse the reading it already did: each answer says how much was reused.</p>
+        <p class="g-small" data-k="g-hr-key-where"></p>
+        <label class="g-small">Provider <select id="g-hr-prov" aria-label="The provider your key is for"><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI</option><option value="google">Google (Gemini)</option><option value="openrouter">OpenRouter (many models)</option></select></label>
+        <label class="g-small">Model <input id="g-hr-model" list="g-hr-models" type="text" maxlength="120" autocomplete="off"></label><datalist id="g-hr-models"></datalist>
+        <label class="g-small">Your key <input id="g-hr-key" type="password" autocomplete="off" spellcheck="false"></label>
+        <label class="g-small">Its limit, in tokens <input id="g-hr-limit" type="number" min="1" max="50000000" step="1" value="200000"></label>
+        <label class="g-small"><input id="g-hr-share" type="checkbox"> Let it bring what it remembers of me to this provider</label>
+        <div class="g-row"><button class="g-btn hot" id="g-hr-grant" type="button">Grant my hero this key</button><button class="g-btn" id="g-hr-forget-key" type="button">Forget the key</button></div>
+        <p class="g-small"><span data-k="g-hr-key-state"></span> · <span data-k="g-hr-used"></span></p>
+        <div id="g-hr-key-out" aria-live="polite"></div></div>
+      <div class="g-panel"><h3>How your hero works</h3>
+        <ol class="g-small">
+          <li><b>Its rules.</b> Its card is a small readable mind grown here from public records. A question about one case is answered from those rules, exactly, offline.</li>
+          <li><b>Its memory of you.</b> Facts from your own words, kept on this device (fall-os’s memory, used as it is).</li>
+          <li><b>Your key.</b> Anything else, on the provider you chose, inside the limit you signed (fall-os’s pass, used as it is).</li>
+          <li><b>Recycling.</b> The same opening every question, so the provider reuses its reading (kar-foldcycle measured a 95% faster read of a repeated opening on a local model).</li>
+          <li><b>Training.</b> A level is kept only if the new mind beats the old one by 0.002 on cases it never saw.</li>
+        </ol>
+        <p class="g-teach">The hero: a signed pass, an offline-first router and a fixed opening, so the cheapest exact answer always comes first.</p></div>
+    </div>
+  </div>
+</section>
+
 <section id="talker-s" class="g-only g-screen" data-screen="talker" aria-labelledby="talker-h">
   <nav class="g-subnav" aria-label="Collection"><a href="#cards">Collection</a><a href="#kit">Kit</a><a href="#fusion">Fusion lab</a><a href="#talker" aria-current="page">Talker</a></nav>
   <div class="g-grid g-2">
@@ -525,8 +588,8 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 
 <section id="start" data-screen="about" aria-labelledby="start-h">
   <h2 id="start-h"><span class="n">01</span>Start here</h2>
-  <p><b>The page opens as a game.</b> Its eight screens sit in the dock at the bottom (keys 1 to 8):
-  <b>Estate</b> (every card you hold is a block on your plot), <b>Base</b> (your featured card and what ran while you were away),
+  <p><b>The page opens as a game.</b> Its nine screens sit in the dock at the bottom (keys 1 to 9):
+  <b>Hero</b> (one of your cards, crowned: talk to it, teach it about you, train it, power it with your own AI key), <b>Estate</b> (every card you hold is a block on your plot), <b>Base</b> (your featured card and what ran while you were away),
   <b>Collection</b> (your cards, one card inspected, its <b>Kit</b> and the <b>Fusion lab</b>), <b>Play</b> (the <b>Arena</b>, the <b>Raids</b>, and <b>Eval runs</b> — a real test case a day, and missions), <b>Mint</b>
   (a card from your own table), <b>Mesh</b>, <b>Send</b> (and the <b>Inbox</b>, for a card someone sent you) and <b>Proof</b> (the drop, a card's
   life, the organs). Every screen runs the same code as this document, which is the game's classic view (Menu → Classic view).</p>
@@ -534,6 +597,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <li><b>Press “Card me”.</b> A genesis card is signed to your key (made in this tab on your first visit). Save your key file when the page offers it: that file is what makes the card yours on your next visit. It appears in your <a href="#wallet">collection</a>.</li>
     <li><b>Press “Grow it”.</b> The page fetches that card’s real dataset from this site (its size is shown), checks it is the published bytes, and grows the card’s mind on it — on your device, offline. You see its GATE score — how well it ranks the cases it never grew on, as an AUC where 0.5 is a coin and 1 is perfect — beside the one the drop declared: they match to the millionth.</li>
     <li><b>Press “Ask it”.</b> It is handed a real case from TEST — cases nothing in the build ever fitted or selected on — and answers yes or no with the rules that fired — or abstains. You also see what really happened.</li>
+    <li><b>Crown your hero.</b> On the Hero screen, crown one of your cards; its class is its business (a telecom card is a Telecom Tactician). Ask it anything. It answers from its card’s own rules first, exactly and offline; then from what you told it (give it your ChatGPT or Claude history, or a few lines about you: read here, and only the facts it finds kept on your device); and only then from your own AI key, if you give it one, inside a limit you sign. Every answer says where it came from, and an answer on your key says how much of its reading the provider reused.</li>
     <li><b>Ask it in words.</b> In Collection → Talker, ask your Kardling about one case in plain words — “a customer with tenure 6 and a month-to-month contract: will they leave?” — and it answers yes or no from the rules that fired, with a receipt, or says what it would need. It never makes an answer up. Learn to ask, under it, is ten missions in asking a card that can tell you no.</li>
     <li><b>Press “Level up”.</b> It runs up to three searches for a better mind, in the background (a search is real work: seconds on the telecom set, a minute or more on the larger ones). If one beats it by 0.002 on GATE, the receipt is signed into the card, re-run here before it is recorded, and its face shows the new stage.</li>
     <li><b>Fuse.</b> Press “Card me” until you hold two cards of one business (or mint a node in the Kit), then fuse them in Collection → Fusion lab. A fused card is sealed only if it beats both parents; most pairs take many tries, and some produce nothing — that is the gate working.</li>
@@ -769,6 +833,12 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="panel"><h3>Traced from the measured runs</h3><div id="traces"><p class="dim">Reading the organs’ records…</p></div></div>
     <div class="panel"><h3>The registry</h3><p>A card’s signatures prove every event in its life is genuine. They cannot prove its owner did not also sign the same life to someone else — two receivers, two chains that both check. So every device keeps a registry — an ordered log of lives, each entry linked to the one before — and <b>the first give recorded wins</b>. The other chain is refused for good, naming the event where it parts. Any copy of the log re-runs from nothing; the drop’s own log is published and re-run by CI on every change.</p></div>
   </div>
+  <h3>7 · The hero: the cheapest exact answer first, and your key last</h3>
+  <div class="grid two">
+    <div class="panel"><h3>A signed pass</h3><p>Crowning signs a pass in fall-os’s kard format with your key: which card, its business, what the hero may do (talk; share what it remembers with your key’s provider; use your key) and the most of your key it may ever use. Nothing signed can raise that limit; changing anything is a new pass you sign again. The pass travels in your key file. Your AI key does not: it is held in the open tab only.</p></div>
+    <div class="panel"><h3>Rules, then memory, then your key</h3><p>A question goes to the card’s rules first (the talker: exact, free, offline, with a receipt). A question about you goes to what it remembers: facts found in your own words by fall-os’s memory, kept on this device. Only a question neither can answer goes to your key, and only if the pass allows it and the limit holds. The router is one small gated kernel (src/hero.mjs).</p></div>
+    <div class="panel"><h3>One opening, recycled</h3><p>On your key the hero sends one fixed opening every question, the same bytes each time (who it is, its rules in words, what it may share of your memory, the game, how it talks), then the page so far, then your question. A page only grows, never edited, so a provider can reuse the reading it already did: Anthropic is told to cache the opening, and OpenAI, Google and OpenRouter cache repeated openings themselves. Each answer shows what was reused. kar-foldcycle measured the effect on a local model: a repeated opening read 95% faster.</p></div>
+  </div>
 </section>
 
 <section id="blueprint" data-screen="about" aria-labelledby="blueprint-h">
@@ -776,6 +846,10 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
   <div class="tw"><table>
     <thead><tr><th>Kernel</th><th>What it does</th></tr></thead>
     <tbody>
+      <tr><td class="num">src/hero.mjs</td><td>The hero: the pass a crowning signs (fall-os’s kard, used as it is), checked field by field; the fixed opening (the same bytes for the same hero); the router (rules, then memory, then key within the limit); the page that only grows; every provider’s usage read one way; the level lit by what the hero did. Mutation-gated.</td></tr>
+      <tr><td class="num">vendor/fall-os/</td><td>From fall-os, byte for byte at a pinned commit: kard.mjs (the signed pass and its uncrossable limit) and seed.mjs (a chat history read into facts, recalled offline), with the hash they share.</td></tr>
+      <tr><td class="num">vendor/kar-foldcycle/</td><td>From kar-foldcycle, byte for byte: the verdict kernel that judges recycling (win, learn, or suspect when a control speeds up too), used by organ 17.</td></tr>
+      <tr><td class="num">ui/hero.js</td><td>The Hero screen: crown, talk, remember, power, train. The only part of the game that may reach another site, and only the AI provider its owner picked.</td></tr>
       <tr><td class="num">src/dossier.mjs</td><td>The card’s record: issue, give, receipt, skin — each signed, each chained, one canonical byte form; the owner is the last give; facts read off a checked life.</td></tr>
       <tr><td class="num">src/card.mjs</td><td>The PNG: the band carries the dossier’s exact bytes; the face is drawn by the art engine handed in; reading checks CRCs, then seals, then redraws and compares every pixel.</td></tr>
       <tr><td class="num">src/registry.mjs</td><td>The ordered log that settles a double sale: first recorded give wins; one card per serial per maker; a level recorded only once re-run; any copy replays from nothing.</td></tr>
@@ -820,7 +894,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <div class="panel role"><h4>Chief executive</h4><p>Your scoring stops being rent. Each team’s mind is a file you own, not a subscription, and it improves only by gains it proves on cases it never grew on. The proof travels with it, so a mind you give or fuse is exactly what it re-runs to.</p></div>
     <div class="panel role"><h4>Finance</h4><p>The cost case below is computed by the kernel from published prices, each sourced and dated: by hand at the National Living Wage floor, rented from the cloud model you pick (the cheapest by default), or on the machine you already run. No new hardware, no per-seat fee, no token bill — and no record handed to a processor. Setup is opening a page or hosting static files; there is no service to maintain.</p></div>
     <div class="panel role"><h4>Operations</h4><p>Every queue — collections, retention, campaign lists — is ranked the moment the records land, with the rules that put each case at the top shown beside it. A mind that cannot clear its bar abstains rather than guess, so your people see where it knows and where it does not.</p></div>
-    <div class="panel role"><h4>Technology and security</h4><p>No server, no API key, no egress: the page and the kernels are static files. Every card is checked before it is read — CRCs, Ed25519 seals, every signature, the face redrawn and compared. The code is mutation-gated, vendored byte for byte at pinned commits, served under a strict Content-Security-Policy.</p></div>
+    <div class="panel role"><h4>Technology and security</h4><p>No server and no key of ours: the page and the kernels are static files. The one way anything leaves the device is a hero its owner has given their own AI key: the questions it cannot answer from its rules or its memory go from the owner’s browser to the one provider they picked, inside a limit they sign, and the page’s Content-Security-Policy allows those four provider addresses and nothing else. Every card is checked before it is read — CRCs, Ed25519 seals, every signature, the face redrawn and compared. The code is mutation-gated, vendored byte for byte at pinned commits, served under a strict Content-Security-Policy.</p></div>
     <div class="panel role"><h4>Department heads</h4><p>Grow a card from your own export (a CSV, any yes/no outcome, up to sixteen measured columns). You are its maker and owner. It levels overnight on your data, couples with other teams’ cards by consent, and is credited for what it measurably adds — without any team ever seeing another’s records. Before teams rely on each other, a build measures whether your cards together beat the best of them, and what each one adds.</p></div>
     <div class="panel role"><h4>The people who use it</h4><p>Six rules you can read, not a black box: each answer lists the rules that fired. The card says yes, no, or “I don’t know this case” — and the person stays the decision-maker, with the evidence in front of them.</p></div>
   </div>
@@ -949,7 +1023,10 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
     <details><summary>What does a tool do in a duel?</summary><p>Nothing to the score, and the page says so: the arena and the raids score minds. A tool is an app your Kardling carries for you — it opens from the Kit screen, and its item proves the commit its own tests passed at. Organ 10 checks that a kit carrying a tool scores exactly as the same nodes without one.</p></details>
     <details><summary>What do I get for a raid?</summary><p>For a department nobody has solved: the first strike to clear 0.6 lets its striker seal that department’s first card, with them as its maker. For a world boss: the party’s record, which names every member card, its owner and its measured share in millionths. Nothing is paid; the record is what anyone can re-run.</p></details>
     <details><summary>What is a mesh credit?</summary><p>An accounting of measured contribution, not money: a count of the work a card did in a mesh. the game has no way to spend or exchange one.</p></details>
-    <details><summary>What does the page send to anyone?</summary><p>Nothing. It fetches its own files from the site it came from; your cards stay in your browser, your key in the tab and your key file, and your tables in the tab unless you ask the page to keep them. <b>Check it yourself:</b> the page’s Content-Security-Policy (in its source) lets it connect only to its own site, so a browser would block anything else; open your browser’s network panel while you use it and every request is one of this site’s files. Organs 1 and 2 ran every card read and every growth with the network trapped, and none reached for it.</p></details>
+    <details><summary>Do I need an AI key to play?</summary><p>No. Every card, the talker and your hero’s rules and memory work offline with no key. A key only lets your hero answer what its rules and memory cannot: it is your own key from Anthropic, OpenAI, Google or OpenRouter (a chat app subscription is not a key; a key is paid per use, and some come with a free allowance).</p></details>
+    <details><summary>Does my hero send my chat history to an AI company?</summary><p>No. Your history is read in this tab; only the facts found in it are kept, on this device, and the file is never sent anywhere. Those facts go to your key’s provider only if you tick “Let it bring what it remembers of me”, and then only the twelve heaviest, inside your hero’s opening.</p></details>
+    <details><summary>How much of my key can my hero use?</summary><p>No more than the limit you sign into its pass. Before each question it reckons what the question could use (its opening, the page so far, the question and the longest answer it asks for) and refuses if that would pass the limit. Every answer shows what it used and what is left.</p></details>
+    <details><summary>What does the page send to anyone?</summary><p>Nothing, unless you give your hero your own AI key. It fetches its own files from the site it came from; your cards stay in your browser, your key in the tab and your key file, and your tables in the tab unless you ask the page to keep them. If you give your hero a key, the questions its rules and memory cannot answer go to the provider you picked (Anthropic, OpenAI, Google or OpenRouter), with your hero’s opening, and nothing else ever does. <b>Check it yourself:</b> the page’s Content-Security-Policy (in its source) lets it connect only to its own site and those four provider addresses, so a browser would block anything else; open your browser’s network panel while you use it and every request is one of this site’s files, or a question you sent your hero’s provider. Organs 1 and 2 ran every card read and every growth with the network trapped, and none reached for it.</p></details>
     <details><summary>How do I give a card?</summary><ol><li>The person receiving it opens this page and copies their key (Your key → Copy my key) and sends it to you.</li><li>You open the card in your collection, paste their key into Send and press Send. The page signs the give with your key, records it here, and saves the card’s new PNG.</li><li>You send them that PNG, by any means. They open it in their <a href="#open">Inbox</a>: it is checked on their device and appears in their collection.</li><li>Your copy is now history: the registry records the first give of that life, so signing the same life to someone else is refused as a double give.</li></ol></details>
     <details><summary>What happens when my records change?</summary><p>Grow the card again on the new export: its recipe is re-expressed on your newest FIT rows, so its thresholds move with your data, and its GATE score on the new records tells you at once whether it still holds. Work overnight then looks for a level on the new records. Drift is real and measured here: the shop’s TEST cases are its holiday months, and some shop minds rank them less well than the months they were judged on (organ 2).</p></details>
     <details><summary>What does “I don’t know” mean in practice?</summary><p>The card abstains in two cases, and says which: its mind did not clear its bar on this ground (it is cut, so it never answers), or the case lacks a measurement its rules read. An abstention is a case for a person to decide, with nothing guessed.</p></details>
@@ -969,11 +1046,12 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:16px;color:v
 </footer>
 </div>
 <nav id="g-dock" class="g-only g-dock" aria-label="Screens" data-icons="1">
-  <a href="#estate" data-go="estate"><span class="n">1</span>Estate</a><a href="#base" data-go="base"><span class="n">2</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit fusion talker"><span class="n">3</span>Collection</a><a href="#arena" data-go="arena" data-group="arena raids builds evals"><span class="n">4</span>Play</a>
-  <a href="#mint" data-go="mint"><span class="n">5</span>Mint</a><a href="#mesh" data-go="mesh"><span class="n">6</span>Mesh</a><a href="#send" data-go="send"><span class="n">7</span>Send</a><a href="#proof" data-go="proof"><span class="n">8</span>Proof</a>
+  <a href="#hero" data-go="hero"><span class="n">1</span>Hero</a><a href="#estate" data-go="estate"><span class="n">2</span>Estate</a><a href="#base" data-go="base"><span class="n">3</span>Base</a><a href="#cards" data-go="cards" data-group="cards kit fusion talker"><span class="n">4</span>Collection</a><a href="#arena" data-go="arena" data-group="arena raids builds evals"><span class="n">5</span>Play</a>
+  <a href="#mint" data-go="mint"><span class="n">6</span>Mint</a><a href="#mesh" data-go="mesh"><span class="n">7</span>Mesh</a><a href="#send" data-go="send"><span class="n">8</span>Send</a><a href="#proof" data-go="proof"><span class="n">9</span>Proof</a>
 </nav>
 <script type="module" src="app.js"></script>
 <script type="module" src="ui/game.js"></script>
 <script type="module" src="ui/first.js"></script>
+<script type="module" src="ui/hero.js"></script>
 </body>
 </html>

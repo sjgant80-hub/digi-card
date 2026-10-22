@@ -185,6 +185,36 @@
      "sha256": "d6c5de3edaf0a7807d0832dbbbe5d9034e65de9671a021cff4bec9be26da7615"
     }
    }
+  },
+  {
+   "repo": "sjgant80-hub/fall-os",
+   "commit": "fa75756aa13b98d2af17151a86c66e1409b1e7ff",
+   "local": "C:/Users/sjgan/fall-os",
+   "files": {
+    "vendor/fall-os/kard.mjs": {
+     "from": "kard.mjs",
+     "sha256": "7b918f0aa5321a9020f7bd5e8812b7d6c39387a626fff32d506badaf01881c44"
+    },
+    "vendor/fall-os/seed.mjs": {
+     "from": "seed.mjs",
+     "sha256": "170eba7ac359a3c2471c90156fb30cea5ac688fe37ba235ccffae083d03c7c67"
+    },
+    "vendor/fall-os/organs/estate.mjs": {
+     "from": "organs/estate.mjs",
+     "sha256": "80c5f6bd8deeabdad0580a4332e4e2009b50a2b72e94748e36914db64b1c7149"
+    }
+   }
+  },
+  {
+   "repo": "sjgant80-hub/kar-foldcycle",
+   "commit": "f8faf8e131d5f14612d4076707fae05c48aa73fa",
+   "local": "C:/Users/sjgan/kar-foldcycle",
+   "files": {
+    "vendor/kar-foldcycle/foldcycle.mjs": {
+     "from": "foldcycle.mjs",
+     "sha256": "4a1aff70a9ff81658ab9a5689fc6a9c2d3e102005ce52275f0682b49714e3444"
+    }
+   }
   }
  ]
 }

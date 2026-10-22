@@ -6,7 +6,8 @@
 // device, switches to the classic view and back, and lays every screen out at phone width without a sideways scroll.
 // Any console error, uncaught exception or screen left blank fails it, and so does any word DIGI's copy never uses
 // (src/copy.mjs) in the text a screen shows, read on every screen and after every result. It follows the first visit's
-// one NEXT path — BOOT → KIT → ARENA → ESTATE → GROW YOUR OWN — searches the Kit for the money side and the ledger's
+// one NEXT path — BOOT → KIT → ARENA → ESTATE → GROW YOUR OWN — crowns a hero and talks to it (its rules, then what it
+// remembers, then a key whose provider is stood in for in the page, so nothing leaves the machine), searches the Kit for the money side and the ledger's
 // own apps, which it never offers, and fuses its two cards in the Fusion lab: kept only if the fused card beats both. Downloads are denied, so nothing is saved.
 //   node tools/ui-play.mjs           → UI PLAY OK | UI PLAY BROKEN (exit 1)
 //   CHROME=/path/to/chrome node tools/ui-play.mjs
@@ -100,7 +101,7 @@ try {
     (await js(`(() => { const n = document.querySelector('#g-boot-next'); return !!n && n.getAttribute('href') === '#kit' && n.offsetParent !== null; })()`)) ? seen.push('BOOT → NEXT · kit it out') : problems.push('the boot screen shows no NEXT to the kit');
   }
   // every screen from the dock: it shows, it is the only one shown, and it is not empty
-  for (const s of ['estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof']) {
+  for (const s of ['hero', 'estate', 'base', 'cards', 'arena', 'mint', 'mesh', 'send', 'proof']) {
     await js(`document.querySelector('#g-dock a[data-go="${s}"]').click()`);
     await sleep(700);
     const r = await js(`({ on: [...document.querySelectorAll('section[data-screen].on')].map((x) => x.dataset.screen), current: (document.querySelector('#g-dock a[aria-current="page"]') || {}).dataset?.go, text: [...document.querySelectorAll('section[data-screen].on')].map((x) => x.innerText).join(' ').length })`);
@@ -109,7 +110,7 @@ try {
     if (r.text < 80) problems.push('the ' + s + ' screen is nearly empty');
     await scan('the ' + s + ' screen');
   }
-  seen.push('8 screens from the dock');
+  seen.push('9 screens from the dock');
   // the "i" taps: every one opens a plain sentence, and closes it again
   await js(`location.hash = '#base'`); await sleep(500);
   const taps = await js(`(() => { const all = [...document.querySelectorAll('section[data-screen].on .g-i')]; let ok = 0; for (const b of all) { b.click(); const p = b.closest('[data-info]') ? (b.closest('[data-info]').nextElementSibling || {}) : b.parentElement.nextElementSibling; const shown = p && p.classList && p.classList.contains('g-info') && !p.hidden && p.textContent.length > 20; b.click(); if (shown && p.hidden) ok++; } return [ok, all.length]; })()`);
@@ -335,6 +336,44 @@ try {
     (/^\d+ of 10$/.test(learn.n) && learn.done.some((t) => /Ask about one case/.test(t)) && learn.done.some((t) => /Ask it what it cannot know/.test(t))) ? seen.push('learn to ask: ' + learn.n + ' missions, marked by asking the card again') : problems.push('learn to ask: ' + JSON.stringify(learn).slice(0, 200));
     await scan('the talker');
   }
+  // the hero: a card crowned with a pass the player signs. It answers from its rules first, from what it remembers of
+  // its player next, and from the player's own AI key last — the provider is stood in for in the page here, so no key
+  // and no question leaves the machine — inside the limit its pass sets, sending the same opening every question
+  await js(`location.hash = '#hero'`);
+  if (await until(`!!document.querySelector('#g-hr-pick') && document.querySelector('#g-hr-pick').value !== ''`, 30000, 'the hero’s cards')) {
+    await js(`document.querySelector('#g-hr-crown').click()`);
+    if (await until(`!document.querySelector('#g-hr-main').hidden`, 30000, 'crowning a hero')) {
+      // its level is lit by what it has done: this card may already be kitted or levelled earlier in the play
+      const crowned = await js(`({ cls: document.querySelector('[data-k="g-hr-class"]').textContent, level: document.querySelector('[data-k="g-hr-level"]').textContent, first: (document.querySelector('#g-hr-steps li') || {}).textContent || '' })`);
+      (/^(Telecom Tactician|Shopkeeper Sage|Bank Bard|Recruiter Ranger|Clinic Caretaker|Credit Crusader)$/.test(crowned.cls) && /^LEVEL [1-6] of 6$/.test(crowned.level) && crowned.first === '✓ Crowned') ? seen.push('a hero crowned: a ' + crowned.cls + ', ' + crowned.level.toLowerCase()) : problems.push('the hero crowned: ' + JSON.stringify(crowned));
+      const heroSaid = async (q) => {
+        const before = await js(`document.querySelector('#g-hr-out').textContent`);
+        await js(`(() => { document.querySelector('#g-hr-q').value = ${JSON.stringify(q)}; document.querySelector('#g-hr-ask').click(); })()`);
+        await until(`document.querySelector('#g-hr-out').textContent !== ${JSON.stringify(before)} && !/reads your question|Asking your key/.test(document.querySelector('#g-hr-out').textContent)`, 90000, 'the hero answering');
+        return js(`({ tag: (document.querySelector('#g-hr-out .g-tag') || {}).textContent || '', said: (document.querySelector('.g-hr-said') || {}).textContent || '', how: ([...document.querySelectorAll('#g-hr-out p')].pop() || {}).textContent || '' })`);
+      };
+      if (await until(`document.querySelectorAll('#g-hr-asks button').length >= 3`, 90000, 'the hero’s questions')) {
+        const r1 = await heroSaid(await js(`document.querySelector('#g-hr-asks button').textContent`)), r2 = await heroSaid('who am I?');
+        (r1.tag === 'from its card’s rules' && /^(Yes|No) — /.test(r1.said)) ? seen.push('the hero answered the case it offers from its card’s rules, offline') : problems.push('the hero on its own case: ' + JSON.stringify(r1).slice(0, 200));
+        (r2.tag === 'it cannot answer that here' && /remember anything about you yet/.test(r2.said)) ? seen.push('the hero said it remembers nothing of you yet') : problems.push('the hero asked about you with no memory: ' + JSON.stringify(r2).slice(0, 200));
+        await js(`(() => { document.querySelector('#g-hr-mem-note').value = 'I am a plumber in Leeds\\nI prefer short answers'; document.querySelector('#g-hr-mem-add').click(); })()`);
+        await until(`/kept on this device/.test(document.querySelector('#g-hr-mem-out').textContent)`, 10000, 'the hero keeping your lines');
+        const r3 = await heroSaid('what do I prefer?');
+        (r3.tag === 'from what it remembers of you' && /you prefer short answers/.test(r3.said)) ? seen.push('the hero answered from what you told it, kept on this device') : problems.push('the hero’s memory: ' + JSON.stringify(r3).slice(0, 200));
+        // the provider, stood in for in the page: each request is read back, and nothing leaves the machine
+        await js(`(() => { window.__heroSent = []; const real = window.fetch; window.fetch = async (u, init) => { if (!String(u).startsWith('https://api.anthropic.com/')) return real(u, init); const body = JSON.parse(init.body); window.__heroSent.push({ headers: init.headers, body }); const n = window.__heroSent.length; return new Response(JSON.stringify({ stop_reason: 'end_turn', content: [{ type: 'thinking', thinking: '', signature: 's' }, { type: 'text', text: 'Stood-in answer ' + n }], usage: n === 1 ? { input_tokens: 10, cache_creation_input_tokens: 1500, cache_read_input_tokens: 0, output_tokens: 20 } : { input_tokens: 25, cache_creation_input_tokens: 0, cache_read_input_tokens: 1500, output_tokens: 20 } }), { status: 200, headers: { 'content-type': 'application/json' } }); }; })()`);
+        await js(`(() => { document.querySelector('#g-hr-prov').value = 'anthropic'; document.querySelector('#g-hr-prov').dispatchEvent(new Event('change')); document.querySelector('#g-hr-key').value = 'ui-play-stand-in'; document.querySelector('#g-hr-limit').value = '7000'; document.querySelector('#g-hr-grant').click(); })()`);
+        if (await until(`/^Granted/.test(document.querySelector('#g-hr-key-out').textContent)`, 15000, 'granting the hero a key')) {
+          const k1 = await heroSaid('What should I do next?'), k2 = await heroSaid('And then?'), k3 = await heroSaid('And after that?');
+          const sent = await js(`window.__heroSent.map((x) => ({ cache: x.body.system[0].cache_control && x.body.system[0].cache_control.type, sys: x.body.system[0].text, n: x.body.messages.length, fb: x.body.fallbacks, beta: x.headers['anthropic-beta'], inBody: JSON.stringify(x.body).includes('ui-play-stand-in') }))`);
+          const ok = sent.length === 2 && sent.every((x) => x.cache === 'ephemeral' && x.fb === 'default' && x.beta === 'server-side-fallback-2026-07-01' && !x.inBody) && sent[0].sys === sent[1].sys && sent[0].n === 1 && sent[1].n === 3;
+          (ok && /^from your key/.test(k1.tag) && /, 0 of them reused/.test(k1.how) && /1,500 of them reused from the provider’s cache \(98%\)/.test(k2.how)) ? seen.push('the hero asked a key with one fixed opening marked for the provider’s cache: 98% of its second question reused') : problems.push('the hero on a key: ' + JSON.stringify({ k1, k2, sent: sent.map((x) => ({ ...x, sys: x.sys.length })) }).slice(0, 500));
+          (k3.tag === 'it cannot answer that here' && /limit would be passed/.test(k3.how)) ? seen.push('the hero stopped at the limit its pass sets') : problems.push('the hero past its limit: ' + JSON.stringify(k3).slice(0, 200));
+        }
+      }
+      await scan('the hero');
+    }
+  }
   // a world boss: the player's own telco cards strike it as a party, and strike again to the very same receipt
   await js(`location.hash = '#raids'`);
   if (await until(`[...document.querySelectorAll('#g-pt-bosses .g-boss h3')].some((h) => /Telecom/.test(h.textContent))`, 30000, 'the world bosses')) {
@@ -445,7 +484,7 @@ try {
   // phone width: every screen holds without a sideways scroll
   await size(390, 844, true); await sleep(400);
   const wide = [], untitled = [];
-  for (const s of ['estate', 'base', 'cards', 'kit', 'fusion', 'talker', 'arena', 'raids', 'builds', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot', 'about']) {
+  for (const s of ['hero', 'estate', 'base', 'cards', 'kit', 'fusion', 'talker', 'arena', 'raids', 'builds', 'evals', 'mint', 'mesh', 'send', 'proof', 'boot', 'about']) {
     await js(`location.hash = '#${s}'`); await sleep(500);
     const w = await js(`document.documentElement.scrollWidth`);
     // a screen too wide names what pushes it: the widest-reaching element, so the next fix starts from the culprit
