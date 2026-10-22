@@ -1,0 +1,50 @@
+{
+ "kind": "digi-card.organ-11.verdict",
+ "v": 1,
+ "prereg": "cb26c7dd94f5e053",
+ "record": "5b13528da3886616",
+ "verdicts": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "Every one of the 100 auto-kits is the very same kit with the very same numbers when run twice with its collection in either order; every step lifts the kitted GATE AUC; at every step the node chosen scores the highest kitted GATE of every candidate that joins, ties to the lower card id; and in all 20 foreign pools no auto-kit picks a card another key holds, a card of another business, or the DIGI itself.",
+   "pass": true,
+   "saw": "100 of 100 auto-kits the same twice in either order, every step lifting and the best of what joins; 20 of 20 foreign pools never picked another key’s card, another business’s or the DIGI itself"
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "Every raid boss and every world boss of the drop’s admission record stands in exactly one chapter, the chapters in order of what they have left; and across 1,000 seeded receipt sets every chapter reads as cleared exactly when every boss in it has fallen, the chapter to play is the first not cleared, and the campaign reads the same with its receipts in either order.",
+   "pass": true,
+   "saw": "6 chapters holding 8 raid bosses and 6 world bosses, each once, least left first; 1000 of 1000 receipt sets read exactly as their bosses fell, 1000 the same in either order"
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "Every auto-kit measures again exactly what it says: the DIGI kitted with the nodes it hands over scores its stated GATE, and alone its stated starting GATE.",
+   "pass": true,
+   "saw": "100 of 100 auto-kits measure again exactly what they said"
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "Of the auto-kits that lift their DIGI by at least 0.005 on GATE (out of fold), at least 80% also lift it on TEST, the cases nothing here selects on.",
+   "pass": true,
+   "saw": "97 of 97 auto-kits that lifted GATE by 0.005 or more also lifted TEST (100%)"
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "Over the auto-kits of two nodes or more, the median TEST lift with every node is at least the median TEST lift with its first node alone: the nodes chosen after the first do not, typically, give back on TEST what the first one gained.",
+   "pass": true,
+   "saw": "76 auto-kits of two nodes or more: median TEST lift 0.080748 with every node, 0.075464 with the first alone"
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "At least 70% of the auto-kits score at least as well on TEST as a seeded random kit of the same size from the same collection: the kit is chosen by measurement, not luck.",
+   "pass": true,
+   "saw": "83 of 99 auto-kits scored at least a seeded random kit of the same size on TEST (83.8%)"
+  }
+ ]
+}
