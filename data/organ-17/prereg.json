@@ -1,0 +1,75 @@
+{
+ "kind": "digi-card.organ-17.prereg",
+ "v": 1,
+ "organ": "the hero: one of your cards crowned with a pass you sign (fall-os’s kard, used as it is); it answers from its card’s rules first, from what it remembers of you next, and from your own AI key last, inside the limit its pass sets; on a key it sends one fixed opening every question, so a provider can reuse its reading (kar-foldcycle’s recycling, measured here on this machine’s own models)",
+ "disclosure": "Not blind, and said so. src/hero.mjs was written and gated (witness CLEAN, every mutant killed, none baselined) before this seal, and the hero screen was played in a browser with the key’s provider stood in for, so the properties are ones its tests already hold on made-up passes. The recycling effect was measured before, by kar-foldcycle on llama3.2:1b (a 95% faster read of a repeated opening), so Q1 and Q2 are informed by it. A SMALL dry run on other seeds (from 27000, 4 heroes a business, 2 timed) checked the tooling before this seal, into data/organ-17/dry-record.json; its numbers are not the record. Nothing here reads TEST. The recycling timings come from this one laptop (16 GB, no graphics card) and differ run to run; a runner without the models cannot re-run them, so the record carries them and the judge reads them as recorded.",
+ "population": "For each of the five businesses of the drop (adult, bank, credit, shop, telco), 24 cards of the drop drawn by a seeded sampler (seeds 17000 and up), each crowned by its own demo owner (a key from a public phrase) with the passes in turn: talk only; remember; key; remember and key (a key pass with a seeded limit from 1,000 to 100,000 tokens). Every hero’s opening carries the same six-line sample memory and no gear. Recycling: the first two heroes of each business (10) are timed on qwen2.5:7b and on llama3.2:1b through Ollama on this machine, with the next two as never-read controls.",
+ "rules": [
+  {
+   "id": "P1",
+   "kind": "property",
+   "claim": "All 120 heroes are crowned and check, each saying exactly the owner, card, business, theme, what it may do (talk first, in order) and limit it was crowned with; and every one of each hero’s 15 tampered copies (six fields each changed and left stale, the same six changed, rehashed and signed by another key in the owner’s name, the signature dropped, one signature character changed, the kind changed) is refused: 1,800 of 1,800."
+  },
+  {
+   "id": "P2",
+   "kind": "property",
+   "claim": "For every hero, its opening is the very same bytes built three times; built with another memory it changes exactly when its pass lets it share what it remembers; and a page grown with turns() keeps every earlier message, the very same objects, at each of 20 questions, and starts a fresh page on the 21st."
+  },
+  {
+   "id": "P3",
+   "kind": "property",
+   "claim": "For every hero, a pass that may use a key with a seeded limit, walked with 50 seeded question costs: every question goes to the key exactly when the total so far plus its cost stays within the limit (worked out again in the measuring tool, apart from the kernel), and is refused otherwise; the total never passes the limit."
+  },
+  {
+   "id": "P4",
+   "kind": "property",
+   "claim": "For every hero, every question its card’s talker offers and answers from its rules is routed to the rules, never to the key, even with a key ready and its limit untouched; and each of five questions off every business (the weather, a poem, a recipe, a leaking tap, a world cup) is not answered by the rules and is routed to the key."
+  },
+  {
+   "id": "Q1",
+   "kind": "prediction",
+   "claim": "On qwen2.5:7b on this machine, reading a hero’s opening again with another question (warm) takes at least 75% less time than reading it the first time (cold), at the median of the 10 heroes’ two warm reads against their cold reads; the 10 controls (an opening never read before) save less than 25% against cold; and kar-foldcycle’s verdict kernel says WIN."
+  },
+  {
+   "id": "Q2",
+   "kind": "prediction",
+   "claim": "The same on llama3.2:1b: warm at least 75% faster than cold at the median, controls under 25%, and WIN."
+  },
+  {
+   "id": "Q3",
+   "kind": "prediction",
+   "claim": "Every one of the 120 openings is at least 512 tokens by the game’s own counter (characters ÷ 4), the least Anthropic’s newest models cache; and every timed cold read (an opening and a short question) is at least 512 prompt tokens on qwen2.5:7b’s own tokenizer."
+  }
+ ],
+ "judgedBy": "tools/judge-17.mjs (pinned below)",
+ "files": {
+  "src/dossier.mjs": "6b92bc74ec5450dc1dca5e5f9edff8fbc78373bdd705bddf2c09126ffdf2f533",
+  "src/card.mjs": "96e456059c3b9924b2d8219cee3a712b4ec558cd65375b1f878a4347f5562b2a",
+  "src/registry.mjs": "c3794bdf297350dc6c74ba6e655dfba1ea962c1656dba7ab291d644b16802b95",
+  "src/data.mjs": "e7964fc7d912bc1ae51c8fee0cab94b18df8c8758be3438a51b5ce3edda9ea4c",
+  "src/mind.mjs": "da33ec2cedd5b06a58e7d42c6d541e03141381d51356dc7038366d31f8d1c839",
+  "src/breed.mjs": "d1eaac9e3f49f0c3ab968abf325640590e6c5b095284fef1ca648e347e1244b6",
+  "src/mesh.mjs": "afe6dee22dbf4dab7e7568cfa873613e36ddf72623f773cd547ae460f2c378b0",
+  "src/claims.mjs": "6819187ef731bade44fb3d6db501876918208e84f8c14f1e674b220dcb91ecee",
+  "src/drop.mjs": "ff9f4fd712c388d8ba03e1922106fc824937c67f9c05c7037a370aaad2425256",
+  "src/cost.mjs": "789ec292dba55d7fcc97355833ea621e8582782e61d11d972c12caf013a4b933",
+  "tools/organ.mjs": "bc666e463baa3fff6bead15e14a7d808077af58ca8ecb3d88ba6eb72d057f9e5",
+  "tools/order.mjs": "aa05edc849ae51c9f2af1d39b22def9b3a745618027dbd63807246f75140039a",
+  "data/SOURCES.json": "2fa4706836b64894a2b31d01a1e944abef030eff3d0a8045425bb5272d881f87",
+  "vendor/SOURCES.json": "8b82080ea9ea67f752c07a88272970d21e43dedec9156fc8e31fe2619336717d",
+  "drop/manifest.json": "d9b3d94fa83f8cd5fc6b33a3f9d97b4876da6298e1815c63c286d02f1ee4a32b",
+  "drop/log.json": "219aff2880e7d2e4a7610db4da1accf5d7a0fff7270b683938c9fcae6acdc475",
+  "src/hero.mjs": "2ff32bf4955d29dde38984e8435532bf32ee4889dc16371b2dd920447979540b",
+  "src/talker.mjs": "7e8dcf0c8cc6dc8c792be1334ec411ed1d8a2aefb17573ba800ffda5d4bd05bc",
+  "src/copy.mjs": "ffcad971d8f90b10bd4752a1c901a9704a23af0a4fac07672c332dacfcf66dcb",
+  "vendor/fall-os/kard.mjs": "7b918f0aa5321a9020f7bd5e8812b7d6c39387a626fff32d506badaf01881c44",
+  "vendor/fall-os/seed.mjs": "170eba7ac359a3c2471c90156fb30cea5ac688fe37ba235ccffae083d03c7c67",
+  "vendor/fall-os/organs/estate.mjs": "80c5f6bd8deeabdad0580a4332e4e2009b50a2b72e94748e36914db64b1c7149",
+  "vendor/kar-foldcycle/foldcycle.mjs": "4a1aff70a9ff81658ab9a5689fc6a9c2d3e102005ce52275f0682b49714e3444",
+  "tools/lib.mjs": "21b54a5461cf8b431cbdb3807e0e251494c220b2fc9930327019a2a3204b4a47",
+  "data/vocab.json": "3c6260f9d1502f09f8d3b0d5e44321e58ac8006a2dcee980cb5bca3077b5d1be",
+  "tools/measure-17.mjs": "7e084cd92ec22555254bfca696c5e959b4db4dc992bdb354e1b73961bd59b441",
+  "tools/judge-17.mjs": "ac95bdf9de2f318a68e4cd50266f35c2e435d2c038cda556265d39564b4ac2ac",
+  "tools/seal-17.mjs": "243aed91da383e000a74955694910295a9608b480eef6da6e3a4d7e4d6656e22"
+ }
+}
