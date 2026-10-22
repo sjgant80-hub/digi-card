@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 // tools/judge-7.mjs — organ 7, judged by the rules tools/seal-7.mjs sealed. node tools/judge-7.mjs [--write | --check]
 import { judgeMain } from './organ.mjs';
-import { PAGE } from '../src/claims.mjs';
+// the page as organ 7 was sealed and measured: src/claims.mjs as its prereg pins it said this. The repo moved to kardlings on
+// 2026-10-22 and the live claims name the new page, but a sealed judge judges the record by what was sealed — reading the
+// live constant made the judge expect a refusal the measurement never gave (found by CI on 1624a9a).
+const PAGE = 'https://sjgant80-hub.github.io/digi-card/';
 
 const WHY = {
   'self-aware': 'a post never says self-aware: a card cannot prove it', conscious: 'a post never says conscious: a card cannot prove it', alive: 'a post never says alive: a card cannot prove it',
