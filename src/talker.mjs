@@ -281,6 +281,9 @@ const mindHash = (mind) => { try { return sha256Hex(canonical(mind.organs.filter
 const readable = (mind) => isObj(mind) && Array.isArray(mind.organs) && Number.isFinite(mind.threshold)
   && mind.organs.every((o) => !isObj(o) || o.state !== 'live' || (isObj(o.body) && Array.isArray(o.body.rules) && o.body.rules.every(isRule)));
 
+/** a case in words after its thing: “with” once, never twice — a yes/no value already says with or without (found
+ *  2026-10-22 on the live page: “A customer with with senior citizen”) */
+const withCase = (thing, parts) => thing + (/^with(?:out)? /.test(parts[0] || '') ? ' ' : ' with ') + parts.join(', ');
 /**
  * Three questions this mind can answer, in its business's own words: a case built from its own rules (every column they
  * read, so it is answered, never refused), what makes the outcome, and how good it is. [] for a mind or a vocabulary
@@ -291,7 +294,7 @@ export function asks(ctx) {
   const live = ctx.mind.organs.filter((o) => isObj(o) && o.state === 'live');
   if (!live.length) return [];
   const { thing, outcome } = ctx.voc, parts = sayCase(exampleOf(live, ctx.voc), ctx.voc, ctx.features);
-  return [...(parts.length ? ['A ' + thing + ' with ' + parts.join(', ') + ': will they ' + outcome + '?'] : []), 'What makes a ' + thing + ' ' + outcome + '?', 'How good are you?'];
+  return [...(parts.length ? ['A ' + withCase(thing, parts) + ': will they ' + outcome + '?'] : []), 'What makes a ' + thing + ' ' + outcome + '?', 'How good are you?'];
 }
 
 /**
@@ -333,5 +336,5 @@ export function reply(question, ctx) {
     return base('measure', 'VERIFIED', text, { gate: ctx.gate });
   }
   const example = sayCase(exampleOf(live, voc), voc, ctx.features).slice(0, 3);
-  return base('other', 'ABSTAIN', 'I only answer questions about whether a ' + thing + ' will ' + outcome + ', from my rules. Ask me about one — “a ' + thing + ' with ' + example.join(', ') + ': will they ' + outcome + '?” — or ask what makes a ' + thing + ' ' + outcome + ', or how good I am.');
+  return base('other', 'ABSTAIN', 'I only answer questions about whether a ' + thing + ' will ' + outcome + ', from my rules. Ask me about one — “a ' + withCase(thing, example) + ': will they ' + outcome + '?” — or ask what makes a ' + thing + ' ' + outcome + ', or how good I am.');
 }

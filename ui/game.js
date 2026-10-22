@@ -35,7 +35,7 @@ import { campaign, autoKit } from '../src/campaign.mjs';
 import { replay, readBack } from '../src/replay.mjs';
 import { SANDBOX, askedFor, boxable } from '../src/sandbox.mjs';
 import { bracketOf, playOut, DRAWS_TO_TIE } from '../src/tournament.mjs';
-import { reply, asks, vocabOf } from '../src/talker.mjs';
+import { reply, asks, vocabOf, sayFeature, sayNumber } from '../src/talker.mjs';
 import { mark, MAX_TRIES } from '../src/learn.mjs';
 import { join, leave, guildOf, MAX_STATEMENTS } from '../src/guild.mjs';
 import { offered, shownDesc, sayOutcome, SHOWN_AS, ORGANS } from '../src/copy.mjs';
@@ -1201,7 +1201,9 @@ async function sideFromCode(v, kit) {
 }
 const domainsOf = (v) => v.genome.organs.map((o) => { const d = decodeSeed(o, { guard: false }); return d.ok ? d.seed.domain : ''; });
 // ── the talker (Phase 7): a card asked in plain words, answering only from its own rules (src/talker.mjs) ───────────
-const TK = { vocab: null, id: null, busy: false };
+const TK = { vocab: null, id: null, busy: false, ranges: {} };
+/** the lowest and highest value each column holds in a business's records, to say when a question goes past them */
+const rangesOf = (g) => (TK.ranges[g.id] ||= Object.fromEntries(g.ds.features.map((f) => { let lo = Infinity, hi = -Infinity; for (const x of g.ds.cols[f]) { if (x < lo) lo = x; if (x > hi) hi = x; } return [f, [lo, hi]]; })));
 /** what the talker answers with: the card's mind as this device grows it (the boot's own steps, kept per card), its
  *  business's words, the columns the business holds, and the score measured here — or why there is none */
 async function talkerCtx(id) {
@@ -1217,7 +1219,7 @@ async function talkerCtx(id) {
     if (!grown || grown.gate == null) return { why: 'Its mind does not answer on these records: no department of it cleared its bar here.' };
     G.grown.set(id, grown);
   }
-  return { ctx: { mind: grown.mind, voc, features: g.ds.features, gate: grown.gate, rows: null } };
+  return { ctx: { mind: grown.mind, voc, features: g.ds.features, gate: grown.gate, rows: null }, ranges: rangesOf(g) };
 }
 async function renderTalker() {
   const mine = await myCards(null), pick = $('#g-tk-card');
@@ -1255,7 +1257,10 @@ async function talkerAsk() {
     // the question is kept with its card (the last MAX_TRIES), so the missions can ask it of the card again
     G.st.talks = { ...(G.st.talks || {}), [TK.id]: [...((G.st.talks || {})[TK.id] || []), q].slice(-MAX_TRIES) }; saveState();
     renderLearn(c.ctx);
-    fill(out, el('p', { class: 'g-row' }, el('span', { class: 'g-tag ' + (ok ? 'ok' : 'cy') }, ok ? 'answered from its rules' : 'it cannot answer that')), el('p', { class: 'g-tk-said' }, r.text));
+    // a value past anything in the records still gets the rules' answer, said with that warning: nothing it grew on was like it
+    const past = ok ? Object.entries(r.receipt.case || {}).filter(([f, x]) => c.ranges[f] && (x < c.ranges[f][0] || x > c.ranges[f][1])) : [];
+    fill(out, el('p', { class: 'g-row' }, el('span', { class: 'g-tag ' + (ok ? 'ok' : 'cy') }, ok ? 'answered from its rules' : 'it cannot answer that')), el('p', { class: 'g-tk-said' }, r.text),
+      past.length ? el('p', { class: 'g-small g-badt' }, 'Past its records: ' + past.map(([f, x]) => sayFeature(f, c.ctx.voc) + ' ' + sayNumber(x) + ' (its records hold ' + sayNumber(c.ranges[f][0]) + ' to ' + sayNumber(c.ranges[f][1]) + ')').join('; ') + '. Its rules still answer, but nothing it grew on was like this.') : null);
     $('#g-tk-rc-box').hidden = false;
     fill($('#g-tk-rc'), JSON.stringify(r.receipt, null, 1));
     bleep(ok ? 'kept' : 'abstain');

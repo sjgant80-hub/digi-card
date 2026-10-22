@@ -288,3 +288,15 @@ test('how it decides and how good it is are asked only about the card or its bus
   // and reply holds to it: off-topic is an abstention, never the card's rules or score
   for (const q of ['what makes a good pizza?', 'how good is the weather?']) assert.deepEqual([reply(q, CTX).intent, reply(q, CTX).verdict], ['other', 'ABSTAIN'], q);
 });
+
+test('a case after its thing says “with” once: a yes/no value already says it', () => {
+  // 2026-10-22, the live page: a mind whose first rule reads a flag offered “A customer with with paperless billing”
+  const flagFirst = { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'paper', op: '>', v: 0.5, w: 1 }, { feat: 'tenure', op: '<=', v: 12, w: 1 }], threshold: 1 } }] }, features: ['paper', 'tenure', 'contract'] };   // a case is said in the business's column order: here a flag comes first
+  const [q] = asks(flagFirst);
+  assert.equal(q, 'A customer with paperless billing, tenure 12: will they leave?');
+  assert.equal(reply(q, flagFirst).verdict, 'VERIFIED', 'and it is still a question the card answers');
+  assert.match(reply('what is the weather like?', flagFirst).text, /“a customer with paperless billing, tenure 12: will they leave\?”/);
+  assert.match(asks(CTX)[0], /^A customer with tenure 12, /, 'a number first takes its “with”');
+  const offFirst = { ...CTX, mind: { ...MIND, organs: [{ ...MIND.organs[0], body: { rules: [{ feat: 'paper', op: '<=', v: 0.5, w: 1 }], threshold: 0 } }] }, features: ['paper', 'tenure'] };
+  assert.match(asks(offFirst)[0], /^A customer with paperless billing: /, 'the example of a flag rule is the flag said yes');
+});
